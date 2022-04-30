@@ -9,7 +9,8 @@
 		"isolatedModules": true,
 		"jsx": "preserve",
 		"incremental": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
 	},
 	"include": ["**/*.ts", "**/*.tsx"],
 	"exclude": ["node_modules"]
