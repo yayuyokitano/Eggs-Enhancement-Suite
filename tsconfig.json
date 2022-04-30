@@ -8,7 +8,8 @@
 		"moduleResolution": "Node",
 		"isolatedModules": true,
 		"jsx": "preserve",
-		"incremental": true
+		"incremental": true,
+    "allowSyntheticDefaultImports": true
 	},
 	"include": ["**/*.ts", "**/*.tsx"],
 	"exclude": ["node_modules"]
