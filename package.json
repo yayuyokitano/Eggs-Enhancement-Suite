@@ -1,0 +1,22 @@
+{
+  "devDependencies": {
+    "@parcel/config-webextension": "^2.5.0",
+    "@parcel/core": "^2.5.0",
+    "@webextension-toolbox/webextension-toolbox": "^5.2.2",
+    "cypress": "^9.6.0",
+    "parcel": "^2.5.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "typescript": "^4.6.4"
+  },
+  "name": "eggs-enhancement-suite",
+  "version": "2.0.0",
+  "description": "Enhances eggs.mu website",
+  "repository": "https://github.com/yayuyokitano/Eggs-Enhancement-Suite.git",
+  "author": "yayuyokitano <69117606+yayuyokitano@users.noreply.github.com>",
+  "license": "AGPL-3.0",
+  "scripts": {
+    "start": "parcel watch src/manifest.json --host localhost --config @parcel/config-webextension",
+    "build": "parcel build src/manifest.json --config @parcel/config-webextension"
+  }
+}
