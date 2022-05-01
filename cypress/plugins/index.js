@@ -13,7 +13,8 @@
 // the project's config changing)
 
 const path = require("path");
-const extensionLoader = require('cypress-browser-extension-plugin/loader');
+const extensionLoader = require("cypress-browser-extension-plugin/loader");
+const dist = path.resolve(__dirname, "..", "..", "dist");
 
 /**
  * @type {Cypress.PluginConfig}
@@ -24,7 +25,7 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
   on("before:browser:launch", async (browser, launchOptions) => {
     const loader = extensionLoader.load({
-      source: path.resolve(__dirname, "..", "..", "dist"),
+      source: dist,
       skipHooks: true,
     });
 

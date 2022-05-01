@@ -3,8 +3,19 @@
   "name": "Eggs Enhancement Suite",
   "version": "2.0.0",
   "permissions": [
-		"webRequest"
+		"declarativeNetRequest",
+    "storage"
   ],
+  "host_permissions": [
+    "*://*.eggs.mu/*"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [{
+      "id": "ruleset_useragent",
+      "enabled": true,
+      "path": "rules/useragent.json"
+    }]
+  },
   "background": {
     "service_worker": "background/main.ts",
     "type": "module"

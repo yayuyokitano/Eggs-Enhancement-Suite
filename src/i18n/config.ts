@@ -24,4 +24,9 @@ i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
   resources
 });
 
+export const languageList = {
+  en: "English",
+  ja: "日本語",
+}
+
 export default i18n;
