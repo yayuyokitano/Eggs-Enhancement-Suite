@@ -12,14 +12,43 @@ async function getDeviceID() {
   return newDeviceID;
 }
 
+export async function getToken() {
+  return browser.storage.local.get();
+}
+
 export const eggsRoot = "https://api-flmg.eggs.mu/v1/";
 export const eggsSelector = "https://api-flmg.eggs.mu/v1/*";
 export const eggsUserAgent = "flamingo/7.0.02 (Android; 11)";
 
-export async function getEggsHeaders() {
+export async function getEggsHeaders(isAuthorizedRequest:boolean = false):Promise<{
+  "User-Agent": string;
+  Apversion: string;
+  "Content-Type": string;
+  deviceId: any;
+  deviceName: string;
+  authorization: string;
+} | {
+  "User-Agent": string;
+  Apversion: string;
+  "Content-Type": string;
+  deviceId: any;
+  deviceName: string;
+}> {
+  if (isAuthorizedRequest) {
+    console.log(await getToken());
+    return {
+      "User-Agent": eggsUserAgent,
+      Apversion: "7.0.02",
+      "Content-Type": "application/json; charset=utf-8",
+      deviceId: await getDeviceID(),
+      deviceName: "SM-G977N",
+      authorization: "Bearer " + (await getToken()).token,
+    };
+  }
   return {
     "User-Agent": eggsUserAgent,
     Apversion: "7.0.02",
+    "Content-Type": "application/json; charset=utf-8",
     deviceId: await getDeviceID(),
     deviceName: "SM-G977N"
   };

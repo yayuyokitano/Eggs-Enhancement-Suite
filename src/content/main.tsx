@@ -2,13 +2,39 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 
 import "../i18n/config";
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import "../App/home/home.scss";
+import "../App/global/global.scss"
 import browser from 'webextension-polyfill';
+import { initializeLoginButtons } from '../util/loginButtons';
+import { Login } from '../App/login/login';
 
-console.log("hallo world");
+const endpointInfo:{[key:string]:{
+  rootSelector: string;
+  Element: (t:TFunction) => JSX.Element;
+  translations:string[];
+}|undefined} = {
+  "/login": {
+    rootSelector: ".form-main>.form-control.pt30p.pb50p",
+    Element: Login,
+    translations: ["login","popup"]
+  },
+  "/": {
+    rootSelector: ".ttl_side",
+    Element: () => <p>hello</p>,
+    translations: ["popup"]
+  }
+}
+
 function App() {
-  const { t, i18n } = useTranslation(["popup"]);
+
+  const Element = endpointInfo[window.location.pathname]?.Element;
+  const translations = endpointInfo[window.location.pathname]?.translations;
+  if (typeof Element === "undefined" || typeof translations === "undefined") {
+    return <p>An error occurred while loading Eggs Enhancement Suite, please try refreshing.</p>;
+  }
+
+  const { t, i18n } = useTranslation(translations);
 
   useEffect(() => {
     function handleMessage(message:any) {
@@ -21,16 +47,25 @@ function App() {
     return () => {
       browser.runtime.onMessage.removeListener(handleMessage);
     }
-  })
+  });
 
-	return (
+  initializeLoginButtons();
+
+  return Element(t);
+
+	/*return (
 		<h1 id="eggs-es-test">{t("popup:helloWorld")}</h1>
-	)
+	)*/
 }
 
-const root = ReactDOM.createRoot(document.getElementsByClassName("l-contents_wrapper")[0]);
-root.render(<App />);
-
-
+function loadContent() {
+  const rootSelector = endpointInfo[window.location.pathname]?.rootSelector;
+  if (typeof rootSelector === "undefined") {
+    return;
+  }
+  const root = ReactDOM.createRoot(document.querySelector(rootSelector) as HTMLElement);
+  root.render(<App />);
+}
+loadContent();
 
 export {};
