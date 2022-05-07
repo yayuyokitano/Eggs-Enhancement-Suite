@@ -13,25 +13,18 @@
 // the project's config changing)
 
 const path = require("path");
-const extensionLoader = require("cypress-browser-extension-plugin/loader");
 const dist = path.resolve(__dirname, "..", "..", "dist");
 
 /**
  * @type {Cypress.PluginConfig}
  */
 // eslint-disable-next-line no-unused-vars
-module.exports = (on, config) => {
+module.exports = (on) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-  on("before:browser:launch", async (browser, launchOptions) => {
-    const loader = extensionLoader.load({
-      source: dist,
-      skipHooks: true,
-    });
+  on("before:browser:launch", async (_, launchOptions) => {
 
-    const args = await loader(browser, []);
-
-    launchOptions.args.push(...args);
+    launchOptions.extensions.push(dist)
 
     return launchOptions;
   });

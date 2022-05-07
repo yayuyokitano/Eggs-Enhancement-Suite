@@ -22,7 +22,8 @@
   },
   "content_scripts": [{
     "matches": ["*://eggs.mu/*"],
-    "js": ["content/main.tsx"]
+    "js": ["content/main.tsx"],
+    "all_frames": true
   }],
 	"action": {
 		"default_icon": {
