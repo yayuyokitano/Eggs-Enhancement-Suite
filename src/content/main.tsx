@@ -20,12 +20,12 @@ const endpointInfo:{[key:string]:{
   "/login": {
     rootSelector: ".form-main>.form-control.pt30p.pb50p",
     Element: Login,
-    translations: ["login","popup"]
+    translations: ["login"]
   },
   "/": {
     rootSelector: ".ttl_side",
     Element: () => <p>hello</p>,
-    translations: ["popup"]
+    translations: []
   }
 }
 
@@ -37,7 +37,7 @@ function App() {
     return <p>An error occurred while loading Eggs Enhancement Suite, please try refreshing.</p>;
   }
 
-  const { t, i18n } = useTranslation(translations);
+  const { t, i18n } = useTranslation([...translations, "global"]);
 
   useEffect(() => {
     function handleMessage(message:any) {

@@ -8,6 +8,8 @@ import { languageList } from '../../i18n/config';
 import { i18n } from 'i18next';
 import browser from 'webextension-polyfill';
 
+import "./popup.scss";
+
 async function changeLanguage(lang:string, i18n:i18n) {
   i18n.changeLanguage(lang);
   browser.storage.local.set({
@@ -38,16 +40,17 @@ function LanguageRadio(props: {lang:"en"|"ja", i18n:i18n}) {
 
 function App() {
 
-  const { t, i18n } = useTranslation(["popup"]);
+  const { t, i18n } = useTranslation(["global"]);
   if (localStorage.getItem("language")) {
     i18n.changeLanguage(localStorage.getItem("language") as string);
   }
 	return (
     <div>
       <div className="language-selector">
+        <h2>{t("popup.language")}</h2>
         {Object.keys(languageList).map(lang => <LanguageRadio key={lang} lang={lang as "en"|"ja"} i18n={i18n} />)}
       </div>
-      <h2>{t("popup:helloWorld")}</h2>
+      <h2>{t("popup.helloWorld")}</h2>
     </div>
 	)
 }
