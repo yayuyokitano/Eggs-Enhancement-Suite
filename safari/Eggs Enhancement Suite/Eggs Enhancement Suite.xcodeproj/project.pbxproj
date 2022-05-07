@@ -1,0 +1,1017 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CE3DBD4F2826A48500F50F7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD4E2826A48500F50F7F /* AppDelegate.swift */; };
+		CE3DBD512826A48500F50F7F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD502826A48500F50F7F /* SceneDelegate.swift */; };
+		CE3DBD542826A48500F50F7F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD522826A48500F50F7F /* LaunchScreen.storyboard */; };
+		CE3DBD572826A48500F50F7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD552826A48500F50F7F /* Main.storyboard */; };
+		CE3DBD602826A48500F50F7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD5F2826A48500F50F7F /* AppDelegate.swift */; };
+		CE3DBD632826A48500F50F7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD612826A48500F50F7F /* Main.storyboard */; };
+		CE3DBD6B2826A48500F50F7F /* Eggs Enhancement Suite Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE3DBD6A2826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CE3DBD752826A48500F50F7F /* Eggs Enhancement Suite Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE3DBD742826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CE3DBD7B2826A48500F50F7F /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD3E2826A48500F50F7F /* Main.html */; };
+		CE3DBD7C2826A48500F50F7F /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD3E2826A48500F50F7F /* Main.html */; };
+		CE3DBD7D2826A48500F50F7F /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD402826A48500F50F7F /* Icon.png */; };
+		CE3DBD7E2826A48500F50F7F /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD402826A48500F50F7F /* Icon.png */; };
+		CE3DBD7F2826A48500F50F7F /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD412826A48500F50F7F /* Style.css */; };
+		CE3DBD802826A48500F50F7F /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD412826A48500F50F7F /* Style.css */; };
+		CE3DBD812826A48500F50F7F /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD422826A48500F50F7F /* Script.js */; };
+		CE3DBD822826A48500F50F7F /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD422826A48500F50F7F /* Script.js */; };
+		CE3DBD832826A48500F50F7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD432826A48500F50F7F /* ViewController.swift */; };
+		CE3DBD842826A48500F50F7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD432826A48500F50F7F /* ViewController.swift */; };
+		CE3DBD852826A48500F50F7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD442826A48500F50F7F /* Assets.xcassets */; };
+		CE3DBD862826A48500F50F7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD442826A48500F50F7F /* Assets.xcassets */; };
+		CE3DBD872826A48500F50F7F /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD462826A48500F50F7F /* SafariWebExtensionHandler.swift */; };
+		CE3DBD882826A48500F50F7F /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD462826A48500F50F7F /* SafariWebExtensionHandler.swift */; };
+		CE3DBDAB2826A48600F50F7F /* icon48.94f0a55a.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9A2826A48600F50F7F /* icon48.94f0a55a.png */; };
+		CE3DBDAC2826A48600F50F7F /* icon32.c3065b79.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9B2826A48600F50F7F /* icon32.c3065b79.png */; };
+		CE3DBDAD2826A48600F50F7F /* playlist.aa7e3955.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9C2826A48600F50F7F /* playlist.aa7e3955.json */; };
+		CE3DBDAE2826A48600F50F7F /* icon24.465ecfe6.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9D2826A48600F50F7F /* icon24.465ecfe6.png */; };
+		CE3DBDAF2826A48600F50F7F /* popup.a3823e10.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9E2826A48600F50F7F /* popup.a3823e10.js */; };
+		CE3DBDB02826A48600F50F7F /* popup.8dbeb517.html in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9F2826A48600F50F7F /* popup.8dbeb517.html */; };
+		CE3DBDB12826A48600F50F7F /* main.0b9faa01.css in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA02826A48600F50F7F /* main.0b9faa01.css */; };
+		CE3DBDB22826A48600F50F7F /* main.b3b97635.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA12826A48600F50F7F /* main.b3b97635.js */; };
+		CE3DBDB32826A48600F50F7F /* useragent.0b4cf2e1.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA22826A48600F50F7F /* useragent.0b4cf2e1.json */; };
+		CE3DBDB42826A48600F50F7F /* _metadata in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA32826A48600F50F7F /* _metadata */; };
+		CE3DBDB52826A48600F50F7F /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA42826A48600F50F7F /* manifest.json */; };
+		CE3DBDB62826A48600F50F7F /* main.72d369ec.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA52826A48600F50F7F /* main.72d369ec.js */; };
+		CE3DBDB72826A48600F50F7F /* autoreload.8b981e35.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA62826A48600F50F7F /* autoreload.8b981e35.js */; };
+		CE3DBDB82826A48600F50F7F /* icon64.9a4a7416.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA72826A48600F50F7F /* icon64.9a4a7416.png */; };
+		CE3DBDB92826A48600F50F7F /* icon19.7d35ef7a.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA82826A48600F50F7F /* icon19.7d35ef7a.png */; };
+		CE3DBDBA2826A48600F50F7F /* icon16.d80de35f.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA92826A48600F50F7F /* icon16.d80de35f.png */; };
+		CE3DBDBB2826A48600F50F7F /* icon128.6b99e565.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDAA2826A48600F50F7F /* icon128.6b99e565.png */; };
+		CE3DBDBC2826A48600F50F7F /* icon48.94f0a55a.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9A2826A48600F50F7F /* icon48.94f0a55a.png */; };
+		CE3DBDBD2826A48600F50F7F /* icon32.c3065b79.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9B2826A48600F50F7F /* icon32.c3065b79.png */; };
+		CE3DBDBE2826A48600F50F7F /* playlist.aa7e3955.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9C2826A48600F50F7F /* playlist.aa7e3955.json */; };
+		CE3DBDBF2826A48600F50F7F /* icon24.465ecfe6.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9D2826A48600F50F7F /* icon24.465ecfe6.png */; };
+		CE3DBDC02826A48600F50F7F /* popup.a3823e10.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9E2826A48600F50F7F /* popup.a3823e10.js */; };
+		CE3DBDC12826A48600F50F7F /* popup.8dbeb517.html in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9F2826A48600F50F7F /* popup.8dbeb517.html */; };
+		CE3DBDC22826A48600F50F7F /* main.0b9faa01.css in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA02826A48600F50F7F /* main.0b9faa01.css */; };
+		CE3DBDC32826A48600F50F7F /* main.b3b97635.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA12826A48600F50F7F /* main.b3b97635.js */; };
+		CE3DBDC42826A48600F50F7F /* useragent.0b4cf2e1.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA22826A48600F50F7F /* useragent.0b4cf2e1.json */; };
+		CE3DBDC52826A48600F50F7F /* _metadata in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA32826A48600F50F7F /* _metadata */; };
+		CE3DBDC62826A48600F50F7F /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA42826A48600F50F7F /* manifest.json */; };
+		CE3DBDC72826A48600F50F7F /* main.72d369ec.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA52826A48600F50F7F /* main.72d369ec.js */; };
+		CE3DBDC82826A48600F50F7F /* autoreload.8b981e35.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA62826A48600F50F7F /* autoreload.8b981e35.js */; };
+		CE3DBDC92826A48600F50F7F /* icon64.9a4a7416.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA72826A48600F50F7F /* icon64.9a4a7416.png */; };
+		CE3DBDCA2826A48600F50F7F /* icon19.7d35ef7a.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA82826A48600F50F7F /* icon19.7d35ef7a.png */; };
+		CE3DBDCB2826A48600F50F7F /* icon16.d80de35f.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA92826A48600F50F7F /* icon16.d80de35f.png */; };
+		CE3DBDCC2826A48600F50F7F /* icon128.6b99e565.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDAA2826A48600F50F7F /* icon128.6b99e565.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CE3DBD6C2826A48500F50F7F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE3DBD382826A48500F50F7F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE3DBD692826A48500F50F7F;
+			remoteInfo = "Eggs Enhancement Suite Extension (iOS)";
+		};
+		CE3DBD762826A48500F50F7F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE3DBD382826A48500F50F7F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE3DBD732826A48500F50F7F;
+			remoteInfo = "Eggs Enhancement Suite Extension (macOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CE3DBD8E2826A48600F50F7F /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CE3DBD6B2826A48500F50F7F /* Eggs Enhancement Suite Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE3DBD952826A48600F50F7F /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CE3DBD752826A48500F50F7F /* Eggs Enhancement Suite Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		CE3DBD3F2826A48500F50F7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
+		CE3DBD402826A48500F50F7F /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		CE3DBD412826A48500F50F7F /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		CE3DBD422826A48500F50F7F /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		CE3DBD432826A48500F50F7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CE3DBD442826A48500F50F7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CE3DBD462826A48500F50F7F /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		CE3DBD4B2826A48500F50F7F /* Eggs Enhancement Suite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Eggs Enhancement Suite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE3DBD4E2826A48500F50F7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CE3DBD502826A48500F50F7F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		CE3DBD532826A48500F50F7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CE3DBD562826A48500F50F7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CE3DBD582826A48500F50F7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE3DBD5D2826A48500F50F7F /* Eggs Enhancement Suite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Eggs Enhancement Suite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE3DBD5F2826A48500F50F7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CE3DBD622826A48500F50F7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CE3DBD642826A48500F50F7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE3DBD652826A48500F50F7F /* Eggs Enhancement Suite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Eggs Enhancement Suite.entitlements"; sourceTree = "<group>"; };
+		CE3DBD6A2826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Eggs Enhancement Suite Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE3DBD6F2826A48500F50F7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE3DBD742826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Eggs Enhancement Suite Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE3DBD792826A48500F50F7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE3DBD7A2826A48500F50F7F /* Eggs Enhancement Suite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Eggs Enhancement Suite.entitlements"; sourceTree = "<group>"; };
+		CE3DBD9A2826A48600F50F7F /* icon48.94f0a55a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon48.94f0a55a.png; path = ../../../dist/icon48.94f0a55a.png; sourceTree = "<group>"; };
+		CE3DBD9B2826A48600F50F7F /* icon32.c3065b79.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon32.c3065b79.png; path = ../../../dist/icon32.c3065b79.png; sourceTree = "<group>"; };
+		CE3DBD9C2826A48600F50F7F /* playlist.aa7e3955.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = playlist.aa7e3955.json; path = ../../../dist/playlist.aa7e3955.json; sourceTree = "<group>"; };
+		CE3DBD9D2826A48600F50F7F /* icon24.465ecfe6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon24.465ecfe6.png; path = ../../../dist/icon24.465ecfe6.png; sourceTree = "<group>"; };
+		CE3DBD9E2826A48600F50F7F /* popup.a3823e10.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.a3823e10.js; path = ../../../dist/popup.a3823e10.js; sourceTree = "<group>"; };
+		CE3DBD9F2826A48600F50F7F /* popup.8dbeb517.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.8dbeb517.html; path = ../../../dist/popup.8dbeb517.html; sourceTree = "<group>"; };
+		CE3DBDA02826A48600F50F7F /* main.0b9faa01.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = main.0b9faa01.css; path = ../../../dist/main.0b9faa01.css; sourceTree = "<group>"; };
+		CE3DBDA12826A48600F50F7F /* main.b3b97635.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = main.b3b97635.js; path = ../../../dist/main.b3b97635.js; sourceTree = "<group>"; };
+		CE3DBDA22826A48600F50F7F /* useragent.0b4cf2e1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = useragent.0b4cf2e1.json; path = ../../../dist/useragent.0b4cf2e1.json; sourceTree = "<group>"; };
+		CE3DBDA32826A48600F50F7F /* _metadata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _metadata; path = ../../../dist/_metadata; sourceTree = "<group>"; };
+		CE3DBDA42826A48600F50F7F /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../dist/manifest.json; sourceTree = "<group>"; };
+		CE3DBDA52826A48600F50F7F /* main.72d369ec.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = main.72d369ec.js; path = ../../../dist/main.72d369ec.js; sourceTree = "<group>"; };
+		CE3DBDA62826A48600F50F7F /* autoreload.8b981e35.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = autoreload.8b981e35.js; path = ../../../dist/autoreload.8b981e35.js; sourceTree = "<group>"; };
+		CE3DBDA72826A48600F50F7F /* icon64.9a4a7416.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon64.9a4a7416.png; path = ../../../dist/icon64.9a4a7416.png; sourceTree = "<group>"; };
+		CE3DBDA82826A48600F50F7F /* icon19.7d35ef7a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon19.7d35ef7a.png; path = ../../../dist/icon19.7d35ef7a.png; sourceTree = "<group>"; };
+		CE3DBDA92826A48600F50F7F /* icon16.d80de35f.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon16.d80de35f.png; path = ../../../dist/icon16.d80de35f.png; sourceTree = "<group>"; };
+		CE3DBDAA2826A48600F50F7F /* icon128.6b99e565.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon128.6b99e565.png; path = ../../../dist/icon128.6b99e565.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CE3DBD482826A48500F50F7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE3DBD5A2826A48500F50F7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE3DBD672826A48500F50F7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE3DBD712826A48500F50F7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CE3DBD372826A48500F50F7F = {
+			isa = PBXGroup;
+			children = (
+				CE3DBD3C2826A48500F50F7F /* Shared (App) */,
+				CE3DBD452826A48500F50F7F /* Shared (Extension) */,
+				CE3DBD4D2826A48500F50F7F /* iOS (App) */,
+				CE3DBD5E2826A48500F50F7F /* macOS (App) */,
+				CE3DBD6E2826A48500F50F7F /* iOS (Extension) */,
+				CE3DBD782826A48500F50F7F /* macOS (Extension) */,
+				CE3DBD4C2826A48500F50F7F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CE3DBD3C2826A48500F50F7F /* Shared (App) */ = {
+			isa = PBXGroup;
+			children = (
+				CE3DBD432826A48500F50F7F /* ViewController.swift */,
+				CE3DBD442826A48500F50F7F /* Assets.xcassets */,
+				CE3DBD3D2826A48500F50F7F /* Resources */,
+			);
+			path = "Shared (App)";
+			sourceTree = "<group>";
+		};
+		CE3DBD3D2826A48500F50F7F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CE3DBD3E2826A48500F50F7F /* Main.html */,
+				CE3DBD402826A48500F50F7F /* Icon.png */,
+				CE3DBD412826A48500F50F7F /* Style.css */,
+				CE3DBD422826A48500F50F7F /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CE3DBD452826A48500F50F7F /* Shared (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				CE3DBD992826A48600F50F7F /* Resources */,
+				CE3DBD462826A48500F50F7F /* SafariWebExtensionHandler.swift */,
+			);
+			path = "Shared (Extension)";
+			sourceTree = "<group>";
+		};
+		CE3DBD4C2826A48500F50F7F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE3DBD4B2826A48500F50F7F /* Eggs Enhancement Suite.app */,
+				CE3DBD5D2826A48500F50F7F /* Eggs Enhancement Suite.app */,
+				CE3DBD6A2826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */,
+				CE3DBD742826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CE3DBD4D2826A48500F50F7F /* iOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				CE3DBD4E2826A48500F50F7F /* AppDelegate.swift */,
+				CE3DBD502826A48500F50F7F /* SceneDelegate.swift */,
+				CE3DBD522826A48500F50F7F /* LaunchScreen.storyboard */,
+				CE3DBD552826A48500F50F7F /* Main.storyboard */,
+				CE3DBD582826A48500F50F7F /* Info.plist */,
+			);
+			path = "iOS (App)";
+			sourceTree = "<group>";
+		};
+		CE3DBD5E2826A48500F50F7F /* macOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				CE3DBD5F2826A48500F50F7F /* AppDelegate.swift */,
+				CE3DBD612826A48500F50F7F /* Main.storyboard */,
+				CE3DBD642826A48500F50F7F /* Info.plist */,
+				CE3DBD652826A48500F50F7F /* Eggs Enhancement Suite.entitlements */,
+			);
+			path = "macOS (App)";
+			sourceTree = "<group>";
+		};
+		CE3DBD6E2826A48500F50F7F /* iOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				CE3DBD6F2826A48500F50F7F /* Info.plist */,
+			);
+			path = "iOS (Extension)";
+			sourceTree = "<group>";
+		};
+		CE3DBD782826A48500F50F7F /* macOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				CE3DBD792826A48500F50F7F /* Info.plist */,
+				CE3DBD7A2826A48500F50F7F /* Eggs Enhancement Suite.entitlements */,
+			);
+			path = "macOS (Extension)";
+			sourceTree = "<group>";
+		};
+		CE3DBD992826A48600F50F7F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CE3DBD9A2826A48600F50F7F /* icon48.94f0a55a.png */,
+				CE3DBD9B2826A48600F50F7F /* icon32.c3065b79.png */,
+				CE3DBD9C2826A48600F50F7F /* playlist.aa7e3955.json */,
+				CE3DBD9D2826A48600F50F7F /* icon24.465ecfe6.png */,
+				CE3DBD9E2826A48600F50F7F /* popup.a3823e10.js */,
+				CE3DBD9F2826A48600F50F7F /* popup.8dbeb517.html */,
+				CE3DBDA02826A48600F50F7F /* main.0b9faa01.css */,
+				CE3DBDA12826A48600F50F7F /* main.b3b97635.js */,
+				CE3DBDA22826A48600F50F7F /* useragent.0b4cf2e1.json */,
+				CE3DBDA32826A48600F50F7F /* _metadata */,
+				CE3DBDA42826A48600F50F7F /* manifest.json */,
+				CE3DBDA52826A48600F50F7F /* main.72d369ec.js */,
+				CE3DBDA62826A48600F50F7F /* autoreload.8b981e35.js */,
+				CE3DBDA72826A48600F50F7F /* icon64.9a4a7416.png */,
+				CE3DBDA82826A48600F50F7F /* icon19.7d35ef7a.png */,
+				CE3DBDA92826A48600F50F7F /* icon16.d80de35f.png */,
+				CE3DBDAA2826A48600F50F7F /* icon128.6b99e565.png */,
+			);
+			name = Resources;
+			path = "Shared (Extension)";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CE3DBD4A2826A48500F50F7F /* Eggs Enhancement Suite (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE3DBD8F2826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite (iOS)" */;
+			buildPhases = (
+				CE3DBD472826A48500F50F7F /* Sources */,
+				CE3DBD482826A48500F50F7F /* Frameworks */,
+				CE3DBD492826A48500F50F7F /* Resources */,
+				CE3DBD8E2826A48600F50F7F /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE3DBD6D2826A48500F50F7F /* PBXTargetDependency */,
+			);
+			name = "Eggs Enhancement Suite (iOS)";
+			productName = "Eggs Enhancement Suite (iOS)";
+			productReference = CE3DBD4B2826A48500F50F7F /* Eggs Enhancement Suite.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CE3DBD5C2826A48500F50F7F /* Eggs Enhancement Suite (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE3DBD962826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite (macOS)" */;
+			buildPhases = (
+				CE3DBD592826A48500F50F7F /* Sources */,
+				CE3DBD5A2826A48500F50F7F /* Frameworks */,
+				CE3DBD5B2826A48500F50F7F /* Resources */,
+				CE3DBD952826A48600F50F7F /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE3DBD772826A48500F50F7F /* PBXTargetDependency */,
+			);
+			name = "Eggs Enhancement Suite (macOS)";
+			productName = "Eggs Enhancement Suite (macOS)";
+			productReference = CE3DBD5D2826A48500F50F7F /* Eggs Enhancement Suite.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CE3DBD692826A48500F50F7F /* Eggs Enhancement Suite Extension (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE3DBD8B2826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite Extension (iOS)" */;
+			buildPhases = (
+				CE3DBD662826A48500F50F7F /* Sources */,
+				CE3DBD672826A48500F50F7F /* Frameworks */,
+				CE3DBD682826A48500F50F7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Eggs Enhancement Suite Extension (iOS)";
+			productName = "Eggs Enhancement Suite Extension (iOS)";
+			productReference = CE3DBD6A2826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		CE3DBD732826A48500F50F7F /* Eggs Enhancement Suite Extension (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE3DBD922826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite Extension (macOS)" */;
+			buildPhases = (
+				CE3DBD702826A48500F50F7F /* Sources */,
+				CE3DBD712826A48500F50F7F /* Frameworks */,
+				CE3DBD722826A48500F50F7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Eggs Enhancement Suite Extension (macOS)";
+			productName = "Eggs Enhancement Suite Extension (macOS)";
+			productReference = CE3DBD742826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CE3DBD382826A48500F50F7F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1330;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					CE3DBD4A2826A48500F50F7F = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
+					CE3DBD5C2826A48500F50F7F = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
+					CE3DBD692826A48500F50F7F = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
+					CE3DBD732826A48500F50F7F = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
+				};
+			};
+			buildConfigurationList = CE3DBD3B2826A48500F50F7F /* Build configuration list for PBXProject "Eggs Enhancement Suite" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CE3DBD372826A48500F50F7F;
+			productRefGroup = CE3DBD4C2826A48500F50F7F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CE3DBD4A2826A48500F50F7F /* Eggs Enhancement Suite (iOS) */,
+				CE3DBD5C2826A48500F50F7F /* Eggs Enhancement Suite (macOS) */,
+				CE3DBD692826A48500F50F7F /* Eggs Enhancement Suite Extension (iOS) */,
+				CE3DBD732826A48500F50F7F /* Eggs Enhancement Suite Extension (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CE3DBD492826A48500F50F7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE3DBD7D2826A48500F50F7F /* Icon.png in Resources */,
+				CE3DBD542826A48500F50F7F /* LaunchScreen.storyboard in Resources */,
+				CE3DBD7B2826A48500F50F7F /* Main.html in Resources */,
+				CE3DBD812826A48500F50F7F /* Script.js in Resources */,
+				CE3DBD852826A48500F50F7F /* Assets.xcassets in Resources */,
+				CE3DBD572826A48500F50F7F /* Main.storyboard in Resources */,
+				CE3DBD7F2826A48500F50F7F /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE3DBD5B2826A48500F50F7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE3DBD7E2826A48500F50F7F /* Icon.png in Resources */,
+				CE3DBD802826A48500F50F7F /* Style.css in Resources */,
+				CE3DBD632826A48500F50F7F /* Main.storyboard in Resources */,
+				CE3DBD822826A48500F50F7F /* Script.js in Resources */,
+				CE3DBD862826A48500F50F7F /* Assets.xcassets in Resources */,
+				CE3DBD7C2826A48500F50F7F /* Main.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE3DBD682826A48500F50F7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE3DBDCC2826A48600F50F7F /* icon128.6b99e565.png in Resources */,
+				CE3DBDC92826A48600F50F7F /* icon64.9a4a7416.png in Resources */,
+				CE3DBDBC2826A48600F50F7F /* icon48.94f0a55a.png in Resources */,
+				CE3DBDC02826A48600F50F7F /* popup.a3823e10.js in Resources */,
+				CE3DBDC12826A48600F50F7F /* popup.8dbeb517.html in Resources */,
+				CE3DBDC52826A48600F50F7F /* _metadata in Resources */,
+				CE3DBDC32826A48600F50F7F /* main.b3b97635.js in Resources */,
+				CE3DBDC62826A48600F50F7F /* manifest.json in Resources */,
+				CE3DBDCB2826A48600F50F7F /* icon16.d80de35f.png in Resources */,
+				CE3DBDC22826A48600F50F7F /* main.0b9faa01.css in Resources */,
+				CE3DBDC82826A48600F50F7F /* autoreload.8b981e35.js in Resources */,
+				CE3DBDCA2826A48600F50F7F /* icon19.7d35ef7a.png in Resources */,
+				CE3DBDBE2826A48600F50F7F /* playlist.aa7e3955.json in Resources */,
+				CE3DBDBD2826A48600F50F7F /* icon32.c3065b79.png in Resources */,
+				CE3DBDC72826A48600F50F7F /* main.72d369ec.js in Resources */,
+				CE3DBDBF2826A48600F50F7F /* icon24.465ecfe6.png in Resources */,
+				CE3DBDC42826A48600F50F7F /* useragent.0b4cf2e1.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE3DBD722826A48500F50F7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE3DBDBB2826A48600F50F7F /* icon128.6b99e565.png in Resources */,
+				CE3DBDB82826A48600F50F7F /* icon64.9a4a7416.png in Resources */,
+				CE3DBDAB2826A48600F50F7F /* icon48.94f0a55a.png in Resources */,
+				CE3DBDAF2826A48600F50F7F /* popup.a3823e10.js in Resources */,
+				CE3DBDB02826A48600F50F7F /* popup.8dbeb517.html in Resources */,
+				CE3DBDB42826A48600F50F7F /* _metadata in Resources */,
+				CE3DBDB22826A48600F50F7F /* main.b3b97635.js in Resources */,
+				CE3DBDB52826A48600F50F7F /* manifest.json in Resources */,
+				CE3DBDBA2826A48600F50F7F /* icon16.d80de35f.png in Resources */,
+				CE3DBDB12826A48600F50F7F /* main.0b9faa01.css in Resources */,
+				CE3DBDB72826A48600F50F7F /* autoreload.8b981e35.js in Resources */,
+				CE3DBDB92826A48600F50F7F /* icon19.7d35ef7a.png in Resources */,
+				CE3DBDAD2826A48600F50F7F /* playlist.aa7e3955.json in Resources */,
+				CE3DBDAC2826A48600F50F7F /* icon32.c3065b79.png in Resources */,
+				CE3DBDB62826A48600F50F7F /* main.72d369ec.js in Resources */,
+				CE3DBDAE2826A48600F50F7F /* icon24.465ecfe6.png in Resources */,
+				CE3DBDB32826A48600F50F7F /* useragent.0b4cf2e1.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CE3DBD472826A48500F50F7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE3DBD832826A48500F50F7F /* ViewController.swift in Sources */,
+				CE3DBD4F2826A48500F50F7F /* AppDelegate.swift in Sources */,
+				CE3DBD512826A48500F50F7F /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE3DBD592826A48500F50F7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE3DBD842826A48500F50F7F /* ViewController.swift in Sources */,
+				CE3DBD602826A48500F50F7F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE3DBD662826A48500F50F7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE3DBD872826A48500F50F7F /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE3DBD702826A48500F50F7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE3DBD882826A48500F50F7F /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CE3DBD6D2826A48500F50F7F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE3DBD692826A48500F50F7F /* Eggs Enhancement Suite Extension (iOS) */;
+			targetProxy = CE3DBD6C2826A48500F50F7F /* PBXContainerItemProxy */;
+		};
+		CE3DBD772826A48500F50F7F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE3DBD732826A48500F50F7F /* Eggs Enhancement Suite Extension (macOS) */;
+			targetProxy = CE3DBD762826A48500F50F7F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CE3DBD3E2826A48500F50F7F /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE3DBD3F2826A48500F50F7F /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		CE3DBD522826A48500F50F7F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE3DBD532826A48500F50F7F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		CE3DBD552826A48500F50F7F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE3DBD562826A48500F50F7F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CE3DBD612826A48500F50F7F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE3DBD622826A48500F50F7F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE3DBD892826A48500F50F7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CE3DBD8A2826A48500F50F7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		CE3DBD8C2826A48600F50F7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Eggs Enhancement Suite Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Eggs-Enhancement-Suite.Extension";
+				PRODUCT_NAME = "Eggs Enhancement Suite Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE3DBD8D2826A48600F50F7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Eggs Enhancement Suite Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Eggs-Enhancement-Suite.Extension";
+				PRODUCT_NAME = "Eggs Enhancement Suite Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CE3DBD902826A48600F50F7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Eggs Enhancement Suite";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Eggs-Enhancement-Suite";
+				PRODUCT_NAME = "Eggs Enhancement Suite";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE3DBD912826A48600F50F7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Eggs Enhancement Suite";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Eggs-Enhancement-Suite";
+				PRODUCT_NAME = "Eggs Enhancement Suite";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CE3DBD932826A48600F50F7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Eggs Enhancement Suite.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Eggs Enhancement Suite Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Eggs-Enhancement-Suite.Extension";
+				PRODUCT_NAME = "Eggs Enhancement Suite Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CE3DBD942826A48600F50F7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Eggs Enhancement Suite.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Eggs Enhancement Suite Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Eggs-Enhancement-Suite.Extension";
+				PRODUCT_NAME = "Eggs Enhancement Suite Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		CE3DBD972826A48600F50F7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Eggs Enhancement Suite.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Eggs Enhancement Suite";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Eggs-Enhancement-Suite";
+				PRODUCT_NAME = "Eggs Enhancement Suite";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CE3DBD982826A48600F50F7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Eggs Enhancement Suite.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Eggs Enhancement Suite";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Eggs-Enhancement-Suite";
+				PRODUCT_NAME = "Eggs Enhancement Suite";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE3DBD3B2826A48500F50F7F /* Build configuration list for PBXProject "Eggs Enhancement Suite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE3DBD892826A48500F50F7F /* Debug */,
+				CE3DBD8A2826A48500F50F7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE3DBD8B2826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite Extension (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE3DBD8C2826A48600F50F7F /* Debug */,
+				CE3DBD8D2826A48600F50F7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE3DBD8F2826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE3DBD902826A48600F50F7F /* Debug */,
+				CE3DBD912826A48600F50F7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE3DBD922826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite Extension (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE3DBD932826A48600F50F7F /* Debug */,
+				CE3DBD942826A48600F50F7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE3DBD962826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE3DBD972826A48600F50F7F /* Debug */,
+				CE3DBD982826A48600F50F7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CE3DBD382826A48500F50F7F /* Project object */;
+}
