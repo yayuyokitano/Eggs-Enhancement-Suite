@@ -759,6 +759,11 @@
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
 
+"@types/arrive@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@types/arrive/-/arrive-2.4.1.tgz#996c9046fe83c90e2ba02d3e1e63cad276dbe9f0"
+  integrity sha512-T4fPI0e3XOCFgS4YDpKf230IVlgMKEk/sGW2yl7UExuIsH0V0FshNjrbVZOogjUaRINsnFJzoJpsTmJ2xoJxFQ==
+
 "@types/node@*":
   version "17.0.30"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.30.tgz#2c6e8512acac70815e8176aa30c38025067880ef"
@@ -938,6 +943,11 @@ array-unique@^0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
   integrity sha1-qJS3XUvE9s1nnvMkSp/Y9Gri1Cg=
+
+arrive@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/arrive/-/arrive-2.4.1.tgz#564c87f20bc09b80de781124d9431695004b8020"
+  integrity sha1-VkyH8gvAm4DeeBEk2UMWlQBLgCA=
 
 asn1.js@^5.2.0:
   version "5.4.1"

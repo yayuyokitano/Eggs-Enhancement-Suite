@@ -8,6 +8,8 @@ import "../App/global/global.scss"
 import browser from 'webextension-polyfill';
 import { initializeLoginButtons } from '../util/loginButtons';
 import { Login } from '../App/login/login';
+import arrive from "arrive";
+arrive
 
 const endpointInfo:{[key:string]:{
   rootSelector: string;
@@ -63,9 +65,10 @@ function loadContent() {
   if (typeof rootSelector === "undefined") {
     return;
   }
-  const root = ReactDOM.createRoot(document.querySelector(rootSelector) as HTMLElement);
-  root.render(<App />);
+  document.arrive(rootSelector, {onceOnly: true, existing: true}, function() {
+    const root = ReactDOM.createRoot(this);
+    root.render(<App />);
+  });
 }
 loadContent();
-
 export {};
