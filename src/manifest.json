@@ -23,7 +23,8 @@
   "content_scripts": [{
     "matches": ["*://eggs.mu/*"],
     "js": ["content/main.tsx"],
-    "all_frames": true
+    "all_frames": true,
+    "exclude_globs": ["*://*/*/integration/*", "*://*/*/tests/*"]
   }],
 	"action": {
 		"default_icon": {

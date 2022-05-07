@@ -24,7 +24,7 @@ module.exports = (on) => {
   // `config` is the resolved Cypress config
   on("before:browser:launch", async (_, launchOptions) => {
 
-    launchOptions.extensions.push(dist)
+    launchOptions.extensions.push(dist);
 
     return launchOptions;
   });

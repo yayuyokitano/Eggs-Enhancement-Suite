@@ -9,6 +9,7 @@ import browser from 'webextension-polyfill';
 import { initializeLoginButtons } from '../util/loginButtons';
 import { Login } from '../App/login/login';
 import arrive from "arrive";
+import { createSpa } from '../App/player/spa';
 arrive
 
 const endpointInfo:{[key:string]:{
@@ -61,6 +62,10 @@ function App() {
 }
 
 function loadContent() {
+  // Create SPA if top level or top level within cypress
+  if (window.frameElement === null || window.frameElement.classList.contains("aut-iframe")) {
+    createSpa();
+  }
   const rootSelector = endpointInfo[window.location.pathname]?.rootSelector;
   if (typeof rootSelector === "undefined") {
     return;
