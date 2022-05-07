@@ -11,7 +11,7 @@ function updateSpa(event:SyntheticEvent<HTMLIFrameElement, Event>) {
   const url = event.currentTarget.contentWindow?.location.href;
   console.log(url);
   if (typeof url !== "undefined") {
-    history.pushState(null, "", url);
+    history.replaceState(null, "", url);
   }
 }
 
@@ -30,6 +30,8 @@ function SPA() {
 
 function Player() {
   return (
-    <div id="ees-player">{Math.random()}</div>
+    <div id="ees-player">
+      <span id="ees-state">{Math.random()}</span>
+    </div>
   );
 }
