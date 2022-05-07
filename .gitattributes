@@ -1,2 +1,2 @@
-__parcellib/ linguist-vendored
-cypress/ linguist-vendored
+__parcellib/* linguist-vendored
+cypress/**/* linguist-vendored
