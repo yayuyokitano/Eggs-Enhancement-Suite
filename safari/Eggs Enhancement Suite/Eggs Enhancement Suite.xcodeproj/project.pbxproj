@@ -7,100 +7,98 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CE3DBD4F2826A48500F50F7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD4E2826A48500F50F7F /* AppDelegate.swift */; };
-		CE3DBD512826A48500F50F7F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD502826A48500F50F7F /* SceneDelegate.swift */; };
-		CE3DBD542826A48500F50F7F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD522826A48500F50F7F /* LaunchScreen.storyboard */; };
-		CE3DBD572826A48500F50F7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD552826A48500F50F7F /* Main.storyboard */; };
-		CE3DBD602826A48500F50F7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD5F2826A48500F50F7F /* AppDelegate.swift */; };
-		CE3DBD632826A48500F50F7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD612826A48500F50F7F /* Main.storyboard */; };
-		CE3DBD6B2826A48500F50F7F /* Eggs Enhancement Suite Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE3DBD6A2826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		CE3DBD752826A48500F50F7F /* Eggs Enhancement Suite Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE3DBD742826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		CE3DBD7B2826A48500F50F7F /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD3E2826A48500F50F7F /* Main.html */; };
-		CE3DBD7C2826A48500F50F7F /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD3E2826A48500F50F7F /* Main.html */; };
-		CE3DBD7D2826A48500F50F7F /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD402826A48500F50F7F /* Icon.png */; };
-		CE3DBD7E2826A48500F50F7F /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD402826A48500F50F7F /* Icon.png */; };
-		CE3DBD7F2826A48500F50F7F /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD412826A48500F50F7F /* Style.css */; };
-		CE3DBD802826A48500F50F7F /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD412826A48500F50F7F /* Style.css */; };
-		CE3DBD812826A48500F50F7F /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD422826A48500F50F7F /* Script.js */; };
-		CE3DBD822826A48500F50F7F /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD422826A48500F50F7F /* Script.js */; };
-		CE3DBD832826A48500F50F7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD432826A48500F50F7F /* ViewController.swift */; };
-		CE3DBD842826A48500F50F7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD432826A48500F50F7F /* ViewController.swift */; };
-		CE3DBD852826A48500F50F7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD442826A48500F50F7F /* Assets.xcassets */; };
-		CE3DBD862826A48500F50F7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD442826A48500F50F7F /* Assets.xcassets */; };
-		CE3DBD872826A48500F50F7F /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD462826A48500F50F7F /* SafariWebExtensionHandler.swift */; };
-		CE3DBD882826A48500F50F7F /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3DBD462826A48500F50F7F /* SafariWebExtensionHandler.swift */; };
-		CE3DBDAB2826A48600F50F7F /* icon48.94f0a55a.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9A2826A48600F50F7F /* icon48.94f0a55a.png */; };
-		CE3DBDAC2826A48600F50F7F /* icon32.c3065b79.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9B2826A48600F50F7F /* icon32.c3065b79.png */; };
-		CE3DBDAD2826A48600F50F7F /* playlist.aa7e3955.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9C2826A48600F50F7F /* playlist.aa7e3955.json */; };
-		CE3DBDAE2826A48600F50F7F /* icon24.465ecfe6.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9D2826A48600F50F7F /* icon24.465ecfe6.png */; };
-		CE3DBDAF2826A48600F50F7F /* popup.a3823e10.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9E2826A48600F50F7F /* popup.a3823e10.js */; };
-		CE3DBDB02826A48600F50F7F /* popup.8dbeb517.html in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9F2826A48600F50F7F /* popup.8dbeb517.html */; };
-		CE3DBDB12826A48600F50F7F /* main.0b9faa01.css in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA02826A48600F50F7F /* main.0b9faa01.css */; };
-		CE3DBDB22826A48600F50F7F /* main.b3b97635.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA12826A48600F50F7F /* main.b3b97635.js */; };
-		CE3DBDB32826A48600F50F7F /* useragent.0b4cf2e1.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA22826A48600F50F7F /* useragent.0b4cf2e1.json */; };
-		CE3DBDB42826A48600F50F7F /* _metadata in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA32826A48600F50F7F /* _metadata */; };
-		CE3DBDB52826A48600F50F7F /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA42826A48600F50F7F /* manifest.json */; };
-		CE3DBDB62826A48600F50F7F /* main.72d369ec.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA52826A48600F50F7F /* main.72d369ec.js */; };
-		CE3DBDB72826A48600F50F7F /* autoreload.8b981e35.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA62826A48600F50F7F /* autoreload.8b981e35.js */; };
-		CE3DBDB82826A48600F50F7F /* icon64.9a4a7416.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA72826A48600F50F7F /* icon64.9a4a7416.png */; };
-		CE3DBDB92826A48600F50F7F /* icon19.7d35ef7a.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA82826A48600F50F7F /* icon19.7d35ef7a.png */; };
-		CE3DBDBA2826A48600F50F7F /* icon16.d80de35f.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA92826A48600F50F7F /* icon16.d80de35f.png */; };
-		CE3DBDBB2826A48600F50F7F /* icon128.6b99e565.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDAA2826A48600F50F7F /* icon128.6b99e565.png */; };
-		CE3DBDBC2826A48600F50F7F /* icon48.94f0a55a.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9A2826A48600F50F7F /* icon48.94f0a55a.png */; };
-		CE3DBDBD2826A48600F50F7F /* icon32.c3065b79.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9B2826A48600F50F7F /* icon32.c3065b79.png */; };
-		CE3DBDBE2826A48600F50F7F /* playlist.aa7e3955.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9C2826A48600F50F7F /* playlist.aa7e3955.json */; };
-		CE3DBDBF2826A48600F50F7F /* icon24.465ecfe6.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9D2826A48600F50F7F /* icon24.465ecfe6.png */; };
-		CE3DBDC02826A48600F50F7F /* popup.a3823e10.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9E2826A48600F50F7F /* popup.a3823e10.js */; };
-		CE3DBDC12826A48600F50F7F /* popup.8dbeb517.html in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBD9F2826A48600F50F7F /* popup.8dbeb517.html */; };
-		CE3DBDC22826A48600F50F7F /* main.0b9faa01.css in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA02826A48600F50F7F /* main.0b9faa01.css */; };
-		CE3DBDC32826A48600F50F7F /* main.b3b97635.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA12826A48600F50F7F /* main.b3b97635.js */; };
-		CE3DBDC42826A48600F50F7F /* useragent.0b4cf2e1.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA22826A48600F50F7F /* useragent.0b4cf2e1.json */; };
-		CE3DBDC52826A48600F50F7F /* _metadata in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA32826A48600F50F7F /* _metadata */; };
-		CE3DBDC62826A48600F50F7F /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA42826A48600F50F7F /* manifest.json */; };
-		CE3DBDC72826A48600F50F7F /* main.72d369ec.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA52826A48600F50F7F /* main.72d369ec.js */; };
-		CE3DBDC82826A48600F50F7F /* autoreload.8b981e35.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA62826A48600F50F7F /* autoreload.8b981e35.js */; };
-		CE3DBDC92826A48600F50F7F /* icon64.9a4a7416.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA72826A48600F50F7F /* icon64.9a4a7416.png */; };
-		CE3DBDCA2826A48600F50F7F /* icon19.7d35ef7a.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA82826A48600F50F7F /* icon19.7d35ef7a.png */; };
-		CE3DBDCB2826A48600F50F7F /* icon16.d80de35f.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDA92826A48600F50F7F /* icon16.d80de35f.png */; };
-		CE3DBDCC2826A48600F50F7F /* icon128.6b99e565.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3DBDAA2826A48600F50F7F /* icon128.6b99e565.png */; };
+		CE3BA597282D771C005D4D0E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3BA596282D771C005D4D0E /* AppDelegate.swift */; };
+		CE3BA599282D771C005D4D0E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3BA598282D771C005D4D0E /* SceneDelegate.swift */; };
+		CE3BA59C282D771C005D4D0E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA59A282D771C005D4D0E /* LaunchScreen.storyboard */; };
+		CE3BA59F282D771C005D4D0E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA59D282D771C005D4D0E /* Main.storyboard */; };
+		CE3BA5A8282D771C005D4D0E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3BA5A7282D771C005D4D0E /* AppDelegate.swift */; };
+		CE3BA5AB282D771C005D4D0E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5A9282D771C005D4D0E /* Main.storyboard */; };
+		CE3BA5B3282D771C005D4D0E /* Eggs Enhancement Suite Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE3BA5B2282D771C005D4D0E /* Eggs Enhancement Suite Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CE3BA5BD282D771C005D4D0E /* Eggs Enhancement Suite Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE3BA5BC282D771C005D4D0E /* Eggs Enhancement Suite Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CE3BA5C3282D771C005D4D0E /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA586282D7719005D4D0E /* Main.html */; };
+		CE3BA5C4282D771C005D4D0E /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA586282D7719005D4D0E /* Main.html */; };
+		CE3BA5C5282D771C005D4D0E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA588282D7719005D4D0E /* Icon.png */; };
+		CE3BA5C6282D771C005D4D0E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA588282D7719005D4D0E /* Icon.png */; };
+		CE3BA5C7282D771C005D4D0E /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA589282D7719005D4D0E /* Style.css */; };
+		CE3BA5C8282D771C005D4D0E /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA589282D7719005D4D0E /* Style.css */; };
+		CE3BA5C9282D771C005D4D0E /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA58A282D7719005D4D0E /* Script.js */; };
+		CE3BA5CA282D771C005D4D0E /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA58A282D7719005D4D0E /* Script.js */; };
+		CE3BA5CB282D771C005D4D0E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3BA58B282D7719005D4D0E /* ViewController.swift */; };
+		CE3BA5CC282D771C005D4D0E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3BA58B282D7719005D4D0E /* ViewController.swift */; };
+		CE3BA5CD282D771C005D4D0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA58C282D771C005D4D0E /* Assets.xcassets */; };
+		CE3BA5CE282D771C005D4D0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA58C282D771C005D4D0E /* Assets.xcassets */; };
+		CE3BA5CF282D771C005D4D0E /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3BA58E282D771C005D4D0E /* SafariWebExtensionHandler.swift */; };
+		CE3BA5D0282D771C005D4D0E /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3BA58E282D771C005D4D0E /* SafariWebExtensionHandler.swift */; };
+		CE3BA5F2282D771C005D4D0E /* icon48.94f0a55a.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E2282D771C005D4D0E /* icon48.94f0a55a.png */; };
+		CE3BA5F3282D771C005D4D0E /* icon32.c3065b79.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E3282D771C005D4D0E /* icon32.c3065b79.png */; };
+		CE3BA5F4282D771C005D4D0E /* icon24.465ecfe6.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E4282D771C005D4D0E /* icon24.465ecfe6.png */; };
+		CE3BA5F5282D771C005D4D0E /* popup.a3823e10.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E5282D771C005D4D0E /* popup.a3823e10.js */; };
+		CE3BA5F6282D771C005D4D0E /* popup.8dbeb517.html in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E6282D771C005D4D0E /* popup.8dbeb517.html */; };
+		CE3BA5F7282D771C005D4D0E /* main.0b9faa01.css in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E7282D771C005D4D0E /* main.0b9faa01.css */; };
+		CE3BA5F8282D771C005D4D0E /* main.b3b97635.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E8282D771C005D4D0E /* main.b3b97635.js */; };
+		CE3BA5F9282D771C005D4D0E /* useragent.0b4cf2e1.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E9282D771C005D4D0E /* useragent.0b4cf2e1.json */; };
+		CE3BA5FA282D771C005D4D0E /* _metadata in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5EA282D771C005D4D0E /* _metadata */; };
+		CE3BA5FB282D771C005D4D0E /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5EB282D771C005D4D0E /* manifest.json */; };
+		CE3BA5FC282D771C005D4D0E /* main.72d369ec.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5EC282D771C005D4D0E /* main.72d369ec.js */; };
+		CE3BA5FD282D771C005D4D0E /* autoreload.8b981e35.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5ED282D771C005D4D0E /* autoreload.8b981e35.js */; };
+		CE3BA5FE282D771C005D4D0E /* icon64.9a4a7416.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5EE282D771C005D4D0E /* icon64.9a4a7416.png */; };
+		CE3BA5FF282D771C005D4D0E /* icon19.7d35ef7a.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5EF282D771C005D4D0E /* icon19.7d35ef7a.png */; };
+		CE3BA600282D771C005D4D0E /* icon16.d80de35f.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5F0282D771C005D4D0E /* icon16.d80de35f.png */; };
+		CE3BA601282D771C005D4D0E /* icon128.6b99e565.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5F1282D771C005D4D0E /* icon128.6b99e565.png */; };
+		CE3BA602282D771C005D4D0E /* icon48.94f0a55a.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E2282D771C005D4D0E /* icon48.94f0a55a.png */; };
+		CE3BA603282D771C005D4D0E /* icon32.c3065b79.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E3282D771C005D4D0E /* icon32.c3065b79.png */; };
+		CE3BA604282D771C005D4D0E /* icon24.465ecfe6.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E4282D771C005D4D0E /* icon24.465ecfe6.png */; };
+		CE3BA605282D771C005D4D0E /* popup.a3823e10.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E5282D771C005D4D0E /* popup.a3823e10.js */; };
+		CE3BA606282D771C005D4D0E /* popup.8dbeb517.html in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E6282D771C005D4D0E /* popup.8dbeb517.html */; };
+		CE3BA607282D771C005D4D0E /* main.0b9faa01.css in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E7282D771C005D4D0E /* main.0b9faa01.css */; };
+		CE3BA608282D771C005D4D0E /* main.b3b97635.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E8282D771C005D4D0E /* main.b3b97635.js */; };
+		CE3BA609282D771C005D4D0E /* useragent.0b4cf2e1.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5E9282D771C005D4D0E /* useragent.0b4cf2e1.json */; };
+		CE3BA60A282D771C005D4D0E /* _metadata in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5EA282D771C005D4D0E /* _metadata */; };
+		CE3BA60B282D771C005D4D0E /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5EB282D771C005D4D0E /* manifest.json */; };
+		CE3BA60C282D771C005D4D0E /* main.72d369ec.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5EC282D771C005D4D0E /* main.72d369ec.js */; };
+		CE3BA60D282D771C005D4D0E /* autoreload.8b981e35.js in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5ED282D771C005D4D0E /* autoreload.8b981e35.js */; };
+		CE3BA60E282D771C005D4D0E /* icon64.9a4a7416.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5EE282D771C005D4D0E /* icon64.9a4a7416.png */; };
+		CE3BA60F282D771C005D4D0E /* icon19.7d35ef7a.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5EF282D771C005D4D0E /* icon19.7d35ef7a.png */; };
+		CE3BA610282D771C005D4D0E /* icon16.d80de35f.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5F0282D771C005D4D0E /* icon16.d80de35f.png */; };
+		CE3BA611282D771C005D4D0E /* icon128.6b99e565.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3BA5F1282D771C005D4D0E /* icon128.6b99e565.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		CE3DBD6C2826A48500F50F7F /* PBXContainerItemProxy */ = {
+		CE3BA5B4282D771C005D4D0E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CE3DBD382826A48500F50F7F /* Project object */;
+			containerPortal = CE3BA580282D7719005D4D0E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = CE3DBD692826A48500F50F7F;
+			remoteGlobalIDString = CE3BA5B1282D771C005D4D0E;
 			remoteInfo = "Eggs Enhancement Suite Extension (iOS)";
 		};
-		CE3DBD762826A48500F50F7F /* PBXContainerItemProxy */ = {
+		CE3BA5BE282D771C005D4D0E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CE3DBD382826A48500F50F7F /* Project object */;
+			containerPortal = CE3BA580282D7719005D4D0E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = CE3DBD732826A48500F50F7F;
+			remoteGlobalIDString = CE3BA5BB282D771C005D4D0E;
 			remoteInfo = "Eggs Enhancement Suite Extension (macOS)";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		CE3DBD8E2826A48600F50F7F /* Embed App Extensions */ = {
+		CE3BA5D6282D771C005D4D0E /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				CE3DBD6B2826A48500F50F7F /* Eggs Enhancement Suite Extension.appex in Embed App Extensions */,
+				CE3BA5B3282D771C005D4D0E /* Eggs Enhancement Suite Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE3DBD952826A48600F50F7F /* Embed App Extensions */ = {
+		CE3BA5DD282D771C005D4D0E /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				CE3DBD752826A48500F50F7F /* Eggs Enhancement Suite Extension.appex in Embed App Extensions */,
+				CE3BA5BD282D771C005D4D0E /* Eggs Enhancement Suite Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,71 +106,70 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		CE3DBD3F2826A48500F50F7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
-		CE3DBD402826A48500F50F7F /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		CE3DBD412826A48500F50F7F /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
-		CE3DBD422826A48500F50F7F /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
-		CE3DBD432826A48500F50F7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		CE3DBD442826A48500F50F7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		CE3DBD462826A48500F50F7F /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
-		CE3DBD4B2826A48500F50F7F /* Eggs Enhancement Suite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Eggs Enhancement Suite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE3DBD4E2826A48500F50F7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CE3DBD502826A48500F50F7F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CE3DBD532826A48500F50F7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		CE3DBD562826A48500F50F7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		CE3DBD582826A48500F50F7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE3DBD5D2826A48500F50F7F /* Eggs Enhancement Suite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Eggs Enhancement Suite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE3DBD5F2826A48500F50F7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CE3DBD622826A48500F50F7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		CE3DBD642826A48500F50F7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE3DBD652826A48500F50F7F /* Eggs Enhancement Suite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Eggs Enhancement Suite.entitlements"; sourceTree = "<group>"; };
-		CE3DBD6A2826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Eggs Enhancement Suite Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE3DBD6F2826A48500F50F7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE3DBD742826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Eggs Enhancement Suite Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE3DBD792826A48500F50F7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE3DBD7A2826A48500F50F7F /* Eggs Enhancement Suite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Eggs Enhancement Suite.entitlements"; sourceTree = "<group>"; };
-		CE3DBD9A2826A48600F50F7F /* icon48.94f0a55a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon48.94f0a55a.png; path = ../../../dist/icon48.94f0a55a.png; sourceTree = "<group>"; };
-		CE3DBD9B2826A48600F50F7F /* icon32.c3065b79.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon32.c3065b79.png; path = ../../../dist/icon32.c3065b79.png; sourceTree = "<group>"; };
-		CE3DBD9C2826A48600F50F7F /* playlist.aa7e3955.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = playlist.aa7e3955.json; path = ../../../dist/playlist.aa7e3955.json; sourceTree = "<group>"; };
-		CE3DBD9D2826A48600F50F7F /* icon24.465ecfe6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon24.465ecfe6.png; path = ../../../dist/icon24.465ecfe6.png; sourceTree = "<group>"; };
-		CE3DBD9E2826A48600F50F7F /* popup.a3823e10.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.a3823e10.js; path = ../../../dist/popup.a3823e10.js; sourceTree = "<group>"; };
-		CE3DBD9F2826A48600F50F7F /* popup.8dbeb517.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.8dbeb517.html; path = ../../../dist/popup.8dbeb517.html; sourceTree = "<group>"; };
-		CE3DBDA02826A48600F50F7F /* main.0b9faa01.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = main.0b9faa01.css; path = ../../../dist/main.0b9faa01.css; sourceTree = "<group>"; };
-		CE3DBDA12826A48600F50F7F /* main.b3b97635.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = main.b3b97635.js; path = ../../../dist/main.b3b97635.js; sourceTree = "<group>"; };
-		CE3DBDA22826A48600F50F7F /* useragent.0b4cf2e1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = useragent.0b4cf2e1.json; path = ../../../dist/useragent.0b4cf2e1.json; sourceTree = "<group>"; };
-		CE3DBDA32826A48600F50F7F /* _metadata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _metadata; path = ../../../dist/_metadata; sourceTree = "<group>"; };
-		CE3DBDA42826A48600F50F7F /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../dist/manifest.json; sourceTree = "<group>"; };
-		CE3DBDA52826A48600F50F7F /* main.72d369ec.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = main.72d369ec.js; path = ../../../dist/main.72d369ec.js; sourceTree = "<group>"; };
-		CE3DBDA62826A48600F50F7F /* autoreload.8b981e35.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = autoreload.8b981e35.js; path = ../../../dist/autoreload.8b981e35.js; sourceTree = "<group>"; };
-		CE3DBDA72826A48600F50F7F /* icon64.9a4a7416.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon64.9a4a7416.png; path = ../../../dist/icon64.9a4a7416.png; sourceTree = "<group>"; };
-		CE3DBDA82826A48600F50F7F /* icon19.7d35ef7a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon19.7d35ef7a.png; path = ../../../dist/icon19.7d35ef7a.png; sourceTree = "<group>"; };
-		CE3DBDA92826A48600F50F7F /* icon16.d80de35f.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon16.d80de35f.png; path = ../../../dist/icon16.d80de35f.png; sourceTree = "<group>"; };
-		CE3DBDAA2826A48600F50F7F /* icon128.6b99e565.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon128.6b99e565.png; path = ../../../dist/icon128.6b99e565.png; sourceTree = "<group>"; };
+		CE3BA587282D7719005D4D0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
+		CE3BA588282D7719005D4D0E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		CE3BA589282D7719005D4D0E /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		CE3BA58A282D7719005D4D0E /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		CE3BA58B282D7719005D4D0E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CE3BA58C282D771C005D4D0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CE3BA58E282D771C005D4D0E /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		CE3BA593282D771C005D4D0E /* Eggs Enhancement Suite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Eggs Enhancement Suite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE3BA596282D771C005D4D0E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CE3BA598282D771C005D4D0E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		CE3BA59B282D771C005D4D0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CE3BA59E282D771C005D4D0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CE3BA5A0282D771C005D4D0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE3BA5A5282D771C005D4D0E /* Eggs Enhancement Suite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Eggs Enhancement Suite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE3BA5A7282D771C005D4D0E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CE3BA5AA282D771C005D4D0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CE3BA5AC282D771C005D4D0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE3BA5AD282D771C005D4D0E /* Eggs Enhancement Suite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Eggs Enhancement Suite.entitlements"; sourceTree = "<group>"; };
+		CE3BA5B2282D771C005D4D0E /* Eggs Enhancement Suite Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Eggs Enhancement Suite Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE3BA5B7282D771C005D4D0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE3BA5BC282D771C005D4D0E /* Eggs Enhancement Suite Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Eggs Enhancement Suite Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE3BA5C1282D771C005D4D0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE3BA5C2282D771C005D4D0E /* Eggs Enhancement Suite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Eggs Enhancement Suite.entitlements"; sourceTree = "<group>"; };
+		CE3BA5E2282D771C005D4D0E /* icon48.94f0a55a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon48.94f0a55a.png; path = ../../../dist/icon48.94f0a55a.png; sourceTree = "<group>"; };
+		CE3BA5E3282D771C005D4D0E /* icon32.c3065b79.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon32.c3065b79.png; path = ../../../dist/icon32.c3065b79.png; sourceTree = "<group>"; };
+		CE3BA5E4282D771C005D4D0E /* icon24.465ecfe6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon24.465ecfe6.png; path = ../../../dist/icon24.465ecfe6.png; sourceTree = "<group>"; };
+		CE3BA5E5282D771C005D4D0E /* popup.a3823e10.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.a3823e10.js; path = ../../../dist/popup.a3823e10.js; sourceTree = "<group>"; };
+		CE3BA5E6282D771C005D4D0E /* popup.8dbeb517.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.8dbeb517.html; path = ../../../dist/popup.8dbeb517.html; sourceTree = "<group>"; };
+		CE3BA5E7282D771C005D4D0E /* main.0b9faa01.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = main.0b9faa01.css; path = ../../../dist/main.0b9faa01.css; sourceTree = "<group>"; };
+		CE3BA5E8282D771C005D4D0E /* main.b3b97635.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = main.b3b97635.js; path = ../../../dist/main.b3b97635.js; sourceTree = "<group>"; };
+		CE3BA5E9282D771C005D4D0E /* useragent.0b4cf2e1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = useragent.0b4cf2e1.json; path = ../../../dist/useragent.0b4cf2e1.json; sourceTree = "<group>"; };
+		CE3BA5EA282D771C005D4D0E /* _metadata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _metadata; path = ../../../dist/_metadata; sourceTree = "<group>"; };
+		CE3BA5EB282D771C005D4D0E /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../dist/manifest.json; sourceTree = "<group>"; };
+		CE3BA5EC282D771C005D4D0E /* main.72d369ec.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = main.72d369ec.js; path = ../../../dist/main.72d369ec.js; sourceTree = "<group>"; };
+		CE3BA5ED282D771C005D4D0E /* autoreload.8b981e35.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = autoreload.8b981e35.js; path = ../../../dist/autoreload.8b981e35.js; sourceTree = "<group>"; };
+		CE3BA5EE282D771C005D4D0E /* icon64.9a4a7416.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon64.9a4a7416.png; path = ../../../dist/icon64.9a4a7416.png; sourceTree = "<group>"; };
+		CE3BA5EF282D771C005D4D0E /* icon19.7d35ef7a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon19.7d35ef7a.png; path = ../../../dist/icon19.7d35ef7a.png; sourceTree = "<group>"; };
+		CE3BA5F0282D771C005D4D0E /* icon16.d80de35f.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon16.d80de35f.png; path = ../../../dist/icon16.d80de35f.png; sourceTree = "<group>"; };
+		CE3BA5F1282D771C005D4D0E /* icon128.6b99e565.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon128.6b99e565.png; path = ../../../dist/icon128.6b99e565.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		CE3DBD482826A48500F50F7F /* Frameworks */ = {
+		CE3BA590282D771C005D4D0E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE3DBD5A2826A48500F50F7F /* Frameworks */ = {
+		CE3BA5A2282D771C005D4D0E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE3DBD672826A48500F50F7F /* Frameworks */ = {
+		CE3BA5AF282D771C005D4D0E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE3DBD712826A48500F50F7F /* Frameworks */ = {
+		CE3BA5B9282D771C005D4D0E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -182,120 +179,119 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CE3DBD372826A48500F50F7F = {
+		CE3BA57F282D7719005D4D0E = {
 			isa = PBXGroup;
 			children = (
-				CE3DBD3C2826A48500F50F7F /* Shared (App) */,
-				CE3DBD452826A48500F50F7F /* Shared (Extension) */,
-				CE3DBD4D2826A48500F50F7F /* iOS (App) */,
-				CE3DBD5E2826A48500F50F7F /* macOS (App) */,
-				CE3DBD6E2826A48500F50F7F /* iOS (Extension) */,
-				CE3DBD782826A48500F50F7F /* macOS (Extension) */,
-				CE3DBD4C2826A48500F50F7F /* Products */,
+				CE3BA584282D7719005D4D0E /* Shared (App) */,
+				CE3BA58D282D771C005D4D0E /* Shared (Extension) */,
+				CE3BA595282D771C005D4D0E /* iOS (App) */,
+				CE3BA5A6282D771C005D4D0E /* macOS (App) */,
+				CE3BA5B6282D771C005D4D0E /* iOS (Extension) */,
+				CE3BA5C0282D771C005D4D0E /* macOS (Extension) */,
+				CE3BA594282D771C005D4D0E /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		CE3DBD3C2826A48500F50F7F /* Shared (App) */ = {
+		CE3BA584282D7719005D4D0E /* Shared (App) */ = {
 			isa = PBXGroup;
 			children = (
-				CE3DBD432826A48500F50F7F /* ViewController.swift */,
-				CE3DBD442826A48500F50F7F /* Assets.xcassets */,
-				CE3DBD3D2826A48500F50F7F /* Resources */,
+				CE3BA58B282D7719005D4D0E /* ViewController.swift */,
+				CE3BA58C282D771C005D4D0E /* Assets.xcassets */,
+				CE3BA585282D7719005D4D0E /* Resources */,
 			);
 			path = "Shared (App)";
 			sourceTree = "<group>";
 		};
-		CE3DBD3D2826A48500F50F7F /* Resources */ = {
+		CE3BA585282D7719005D4D0E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CE3DBD3E2826A48500F50F7F /* Main.html */,
-				CE3DBD402826A48500F50F7F /* Icon.png */,
-				CE3DBD412826A48500F50F7F /* Style.css */,
-				CE3DBD422826A48500F50F7F /* Script.js */,
+				CE3BA586282D7719005D4D0E /* Main.html */,
+				CE3BA588282D7719005D4D0E /* Icon.png */,
+				CE3BA589282D7719005D4D0E /* Style.css */,
+				CE3BA58A282D7719005D4D0E /* Script.js */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		CE3DBD452826A48500F50F7F /* Shared (Extension) */ = {
+		CE3BA58D282D771C005D4D0E /* Shared (Extension) */ = {
 			isa = PBXGroup;
 			children = (
-				CE3DBD992826A48600F50F7F /* Resources */,
-				CE3DBD462826A48500F50F7F /* SafariWebExtensionHandler.swift */,
+				CE3BA5E1282D771C005D4D0E /* Resources */,
+				CE3BA58E282D771C005D4D0E /* SafariWebExtensionHandler.swift */,
 			);
 			path = "Shared (Extension)";
 			sourceTree = "<group>";
 		};
-		CE3DBD4C2826A48500F50F7F /* Products */ = {
+		CE3BA594282D771C005D4D0E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CE3DBD4B2826A48500F50F7F /* Eggs Enhancement Suite.app */,
-				CE3DBD5D2826A48500F50F7F /* Eggs Enhancement Suite.app */,
-				CE3DBD6A2826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */,
-				CE3DBD742826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */,
+				CE3BA593282D771C005D4D0E /* Eggs Enhancement Suite.app */,
+				CE3BA5A5282D771C005D4D0E /* Eggs Enhancement Suite.app */,
+				CE3BA5B2282D771C005D4D0E /* Eggs Enhancement Suite Extension.appex */,
+				CE3BA5BC282D771C005D4D0E /* Eggs Enhancement Suite Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CE3DBD4D2826A48500F50F7F /* iOS (App) */ = {
+		CE3BA595282D771C005D4D0E /* iOS (App) */ = {
 			isa = PBXGroup;
 			children = (
-				CE3DBD4E2826A48500F50F7F /* AppDelegate.swift */,
-				CE3DBD502826A48500F50F7F /* SceneDelegate.swift */,
-				CE3DBD522826A48500F50F7F /* LaunchScreen.storyboard */,
-				CE3DBD552826A48500F50F7F /* Main.storyboard */,
-				CE3DBD582826A48500F50F7F /* Info.plist */,
+				CE3BA596282D771C005D4D0E /* AppDelegate.swift */,
+				CE3BA598282D771C005D4D0E /* SceneDelegate.swift */,
+				CE3BA59A282D771C005D4D0E /* LaunchScreen.storyboard */,
+				CE3BA59D282D771C005D4D0E /* Main.storyboard */,
+				CE3BA5A0282D771C005D4D0E /* Info.plist */,
 			);
 			path = "iOS (App)";
 			sourceTree = "<group>";
 		};
-		CE3DBD5E2826A48500F50F7F /* macOS (App) */ = {
+		CE3BA5A6282D771C005D4D0E /* macOS (App) */ = {
 			isa = PBXGroup;
 			children = (
-				CE3DBD5F2826A48500F50F7F /* AppDelegate.swift */,
-				CE3DBD612826A48500F50F7F /* Main.storyboard */,
-				CE3DBD642826A48500F50F7F /* Info.plist */,
-				CE3DBD652826A48500F50F7F /* Eggs Enhancement Suite.entitlements */,
+				CE3BA5A7282D771C005D4D0E /* AppDelegate.swift */,
+				CE3BA5A9282D771C005D4D0E /* Main.storyboard */,
+				CE3BA5AC282D771C005D4D0E /* Info.plist */,
+				CE3BA5AD282D771C005D4D0E /* Eggs Enhancement Suite.entitlements */,
 			);
 			path = "macOS (App)";
 			sourceTree = "<group>";
 		};
-		CE3DBD6E2826A48500F50F7F /* iOS (Extension) */ = {
+		CE3BA5B6282D771C005D4D0E /* iOS (Extension) */ = {
 			isa = PBXGroup;
 			children = (
-				CE3DBD6F2826A48500F50F7F /* Info.plist */,
+				CE3BA5B7282D771C005D4D0E /* Info.plist */,
 			);
 			path = "iOS (Extension)";
 			sourceTree = "<group>";
 		};
-		CE3DBD782826A48500F50F7F /* macOS (Extension) */ = {
+		CE3BA5C0282D771C005D4D0E /* macOS (Extension) */ = {
 			isa = PBXGroup;
 			children = (
-				CE3DBD792826A48500F50F7F /* Info.plist */,
-				CE3DBD7A2826A48500F50F7F /* Eggs Enhancement Suite.entitlements */,
+				CE3BA5C1282D771C005D4D0E /* Info.plist */,
+				CE3BA5C2282D771C005D4D0E /* Eggs Enhancement Suite.entitlements */,
 			);
 			path = "macOS (Extension)";
 			sourceTree = "<group>";
 		};
-		CE3DBD992826A48600F50F7F /* Resources */ = {
+		CE3BA5E1282D771C005D4D0E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CE3DBD9A2826A48600F50F7F /* icon48.94f0a55a.png */,
-				CE3DBD9B2826A48600F50F7F /* icon32.c3065b79.png */,
-				CE3DBD9C2826A48600F50F7F /* playlist.aa7e3955.json */,
-				CE3DBD9D2826A48600F50F7F /* icon24.465ecfe6.png */,
-				CE3DBD9E2826A48600F50F7F /* popup.a3823e10.js */,
-				CE3DBD9F2826A48600F50F7F /* popup.8dbeb517.html */,
-				CE3DBDA02826A48600F50F7F /* main.0b9faa01.css */,
-				CE3DBDA12826A48600F50F7F /* main.b3b97635.js */,
-				CE3DBDA22826A48600F50F7F /* useragent.0b4cf2e1.json */,
-				CE3DBDA32826A48600F50F7F /* _metadata */,
-				CE3DBDA42826A48600F50F7F /* manifest.json */,
-				CE3DBDA52826A48600F50F7F /* main.72d369ec.js */,
-				CE3DBDA62826A48600F50F7F /* autoreload.8b981e35.js */,
-				CE3DBDA72826A48600F50F7F /* icon64.9a4a7416.png */,
-				CE3DBDA82826A48600F50F7F /* icon19.7d35ef7a.png */,
-				CE3DBDA92826A48600F50F7F /* icon16.d80de35f.png */,
-				CE3DBDAA2826A48600F50F7F /* icon128.6b99e565.png */,
+				CE3BA5E2282D771C005D4D0E /* icon48.94f0a55a.png */,
+				CE3BA5E3282D771C005D4D0E /* icon32.c3065b79.png */,
+				CE3BA5E4282D771C005D4D0E /* icon24.465ecfe6.png */,
+				CE3BA5E5282D771C005D4D0E /* popup.a3823e10.js */,
+				CE3BA5E6282D771C005D4D0E /* popup.8dbeb517.html */,
+				CE3BA5E7282D771C005D4D0E /* main.0b9faa01.css */,
+				CE3BA5E8282D771C005D4D0E /* main.b3b97635.js */,
+				CE3BA5E9282D771C005D4D0E /* useragent.0b4cf2e1.json */,
+				CE3BA5EA282D771C005D4D0E /* _metadata */,
+				CE3BA5EB282D771C005D4D0E /* manifest.json */,
+				CE3BA5EC282D771C005D4D0E /* main.72d369ec.js */,
+				CE3BA5ED282D771C005D4D0E /* autoreload.8b981e35.js */,
+				CE3BA5EE282D771C005D4D0E /* icon64.9a4a7416.png */,
+				CE3BA5EF282D771C005D4D0E /* icon19.7d35ef7a.png */,
+				CE3BA5F0282D771C005D4D0E /* icon16.d80de35f.png */,
+				CE3BA5F1282D771C005D4D0E /* icon128.6b99e565.png */,
 			);
 			name = Resources;
 			path = "Shared (Extension)";
@@ -304,51 +300,51 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CE3DBD4A2826A48500F50F7F /* Eggs Enhancement Suite (iOS) */ = {
+		CE3BA592282D771C005D4D0E /* Eggs Enhancement Suite (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CE3DBD8F2826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite (iOS)" */;
+			buildConfigurationList = CE3BA5D7282D771C005D4D0E /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite (iOS)" */;
 			buildPhases = (
-				CE3DBD472826A48500F50F7F /* Sources */,
-				CE3DBD482826A48500F50F7F /* Frameworks */,
-				CE3DBD492826A48500F50F7F /* Resources */,
-				CE3DBD8E2826A48600F50F7F /* Embed App Extensions */,
+				CE3BA58F282D771C005D4D0E /* Sources */,
+				CE3BA590282D771C005D4D0E /* Frameworks */,
+				CE3BA591282D771C005D4D0E /* Resources */,
+				CE3BA5D6282D771C005D4D0E /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				CE3DBD6D2826A48500F50F7F /* PBXTargetDependency */,
+				CE3BA5B5282D771C005D4D0E /* PBXTargetDependency */,
 			);
 			name = "Eggs Enhancement Suite (iOS)";
 			productName = "Eggs Enhancement Suite (iOS)";
-			productReference = CE3DBD4B2826A48500F50F7F /* Eggs Enhancement Suite.app */;
+			productReference = CE3BA593282D771C005D4D0E /* Eggs Enhancement Suite.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CE3DBD5C2826A48500F50F7F /* Eggs Enhancement Suite (macOS) */ = {
+		CE3BA5A4282D771C005D4D0E /* Eggs Enhancement Suite (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CE3DBD962826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite (macOS)" */;
+			buildConfigurationList = CE3BA5DE282D771C005D4D0E /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite (macOS)" */;
 			buildPhases = (
-				CE3DBD592826A48500F50F7F /* Sources */,
-				CE3DBD5A2826A48500F50F7F /* Frameworks */,
-				CE3DBD5B2826A48500F50F7F /* Resources */,
-				CE3DBD952826A48600F50F7F /* Embed App Extensions */,
+				CE3BA5A1282D771C005D4D0E /* Sources */,
+				CE3BA5A2282D771C005D4D0E /* Frameworks */,
+				CE3BA5A3282D771C005D4D0E /* Resources */,
+				CE3BA5DD282D771C005D4D0E /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				CE3DBD772826A48500F50F7F /* PBXTargetDependency */,
+				CE3BA5BF282D771C005D4D0E /* PBXTargetDependency */,
 			);
 			name = "Eggs Enhancement Suite (macOS)";
 			productName = "Eggs Enhancement Suite (macOS)";
-			productReference = CE3DBD5D2826A48500F50F7F /* Eggs Enhancement Suite.app */;
+			productReference = CE3BA5A5282D771C005D4D0E /* Eggs Enhancement Suite.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CE3DBD692826A48500F50F7F /* Eggs Enhancement Suite Extension (iOS) */ = {
+		CE3BA5B1282D771C005D4D0E /* Eggs Enhancement Suite Extension (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CE3DBD8B2826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite Extension (iOS)" */;
+			buildConfigurationList = CE3BA5D3282D771C005D4D0E /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite Extension (iOS)" */;
 			buildPhases = (
-				CE3DBD662826A48500F50F7F /* Sources */,
-				CE3DBD672826A48500F50F7F /* Frameworks */,
-				CE3DBD682826A48500F50F7F /* Resources */,
+				CE3BA5AE282D771C005D4D0E /* Sources */,
+				CE3BA5AF282D771C005D4D0E /* Frameworks */,
+				CE3BA5B0282D771C005D4D0E /* Resources */,
 			);
 			buildRules = (
 			);
@@ -356,16 +352,16 @@
 			);
 			name = "Eggs Enhancement Suite Extension (iOS)";
 			productName = "Eggs Enhancement Suite Extension (iOS)";
-			productReference = CE3DBD6A2826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */;
+			productReference = CE3BA5B2282D771C005D4D0E /* Eggs Enhancement Suite Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		CE3DBD732826A48500F50F7F /* Eggs Enhancement Suite Extension (macOS) */ = {
+		CE3BA5BB282D771C005D4D0E /* Eggs Enhancement Suite Extension (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CE3DBD922826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite Extension (macOS)" */;
+			buildConfigurationList = CE3BA5DA282D771C005D4D0E /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite Extension (macOS)" */;
 			buildPhases = (
-				CE3DBD702826A48500F50F7F /* Sources */,
-				CE3DBD712826A48500F50F7F /* Frameworks */,
-				CE3DBD722826A48500F50F7F /* Resources */,
+				CE3BA5B8282D771C005D4D0E /* Sources */,
+				CE3BA5B9282D771C005D4D0E /* Frameworks */,
+				CE3BA5BA282D771C005D4D0E /* Resources */,
 			);
 			buildRules = (
 			);
@@ -373,34 +369,34 @@
 			);
 			name = "Eggs Enhancement Suite Extension (macOS)";
 			productName = "Eggs Enhancement Suite Extension (macOS)";
-			productReference = CE3DBD742826A48500F50F7F /* Eggs Enhancement Suite Extension.appex */;
+			productReference = CE3BA5BC282D771C005D4D0E /* Eggs Enhancement Suite Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		CE3DBD382826A48500F50F7F /* Project object */ = {
+		CE3BA580282D7719005D4D0E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
-					CE3DBD4A2826A48500F50F7F = {
+					CE3BA592282D771C005D4D0E = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
-					CE3DBD5C2826A48500F50F7F = {
+					CE3BA5A4282D771C005D4D0E = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
-					CE3DBD692826A48500F50F7F = {
+					CE3BA5B1282D771C005D4D0E = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
-					CE3DBD732826A48500F50F7F = {
+					CE3BA5BB282D771C005D4D0E = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
 				};
 			};
-			buildConfigurationList = CE3DBD3B2826A48500F50F7F /* Build configuration list for PBXProject "Eggs Enhancement Suite" */;
+			buildConfigurationList = CE3BA583282D7719005D4D0E /* Build configuration list for PBXProject "Eggs Enhancement Suite" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -408,177 +404,175 @@
 				en,
 				Base,
 			);
-			mainGroup = CE3DBD372826A48500F50F7F;
-			productRefGroup = CE3DBD4C2826A48500F50F7F /* Products */;
+			mainGroup = CE3BA57F282D7719005D4D0E;
+			productRefGroup = CE3BA594282D771C005D4D0E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CE3DBD4A2826A48500F50F7F /* Eggs Enhancement Suite (iOS) */,
-				CE3DBD5C2826A48500F50F7F /* Eggs Enhancement Suite (macOS) */,
-				CE3DBD692826A48500F50F7F /* Eggs Enhancement Suite Extension (iOS) */,
-				CE3DBD732826A48500F50F7F /* Eggs Enhancement Suite Extension (macOS) */,
+				CE3BA592282D771C005D4D0E /* Eggs Enhancement Suite (iOS) */,
+				CE3BA5A4282D771C005D4D0E /* Eggs Enhancement Suite (macOS) */,
+				CE3BA5B1282D771C005D4D0E /* Eggs Enhancement Suite Extension (iOS) */,
+				CE3BA5BB282D771C005D4D0E /* Eggs Enhancement Suite Extension (macOS) */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CE3DBD492826A48500F50F7F /* Resources */ = {
+		CE3BA591282D771C005D4D0E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE3DBD7D2826A48500F50F7F /* Icon.png in Resources */,
-				CE3DBD542826A48500F50F7F /* LaunchScreen.storyboard in Resources */,
-				CE3DBD7B2826A48500F50F7F /* Main.html in Resources */,
-				CE3DBD812826A48500F50F7F /* Script.js in Resources */,
-				CE3DBD852826A48500F50F7F /* Assets.xcassets in Resources */,
-				CE3DBD572826A48500F50F7F /* Main.storyboard in Resources */,
-				CE3DBD7F2826A48500F50F7F /* Style.css in Resources */,
+				CE3BA5C5282D771C005D4D0E /* Icon.png in Resources */,
+				CE3BA59C282D771C005D4D0E /* LaunchScreen.storyboard in Resources */,
+				CE3BA5C3282D771C005D4D0E /* Main.html in Resources */,
+				CE3BA5C9282D771C005D4D0E /* Script.js in Resources */,
+				CE3BA5CD282D771C005D4D0E /* Assets.xcassets in Resources */,
+				CE3BA59F282D771C005D4D0E /* Main.storyboard in Resources */,
+				CE3BA5C7282D771C005D4D0E /* Style.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE3DBD5B2826A48500F50F7F /* Resources */ = {
+		CE3BA5A3282D771C005D4D0E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE3DBD7E2826A48500F50F7F /* Icon.png in Resources */,
-				CE3DBD802826A48500F50F7F /* Style.css in Resources */,
-				CE3DBD632826A48500F50F7F /* Main.storyboard in Resources */,
-				CE3DBD822826A48500F50F7F /* Script.js in Resources */,
-				CE3DBD862826A48500F50F7F /* Assets.xcassets in Resources */,
-				CE3DBD7C2826A48500F50F7F /* Main.html in Resources */,
+				CE3BA5C6282D771C005D4D0E /* Icon.png in Resources */,
+				CE3BA5C8282D771C005D4D0E /* Style.css in Resources */,
+				CE3BA5AB282D771C005D4D0E /* Main.storyboard in Resources */,
+				CE3BA5CA282D771C005D4D0E /* Script.js in Resources */,
+				CE3BA5CE282D771C005D4D0E /* Assets.xcassets in Resources */,
+				CE3BA5C4282D771C005D4D0E /* Main.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE3DBD682826A48500F50F7F /* Resources */ = {
+		CE3BA5B0282D771C005D4D0E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE3DBDCC2826A48600F50F7F /* icon128.6b99e565.png in Resources */,
-				CE3DBDC92826A48600F50F7F /* icon64.9a4a7416.png in Resources */,
-				CE3DBDBC2826A48600F50F7F /* icon48.94f0a55a.png in Resources */,
-				CE3DBDC02826A48600F50F7F /* popup.a3823e10.js in Resources */,
-				CE3DBDC12826A48600F50F7F /* popup.8dbeb517.html in Resources */,
-				CE3DBDC52826A48600F50F7F /* _metadata in Resources */,
-				CE3DBDC32826A48600F50F7F /* main.b3b97635.js in Resources */,
-				CE3DBDC62826A48600F50F7F /* manifest.json in Resources */,
-				CE3DBDCB2826A48600F50F7F /* icon16.d80de35f.png in Resources */,
-				CE3DBDC22826A48600F50F7F /* main.0b9faa01.css in Resources */,
-				CE3DBDC82826A48600F50F7F /* autoreload.8b981e35.js in Resources */,
-				CE3DBDCA2826A48600F50F7F /* icon19.7d35ef7a.png in Resources */,
-				CE3DBDBE2826A48600F50F7F /* playlist.aa7e3955.json in Resources */,
-				CE3DBDBD2826A48600F50F7F /* icon32.c3065b79.png in Resources */,
-				CE3DBDC72826A48600F50F7F /* main.72d369ec.js in Resources */,
-				CE3DBDBF2826A48600F50F7F /* icon24.465ecfe6.png in Resources */,
-				CE3DBDC42826A48600F50F7F /* useragent.0b4cf2e1.json in Resources */,
+				CE3BA60E282D771C005D4D0E /* icon64.9a4a7416.png in Resources */,
+				CE3BA60C282D771C005D4D0E /* main.72d369ec.js in Resources */,
+				CE3BA606282D771C005D4D0E /* popup.8dbeb517.html in Resources */,
+				CE3BA602282D771C005D4D0E /* icon48.94f0a55a.png in Resources */,
+				CE3BA60B282D771C005D4D0E /* manifest.json in Resources */,
+				CE3BA60D282D771C005D4D0E /* autoreload.8b981e35.js in Resources */,
+				CE3BA610282D771C005D4D0E /* icon16.d80de35f.png in Resources */,
+				CE3BA609282D771C005D4D0E /* useragent.0b4cf2e1.json in Resources */,
+				CE3BA611282D771C005D4D0E /* icon128.6b99e565.png in Resources */,
+				CE3BA608282D771C005D4D0E /* main.b3b97635.js in Resources */,
+				CE3BA605282D771C005D4D0E /* popup.a3823e10.js in Resources */,
+				CE3BA603282D771C005D4D0E /* icon32.c3065b79.png in Resources */,
+				CE3BA60A282D771C005D4D0E /* _metadata in Resources */,
+				CE3BA604282D771C005D4D0E /* icon24.465ecfe6.png in Resources */,
+				CE3BA607282D771C005D4D0E /* main.0b9faa01.css in Resources */,
+				CE3BA60F282D771C005D4D0E /* icon19.7d35ef7a.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE3DBD722826A48500F50F7F /* Resources */ = {
+		CE3BA5BA282D771C005D4D0E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE3DBDBB2826A48600F50F7F /* icon128.6b99e565.png in Resources */,
-				CE3DBDB82826A48600F50F7F /* icon64.9a4a7416.png in Resources */,
-				CE3DBDAB2826A48600F50F7F /* icon48.94f0a55a.png in Resources */,
-				CE3DBDAF2826A48600F50F7F /* popup.a3823e10.js in Resources */,
-				CE3DBDB02826A48600F50F7F /* popup.8dbeb517.html in Resources */,
-				CE3DBDB42826A48600F50F7F /* _metadata in Resources */,
-				CE3DBDB22826A48600F50F7F /* main.b3b97635.js in Resources */,
-				CE3DBDB52826A48600F50F7F /* manifest.json in Resources */,
-				CE3DBDBA2826A48600F50F7F /* icon16.d80de35f.png in Resources */,
-				CE3DBDB12826A48600F50F7F /* main.0b9faa01.css in Resources */,
-				CE3DBDB72826A48600F50F7F /* autoreload.8b981e35.js in Resources */,
-				CE3DBDB92826A48600F50F7F /* icon19.7d35ef7a.png in Resources */,
-				CE3DBDAD2826A48600F50F7F /* playlist.aa7e3955.json in Resources */,
-				CE3DBDAC2826A48600F50F7F /* icon32.c3065b79.png in Resources */,
-				CE3DBDB62826A48600F50F7F /* main.72d369ec.js in Resources */,
-				CE3DBDAE2826A48600F50F7F /* icon24.465ecfe6.png in Resources */,
-				CE3DBDB32826A48600F50F7F /* useragent.0b4cf2e1.json in Resources */,
+				CE3BA5FE282D771C005D4D0E /* icon64.9a4a7416.png in Resources */,
+				CE3BA5FC282D771C005D4D0E /* main.72d369ec.js in Resources */,
+				CE3BA5F6282D771C005D4D0E /* popup.8dbeb517.html in Resources */,
+				CE3BA5F2282D771C005D4D0E /* icon48.94f0a55a.png in Resources */,
+				CE3BA5FB282D771C005D4D0E /* manifest.json in Resources */,
+				CE3BA5FD282D771C005D4D0E /* autoreload.8b981e35.js in Resources */,
+				CE3BA600282D771C005D4D0E /* icon16.d80de35f.png in Resources */,
+				CE3BA5F9282D771C005D4D0E /* useragent.0b4cf2e1.json in Resources */,
+				CE3BA601282D771C005D4D0E /* icon128.6b99e565.png in Resources */,
+				CE3BA5F8282D771C005D4D0E /* main.b3b97635.js in Resources */,
+				CE3BA5F5282D771C005D4D0E /* popup.a3823e10.js in Resources */,
+				CE3BA5F3282D771C005D4D0E /* icon32.c3065b79.png in Resources */,
+				CE3BA5FA282D771C005D4D0E /* _metadata in Resources */,
+				CE3BA5F4282D771C005D4D0E /* icon24.465ecfe6.png in Resources */,
+				CE3BA5F7282D771C005D4D0E /* main.0b9faa01.css in Resources */,
+				CE3BA5FF282D771C005D4D0E /* icon19.7d35ef7a.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		CE3DBD472826A48500F50F7F /* Sources */ = {
+		CE3BA58F282D771C005D4D0E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE3DBD832826A48500F50F7F /* ViewController.swift in Sources */,
-				CE3DBD4F2826A48500F50F7F /* AppDelegate.swift in Sources */,
-				CE3DBD512826A48500F50F7F /* SceneDelegate.swift in Sources */,
+				CE3BA5CB282D771C005D4D0E /* ViewController.swift in Sources */,
+				CE3BA597282D771C005D4D0E /* AppDelegate.swift in Sources */,
+				CE3BA599282D771C005D4D0E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE3DBD592826A48500F50F7F /* Sources */ = {
+		CE3BA5A1282D771C005D4D0E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE3DBD842826A48500F50F7F /* ViewController.swift in Sources */,
-				CE3DBD602826A48500F50F7F /* AppDelegate.swift in Sources */,
+				CE3BA5CC282D771C005D4D0E /* ViewController.swift in Sources */,
+				CE3BA5A8282D771C005D4D0E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE3DBD662826A48500F50F7F /* Sources */ = {
+		CE3BA5AE282D771C005D4D0E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE3DBD872826A48500F50F7F /* SafariWebExtensionHandler.swift in Sources */,
+				CE3BA5CF282D771C005D4D0E /* SafariWebExtensionHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE3DBD702826A48500F50F7F /* Sources */ = {
+		CE3BA5B8282D771C005D4D0E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE3DBD882826A48500F50F7F /* SafariWebExtensionHandler.swift in Sources */,
+				CE3BA5D0282D771C005D4D0E /* SafariWebExtensionHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		CE3DBD6D2826A48500F50F7F /* PBXTargetDependency */ = {
+		CE3BA5B5282D771C005D4D0E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CE3DBD692826A48500F50F7F /* Eggs Enhancement Suite Extension (iOS) */;
-			targetProxy = CE3DBD6C2826A48500F50F7F /* PBXContainerItemProxy */;
+			target = CE3BA5B1282D771C005D4D0E /* Eggs Enhancement Suite Extension (iOS) */;
+			targetProxy = CE3BA5B4282D771C005D4D0E /* PBXContainerItemProxy */;
 		};
-		CE3DBD772826A48500F50F7F /* PBXTargetDependency */ = {
+		CE3BA5BF282D771C005D4D0E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CE3DBD732826A48500F50F7F /* Eggs Enhancement Suite Extension (macOS) */;
-			targetProxy = CE3DBD762826A48500F50F7F /* PBXContainerItemProxy */;
+			target = CE3BA5BB282D771C005D4D0E /* Eggs Enhancement Suite Extension (macOS) */;
+			targetProxy = CE3BA5BE282D771C005D4D0E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		CE3DBD3E2826A48500F50F7F /* Main.html */ = {
+		CE3BA586282D7719005D4D0E /* Main.html */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CE3DBD3F2826A48500F50F7F /* Base */,
+				CE3BA587282D7719005D4D0E /* Base */,
 			);
 			name = Main.html;
 			sourceTree = "<group>";
 		};
-		CE3DBD522826A48500F50F7F /* LaunchScreen.storyboard */ = {
+		CE3BA59A282D771C005D4D0E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CE3DBD532826A48500F50F7F /* Base */,
+				CE3BA59B282D771C005D4D0E /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		CE3DBD552826A48500F50F7F /* Main.storyboard */ = {
+		CE3BA59D282D771C005D4D0E /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CE3DBD562826A48500F50F7F /* Base */,
+				CE3BA59E282D771C005D4D0E /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		CE3DBD612826A48500F50F7F /* Main.storyboard */ = {
+		CE3BA5A9282D771C005D4D0E /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CE3DBD622826A48500F50F7F /* Base */,
+				CE3BA5AA282D771C005D4D0E /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -586,7 +580,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		CE3DBD892826A48500F50F7F /* Debug */ = {
+		CE3BA5D1282D771C005D4D0E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -644,7 +638,7 @@
 			};
 			name = Debug;
 		};
-		CE3DBD8A2826A48500F50F7F /* Release */ = {
+		CE3BA5D2282D771C005D4D0E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -695,7 +689,7 @@
 			};
 			name = Release;
 		};
-		CE3DBD8C2826A48600F50F7F /* Debug */ = {
+		CE3BA5D4282D771C005D4D0E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -725,7 +719,7 @@
 			};
 			name = Debug;
 		};
-		CE3DBD8D2826A48600F50F7F /* Release */ = {
+		CE3BA5D5282D771C005D4D0E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -756,7 +750,7 @@
 			};
 			name = Release;
 		};
-		CE3DBD902826A48600F50F7F /* Debug */ = {
+		CE3BA5D8282D771C005D4D0E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -793,7 +787,7 @@
 			};
 			name = Debug;
 		};
-		CE3DBD912826A48600F50F7F /* Release */ = {
+		CE3BA5D9282D771C005D4D0E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -831,7 +825,7 @@
 			};
 			name = Release;
 		};
-		CE3DBD932826A48600F50F7F /* Debug */ = {
+		CE3BA5DB282D771C005D4D0E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Eggs Enhancement Suite.entitlements";
@@ -862,7 +856,7 @@
 			};
 			name = Debug;
 		};
-		CE3DBD942826A48600F50F7F /* Release */ = {
+		CE3BA5DC282D771C005D4D0E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Eggs Enhancement Suite.entitlements";
@@ -893,7 +887,7 @@
 			};
 			name = Release;
 		};
-		CE3DBD972826A48600F50F7F /* Debug */ = {
+		CE3BA5DF282D771C005D4D0E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -928,7 +922,7 @@
 			};
 			name = Debug;
 		};
-		CE3DBD982826A48600F50F7F /* Release */ = {
+		CE3BA5E0282D771C005D4D0E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -966,52 +960,52 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CE3DBD3B2826A48500F50F7F /* Build configuration list for PBXProject "Eggs Enhancement Suite" */ = {
+		CE3BA583282D7719005D4D0E /* Build configuration list for PBXProject "Eggs Enhancement Suite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CE3DBD892826A48500F50F7F /* Debug */,
-				CE3DBD8A2826A48500F50F7F /* Release */,
+				CE3BA5D1282D771C005D4D0E /* Debug */,
+				CE3BA5D2282D771C005D4D0E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CE3DBD8B2826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite Extension (iOS)" */ = {
+		CE3BA5D3282D771C005D4D0E /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite Extension (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CE3DBD8C2826A48600F50F7F /* Debug */,
-				CE3DBD8D2826A48600F50F7F /* Release */,
+				CE3BA5D4282D771C005D4D0E /* Debug */,
+				CE3BA5D5282D771C005D4D0E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CE3DBD8F2826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite (iOS)" */ = {
+		CE3BA5D7282D771C005D4D0E /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CE3DBD902826A48600F50F7F /* Debug */,
-				CE3DBD912826A48600F50F7F /* Release */,
+				CE3BA5D8282D771C005D4D0E /* Debug */,
+				CE3BA5D9282D771C005D4D0E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CE3DBD922826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite Extension (macOS)" */ = {
+		CE3BA5DA282D771C005D4D0E /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite Extension (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CE3DBD932826A48600F50F7F /* Debug */,
-				CE3DBD942826A48600F50F7F /* Release */,
+				CE3BA5DB282D771C005D4D0E /* Debug */,
+				CE3BA5DC282D771C005D4D0E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CE3DBD962826A48600F50F7F /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite (macOS)" */ = {
+		CE3BA5DE282D771C005D4D0E /* Build configuration list for PBXNativeTarget "Eggs Enhancement Suite (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CE3DBD972826A48600F50F7F /* Debug */,
-				CE3DBD982826A48600F50F7F /* Release */,
+				CE3BA5DF282D771C005D4D0E /* Debug */,
+				CE3BA5E0282D771C005D4D0E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = CE3DBD382826A48500F50F7F /* Project object */;
+	rootObject = CE3BA580282D7719005D4D0E /* Project object */;
 }
