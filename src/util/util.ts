@@ -53,3 +53,5 @@ export async function getEggsHeaders(isAuthorizedRequest:boolean = false):Promis
     deviceName: "SM-G977N"
   };
 };
+
+export const processedPathname = () => "/" + window.location.pathname.split("/").filter((_,i)=>i%2).join("/")
