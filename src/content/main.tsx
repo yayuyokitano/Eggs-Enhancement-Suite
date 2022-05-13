@@ -36,7 +36,7 @@ function App() {
     }
   });
 
-  initializeLoginButtons();
+  initializeLoginButtons(t);
 
   return Element(t);
 
