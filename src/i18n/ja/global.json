@@ -25,7 +25,14 @@
       "interview": "インタビュー",
       "news": "ニュース"
     },
-    "ranking": "ランキング"
+    "ranking": "ランキング",
+    "search": {
+      "artist": "アーティスト検索",
+      "keyword": "フリーワードで探す",
+      "placeholder": "アーティスト名を入力",
+      "genre": "ジャンルから探す",
+      "prefecture": "地域から探す"
+    }
   },
   "genre": {
     "1": "ポップ",
@@ -47,6 +54,14 @@
     "language": "言語"
   },
   "prefecture": {
+    "region": {
+      "hokkaidoTohoku": "北海道・東北",
+      "kanto": "関東",
+      "chubu": "中部",
+      "kansai": "関西",
+      "chugokuShikoku": "中国・四国",
+      "kyushuOkinawa": "九州・沖縄"
+    },
     "1": "北海道",
     "2": "青森県",
     "3": "岩手県",

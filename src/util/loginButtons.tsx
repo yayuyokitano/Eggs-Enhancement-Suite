@@ -3,7 +3,7 @@ import arrive from "arrive";
 import { HeaderSubmenu } from '../App/components/header';
 arrive
 
-export async function initializeLoginButtons() {
+export async function initializeHeader() {
 
   const rootSelector = ".hedInner";
   document.arrive(rootSelector, {onceOnly: true, existing: true}, function() {

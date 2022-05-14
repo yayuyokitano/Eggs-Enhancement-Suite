@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import "../App/home/home.scss";
 import "../App/global/global.scss"
 import browser from 'webextension-polyfill';
-import { initializeLoginButtons } from '../util/loginButtons';
+import { initializeHeader } from '../util/loginButtons';
 import arrive from "arrive";
 import { createSpa } from '../App/player/spa';
 import { endpoints } from '../util/endpoints';
@@ -21,20 +21,7 @@ function App() {
     return <p>An error occurred while loading Eggs Enhancement Suite, please try refreshing.</p>;
   }
 
-  const { t, i18n } = useTranslation([...translations, "global"]);
-
-  useEffect(() => {
-    function handleMessage(message:any) {
-      if (message.type === "changeLanguage") {
-        console.log("change language to " + message.lang);
-        i18n.changeLanguage(message.lang);
-      }
-    }
-    browser.runtime.onMessage.addListener(handleMessage);
-    return () => {
-      browser.runtime.onMessage.removeListener(handleMessage);
-    }
-  });
+  const { t } = useTranslation([...translations, "global"]);
 
   return Element(t);
 
@@ -49,12 +36,13 @@ async function loadContent() {
     createSpa();
     return;
   }
+
+  initializeHeader();
+
   const rootSelector = endpoints[processedPathname()]?.rootSelector;
   if (typeof rootSelector === "undefined") {
     return;
   }
-
-  initializeLoginButtons();
 
   document.arrive(rootSelector, {onceOnly: true, existing: true}, function() {
     const root = ReactDOM.createRoot(this);

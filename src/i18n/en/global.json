@@ -25,7 +25,14 @@
       "interview": "Interview",
       "news": "News"
     },
-    "ranking": "Ranking"
+    "ranking": "Ranking",
+    "search": {
+      "artist": "Artist Search",
+      "keyword": "Keyword Search",
+      "placeholder": "Please enter an artist name",
+      "genre": "Search by genre",
+      "prefecture": "Search by prefecture"
+    }
   },
   "genre": {
     "1": "Pop",
@@ -47,6 +54,14 @@
     "language": "Language"
   },
   "prefecture": {
+    "region": {
+      "hokkaidoTohoku": "Hokkaido and Tohoku",
+      "kanto": "Kanto",
+      "chubu": "Chubu",
+      "kansai": "Kansai",
+      "chugokuShikoku": "Chugoku and Shikoku",
+      "kyushuOkinawa": "Kyushu and Okinawa"
+    },
     "1": "Hokkaido",
     "2": "Aomori",
     "3": "Iwate",

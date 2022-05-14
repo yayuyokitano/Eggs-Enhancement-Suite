@@ -21,7 +21,7 @@ export function Artist(t:TFunction) {
       setData(artistData);
       setLoading(false);
       if (ref.current === null) {
-        return <p>error occured</p>;
+        return <p>{t("general.error")}</p>;
       }
       ref.current.appendChild(artistElement);
     })
@@ -30,7 +30,7 @@ export function Artist(t:TFunction) {
   if (isLoading) return (
     <div id="ees-artist">
       <div ref={ref} />
-      Loading
+      {t("general.loading")}
     </div>
   );
 
