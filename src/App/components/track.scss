@@ -21,16 +21,40 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 5px;
+    gap: 3px;
 
     .ees-track-title {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
     }
 
     .ees-artist-name {
       font-size: 0.7rem;
       color: #666;
-      margin-bottom: 7px;
+      margin-bottom: 6px;
+    }
+
+    .ees-track-details{
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 11px;
+
+      .ees-data-icon {
+        width: 12px;
+        height: 12px;
+      }
+      .ees-data-count {
+        font-size: 12px;
+        margin-left: 3px;
+      }
+
+      &>div {
+        display: flex;
+        align-items: center;
+
+        &:not(:last-child) .ees-data-count::after {
+          content: "・";
+        }
+      }
     }
   }
 
