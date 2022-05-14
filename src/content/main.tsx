@@ -36,8 +36,6 @@ function App() {
     }
   });
 
-  initializeLoginButtons(t);
-
   return Element(t);
 
 	/*return (
@@ -55,6 +53,8 @@ async function loadContent() {
   if (typeof rootSelector === "undefined") {
     return;
   }
+
+  initializeLoginButtons();
 
   document.arrive(rootSelector, {onceOnly: true, existing: true}, function() {
     const root = ReactDOM.createRoot(this);

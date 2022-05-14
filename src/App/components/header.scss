@@ -1,0 +1,79 @@
+#ees-header {
+  display: flex;
+  align-items: center;
+  height: 60px;
+
+  .logo>a {
+    margin: 0;
+  }
+
+  #nav-toggle {
+    position: static;
+    width: 60px;
+    height: 60px;
+    padding: 20px 18px;
+
+    * {
+      width: 24px;
+    }
+  }
+
+  .ees-icon {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .ees-username {
+    margin-left: 10px;
+  }
+
+}
+
+@media screen and (max-width: 1010px) {
+  #ees-header {
+
+    .globalnav {
+      margin-top: 51px;
+      height: auto;
+  
+      &.hidden {
+        height: 0;
+      }
+    }
+
+    .gn_submenu {
+      animation: slide-out 300ms cubic-bezier(0,1,0,1);
+      display: block;
+      overflow: hidden;
+    }
+
+    .open {
+      .gn_submenu {
+        animation: slide-in 300ms cubic-bezier(1,0,1,0);
+      }
+    }
+
+    .ees-submenu-parent:not(.open) .gn_submenu.transitioned {
+      display: none;
+    }
+
+  }
+}
+
+@keyframes slide-in {
+  from {
+    max-height: 0;
+  }
+  to {
+    max-height: 9999px;
+  }
+}
+
+@keyframes slide-out {
+  from {
+    max-height: 9999px;
+  }
+  to {
+    max-height: 0;
+  }
+}

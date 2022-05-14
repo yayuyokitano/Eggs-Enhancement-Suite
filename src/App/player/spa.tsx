@@ -9,7 +9,6 @@ export function createSpa() {
 
 function updateSpa(event:SyntheticEvent<HTMLIFrameElement, Event>) {
   const url = event.currentTarget.contentWindow?.location.href;
-  console.log(url);
   if (typeof url !== "undefined") {
     history.replaceState(null, "", url);
   }

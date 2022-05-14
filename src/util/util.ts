@@ -35,7 +35,6 @@ export async function getEggsHeaders(isAuthorizedRequest:boolean = false):Promis
   deviceName: string;
 }> {
   if (isAuthorizedRequest) {
-    console.log(await getToken());
     return {
       "User-Agent": eggsUserAgent,
       Apversion: "7.0.02",

@@ -18,7 +18,7 @@ async function mobileLogin() {
 export function Login(t:TFunction) {
   return (
     <div className="form-control pt30p pb50p">
-      <button type="button" onClick={mobileLogin} className="button w100">{t("login")}</button>
+      <button type="button" onClick={mobileLogin} className="button w100">{t("global:general.login")}</button>
       <p>{t("disclaimer")}</p>
     </div>
   )

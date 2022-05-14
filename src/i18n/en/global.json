@@ -1,4 +1,47 @@
 {
+  "general": {
+    "loading": "Loading...",
+    "error": "An error has occured",
+    "login": "Login",
+    "logoAlt": "Eggs | Japanese Indie Band Music Distribution Site",
+    "artist": {
+      "singular": "Artist",
+      "plural": "Artists"
+    },
+    "song": {
+      "singular": "Song",
+      "plural": "Songs"
+    }
+  },
+  "nav": {
+    "about": "About Eggs",
+    "projects": "Auditions and Campaigns",
+    "news": {
+      "title": "News",
+      "towerPush": "Tower Records Push",
+      "liveReport": "Live Report",
+      "column": "Column",
+      "curator": "Curator",
+      "interview": "Interview",
+      "news": "News"
+    },
+    "ranking": "Ranking"
+  },
+  "genre": {
+    "1": "Pop",
+    "2": "Singer-Songwriter",
+    "3": "Rock",
+    "4": "Punk and Hardcore",
+    "5": "Alternative",
+    "6": "Guitar Rock",
+    "7": "Hard rock and Metal",
+    "8": "Mixture",
+    "9": "Dance and EDM",
+    "10": "Rap and Hip-Hop",
+    "11": "Jazz",
+    "12": "R&B",
+    "13": "Reggae"
+  },
   "popup": {
     "helloWorld": "Hello World!",
     "language": "Language"
@@ -51,20 +94,5 @@
     "45": "Miyazaki",
     "46": "Kagoshima",
     "47": "Okinawa"
-  },
-  "genre": {
-    "1": "Pop",
-    "2": "Singer-Songwriter",
-    "3": "Rock",
-    "4": "Punk and Hardcore",
-    "5": "Alternative",
-    "6": "Guitar Rock",
-    "7": "Hard rock and Metal",
-    "8": "Mixture",
-    "9": "Dance and EDM",
-    "10": "Rap and Hip-Hop",
-    "11": "Jazz",
-    "12": "R&B",
-    "13": "Reggae"
   }
 }

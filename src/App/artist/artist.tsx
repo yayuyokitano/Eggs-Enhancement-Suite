@@ -5,7 +5,6 @@ import "./artist.scss";
 
 export function Artist(t:TFunction) {
   const artistElement = document.getElementsByClassName("header_mypage_wrapper")[0];
-  console.log(artistElement);
   
   const artistID = window.location.pathname.split("/")[2];
 

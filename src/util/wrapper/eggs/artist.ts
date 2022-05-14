@@ -15,7 +15,7 @@ interface ArtistData {
   genreId1: number|null,
   genreId2: number|null,
   genreOther: number|null,
-  imageDataPath: string,
+  imageDataPath: string|null,
   isDeliveryNews: number,
   label: string|null,
   mail: string,
@@ -36,7 +36,7 @@ interface SongData {
   copyrightManagement: number
   explanation: string|null,
   genreId: number|null,
-  imageDataPath: string,
+  imageDataPath: string|null,
   inspectionStatus: string,
   isFollowerOnly: number,
   isInstrumental: number,
