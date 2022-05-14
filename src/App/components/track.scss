@@ -1,0 +1,16 @@
+.ees-track {
+
+  .ees-track-thumb {
+    object-fit: cover;
+  }
+
+  &.ees-track-normal {
+    .ees-track-thumb {
+      width: 100px;
+      height: 100px;
+    }
+    
+
+  }
+
+}

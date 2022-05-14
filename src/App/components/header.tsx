@@ -1,4 +1,4 @@
-import { getToken } from "../../util/util";
+import { defaultAvatar, getToken } from "../../util/util";
 import { profile } from "../../util/wrapper/eggs/users";
 import React, { useEffect, useState } from "react";
 import "../../i18n/config";
@@ -14,7 +14,6 @@ interface User {
   isLoggedIn: boolean;
 }
 
-const DEFAULT_AVATAR = "https://eggs.mu/wp-content/themes/eggs/assets/img/common/signin.png";
 const Logo = () => (
   <div className="logo">
     <a href="/">
@@ -97,7 +96,7 @@ export function UserComponent(props:{t:TFunction}) {
 
   return (
     <div id="ees-user">
-      <img className="ees-icon" src={user.imageDataPath ?? DEFAULT_AVATAR} />
+      <img className="ees-icon" src={user.imageDataPath ?? defaultAvatar} />
       <span className="ees-username">{user.displayName}</span>
     </div>
   )

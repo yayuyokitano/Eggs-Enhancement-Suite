@@ -27,7 +27,7 @@ interface ArtistData {
   twitterScreenName: string|null,
 }
 
-interface SongData {
+export interface SongData {
   artistData: ArtistData,
   cmoComposer: string|null,
   cmoLyricist: string|null,

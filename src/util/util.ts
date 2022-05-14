@@ -19,6 +19,7 @@ export async function getToken() {
 export const eggsRoot = "https://api-flmg.eggs.mu/v1/";
 export const eggsSelector = "https://api-flmg.eggs.mu/v1/*";
 export const eggsUserAgent = "flamingo/7.0.02 (Android; 11)";
+export const defaultAvatar = "https://eggs.mu/wp-content/themes/eggs/assets/img/common/signin.png";
 
 export async function getEggsHeaders(isAuthorizedRequest:boolean = false):Promise<{
   "User-Agent": string;
