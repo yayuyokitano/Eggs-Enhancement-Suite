@@ -21,18 +21,7 @@ describe("Login successfully", () => {
     cy.visit("https://eggs.mu/");
 
     cyFrame(() => {
-      cy.get(".btn .m-artist_txt").should("have.text", "auoktn");
-    
-      //display menu if on mobile resolution
-      try {
-        cy.get("#user_icon_sp").click();
-      } catch {
-  
-      }
-  
-      cy.get("#loggedin").scrollIntoView().should("be.visible");
-      cy.get("#gn_signin").should("not.be.visible");
-      cy.get("#gn_login").should("not.be.visible");
+      cy.get(".ees-username").should("have.text", "auoktn");
     });
   });
 })

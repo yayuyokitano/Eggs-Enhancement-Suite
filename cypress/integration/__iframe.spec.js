@@ -19,7 +19,7 @@ describe("Test iframe creation", () => {
     cy.get("#ees-state").invoke("text").then((state) => {
 
       cyFrame(() => {
-        cy.get("#nav-toggle-signin .artistSearchBtn:visible").click();
+        cy.get(".artistSearchBtn:visible").click();
         cy.get(".js-artistSearch").type("KITANO REM");
         cy.get("#freewordSearch>.js-artistSearchBtn").click();
         cy.url().should("eq", "https://eggs.mu/search?searchKeyword=KITANO+REM");
