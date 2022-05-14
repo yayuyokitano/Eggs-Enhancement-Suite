@@ -21,7 +21,10 @@ export function Track(props:{track:SongData, size:"normal"}) {
       onClick={() => {setPlayback(track)}}
     >
       <img className="ees-track-thumb" src={track.imageDataPath ?? track.artistData.imageDataPath ?? defaultAvatar} alt="" />
-      <p>{track.musicTitle}</p>
+      <div className="ees-track-info">
+        <span className="ees-track-title">{track.musicTitle}</span>
+        <span className="ees-artist-name">{track.artistData.displayName}</span>
+      </div>
     </li>
   )
 }

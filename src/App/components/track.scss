@@ -1,7 +1,37 @@
 .ees-track {
 
+  display: flex;
+  cursor: pointer;
+  padding: 4px;
+
+  &:hover {
+    background-color: #FDD001;
+
+    .ees-track-info .ees-artist-name {
+      color: #D60010;
+    }
+  }
+
   .ees-track-thumb {
     object-fit: cover;
+    margin-right: 24px;
+  }
+
+  .ees-track-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+
+    .ees-track-title {
+      font-size: 1.4rem;
+    }
+
+    .ees-artist-name {
+      font-size: 0.7rem;
+      color: #666;
+      margin-bottom: 7px;
+    }
   }
 
   &.ees-track-normal {
