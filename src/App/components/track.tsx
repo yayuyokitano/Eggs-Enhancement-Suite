@@ -5,6 +5,7 @@ import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import ModeCommentRoundedIcon from '@mui/icons-material/ModeCommentRounded';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import "./track.scss";
+import zIndex from "@mui/material/styles/zIndex";
 
 function setPlayback(e:React.MouseEvent<HTMLLIElement, MouseEvent>, track:SongData) {
   if ((e.target as HTMLElement)?.closest(".ees-track-expandable")) return;
@@ -28,8 +29,8 @@ function setPlayback(e:React.MouseEvent<HTMLLIElement, MouseEvent>, track:SongDa
   }, "*");
 }
 
-export function Track(props:{track:SongData, size:"normal"}) {
-  const {track, size} = props;
+export function Track(props:{track:SongData, size:"normal", z:number}) {
+  const {track, size, z} = props;
   return (
     <li
       key={track.musicId}
@@ -58,7 +59,7 @@ export function Track(props:{track:SongData, size:"normal"}) {
 
         </div>
       </div>
-      <details className="ees-track-expandable">
+      <details style={{zIndex: z}} className="ees-track-expandable">
         <summary><MoreVertRoundedIcon /></summary>
         <ul className="ees-track-menu">
           <li>hallo</li>
