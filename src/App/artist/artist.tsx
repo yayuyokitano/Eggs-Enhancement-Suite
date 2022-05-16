@@ -39,7 +39,7 @@ export function Artist(t:TFunction) {
     <div id="ees-artist">
       <div ref={ref} />
       <h2>{t("general.song.plural")}</h2>
-      <ul id="ees-song-list">
+      <ul id="ees-song-list" className="ees-track-container">
         {data?.data.map((song) => (<Track track={song} size="normal" />))}
       </ul>
     </div>

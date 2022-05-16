@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import "../i18n/config";
 import { useTranslation } from 'react-i18next';
 import "../App/home/home.scss";
 import "../App/global/global.scss"
-import browser from 'webextension-polyfill';
 import { initializeHeader } from '../util/loginButtons';
 import arrive from "arrive";
 import { createSpa } from '../App/player/spa';
@@ -50,4 +49,5 @@ async function loadContent() {
   });
 }
 loadContent();
+
 export {};

@@ -5,12 +5,26 @@ import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import ModeCommentRoundedIcon from '@mui/icons-material/ModeCommentRounded';
 import "./track.scss";
 
-function setPlayback(track:SongData) {
-  window.postMessage({
+function setPlayback(e:React.MouseEvent<HTMLLIElement, MouseEvent>, track:SongData) {
+
+  const trackElements = e.currentTarget.closest(".ees-track-container")?.querySelectorAll(".ees-track");
+  if (!trackElements) return;
+
+  let trackList:SongData[] = [];
+  for (const trackElement of trackElements) {
+    if (!(trackElement instanceof HTMLElement)) continue;
+    if (trackElement.dataset.track) trackList.push(JSON.parse(trackElement.dataset.track ?? "{}"));
+  }
+
+  console.log("a");
+  console.log(window);
+  console.log(window.parent);
+  window.parent.postMessage({
     type: "trackUpdate",
     data: {
       type: "setPlayback",
-      track
+      track,
+      trackList
     }
   }, "*");
 }
@@ -21,7 +35,8 @@ export function Track(props:{track:SongData, size:"normal"}) {
     <li
       key={track.musicId}
       className={`ees-track ees-track-${size}`}
-      onClick={() => {setPlayback(track)}}
+      data-track={JSON.stringify(track)}
+      onClick={(e) => {setPlayback(e, track)}}
     >
       <img className="ees-track-thumb" src={track.imageDataPath ?? track.artistData.imageDataPath ?? defaultAvatar} alt="" />
       <div className="ees-track-info">
