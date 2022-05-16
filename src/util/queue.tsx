@@ -38,8 +38,10 @@ type AudioEmitter = {
 }
 
 class SongElement {
+
   private element:HTMLAudioElement;
   public audioEmitter = new EventEmitter() as TypedEmitter<AudioEmitter>;
+
   constructor(url:string) {
     this.element = new Audio(url);
   }
@@ -49,10 +51,7 @@ class SongElement {
     this.element.onended = () => {this.audioEmitter.emit("ended")};
   }
 
-  public pause() {
-    this.element.pause();
-  }
-
+  public pause = () => { this.element.pause(); }
 
 }
 
@@ -86,13 +85,9 @@ export class Queue {
     delete this.currentElement;
   }
 
-  public play() {
-    this.currentElement?.play();
-  }
+  public play = () => { this.currentElement?.play(); }
 
-  public pause() {
-    this.currentElement?.pause();
-  }
+  public pause = () => { this.currentElement?.pause(); }
 
   public next() {
     this.pause();
@@ -110,16 +105,6 @@ export class Queue {
     this.play();
   }
 
-  private get current() {
-    return this._current;
-  }
-
-  private set current(track:SongData) {
-    this._current = track;
-    this.currentElement = new SongElement(this.current.musicDataPath);
-    this.currentElement.audioEmitter.on("ended", () => { this.next(); })
-  }
-
   public pop() {
     let newTrack:SongData|undefined;
     if (this.innerOverrideQueue.length > 0) {
@@ -134,21 +119,7 @@ export class Queue {
     this.populate();
   }
 
-  public set shuffle(value:boolean) {
-    this._shuffle = value;
-    this.empty();
-    this.populate();
-  }
-  
-  public set repeat(value:Repeat) {
-    this._repeat = value;
-    this.empty();
-    this.populate();
-  }
-
-  private empty() {
-    this.innerQueue.empty();
-  }
+  private empty = () => { this.innerQueue.empty(); }
 
   // prepare DOM so audio can preload using react
   private preload() {
@@ -158,7 +129,8 @@ export class Queue {
   }
 
   private populate() {
-    if (this._repeat === Repeat.None) {
+
+    if (this._repeat === Repeat.None || this.innerQueue.length > 50) {
       return;
     }
 
@@ -187,10 +159,7 @@ export class Queue {
       }
     }
     this.preload();
-  }
 
-  public get length() {
-    return this.innerQueue.length + this.innerOverrideQueue.length;
   }
   
   public get(count:number) {
@@ -203,35 +172,51 @@ export class Queue {
     ];
   }
 
-  public playNext(track:SongData) {
-    this.innerOverrideQueue.playNext(track);
+  public playNext = (track:SongData) => { this.innerOverrideQueue.playNext(track); }
+
+  public addToQueue =(track:SongData) => { this.innerOverrideQueue.add(track); }
+
+  get length() {
+    return this.innerQueue.length + this.innerOverrideQueue.length;
   }
 
-  public addToQueue(track:SongData) {
-    this.innerOverrideQueue.add(track);
+  set shuffle(value:boolean) {
+    this._shuffle = value;
+    this.empty();
+    this.populate();
   }
+  
+  set repeat(value:Repeat) {
+    this._repeat = value;
+    this.empty();
+    this.populate();
+  }
+
+  private get current() {
+    return this._current;
+  }
+
+  private set current(track:SongData) {
+    this._current = track;
+    this.currentElement = new SongElement(this.current.musicDataPath);
+    this.currentElement.audioEmitter.on("ended", () => { this.next(); })
+  }
+
 }
 
 class InnerQueue {
   protected queue:SongData[] = [];
-  public get length() {
+
+  public empty = () => { this.queue = []; }
+
+  public add = (...songs:SongData[]) => this.queue.push(...songs);
+
+  public pop = () => this.queue.shift();
+
+  public get = (count:number) => this.queue.slice(0, count);
+
+  get length() {
     return this.queue.length;
-  }
-
-  public empty() {
-    this.queue = [];
-  }
-
-  public add(...songs:SongData[]) {
-    this.queue.push(...songs);
-  }
-
-  public pop() {
-    return this.queue.shift();
-  }
-
-  public get(count:number) {
-    return this.queue.slice(0, count);
   }
 
 }
@@ -252,19 +237,13 @@ class HistoryStack {
     }
   }
 
-  public pop() {
-    return this.stack.pop();
-  }
+  public pop = () => this.stack.pop();
+
+  get = (count:number) => this.stack.slice(-count);
+
+  empty = () => { this.stack = []; }
 
   get length() {
     return this.stack.length;
-  }
-
-  get(count:number) {
-    return this.stack.slice(-count);
-  }
-
-  empty() {
-    this.stack = [];
   }
 }
