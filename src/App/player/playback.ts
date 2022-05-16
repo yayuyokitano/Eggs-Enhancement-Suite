@@ -1,13 +1,15 @@
+import ReactDOM from "react-dom/client";
+
 import { Queue, Repeat } from "../../util/queue";
 import { SongData } from "../../util/wrapper/eggs/artist";
 
-export function initializePlayback() {
-  const playbackController = new PlaybackController(document.getElementById("ees-audio-container")!, true, Repeat.All);
+export function initializePlayback(playbackController:PlaybackController, root:ReactDOM.Root) {
+  playbackController = new PlaybackController(root, true, Repeat.All);
   window.addEventListener("message", (event) => {
     if (event.origin !== window.location.origin) {
       return;
     }
-    console.log("ping: ", event.data);
+
     if (event.data.type !== "trackUpdate") {
       return;
     }
@@ -19,21 +21,40 @@ export function initializePlayback() {
         break;
     }
   });
+  return playbackController;
 }
 
-class PlaybackController {
+export class PlaybackController {
   queue:Queue|undefined;
   shuffle:boolean;
   repeat:Repeat;
-  root:HTMLElement;
+  root:ReactDOM.Root;
 
-  constructor(root:HTMLElement, shuffle:boolean, repeat:Repeat) {
+  constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat) {
     this.shuffle = shuffle;
     this.repeat = repeat;
     this.root = root;
   }
 
   public setPlayback(initialQueue:SongData[], initialElement:SongData) {
+    this.queue?.destroy();
     this.queue = new Queue(initialQueue, initialElement, this.root, this.shuffle, this.repeat);
+    this.play();
+  }
+
+  public play() {
+    this.queue?.play();
+  }
+
+  public pause() {
+    this.queue?.pause();
+  }
+
+  public next() {
+    this.queue?.next();
+  }
+
+  public previous() {
+    this.queue?.previous();
   }
 }

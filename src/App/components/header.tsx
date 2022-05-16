@@ -180,7 +180,7 @@ function ArtistSearch(props: {t:TFunction}) {
             <h3>{t("nav.search.keyword")}</h3>
             <form id="freewordSearch" action="/search" method="get">
               <input type="text" max="30" name="searchKeyword" placeholder={t("nav.search.placeholder")} className="js-artistSearch" />
-              <input type="button" name="artistSearchBtn" value="Search" className="doSearchButton js-artistSearchBtn" />
+              <input type="button" name="artistSearchBtn" value="Search" onClick={(e) => {(e.currentTarget.parentElement as HTMLFormElement).submit() /*changing to submit type breaks eggs css its dumb yes*/}} className="doSearchButton js-artistSearchBtn" />
             </form>
           </div>
           <div className="artistSearch_select">

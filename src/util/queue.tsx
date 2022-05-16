@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom/client';
 import { shuffleArray } from "./util";
 import { SongData } from "./wrapper/eggs/artist";
 
+import EventEmitter from "events"
+import TypedEmitter from "typed-emitter"
+
 export enum Repeat {
   None = 0,
   All,
@@ -13,20 +16,41 @@ export enum Repeat {
 class DOMPreloader {
   private root:ReactDOM.Root;
 
-  constructor(root:HTMLElement) {
-    this.root = ReactDOM.createRoot(root);
+  constructor(root:ReactDOM.Root) {
+    this.root = root;
   }
 
   public render(tracks:Set<string>) {
     this.root.render(
       <div>
         {[...tracks].map(trackPath => (
-          <audio key={trackPath} preload="auto">
+          <audio key={trackPath} data-path={trackPath} preload="auto">
             <source src={trackPath} type="audio/mpeg" />
           </audio>
         ))}
       </div>
     );
+  }
+}
+
+type AudioEmitter = {
+  ended: () => void;
+}
+
+class SongElement {
+  private element:HTMLAudioElement;
+  public audioEmitter = new EventEmitter() as TypedEmitter<AudioEmitter>;
+  constructor(url:string) {
+    this.element = new Audio(url);
+  }
+
+  public play() {
+    this.element.play();
+    this.element.onended = () => {this.audioEmitter.emit("ended")};
+  }
+
+  public pause() {
+    this.element.pause();
   }
 
 
@@ -38,16 +62,62 @@ export class Queue {
   private initialQueue:SongData[];
   private _shuffle:boolean;
   private _repeat:Repeat;
-  private current:SongData;
+  private _current:SongData;
   private preloader:DOMPreloader;
+  private currentElement?:SongElement;
+  private historyStack:HistoryStack;
 
-  constructor(initialQueue:SongData[], initialElement:SongData, root:HTMLElement, shuffle:boolean, repeat:Repeat) {
+  constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat) {
     this.initialQueue = initialQueue;
     this._shuffle = shuffle;
     this._repeat = repeat;
-    this.current = initialElement;
+    this._current = initialElement;
     this.preloader = new DOMPreloader(root);
+    this.currentElement = new SongElement(this.current.musicDataPath);
+    this.historyStack = new HistoryStack();
     this.populate();
+  }
+
+  public destroy() {
+    this.pause();
+    this.empty();
+    this.innerOverrideQueue.empty();
+    this.historyStack.empty();
+    delete this.currentElement;
+  }
+
+  public play() {
+    this.currentElement?.play();
+  }
+
+  public pause() {
+    this.currentElement?.pause();
+  }
+
+  public next() {
+    this.pause();
+    this.pop();
+    this.play();
+  }
+
+  public previous() {
+    const newTrack = this.historyStack.pop();
+    if (!newTrack) return;
+
+    this.pause();
+    this.playNext(this.current);
+    this.current = newTrack;
+    this.play();
+  }
+
+  private get current() {
+    return this._current;
+  }
+
+  private set current(track:SongData) {
+    this._current = track;
+    this.currentElement = new SongElement(this.current.musicDataPath);
+    this.currentElement.audioEmitter.on("ended", () => { this.next(); })
   }
 
   public pop() {
@@ -57,14 +127,15 @@ export class Queue {
     } else {
       newTrack = this.innerQueue.pop();
     }
-    if (newTrack) {
-      this.current = newTrack;
-      this.populate();
-    }
+    if (!newTrack) return;
+    
+    this.historyStack.add(this.current);
+    this.current = newTrack;
+    this.populate();
   }
 
   public set shuffle(value:boolean) {
-    this.shuffle = value;
+    this._shuffle = value;
     this.empty();
     this.populate();
   }
@@ -131,6 +202,14 @@ export class Queue {
       ...this.innerQueue.get(count - this.innerOverrideQueue.length)
     ];
   }
+
+  public playNext(track:SongData) {
+    this.innerOverrideQueue.playNext(track);
+  }
+
+  public addToQueue(track:SongData) {
+    this.innerOverrideQueue.add(track);
+  }
 }
 
 class InnerQueue {
@@ -160,5 +239,32 @@ class InnerQueue {
 class InnerOverrideQueue extends InnerQueue {
   public playNext(song:SongData) {
     this.queue.unshift(song);
+  }
+}
+
+class HistoryStack {
+  private stack:SongData[] = [];
+  
+  public add(song:SongData) {
+    this.stack.push(song);
+    if (this.length > 50) {
+      this.stack.shift();
+    }
+  }
+
+  public pop() {
+    return this.stack.pop();
+  }
+
+  get length() {
+    return this.stack.length;
+  }
+
+  get(count:number) {
+    return this.stack.slice(-count);
+  }
+
+  empty() {
+    this.stack = [];
   }
 }

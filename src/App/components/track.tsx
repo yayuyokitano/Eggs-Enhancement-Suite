@@ -16,9 +16,6 @@ function setPlayback(e:React.MouseEvent<HTMLLIElement, MouseEvent>, track:SongDa
     if (trackElement.dataset.track) trackList.push(JSON.parse(trackElement.dataset.track ?? "{}"));
   }
 
-  console.log("a");
-  console.log(window);
-  console.log(window.parent);
   window.parent.postMessage({
     type: "trackUpdate",
     data: {
