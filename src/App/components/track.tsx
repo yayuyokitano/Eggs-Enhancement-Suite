@@ -3,9 +3,11 @@ import { SongData } from "../../util/wrapper/eggs/artist";
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import ModeCommentRoundedIcon from '@mui/icons-material/ModeCommentRounded';
+import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import "./track.scss";
 
 function setPlayback(e:React.MouseEvent<HTMLLIElement, MouseEvent>, track:SongData) {
+  if ((e.target as HTMLElement)?.closest(".ees-track-expandable")) return;
 
   const trackElements = e.currentTarget.closest(".ees-track-container")?.querySelectorAll(".ees-track");
   if (!trackElements) return;
@@ -56,6 +58,32 @@ export function Track(props:{track:SongData, size:"normal"}) {
 
         </div>
       </div>
+      <details className="ees-track-expandable">
+        <summary><MoreVertRoundedIcon /></summary>
+        <ul className="ees-track-menu">
+          <li>hallo</li>
+          <li>hallo</li>
+          <li>hallo</li>
+          <li>hallo</li>
+          <li>hallo</li>
+          <li>hallo</li>
+        </ul>
+      </details>
     </li>
   )
 }
+
+document.addEventListener("click", (e) => {
+  const targetDetails = (e.target as HTMLElement)?.closest(".ees-track-expandable");
+  const summaryDetails = (e.target as HTMLElement)?.closest("summary");
+  const isOpen = targetDetails?.hasAttribute("open");
+  document.querySelectorAll(".ees-track-expandable").forEach((details) => {
+    details.removeAttribute("open");
+  });
+
+  if (summaryDetails && isOpen) {
+    e.preventDefault();
+  }
+
+
+})

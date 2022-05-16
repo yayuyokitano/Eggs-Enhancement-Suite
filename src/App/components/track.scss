@@ -3,6 +3,7 @@
   display: flex;
   cursor: pointer;
   padding: 4px;
+  box-sizing: content-box;
 
   &:hover {
     background-color: #FDD001;
@@ -58,13 +59,23 @@
     }
   }
 
+  .ees-track-expandable {
+    position: relative;
+    height: min-content;
+
+    &[open] {
+      background-color: white;
+    }
+  }
+
   &.ees-track-normal {
+
+    height: 100px;
+
     .ees-track-thumb {
       width: 100px;
       height: 100px;
     }
-    
-
   }
 
 }
