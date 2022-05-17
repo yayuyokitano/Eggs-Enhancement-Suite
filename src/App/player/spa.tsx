@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { defaultAvatar } from '../../util/util';
 import { SongData } from '../../util/wrapper/eggs/artist';
@@ -49,18 +49,21 @@ function Player() {
 
   const [playbackController, setPlaybackController] = useState<PlaybackController>();
   const [current, setCurrent] = useState<SongData>();
+  const youtubeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     if (root) return;
     root = ReactDOM.createRoot(document.getElementById("ees-audio-container")!);
-    setPlaybackController(initializePlayback(root, setCurrent));
+    setPlaybackController(initializePlayback(root, setCurrent, youtubeRef));
   }, []);
 
   useEffect(() => { updateScrollables(); }, [current]);
 
+  console.log(current);
+
   return (
     <div id="ees-player">
-      <img id="ees-player-thumbnail" src={current?.imageDataPath ?? defaultAvatar} />
+      <img id="ees-player-thumbnail" src={current?.imageDataPath ?? current?.artistData.imageDataPath ?? defaultAvatar} />
       <div id="ees-player-metadata">
         <span id="ees-player-title" className="ees-scroll-container"><span>{current?.musicTitle}</span></span>
         <span id="ees-player-artist" className="ees-scroll-container"><span>{current?.artistData.displayName}</span></span>
@@ -71,6 +74,7 @@ function Player() {
       <button id="ees-prev" onClick={() => {playbackController?.previous()}}>Prev</button>
       <button id="ees-next" onClick={() => {playbackController?.next()}}>Next</button>
       <div id="ees-audio-container" />
+      <iframe id="ees-youtube-container" ref={youtubeRef}></iframe>
     </div>
   );
 }

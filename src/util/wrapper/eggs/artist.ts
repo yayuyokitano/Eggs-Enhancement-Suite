@@ -1,6 +1,6 @@
 import { eggsRequest } from "./request"
 
-enum SourceType {
+export enum SourceType {
   Eggs = 1,
   Youtube,
 }

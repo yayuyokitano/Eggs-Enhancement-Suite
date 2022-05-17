@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { shuffleArray } from "./util";
-import { SongData } from "./wrapper/eggs/artist";
+import { SongData, SourceType } from "./wrapper/eggs/artist";
 
-import EventEmitter from "events"
-import TypedEmitter from "typed-emitter"
+import EventEmitter from "events";
+import TypedEmitter from "typed-emitter";
+
 
 export enum Repeat {
   None = 0,
@@ -37,21 +38,125 @@ type AudioEmitter = {
   ended: () => void;
 }
 
+class YoutubePlayer {
+  private youtube:HTMLIFrameElement;
+  private ready:Promise<boolean>;
+  private audioEmitter:TypedEmitter<AudioEmitter>;
+
+  constructor(youtube:HTMLIFrameElement, track:SongData, audioEmitter:TypedEmitter<AudioEmitter>) {
+    this.youtube = youtube;
+    this.youtube.src = `https://www.youtube.com/embed/${track.youtubeVideoId}?enablejsapi=1&widgetid=1`;
+    this.audioEmitter = audioEmitter;
+    this.ready = new Promise((resolve) => {
+      this.youtube.addEventListener('load', async () => {
+        resolve(true);
+        prepareYoutubeListeners(youtube);
+      });
+      window.addEventListener('message', (e) => this.handleEvent(e));
+    });
+  }
+
+  private handleEvent(event:MessageEvent<any>) {
+    if (event.origin !== 'https://www.youtube.com') {
+      return;
+    }
+    const data = JSON.parse(event.data);
+    switch (data.event) {
+      case 'onStateChange':
+        if (data.info === 0) {
+          console.log(this);
+          this.audioEmitter.emit("ended");
+        }
+        //onYoutubeStateChange(data);
+        console.log("e");
+        break;
+      case 'infoDelivery':
+        //getTimestamps(data);
+        break;
+    }
+  }
+
+  public destroy() {
+    window.removeEventListener('message', this.handleEvent);
+  }
+
+  public async play() {
+    await this.ready;
+    this.youtube.contentWindow?.postMessage(JSON.stringify({
+      event: "command",
+      func: "playVideo",
+    }), "https://www.youtube.com");
+  }
+
+  public async pause() {
+    await this.ready;
+    this.youtube.contentWindow?.postMessage(JSON.stringify({
+      event: "command",
+      func: "pauseVideo",
+    }), "https://www.youtube.com");
+  }
+}
+
+function prepareYoutubeListeners(youtube:HTMLIFrameElement) {
+  let message = JSON.stringify({
+    event: 'listening',
+    id: "ees-youtube-container",
+    channel: 'widget',
+  });
+  youtube?.contentWindow?.postMessage(message, 'https://www.youtube.com');
+
+  message = JSON.stringify({
+    event: 'command',
+    func: 'addEventListener',
+    args: ['onStateChange'],
+    id: "ees-youtube-container",
+    channel: 'widget',
+  });
+  youtube?.contentWindow?.postMessage(message, 'https://www.youtube.com');
+}
+
 class SongElement {
 
-  private element:HTMLAudioElement;
+  private element:HTMLAudioElement|YoutubePlayer|undefined;
+  private sourceType:SourceType;
   public audioEmitter = new EventEmitter() as TypedEmitter<AudioEmitter>;
 
-  constructor(url:string) {
-    this.element = new Audio(url);
+  constructor(track:SongData, youtube:React.RefObject<HTMLIFrameElement>) {
+    this.sourceType = track.sourceType;
+    switch (this.sourceType) {
+      case SourceType.Eggs:
+        this.element = new Audio(track.musicDataPath);
+        break;
+      case SourceType.Youtube:
+        if (!youtube.current) return;
+        this.element = new YoutubePlayer(youtube.current, track, this.audioEmitter);
+        break;
+    }
+  }
+
+  private setEndEvent() {
+    switch (this.sourceType) {
+      case SourceType.Eggs:
+        (this.element as HTMLAudioElement).onended = () => {this.audioEmitter.emit("ended")};
+        break;
+    }
+  }
+
+  public destroy() {
+    if (this.sourceType === SourceType.Youtube) {
+      (this.element as YoutubePlayer).destroy();
+    }
   }
 
   public play() {
-    this.element.play();
-    this.element.onended = () => {this.audioEmitter.emit("ended")};
+    this.element?.play();
+    this.setEndEvent();
   }
 
-  public pause = () => { this.element.pause(); }
+  public pause() {
+    this.element?.pause();
+    this.setEndEvent();
+  }
 
 }
 
@@ -66,17 +171,19 @@ export class Queue {
   private currentElement?:SongElement;
   private historyStack:HistoryStack;
   private setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>
+  private youtube:React.RefObject<HTMLIFrameElement>;
 
-  constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>) {
+  constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>) {
     this.initialQueue = initialQueue;
     this._shuffle = shuffle;
     this._repeat = repeat;
     this._current = initialElement;
     this.preloader = new DOMPreloader(root);
-    this.currentElement = new SongElement(this.current.musicDataPath);
     this.historyStack = new HistoryStack();
     this.setCurrent = setCurrent;
-    
+    this.youtube = youtube;
+    this.currentElement = new SongElement(this.current, this.youtube);
+
     this.current = initialElement;
     this.populate();
   }
@@ -86,6 +193,7 @@ export class Queue {
     this.empty();
     this.innerOverrideQueue.empty();
     this.historyStack.empty();
+    this.currentElement?.destroy();
     delete this.currentElement;
   }
 
@@ -203,7 +311,7 @@ export class Queue {
   private set current(track:SongData) {
     this._current = track;
     this.setCurrent(track);
-    this.currentElement = new SongElement(this.current.musicDataPath);
+    this.currentElement = new SongElement(this.current, this.youtube);
     this.currentElement.audioEmitter.on("ended", () => { this.next(); })
   }
 
