@@ -1,8 +1,12 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { defaultAvatar } from '../../util/util';
+import { convertTime, defaultAvatar } from '../../util/util';
 import { SongData } from '../../util/wrapper/eggs/artist';
 import { initializePlayback, PlaybackController } from './playback';
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
+import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
+import SkipNextRoundedIcon from '@mui/icons-material/SkipNextRounded';
+import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded';
 import "./spa.scss";
 var root:ReactDOM.Root;
 
@@ -75,14 +79,20 @@ function Player() {
         <span id="ees-player-title" className="ees-scroll-container"><span>{current?.musicTitle}</span></span>
         <span id="ees-player-artist" className="ees-scroll-container"><span>{current?.artistData.displayName}</span></span>
       </div>
-      <button id="ees-play" onClick={() => {playbackController?.play()}}>Play</button>
-      <button id="ees-pause" onClick={() => {playbackController?.pause()}}>Pause</button>
-      <button id="ees-prev" onClick={() => {playbackController?.previous()}}>Prev</button>
-      <button id="ees-next" onClick={() => {playbackController?.next()}}>Next</button>
-      <div id="ees-player-time" data-current={timeData?.current} data-duration={timeData?.duration}>
-        <span id="ees-player-current-time">{Math.floor(timeData?.current ?? 0)}</span>
-        /
-        <span id="ees-player-duration">{Math.floor(timeData?.duration ?? 0)}</span>
+      <div id="ees-player-controls">
+        <div id="ees-player-controls-buttons">
+          <button id="ees-prev" className="ees-playnav" onClick={() => {playbackController?.previous()}}><SkipPreviousRoundedIcon /></button>
+          <button id="ees-play" className={`ees-playpause ${playbackController?.isPlaying ? "ees-hidden":""}`} onClick={() => {playbackController?.play()}}><PlayArrowRoundedIcon /></button>
+          <button id="ees-pause" className={`ees-playpause ${playbackController?.isPlaying ? "":"ees-hidden"}`} onClick={() => {playbackController?.pause()}}><PauseRoundedIcon /></button>
+          <button id="ees-next" className="ees-playnav" onClick={() => {playbackController?.next()}}><SkipNextRoundedIcon /></button>
+        </div>
+        <div id="ees-player-controls-time" data-current={timeData?.current} data-duration={timeData?.duration}>
+          <span id="ees-player-current-time">{convertTime(timeData?.current ?? 0)}</span>
+          <progress value={timeData?.current} max={timeData?.duration} onClick={(e) => { 
+            playbackController?.setCurrentTime((e.clientX - e.currentTarget.offsetLeft) / e.currentTarget.offsetWidth);
+          }} />
+          <span id="ees-player-duration">{convertTime(timeData?.duration ?? 0)}</span>
+        </div>
       </div>
       <div id="ees-audio-container" />
       <iframe id="ees-youtube-container" ref={youtubeRef}></iframe>
