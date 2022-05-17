@@ -39,7 +39,7 @@ type AudioEmitter = {
   ended: () => void;
 }
 
-class YoutubePlayer {
+class YoutubePlayer implements EventListenerObject {
   private youtube:HTMLIFrameElement;
   private ready:Promise<boolean>;
   private audioEmitter:TypedEmitter<AudioEmitter>;
@@ -55,11 +55,13 @@ class YoutubePlayer {
         resolve(true);
         prepareYoutubeListeners(youtube);
       });
-      window.addEventListener('message', (e) => this.handleEvent(e));
+
+      // calls .handleEvent method because javascript
+      window.addEventListener('message', this);
     });
   }
 
-  private handleEvent(event:MessageEvent<any>) {
+  public handleEvent(event:MessageEvent<any>) {
     if (event.origin !== 'https://www.youtube.com') {
       return;
     }
@@ -67,14 +69,11 @@ class YoutubePlayer {
     switch (data.event) {
       case 'onStateChange':
         if (data.info === 0) {
-          console.log(this);
           this.audioEmitter.emit("ended");
         }
-        //onYoutubeStateChange(data);
-        console.log("e");
         break;
       case 'infoDelivery':
-        const timeElement = document.getElementById("ees-player-time");
+        const timeElement = document.getElementById("ees-player-controls-time");
         const curTimeData = {
           current: Number(timeElement?.dataset.current),
           duration: Number(timeElement?.dataset.duration)
@@ -89,7 +88,7 @@ class YoutubePlayer {
   }
 
   public destroy() {
-    window.removeEventListener('message', this.handleEvent);
+    window.removeEventListener('message', this);
   }
 
   public async play() {
@@ -106,6 +105,17 @@ class YoutubePlayer {
       event: "command",
       func: "pauseVideo",
     }), "https://www.youtube.com");
+  }
+
+  set currentTime(newTime:number) {
+    this.ready.then(() => {
+      this.youtube.contentWindow?.postMessage(JSON.stringify({
+        event: "command",
+        func: "seekTo",
+        args: [newTime.toString(), "true"],
+      }), "https://www.youtube.com");
+    })
+
   }
 }
 
@@ -179,6 +189,11 @@ class SongElement {
     this.setEndEvent();
   }
 
+  public setCurrentTime(newTime:number) {
+    if (!this.element) return;
+    this.element.currentTime = newTime;
+  }
+
 }
 
 export class Queue {
@@ -194,6 +209,7 @@ export class Queue {
   private setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>
   private youtube:React.RefObject<HTMLIFrameElement>;
   private setTimeData:React.Dispatch<React.SetStateAction<TimeData>>
+  private _isPlaying = false;
 
   constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>) {
     this.initialQueue = initialQueue;
@@ -206,6 +222,7 @@ export class Queue {
     this.setTimeData = setTimeData;
     this.youtube = youtube;
     this.currentElement = new SongElement(this.current, this.youtube, this.setTimeData);
+    this.currentElement.destroy();
 
     this.current = initialElement;
     this.populate();
@@ -220,9 +237,15 @@ export class Queue {
     delete this.currentElement;
   }
 
-  public play = () => { this.currentElement?.play(); }
+  public play() {
+    this.currentElement?.play();
+    this._isPlaying = true;
+  }
 
-  public pause = () => { this.currentElement?.pause(); }
+  public pause() {
+    this.currentElement?.pause();
+    this._isPlaying = false;
+  }
 
   public next() {
     this.pause();
@@ -238,6 +261,10 @@ export class Queue {
     this.playNext(this.current);
     this.current = newTrack;
     this.play();
+  }
+
+  public setCurrentTime(newTime:number) {
+    this.currentElement?.setCurrentTime(newTime);
   }
 
   public pop() {
@@ -319,6 +346,10 @@ export class Queue {
     return this._current;
   }
 
+  get isPlaying() {
+    return this._isPlaying;
+  }
+
   set shuffle(value:boolean) {
     this._shuffle = value;
     this.empty();
@@ -332,6 +363,7 @@ export class Queue {
   }
 
   private set current(track:SongData) {
+    this.currentElement?.destroy();
     this._current = track;
     this.setCurrent(track);
     this.currentElement = new SongElement(this.current, this.youtube, this.setTimeData);

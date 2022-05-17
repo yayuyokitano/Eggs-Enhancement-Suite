@@ -31,8 +31,8 @@ export class PlaybackController {
   private repeat:Repeat;
   private root:ReactDOM.Root;
   private youtube:React.RefObject<HTMLIFrameElement>;
-  private setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>
-  private setTimeData:React.Dispatch<React.SetStateAction<TimeData>>
+  private setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>;
+  private setTimeData:React.Dispatch<React.SetStateAction<TimeData>>;
 
   constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>) {
     this.shuffle = shuffle;
@@ -65,7 +65,19 @@ export class PlaybackController {
     this.queue?.previous();
   }
 
+  public setCurrentTime(percentage:number) {
+    this.queue?.setCurrentTime(percentage * this.duration);
+  }
+
   get current() {
     return this.queue?.current;
+  }
+
+  get duration() {
+    return Number(document.getElementById("ees-player-controls-time")?.dataset.duration ?? 0);
+  }
+
+  get isPlaying() {
+    return this.queue?.isPlaying;
   }
 }
