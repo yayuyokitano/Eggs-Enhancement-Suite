@@ -7,7 +7,11 @@ import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import SkipNextRoundedIcon from '@mui/icons-material/SkipNextRounded';
 import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded';
+import ShuffleRoundedIcon from '@mui/icons-material/ShuffleRounded';
+import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
+import RepeatOneRoundedIcon from '@mui/icons-material/RepeatOneRounded';
 import "./spa.scss";
+import { Repeat } from '../../util/queue';
 var root:ReactDOM.Root;
 
 export function createSpa() {
@@ -62,12 +66,14 @@ function Player() {
     current: 0,
     duration: 0
   });
+  const [shuffle, setShuffle] = useState(true);
+  const [repeat, setRepeat] = useState(Repeat.All);
   const youtubeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     if (root) return;
     root = ReactDOM.createRoot(document.getElementById("ees-audio-container")!);
-    setPlaybackController(initializePlayback(root, setCurrent, youtubeRef, setTimeData));
+    setPlaybackController(initializePlayback(root, setCurrent, youtubeRef, setTimeData, setShuffle, setRepeat));
   }, []);
 
   useEffect(() => { updateScrollables(); }, [current]);
@@ -81,10 +87,16 @@ function Player() {
       </div>
       <div id="ees-player-controls">
         <div id="ees-player-controls-buttons">
+          <button id="ees-shuffle" className="ees-navtype" data-state={shuffle} onClick={() => playbackController?.toggleShuffle()}><ShuffleRoundedIcon /></button>
           <button id="ees-prev" className="ees-playnav" onClick={() => {playbackController?.previous()}}><SkipPreviousRoundedIcon /></button>
           <button id="ees-play" className={`ees-playpause ${playbackController?.isPlaying ? "ees-hidden":""}`} onClick={() => {playbackController?.play()}}><PlayArrowRoundedIcon /></button>
           <button id="ees-pause" className={`ees-playpause ${playbackController?.isPlaying ? "":"ees-hidden"}`} onClick={() => {playbackController?.pause()}}><PauseRoundedIcon /></button>
           <button id="ees-next" className="ees-playnav" onClick={() => {playbackController?.next()}}><SkipNextRoundedIcon /></button>
+          <button id="ees-repeat" className="ees-navtype" data-state={repeat} onClick={() => playbackController?.cycleRepeat()}>{
+            repeat === Repeat.One ?
+            <RepeatOneRoundedIcon /> :
+            <RepeatRoundedIcon />
+          }</button>
         </div>
         <div id="ees-player-controls-time" data-current={timeData?.current} data-duration={timeData?.duration}>
           <span id="ees-player-current-time">{convertTime(timeData?.current ?? 0)}</span>

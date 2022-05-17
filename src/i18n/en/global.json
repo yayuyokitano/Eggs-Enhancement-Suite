@@ -109,5 +109,9 @@
     "45": "Miyazaki",
     "46": "Kagoshima",
     "47": "Okinawa"
+  },
+  "track": {
+    "playNext": "Play Next",
+    "addToQueue": "Add to queue"
   }
 }

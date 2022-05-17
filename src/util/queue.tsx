@@ -198,7 +198,7 @@ class SongElement {
 
 export class Queue {
   private innerQueue = new InnerQueue();
-  private innerOverrideQueue = new InnerOverrideQueue();
+  private innerOverrideQueue = new InnerQueue();
   private initialQueue:SongData[];
   private _shuffle:boolean;
   private _repeat:Repeat;
@@ -248,6 +248,7 @@ export class Queue {
   }
 
   public next() {
+    if (!this.innerQueue.length) return;
     this.pause();
     this.pop();
     this.play();
@@ -258,7 +259,7 @@ export class Queue {
     if (!newTrack) return;
 
     this.pause();
-    this.playNext(this.current);
+    this.innerQueue.playNext(this.current);
     this.current = newTrack;
     this.play();
   }
@@ -278,6 +279,8 @@ export class Queue {
     
     this.historyStack.add(this.current);
     this.current = newTrack;
+    //avoid autopopulation happening on going to next song when no repeat.
+    if (this._repeat === Repeat.None) return;
     this.populate();
   }
 
@@ -292,12 +295,12 @@ export class Queue {
 
   private populate() {
 
-    if (this._repeat === Repeat.None || this.innerQueue.length > 50) {
+    if (this.innerQueue.length > 50) {
       return;
     }
 
     // if no shuffle make sure to add from the selected starting song, if shuffled dont add initial song to queue
-    if (this._repeat === Repeat.All && !this.innerQueue.length) {
+    if (this._repeat === Repeat.All || this._repeat === Repeat.None && !this.innerQueue.length) {
       const curIndex = this.initialQueue.findIndex(track => track.musicDataPath === this.current.musicDataPath);
       if (!this._shuffle) {
         this.innerQueue.add(...this.initialQueue.slice(curIndex + 1));
@@ -306,6 +309,8 @@ export class Queue {
         this.innerQueue.add(...shuffleArray(toAdd));
       }
     }
+
+    if (this._repeat === Repeat.None) return;
 
     while (this.innerQueue.length < 50) {
 
@@ -383,16 +388,14 @@ class InnerQueue {
 
   public get = (count:number) => this.queue.slice(0, count);
 
+  public playNext(song:SongData) {
+    this.queue.unshift(song);
+  }
+
   get length() {
     return this.queue.length;
   }
 
-}
-
-class InnerOverrideQueue extends InnerQueue {
-  public playNext(song:SongData) {
-    this.queue.unshift(song);
-  }
 }
 
 class HistoryStack {

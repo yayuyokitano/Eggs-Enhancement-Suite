@@ -74,14 +74,25 @@ $metadata-width-small: 5rem;
       align-items: center;
       gap: $player-padding;
 
+      .ees-navtype[data-state="false"] svg,
+      .ees-navtype[data-state="0"] svg {
+        fill: #000;
+      }
+
+      .ees-navtype svg {
+        fill: #D60010;
+        width: 24px;
+        height: 24px;
+      }
+
       .ees-playpause svg {
         width: 48px;
         height: 48px;
       }
     
       .ees-playnav svg {
-        width: 32px;
-        height: 32px;
+        width: 42px;
+        height: 42px;
       }
     }
 
@@ -94,7 +105,6 @@ $metadata-width-small: 5rem;
 
       span {
         font-size: 0.7rem;
-        color: #D60010;
         white-space: nowrap;
       }
 

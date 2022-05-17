@@ -5,6 +5,7 @@ import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import ModeCommentRoundedIcon from '@mui/icons-material/ModeCommentRounded';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import "./track.scss";
+import { TFunction } from "react-i18next";
 
 function setPlayback(e:React.MouseEvent<HTMLLIElement, MouseEvent>, track:SongData) {
   if ((e.target as HTMLElement)?.closest(".ees-track-expandable")) return;
@@ -28,8 +29,28 @@ function setPlayback(e:React.MouseEvent<HTMLLIElement, MouseEvent>, track:SongDa
   }, "*");
 }
 
-export function Track(props:{track:SongData, size:"normal", z:number}) {
-  const {track, size, z} = props;
+function playNext(track:SongData) {
+  window.parent.postMessage({
+    type: "trackUpdate",
+    data: {
+      type: "playNext",
+      track
+    }
+  }, "*");
+}
+
+function addToQueue(track:SongData) {
+  window.parent.postMessage({
+    type: "trackUpdate",
+    data: {
+      type: "addToQueue",
+      track
+    }
+  }, "*");
+}
+
+export function Track(props:{track:SongData, size:"normal", z:number, t:TFunction}) {
+  const {track, size, z, t} = props;
   return (
     <li
       key={track.musicId}
@@ -61,8 +82,8 @@ export function Track(props:{track:SongData, size:"normal", z:number}) {
       <details style={{zIndex: z}} className="ees-track-expandable">
         <summary><MoreVertRoundedIcon /></summary>
         <ul className="ees-track-menu">
-          <li>hallo</li>
-          <li>hallo</li>
+          <li onClick={() => { playNext(track) }}>{t("track.playNext")}</li>
+          <li onClick={() => { addToQueue(track) }}>{t("track.addToQueue")}</li>
           <li>hallo</li>
           <li>hallo</li>
           <li>hallo</li>
