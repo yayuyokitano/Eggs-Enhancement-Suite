@@ -6,6 +6,7 @@ import { SongData, SourceType } from "./wrapper/eggs/artist";
 
 import EventEmitter from "events";
 import TypedEmitter from "typed-emitter";
+import { TimeData } from '../App/player/spa';
 
 
 export enum Repeat {
@@ -42,11 +43,13 @@ class YoutubePlayer {
   private youtube:HTMLIFrameElement;
   private ready:Promise<boolean>;
   private audioEmitter:TypedEmitter<AudioEmitter>;
+  private setTimeData:React.Dispatch<React.SetStateAction<TimeData>>
 
-  constructor(youtube:HTMLIFrameElement, track:SongData, audioEmitter:TypedEmitter<AudioEmitter>) {
+  constructor(youtube:HTMLIFrameElement, track:SongData, audioEmitter:TypedEmitter<AudioEmitter>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>) {
     this.youtube = youtube;
     this.youtube.src = `https://www.youtube.com/embed/${track.youtubeVideoId}?enablejsapi=1&widgetid=1`;
     this.audioEmitter = audioEmitter;
+    this.setTimeData = setTimeData;
     this.ready = new Promise((resolve) => {
       this.youtube.addEventListener('load', async () => {
         resolve(true);
@@ -71,7 +74,16 @@ class YoutubePlayer {
         console.log("e");
         break;
       case 'infoDelivery':
-        //getTimestamps(data);
+        const timeElement = document.getElementById("ees-player-time");
+        const curTimeData = {
+          current: Number(timeElement?.dataset.current),
+          duration: Number(timeElement?.dataset.duration)
+        }
+
+        this.setTimeData({
+          current: data.info?.currentTime ?? curTimeData.current,
+          duration: data.info?.duration ?? curTimeData.duration,
+        })
         break;
     }
   }
@@ -120,16 +132,25 @@ class SongElement {
   private element:HTMLAudioElement|YoutubePlayer|undefined;
   private sourceType:SourceType;
   public audioEmitter = new EventEmitter() as TypedEmitter<AudioEmitter>;
+  private setTimeData:React.Dispatch<React.SetStateAction<TimeData>>
 
-  constructor(track:SongData, youtube:React.RefObject<HTMLIFrameElement>) {
+  constructor(track:SongData, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>) {
     this.sourceType = track.sourceType;
+    this.setTimeData = setTimeData;
     switch (this.sourceType) {
       case SourceType.Eggs:
         this.element = new Audio(track.musicDataPath);
+        this.element.addEventListener("timeupdate", (e) => {
+          const aud = e.target as HTMLAudioElement;
+          this.setTimeData({
+            current: aud.currentTime,
+            duration: aud.duration
+          });
+        })
         break;
       case SourceType.Youtube:
         if (!youtube.current) return;
-        this.element = new YoutubePlayer(youtube.current, track, this.audioEmitter);
+        this.element = new YoutubePlayer(youtube.current, track, this.audioEmitter, this.setTimeData);
         break;
     }
   }
@@ -172,8 +193,9 @@ export class Queue {
   private historyStack:HistoryStack;
   private setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>
   private youtube:React.RefObject<HTMLIFrameElement>;
+  private setTimeData:React.Dispatch<React.SetStateAction<TimeData>>
 
-  constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>) {
+  constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>) {
     this.initialQueue = initialQueue;
     this._shuffle = shuffle;
     this._repeat = repeat;
@@ -181,8 +203,9 @@ export class Queue {
     this.preloader = new DOMPreloader(root);
     this.historyStack = new HistoryStack();
     this.setCurrent = setCurrent;
+    this.setTimeData = setTimeData;
     this.youtube = youtube;
-    this.currentElement = new SongElement(this.current, this.youtube);
+    this.currentElement = new SongElement(this.current, this.youtube, this.setTimeData);
 
     this.current = initialElement;
     this.populate();
@@ -311,7 +334,7 @@ export class Queue {
   private set current(track:SongData) {
     this._current = track;
     this.setCurrent(track);
-    this.currentElement = new SongElement(this.current, this.youtube);
+    this.currentElement = new SongElement(this.current, this.youtube, this.setTimeData);
     this.currentElement.audioEmitter.on("ended", () => { this.next(); })
   }
 
