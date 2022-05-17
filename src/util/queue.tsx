@@ -65,8 +65,9 @@ export class Queue {
   private preloader:DOMPreloader;
   private currentElement?:SongElement;
   private historyStack:HistoryStack;
+  private setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>
 
-  constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat) {
+  constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>) {
     this.initialQueue = initialQueue;
     this._shuffle = shuffle;
     this._repeat = repeat;
@@ -74,6 +75,9 @@ export class Queue {
     this.preloader = new DOMPreloader(root);
     this.currentElement = new SongElement(this.current.musicDataPath);
     this.historyStack = new HistoryStack();
+    this.setCurrent = setCurrent;
+    
+    this.current = initialElement;
     this.populate();
   }
 
@@ -180,6 +184,10 @@ export class Queue {
     return this.innerQueue.length + this.innerOverrideQueue.length;
   }
 
+  get current() {
+    return this._current;
+  }
+
   set shuffle(value:boolean) {
     this._shuffle = value;
     this.empty();
@@ -192,12 +200,9 @@ export class Queue {
     this.populate();
   }
 
-  private get current() {
-    return this._current;
-  }
-
   private set current(track:SongData) {
     this._current = track;
+    this.setCurrent(track);
     this.currentElement = new SongElement(this.current.musicDataPath);
     this.currentElement.audioEmitter.on("ended", () => { this.next(); })
   }

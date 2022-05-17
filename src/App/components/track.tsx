@@ -5,7 +5,6 @@ import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import ModeCommentRoundedIcon from '@mui/icons-material/ModeCommentRounded';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import "./track.scss";
-import zIndex from "@mui/material/styles/zIndex";
 
 function setPlayback(e:React.MouseEvent<HTMLLIElement, MouseEvent>, track:SongData) {
   if ((e.target as HTMLElement)?.closest(".ees-track-expandable")) return;

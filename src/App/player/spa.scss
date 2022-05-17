@@ -1,14 +1,124 @@
+$player-height: 78px;
+$player-padding: 7px;
+$metadata-width: 15rem;
+$metadata-width-medium: 10rem;
+$metadata-width-small: 5rem;
+
 #ees-spa-iframe {
   width: 100%;
-  height: calc(100vh - 50px);
+  height: calc(100vh - $player-height);
   border: none;
 }
 
 #ees-player {
-  background-color: yellow;
-  height: 50px;
+  background-color: #FDD001;
+  box-sizing: border-box;
+  height: $player-height;
+  padding: $player-padding;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  gap: $player-padding;
+
+  #ees-player-thumbnail {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+  }
+
+  #ees-player-metadata {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+
+    #ees-player-title {
+      font-size: 1.3rem;
+    }
+
+    #ees-player-artist {
+      font-size: 0.8rem;
+      color: #D60010;
+      margin-bottom: 5px;
+    }
+
+    .ees-scroll-container {
+      width: $metadata-width;
+      span {
+        width: min-content;
+        display: inline-block;
+        white-space: nowrap;
+
+        &.ees-scroll-animated {
+          animation: scroll-text 15s ease-in-out infinite;
+        }
+      }
+    }
+  }
 }
 
 body {
   padding-top: 0 !important;
+}
+
+@keyframes scroll-text {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(0);
+  }
+  45% {
+    transform: translateX(calc($metadata-width - $player-padding - 100%));
+  }
+  70% {
+    transform: translateX(0);
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .ees-scroll-container {
+    max-width: $metadata-width-medium;
+  }
+
+  @keyframes scroll-text {
+    0% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(0);
+    }
+    45% {
+      transform: translateX(calc($metadata-width-medium - $player-padding - 100%));
+    }
+    70% {
+      transform: translateX(0);
+    }
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .ees-scroll-container {
+    max-width: $metadata-width-small;
+  }
+
+  #ees-player #ees-player-metadata #ees-player-title {
+    font-size: 1rem;
+  }
+
+  @keyframes scroll-text {
+    0% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(0);
+    }
+    45% {
+      transform: translateX(calc($metadata-width-small - $player-padding - 100%));
+    }
+    70% {
+      transform: translateX(0);
+    }
+  }
 }

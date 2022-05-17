@@ -1,3 +1,11 @@
+.ees-track-container {
+  margin-bottom: 70px;
+}
+
+.clearfix::before {
+  border: none !important;
+}
+
 .ees-track {
 
   display: flex;

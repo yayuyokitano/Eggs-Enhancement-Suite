@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import { Queue, Repeat } from "../../util/queue";
 import { SongData } from "../../util/wrapper/eggs/artist";
 
-export function initializePlayback(playbackController:PlaybackController, root:ReactDOM.Root) {
-  playbackController = new PlaybackController(root, true, Repeat.All);
+export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>) {
+  const playbackController = new PlaybackController(root, true, Repeat.All, setCurrent);
   window.addEventListener("message", (event) => {
     if (event.origin !== window.location.origin) {
       return;
@@ -25,20 +25,22 @@ export function initializePlayback(playbackController:PlaybackController, root:R
 }
 
 export class PlaybackController {
-  queue:Queue|undefined;
-  shuffle:boolean;
-  repeat:Repeat;
-  root:ReactDOM.Root;
+  private queue:Queue|undefined;
+  private shuffle:boolean;
+  private repeat:Repeat;
+  private root:ReactDOM.Root;
+  private setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>
 
-  constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat) {
+  constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>) {
     this.shuffle = shuffle;
     this.repeat = repeat;
     this.root = root;
+    this.setCurrent = setCurrent;
   }
 
   public setPlayback(initialQueue:SongData[], initialElement:SongData) {
     this.queue?.destroy();
-    this.queue = new Queue(initialQueue, initialElement, this.root, this.shuffle, this.repeat);
+    this.queue = new Queue(initialQueue, initialElement, this.root, this.shuffle, this.repeat, this.setCurrent);
     this.play();
   }
 
@@ -56,5 +58,9 @@ export class PlaybackController {
 
   public previous() {
     this.queue?.previous();
+  }
+
+  get current() {
+    return this.queue?.current;
   }
 }
