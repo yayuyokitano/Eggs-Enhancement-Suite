@@ -1,5 +1,5 @@
 import { defaultAvatar } from "../../util/util";
-import { ArtistEndpoint, SongData } from "../../util/wrapper/eggs/artist";
+import { SongData } from "../../util/wrapper/eggs/artist";
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
@@ -8,7 +8,7 @@ import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import "./track.scss";
 import { TFunction } from "react-i18next";
 import { useEffect, useState } from "react";
-import { like, likeInfo } from "../../util/wrapper/eggs/evaluation";
+import { likeSong, songLikeInfo } from "../../util/wrapper/eggs/evaluation";
 
 function setPlayback(e:React.MouseEvent<HTMLLIElement, MouseEvent>, track:SongData) {
   if ((e.target as HTMLElement)?.closest(".ees-track-expandable")) return;
@@ -97,7 +97,7 @@ export function Track(props:{track:SongData, size:"normal", z:number, t:TFunctio
           <ul className="ees-track-menu">
             <li onClick={() => { playNext(track) }}>{t("track.playNext")}</li>
             <li onClick={() => { addToQueue(track) }}>{t("track.addToQueue")}</li>
-            <li>hallo</li>
+            <li onClick={() => { (document.querySelector("#ees-playlist-dialog") as HTMLDialogElement).showModal(); }}>Add to playlist</li>
             <li>hallo</li>
             <li>hallo</li>
             <li>hallo</li>
@@ -128,9 +128,9 @@ function createToggleLiked(likedTracks:string[], setLikedTracks:React.Dispatch<R
     const isLiked = likedTracks.includes(trackID);
     const newLikedTracks = isLiked ? likedTracks.filter((t) => t !== trackID) : [...likedTracks, trackID];
     setLikedTracks(newLikedTracks);
-    like(trackID);
+    likeSong(trackID);
   }
-} 
+}
 
 export function TrackContainer(props: {data:SongData[]|undefined, t:TFunction}) {
   const {data, t} = props;
@@ -138,11 +138,11 @@ export function TrackContainer(props: {data:SongData[]|undefined, t:TFunction}) 
 
   useEffect(() => {
     if (!data) return;
-    likeInfo(data.map((track) => track.musicId)).then((likedTracks) => {
-      const likedTrackList = likedTracks.data
-        .filter((track) => track.isLike)
-        .map((track) => track.musicId);
-      setLikedTracks(likedTrackList);
+    songLikeInfo(data.map((track) => track.musicId)).then((likedTracks) => {
+        const likedTrackList = likedTracks.data
+          .filter((track) => track.isLike)
+          .map((track) => track.musicId);
+        setLikedTracks(likedTrackList);
     });
   }, []);
 

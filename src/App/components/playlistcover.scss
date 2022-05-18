@@ -1,0 +1,8 @@
+#ees-playlist-cover {
+  display: grid;
+  grid-auto-flow: column;
+
+  .ees-playlist-cover-image {
+    object-fit: cover;
+  }
+}

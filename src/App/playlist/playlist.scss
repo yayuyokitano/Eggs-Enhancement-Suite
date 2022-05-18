@@ -1,3 +1,46 @@
 .l-contents_wrapper {
   margin-top: 70px;
 }
+
+#ees-playlist-header {
+  margin: 20px;
+  display: flex;
+  gap: 20px;
+
+  #ees-playlist-metadata {
+    display: flex;
+    flex-direction: column;
+
+    #ees-playlist-name {
+      font-size: 4rem;
+      font-weight: bold;
+    }
+  
+    #ees-playlist-creator {
+      font-size: 1.5rem;
+      color: #666;
+    }
+  
+    #ees-playlist-date {
+      color: #666;
+    }
+  
+    #ees-playlist-like {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+  
+      #ees-playlist-like-button {
+        display: flex;
+        align-items: center;
+
+        svg {
+          fill: #D60010;
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+  }
+}

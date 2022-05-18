@@ -126,6 +126,9 @@ export function HeaderSubmenu() {
   
   return (
     <nav id="ees-header">
+      <dialog id="ees-playlist-dialog">
+        <h3>test</h3>
+      </dialog>
       <div id="nav-toggle" onClick={expandGlobalNav}>
         <div>
           <span></span>
