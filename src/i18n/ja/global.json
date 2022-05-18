@@ -11,7 +11,35 @@
     "song": {
       "singular": "楽曲",
       "plural": "楽曲"
-    }
+    },
+    "timeSince": {
+      "year": {
+        "singular": "年前",
+        "plural": "年前"
+      },
+      "month": {
+        "singular": "月前",
+        "plural": "月前"
+      },
+      "week": {
+        "singular": "週間前",
+        "plural": "週間前"
+      },
+      "day": {
+        "singular": "日前",
+        "plural": "日前"
+      },
+      "hour": {
+        "singular": "時間前",
+        "plural": "時間前"
+      },
+      "minute": {
+        "singular": "分前",
+        "plural": "分前"
+      },
+      "recent": "たった今"
+    },
+    "lastModified": "最終更新："
   },
   "nav": {
     "about": "Eggsについて",
@@ -112,9 +140,11 @@
   },
   "track": {
     "playNext": "次に再生",
-    "addToQueue": "キューに追加"
+    "addToQueue": "キューに追加",
+    "addToPlaylist": "プレイリストに追加"
   },
   "playlist": {
-    "error": "プレイリストを取得できませんでした。プレイリストは削除されたか、非公開にさせたかもしれません。"
+    "error": "プレイリストを取得できませんでした。プレイリストは削除されたか、非公開にさせたかもしれません。",
+    "select": "プレイリストを選択"
   }
 }

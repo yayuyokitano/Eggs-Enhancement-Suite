@@ -4,8 +4,11 @@ import React, { useEffect, useState } from "react";
 import "../../i18n/config";
 import { TFunction, useTranslation } from "react-i18next";
 import "./header.scss";
+import "./dialog.scss";
 import { t } from "i18next";
 import browser from "webextension-polyfill";
+import { PlaylistContainer } from "./playlistContainer";
+import { getPlaylists, PlaylistPartial } from "../../util/wrapper/eggs/playlists";
 
 interface User {
   displayName: string;
@@ -107,6 +110,60 @@ function searchOnClick(e:React.MouseEvent<HTMLSpanElement, MouseEvent>) {
   document.getElementsByClassName("artistSearchBox")[0].classList.toggle("hidden");
 }
 
+function addToPlaylist(playlist:string) {
+  console.log("Wouldve added to " + playlist);
+}
+
+function PlaylistDialog(props: {t:TFunction}) {
+  const {t} = props;
+  const [offsetHash, setOffsetHash] = useState("");
+  const [playlists, setPlaylists] = useState<PlaylistPartial[]>();
+  const [totalCount, setTotalCount] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  useEffect(() => {
+    getPlaylists(10).then((playlists) => {
+      setTotalCount(playlists.totalCount);
+      setPlaylists(playlists.data);
+      setOffsetHash(playlists.offsetHash);
+    });
+  }, []);
+
+  if (!playlists) return (
+    <dialog id="ees-playlist-dialog">
+      <h2>{t("playlist.select")}</h2>
+      <p>{t("general.loading")}</p>
+    </dialog>
+  );
+
+  return (
+    <dialog
+      id="ees-playlist-dialog"
+      onScroll={(e) => {
+        if (loadingMore) return;
+        if (totalCount === playlists.length) return;
+        if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop - e.currentTarget.clientHeight < 100) {
+          setLoadingMore(true);
+          getPlaylists(10, offsetHash).then((newPlaylists) => {
+            setTotalCount(newPlaylists.totalCount);
+            setPlaylists([...playlists, ...newPlaylists.data]);
+            setOffsetHash(newPlaylists.offsetHash);
+            setLoadingMore(false);
+          });
+        }
+      }}
+    >
+      <h2>{t("playlist.select")}</h2>
+      <PlaylistContainer
+        t={t}
+        playlists={playlists}
+        onPlaylistClick={ addToPlaylist }
+        loadingMore={loadingMore}
+      />
+    </dialog>
+  );
+}
+
 export function HeaderSubmenu() {
 
   const {t, i18n} = useTranslation(["global"]);
@@ -126,9 +183,7 @@ export function HeaderSubmenu() {
   
   return (
     <nav id="ees-header">
-      <dialog id="ees-playlist-dialog">
-        <h3>test</h3>
-      </dialog>
+      <PlaylistDialog t={t} />
       <div id="nav-toggle" onClick={expandGlobalNav}>
         <div>
           <span></span>

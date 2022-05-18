@@ -1,0 +1,27 @@
+.ees-playlist {
+  display: flex;
+  padding: 7px;
+  cursor: pointer;
+
+  .ees-playlist-metadata {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 24px;
+    gap: 5px;
+    
+    .ees-playlist-name {
+      font-size: 1.5rem;
+    }
+
+    .ees-playlist-lastmodified {
+      margin-bottom: 7px;
+      font-size: 0.7rem;
+      color: #666;
+    }
+  }
+
+  &:hover {
+    background-color: #FDD001;
+  }
+}

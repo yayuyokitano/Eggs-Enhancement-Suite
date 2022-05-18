@@ -1,6 +1,5 @@
-#ees-playlist-cover {
-  display: grid;
-  grid-auto-flow: column;
+.ees-playlist-cover {
+  background-size: cover;
 
   .ees-playlist-cover-image {
     object-fit: cover;

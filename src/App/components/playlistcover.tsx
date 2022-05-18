@@ -1,22 +1,18 @@
 import "./playlistcover.scss";
+import icon from "../../icons/icon128.png";
 
 export function PlaylistCover(props: {imageURLs:string[]|undefined, columnCount:number, rowCount:number, width:number, height:number}) {
-  const {imageURLs, columnCount, rowCount, width, height} = props;
+  const { columnCount, rowCount, width, height} = props;
+  console.log(icon);
 
-  if (!imageURLs) return <div
-    className="ees-playlist-cover"
-    style={{
-      height: `${height}px`,
-      width: `${width}px`,
-    }}
-  />;
+  const imageURLs = props.imageURLs?.filter((url) => url) ?? [];
 
   return (
     <div
-      className="ees-playlist-cover"
-      style={{
+      className="ees-playlist-cover"style={{
         height: `${height}px`,
         width: `${width}px`,
+        backgroundImage: `url(${icon})`,
       }}
     >
       {imageURLs.slice(0, rowCount * columnCount).map((imageURL) => {

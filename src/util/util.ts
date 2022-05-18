@@ -1,3 +1,4 @@
+import { TFunction } from "react-i18next";
 import browser from "webextension-polyfill";
 
 const generateRandomHex = (size:number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
@@ -78,4 +79,44 @@ export function convertTime(seconds:number) {
   const minutes = Math.floor(seconds / 60);
   const secondsLeft = Math.floor(seconds % 60);
   return `${minutes}:${secondsLeft.toString().padStart(2, "0")}`;
+}
+
+export function numToSingularPlural(num:number) {
+  return num === 1 ? "singular" : "plural";
+}
+
+export function getTimeSince(timestamp:string, t:TFunction) {
+  const oldUnix = new Date(timestamp).getTime();
+  const newUnix = new Date().getTime();
+  const diff = newUnix - oldUnix;
+  const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+  if (years) {
+    return years.toString() + t(`general.timeSince.year.${numToSingularPlural(years)}`);
+  }
+  const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
+  if (months) {
+    return months.toString() + t(`general.timeSince.month.${numToSingularPlural(months)}`);
+  }
+  const weeks = Math.floor(diff / (1000 * 60 * 60 * 24 * 7));
+  if (weeks) {
+    return weeks.toString() + t(`general.timeSince.week.${numToSingularPlural(weeks)}`);
+  }
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  if (days) {
+    return days.toString() + t(`general.timeSince.day.${numToSingularPlural(days)}`);
+  }
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  if (hours) {
+    return hours.toString() + t(`general.timeSince.hour.${numToSingularPlural(hours)}`);
+  }
+  const minutes = Math.floor(diff / (1000 * 60));
+  if (minutes) {
+    return minutes.toString() + t(`general.timeSince.minute.${numToSingularPlural(minutes)}`);
+  }
+  const seconds = Math.floor(diff / 1000);
+  if (seconds) {
+    return seconds.toString() + t(`general.timeSince.second.${numToSingularPlural(seconds)}`);
+  }
+  return t("general.timeSince.recent");
+
 }

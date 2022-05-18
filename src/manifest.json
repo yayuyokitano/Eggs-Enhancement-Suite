@@ -47,5 +47,9 @@
 		"48": "icons/icon48.png",
 		"64": "icons/icon64.png",
 		"128": "icons/icon128.png"
-	}
+	},
+  "web_accessible_resources": [{
+    "resources": ["icons/icon128.png"],
+    "matches": ["*://eggs.mu/*"]
+  }]
 }

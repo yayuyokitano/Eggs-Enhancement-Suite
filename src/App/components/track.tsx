@@ -52,6 +52,11 @@ function addToQueue(track:SongData) {
   }, "*");
 }
 
+function addToPlaylist(track:SongData) {
+  //document.querySelector("#ees-playlist-dialog h3")!.textContent = `${track.artistData.displayName} - ${track.musicTitle}`;
+  (document.querySelector("#ees-playlist-dialog") as HTMLDialogElement).showModal();
+}
+
 export function Track(props:{track:SongData, size:"normal", z:number, t:TFunction, isLiked:boolean, toggleLiked:(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, trackID: string) => void}) {
   const {track, size, z, t, isLiked, toggleLiked} = props;
 
@@ -97,7 +102,7 @@ export function Track(props:{track:SongData, size:"normal", z:number, t:TFunctio
           <ul className="ees-track-menu">
             <li onClick={() => { playNext(track) }}>{t("track.playNext")}</li>
             <li onClick={() => { addToQueue(track) }}>{t("track.addToQueue")}</li>
-            <li onClick={() => { (document.querySelector("#ees-playlist-dialog") as HTMLDialogElement).showModal(); }}>Add to playlist</li>
+            <li onClick={() => { addToPlaylist(track) }}>{t("track.addToPlaylist")}</li>
             <li>hallo</li>
             <li>hallo</li>
             <li>hallo</li>
