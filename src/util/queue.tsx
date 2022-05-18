@@ -339,9 +339,15 @@ export class Queue {
     ];
   }
 
-  public playNext = (track:SongData) => { this.innerOverrideQueue.playNext(track); }
+  public playNext(track:SongData) {
+    this.innerOverrideQueue.playNext(track);
+    this.preload();
+  }
 
-  public addToQueue =(track:SongData) => { this.innerOverrideQueue.add(track); }
+  public addToQueue(track:SongData) {
+    this.innerOverrideQueue.add(track);
+    this.preload();
+  }
 
   get length() {
     return this.innerQueue.length + this.innerOverrideQueue.length;

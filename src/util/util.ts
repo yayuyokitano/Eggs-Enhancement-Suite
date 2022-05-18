@@ -35,14 +35,15 @@ export async function getEggsHeaders(isAuthorizedRequest:boolean = false):Promis
   deviceId: any;
   deviceName: string;
 }> {
-  if (isAuthorizedRequest) {
+  const token = (await getToken()).token;
+  if (isAuthorizedRequest && token) {
     return {
       "User-Agent": eggsUserAgent,
       Apversion: "7.0.02",
       "Content-Type": "application/json; charset=utf-8",
       deviceId: await getDeviceID(),
       deviceName: "SM-G977N",
-      authorization: "Bearer " + (await getToken()).token,
+      authorization: "Bearer " + token,
     };
   }
   return {
@@ -54,7 +55,14 @@ export async function getEggsHeaders(isAuthorizedRequest:boolean = false):Promis
   };
 };
 
-export const processedPathname = () => "/" + window.location.pathname.split("/").filter((_,i)=>i%2).join("/")
+export function processedPathname() {
+  const playlistConcat = new URLSearchParams(window.location.search).has("playlist") ? "playlist" : "";
+  const processedPath = "/" + window.location.pathname.split("/").filter((_,i)=>i%2).join("/");
+  if (processedPath !== "/") {
+    return processedPath;
+  }
+  return processedPath + playlistConcat;
+}
 
 // returns shuffled array, avoids mutating the original array to allow unshuffling.
 export function shuffleArray(array:any[]) {

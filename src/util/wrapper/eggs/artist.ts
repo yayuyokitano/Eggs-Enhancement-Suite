@@ -68,5 +68,4 @@ export interface ArtistEndpoint {
 
 export async function artist(artistID:string) {
   return eggsRequest(`artists/artists/${artistID}/musics`, {}) as Promise<ArtistEndpoint>;
-  
 }

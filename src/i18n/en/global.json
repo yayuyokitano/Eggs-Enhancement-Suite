@@ -113,5 +113,8 @@
   "track": {
     "playNext": "Play Next",
     "addToQueue": "Add to queue"
+  },
+  "playlist": {
+    "error": "There was an error loading the playlist. It is possible that the playlist has been deleted or is private."
   }
 }

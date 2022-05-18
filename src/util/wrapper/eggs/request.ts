@@ -4,7 +4,6 @@ export async function eggsRequest(url: string, body: {[key:string]:any}, options
   isPostRequest?: boolean,
   isAuthorizedRequest?: boolean,
 }):Promise<{[key:string]:any}> {
-
   const requestOptions = options?.isPostRequest ? {
     method: "POST",
     headers: await getEggsHeaders(options?.isAuthorizedRequest),

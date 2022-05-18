@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { TFunction } from "react-i18next";
 import { artist, ArtistEndpoint } from "../../util/wrapper/eggs/artist";
-import { Track } from "../components/track";
+import { TrackContainer } from "../components/track";
 import "./artist.scss";
 
 export function Artist(t:TFunction) {
@@ -39,9 +39,7 @@ export function Artist(t:TFunction) {
     <div id="ees-artist">
       <div ref={ref} />
       <h2>{t("general.song.plural")}</h2>
-      <ul id="ees-song-list" className="ees-track-container">
-        {data?.data.map((song, i) => (<Track track={song} size="normal" z={data.data.length-i} t={t} />))}
-      </ul>
+      <TrackContainer data={data?.data} t={t} />
     </div>
   )
 }
