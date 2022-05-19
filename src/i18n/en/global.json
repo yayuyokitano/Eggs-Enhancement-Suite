@@ -3,6 +3,7 @@
     "loading": "Loading...",
     "error": "An error has occured",
     "login": "Login",
+    "register": "Register",
     "logoAlt": "Eggs | Japanese Indie Band Music Distribution Site",
     "artist": {
       "singular": "Artist",
@@ -60,6 +61,12 @@
       "placeholder": "Please enter an artist name",
       "genre": "Search by genre",
       "prefecture": "Search by prefecture"
+    },
+    "user": {
+      "myPage": "My Profile",
+      "uploadMusic": "Upload Music",
+      "auditionEntry": "Audition Entry",
+      "logout": "Log Out"
     }
   },
   "genre": {

@@ -57,6 +57,16 @@ function toggleActiveRegion(e: React.MouseEvent<HTMLElement, MouseEvent>) {
   e.currentTarget.classList.toggle("active");
 }
 
+function mobileLogout() {
+  browser.storage.local.remove("token");
+  window.location.reload();
+}
+
+document.addEventListener("click", (e) => {
+  if ((e.target as HTMLElement).closest("#ees-user-container")) return;
+  (document.getElementById("ees-user-container") as HTMLDetailsElement).removeAttribute("open");
+})
+
 export function UserComponent(props:{t:TFunction}) {
 
   const {t} = props;
@@ -92,16 +102,25 @@ export function UserComponent(props:{t:TFunction}) {
   if (!user.isLoggedIn) {
     return (
       <div id="ees-login">
-        
+        <a className="ees-header-button" href="/login">{t("general.login")}</a>
+        <a className="ees-header-button" href="/signup">{t("general.register")}</a>
       </div>
     );
   }
 
   return (
-    <div id="ees-user">
-      <img className="ees-icon" src={user.imageDataPath ?? defaultAvatar} />
-      <span className="ees-username">{user.displayName}</span>
-    </div>
+    <details id="ees-user-container">
+      <summary id="ees-user">
+        <img className="ees-icon" src={user.imageDataPath ?? defaultAvatar} />
+        <span className="ees-username">{user.displayName}</span>
+      </summary>
+      <ul>
+        <a href={`/user/${user.userName}`}><li>{t("nav.user.myPage")}</li></a>
+        <a href={`/upload`}><li>{t("nav.user.uploadMusic")}</li></a>
+        <a href={`/music/project`}><li>{t("nav.user.auditionEntry")}</li></a>
+        <a href="#logout" onClick={mobileLogout}><li>{t("nav.user.logout")}</li></a>
+      </ul>
+    </details>
   )
 }
 

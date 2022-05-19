@@ -3,6 +3,7 @@
     "loading": "ロード中...",
     "error": "エラーが発生しました",
     "login": "ログイン",
+    "register": "アカウント登録",
     "logoAlt": "Eggs｜インディーズバンド音楽配信サイト",
     "artist": {
       "singular": "アーティスト",
@@ -60,6 +61,12 @@
       "placeholder": "アーティスト名を入力",
       "genre": "ジャンルから探す",
       "prefecture": "地域から探す"
+    },
+    "user": {
+      "myPage": "マイページTOP",
+      "uploadMusic": "楽曲アップロード",
+      "auditionEntry": "オーディションエントリー",
+      "logout": "ログアウト"
     }
   },
   "genre": {
