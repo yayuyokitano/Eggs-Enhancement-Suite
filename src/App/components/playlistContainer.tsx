@@ -1,15 +1,15 @@
 import React from "react";
 
 import { TFunction } from "react-i18next";
-import { PlaylistPartial } from "../../util/wrapper/eggs/playlists";
+import { Playlist, PlaylistPartial } from "../../util/wrapper/eggs/playlists";
 import { PlaylistCover } from "./playlistcover";
 import "./playlistContainer.scss";
 import { getTimeSince } from "../../util/util";
 
-function Playlist(props:{playlist: PlaylistPartial, t: TFunction}) {
-  const { playlist, t } = props;
+function Playlist(props:{playlist: PlaylistPartial, t: TFunction, onPlaylistClick:(playlist:PlaylistPartial)=>void}) {
+  const { playlist, t, onPlaylistClick } = props;
   return (
-    <li className="ees-playlist">
+    <li className="ees-playlist" onClick={() => {onPlaylistClick(playlist)}}>
       <PlaylistCover
         imageURLs={playlist.arrayOfImageDataPath.split(",")}
         columnCount={2}
@@ -25,7 +25,7 @@ function Playlist(props:{playlist: PlaylistPartial, t: TFunction}) {
   );
 }
 
-export function PlaylistContainer(props:{t:TFunction, playlists:PlaylistPartial[], onPlaylistClick:(playlistId:string)=>void, loadingMore:boolean}) {
+export function PlaylistContainer(props:{t:TFunction, playlists:PlaylistPartial[], onPlaylistClick:(playlist:PlaylistPartial)=>void, loadingMore:boolean}) {
   const {t, playlists, onPlaylistClick, loadingMore} = props;
 
   return (
@@ -34,7 +34,7 @@ export function PlaylistContainer(props:{t:TFunction, playlists:PlaylistPartial[
     >
       {
         playlists.map((playlist) => (
-          <Playlist playlist={playlist} t={t} />
+          <Playlist playlist={playlist} t={t} onPlaylistClick={onPlaylistClick} />
         ))
       }
       {

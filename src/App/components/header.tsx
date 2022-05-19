@@ -110,8 +110,8 @@ function searchOnClick(e:React.MouseEvent<HTMLSpanElement, MouseEvent>) {
   document.getElementsByClassName("artistSearchBox")[0].classList.toggle("hidden");
 }
 
-function addToPlaylist(playlist:string) {
-  console.log("Wouldve added to " + playlist);
+function addToPlaylist(playlist:PlaylistPartial) {
+  console.log("Wouldve added to " + playlist.playlistName);
 }
 
 function PlaylistDialog(props: {t:TFunction}) {
