@@ -3,7 +3,6 @@ import icon from "../../icons/icon128.png";
 
 export function PlaylistCover(props: {imageURLs:string[]|undefined, columnCount:number, rowCount:number, width:number, height:number}) {
   const { columnCount, rowCount, width, height} = props;
-  console.log(icon);
 
   const imageURLs = props.imageURLs?.filter((url) => url) ?? [];
 

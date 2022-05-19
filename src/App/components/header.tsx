@@ -8,7 +8,7 @@ import "./dialog.scss";
 import { t } from "i18next";
 import browser from "webextension-polyfill";
 import { PlaylistContainer } from "./playlistContainer";
-import { getPlaylists, PlaylistPartial } from "../../util/wrapper/eggs/playlists";
+import { getPlaylists, playlistAdd, PlaylistPartial } from "../../util/wrapper/eggs/playlists";
 
 interface User {
   displayName: string;
@@ -110,8 +110,20 @@ function searchOnClick(e:React.MouseEvent<HTMLSpanElement, MouseEvent>) {
   document.getElementsByClassName("artistSearchBox")[0].classList.toggle("hidden");
 }
 
-function addToPlaylist(playlist:PlaylistPartial) {
-  console.log("Wouldve added to " + playlist.playlistName);
+function createAddToPlaylistFunction(setReload:React.Dispatch<React.SetStateAction<boolean>>) {
+  return async (playlist:PlaylistPartial) => {
+    const dialog = (document.querySelector("#ees-playlist-dialog") as HTMLDialogElement);
+    dialog.close();
+    const header = (document.querySelector("#ees-playlist-dialog h2") as HTMLElement);
+    const musicId = header.dataset.musicId;
+    const artistId = header.dataset.artistId;
+    if (!musicId || !artistId) return;
+    await playlistAdd(playlist, {
+      artistId: Number(artistId),
+      musicId
+    });
+    setReload(true);
+  }
 }
 
 function PlaylistDialog(props: {t:TFunction}) {
@@ -120,6 +132,7 @@ function PlaylistDialog(props: {t:TFunction}) {
   const [playlists, setPlaylists] = useState<PlaylistPartial[]>();
   const [totalCount, setTotalCount] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [shouldReload, setReload] = useState(false);
 
   useEffect(() => {
     getPlaylists(10).then((playlists) => {
@@ -128,6 +141,16 @@ function PlaylistDialog(props: {t:TFunction}) {
       setOffsetHash(playlists.offsetHash);
     });
   }, []);
+
+  useEffect(() => {
+    if (!shouldReload) return;
+    setReload(false);
+    getPlaylists(10).then((playlists) => {
+      setTotalCount(playlists.totalCount);
+      setPlaylists(playlists.data);
+      setOffsetHash(playlists.offsetHash);
+    });
+  }, [shouldReload]);
 
   if (!playlists) return (
     <dialog id="ees-playlist-dialog">
@@ -152,12 +175,17 @@ function PlaylistDialog(props: {t:TFunction}) {
           });
         }
       }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          (e.target as HTMLDialogElement).close();
+        }
+      }}
     >
       <h2>{t("playlist.select")}</h2>
       <PlaylistContainer
         t={t}
         playlists={playlists}
-        onPlaylistClick={ addToPlaylist }
+        onPlaylistClick={ createAddToPlaylistFunction(setReload) }
         loadingMore={loadingMore}
       />
     </dialog>

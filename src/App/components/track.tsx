@@ -53,7 +53,9 @@ function addToQueue(track:SongData) {
 }
 
 function addToPlaylist(track:SongData) {
-  //document.querySelector("#ees-playlist-dialog h3")!.textContent = `${track.artistData.displayName} - ${track.musicTitle}`;
+  const header = (document.querySelector("#ees-playlist-dialog h2") as HTMLElement);
+  header.dataset.musicId = track.musicId;
+  header.dataset.artistId = track.artistData.artistId.toString();
   (document.querySelector("#ees-playlist-dialog") as HTMLDialogElement).showModal();
 }
 
@@ -102,7 +104,7 @@ export function Track(props:{track:SongData, size:"normal", z:number, t:TFunctio
           <ul className="ees-track-menu">
             <li onClick={() => { playNext(track) }}>{t("track.playNext")}</li>
             <li onClick={() => { addToQueue(track) }}>{t("track.addToQueue")}</li>
-            <li onClick={() => { addToPlaylist(track) }}>{t("track.addToPlaylist")}</li>
+            <li className="ees-playlist-modal-creator" onClick={() => { addToPlaylist(track) }}>{t("track.addToPlaylist")}</li>
             <li>hallo</li>
             <li>hallo</li>
             <li>hallo</li>

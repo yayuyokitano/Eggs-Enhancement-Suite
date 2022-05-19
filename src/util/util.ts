@@ -113,10 +113,6 @@ export function getTimeSince(timestamp:string, t:TFunction) {
   if (minutes) {
     return minutes.toString() + t(`general.timeSince.minute.${numToSingularPlural(minutes)}`);
   }
-  const seconds = Math.floor(diff / 1000);
-  if (seconds) {
-    return seconds.toString() + t(`general.timeSince.second.${numToSingularPlural(seconds)}`);
-  }
   return t("general.timeSince.recent");
 
 }

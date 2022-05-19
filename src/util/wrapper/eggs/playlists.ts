@@ -44,3 +44,22 @@ export async function getPlaylists(limit:number, offsetHash?:string) {
   if (offsetHash) qs += `&offsetHash=${offsetHash}`;
   return eggsRequest(`playlists/playlists?${qs}`, {}, { isAuthorizedRequest: true }) as Promise<PlaylistPartials>;
 }
+
+interface PlaylistModifier {
+  playlistId: string;
+  playlistName: string;
+  arrayOfArtistId: string;
+  arrayOfMusicId: string;
+  isPrivate: number;
+}
+
+export async function playlistAdd(playlist:PlaylistPartial, song:{artistId:number, musicId:string}) {
+  const playlistModifier = {
+    playlistId: playlist.playlistId,
+    playlistName: playlist.playlistName,
+    arrayOfArtistId: playlist.arrayOfArtistId + `,${song.artistId}`,
+    arrayOfMusicId: playlist.arrayOfMusicId + `,${song.musicId}`,
+    isPrivate: playlist.isPrivate,
+  }
+  return eggsRequest(`playlists/playlists`, playlistModifier, { isPutRequest: true, isAuthorizedRequest: true }) as Promise<Playlist>;
+}
