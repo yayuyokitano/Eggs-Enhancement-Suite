@@ -14,9 +14,9 @@ export function PlaylistCover(props: {imageURLs:string[]|undefined, columnCount:
         backgroundImage: `url(${icon})`,
       }}
     >
-      {imageURLs.slice(0, rowCount * columnCount).map((imageURL) => {
+      {imageURLs.slice(0, rowCount * columnCount).map((imageURL, i) => {
         return <img
-          key={imageURL}
+          key={i}
           src={imageURL}
           alt=""
           width={`${width/columnCount}px`}

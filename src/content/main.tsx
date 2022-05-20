@@ -10,6 +10,7 @@ import arrive from "arrive";
 import { createSpa } from '../App/player/spa';
 import { endpoints } from '../util/endpoints';
 import { processedPathname } from '../util/util';
+import { runScripts } from '../util/scripts';
 arrive
 
 function App() {
@@ -30,6 +31,12 @@ function App() {
 }
 
 async function loadContent() {
+
+  try {
+    await runScripts();
+  } catch {
+    console.error("Failed to authenticate, invalid key");
+  }
   // Create SPA if top level or top level within cypress
   if (window.frameElement === null || window.frameElement.classList.contains("aut-iframe")) {
     createSpa();

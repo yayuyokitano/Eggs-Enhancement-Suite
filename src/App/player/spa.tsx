@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { convertTime, defaultAvatar } from '../../util/util';
+import { convertTime, defaultAvatar, lastfmAuthLink } from '../../util/util';
 import { SongData } from '../../util/wrapper/eggs/artist';
 import { initializePlayback, PlaybackController } from './playback';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
@@ -12,6 +12,10 @@ import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
 import RepeatOneRoundedIcon from '@mui/icons-material/RepeatOneRounded';
 import "./spa.scss";
 import { Repeat } from '../../util/queue';
+import { LastFMIcon } from '../../util/icons';
+import LastFM from "lastfm-typed";
+import { getInfo as TrackInfo } from "lastfm-typed/dist/interfaces/trackInterface";
+import browser from 'webextension-polyfill';
 var root:ReactDOM.Root;
 
 export function createSpa() {
@@ -87,12 +91,13 @@ function Player() {
       </div>
       <div id="ees-player-controls">
         <div id="ees-player-controls-buttons">
-          <button id="ees-shuffle" className="ees-navtype" data-state={shuffle} onClick={() => playbackController?.toggleShuffle()}><ShuffleRoundedIcon /></button>
-          <button id="ees-prev" className="ees-playnav" onClick={() => {playbackController?.previous()}}><SkipPreviousRoundedIcon /></button>
-          <button id="ees-play" className={`ees-playpause ${playbackController?.isPlaying ? "ees-hidden":""}`} onClick={() => {playbackController?.play()}}><PlayArrowRoundedIcon /></button>
-          <button id="ees-pause" className={`ees-playpause ${playbackController?.isPlaying ? "":"ees-hidden"}`} onClick={() => {playbackController?.pause()}}><PauseRoundedIcon /></button>
-          <button id="ees-next" className="ees-playnav" onClick={() => {playbackController?.next()}}><SkipNextRoundedIcon /></button>
-          <button id="ees-repeat" className="ees-navtype" data-state={repeat} onClick={() => playbackController?.cycleRepeat()}>{
+          <LastFMButton track={current} />
+          <button type="button" id="ees-shuffle" className="ees-navtype" data-state={shuffle} onClick={() => playbackController?.toggleShuffle()}><ShuffleRoundedIcon /></button>
+          <button type="button" id="ees-prev" className="ees-playnav" onClick={() => {playbackController?.previous()}}><SkipPreviousRoundedIcon /></button>
+          <button type="button" id="ees-play" className={`ees-playpause ${playbackController?.isPlaying ? "ees-hidden":""}`} onClick={() => {playbackController?.play()}}><PlayArrowRoundedIcon /></button>
+          <button type="button" id="ees-pause" className={`ees-playpause ${playbackController?.isPlaying ? "":"ees-hidden"}`} onClick={() => {playbackController?.pause()}}><PauseRoundedIcon /></button>
+          <button type="button" id="ees-next" className="ees-playnav" onClick={() => {playbackController?.next()}}><SkipNextRoundedIcon /></button>
+          <button type="button" id="ees-repeat" className="ees-navtype" data-state={repeat} onClick={() => playbackController?.cycleRepeat()}>{
             repeat === Repeat.One ?
             <RepeatOneRoundedIcon /> :
             <RepeatRoundedIcon />
@@ -110,4 +115,30 @@ function Player() {
       <iframe id="ees-youtube-container" ref={youtubeRef}></iframe>
     </div>
   );
+}
+
+function LastFMButton(props: { track: SongData|undefined }) {
+  const {track} = props;
+
+  const [sk, setSk] = useState("");
+
+  useEffect(() => {
+    if (sk) return;
+    browser.storage.local.get("lastfmToken").then((token) => {
+      if (!token.lastfmToken) return;
+      setSk(token.lastfmToken);
+    });
+  }, []);
+
+  if (!sk) return (
+    <a 
+      id="ees-lastfm"
+      className="ees-navtype ees-disabled"
+      href={lastfmAuthLink()}
+    >
+      <LastFMIcon />
+    </a>
+  );
+  
+  return <button type="button" id="ees-lasfm" className="ees-navtype"><LastFMIcon /></button>
 }

@@ -64,7 +64,7 @@ function mobileLogout() {
 
 document.addEventListener("click", (e) => {
   if ((e.target as HTMLElement).closest("#ees-user-container")) return;
-  (document.getElementById("ees-user-container") as HTMLDetailsElement).removeAttribute("open");
+  (document.getElementById("ees-user-container") as HTMLDetailsElement)?.removeAttribute("open");
 })
 
 export function UserComponent(props:{t:TFunction}) {

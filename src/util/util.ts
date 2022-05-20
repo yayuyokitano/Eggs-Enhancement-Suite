@@ -1,5 +1,6 @@
 import { TFunction } from "react-i18next";
 import browser from "webextension-polyfill";
+import { apiKey } from "./scrobbler";
 
 const generateRandomHex = (size:number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
 
@@ -114,5 +115,22 @@ export function getTimeSince(timestamp:string, t:TFunction) {
     return minutes.toString() + t(`general.timeSince.minute.${numToSingularPlural(minutes)}`);
   }
   return t("general.timeSince.recent");
+}
 
+export function addToSearch(url:string, addedParams:{[key:string]:string}) {
+  const params = new URLSearchParams(url.split("?")[1]);
+  for (let [key, value] of Object.entries(addedParams)) {
+    params.set(key, value);
+  }
+  return url.split("?")[0] + "?" + params.toString();
+}
+
+export function lastfmAuthLink() {
+  const location = addToSearch(window.location.href, {
+    "script": "lastfm-auth",
+  });
+  return addToSearch("http://www.last.fm/api/auth/", {
+    "api_key": apiKey,
+    "cb": location
+  });
 }

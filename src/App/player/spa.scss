@@ -8,6 +8,10 @@ $metadata-width-small: 5rem;
   display: none;
 }
 
+.ees-disabled svg {
+  fill: #333 !important;
+}
+
 #ees-spa-iframe {
   width: 100%;
   height: calc(100vh - $player-height);
