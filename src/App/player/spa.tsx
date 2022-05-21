@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { convertTime, defaultAvatar, lastfmAuthLink, processArtistName, processTrackName } from '../../util/util';
+import { convertTime, defaultAvatar, lastfmAuthLink, processAlbumName, processArtistName, processTrackName } from '../../util/util';
 import { SongData } from '../../util/wrapper/eggs/artist';
 import { initializePlayback, PlaybackController } from './playback';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
@@ -187,7 +187,7 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction }) {
         } else {
           setProcessedTrack({
             track: processTrackName(track.musicTitle),
-            album: lfmTrack?.album?.title ?? "",
+            album: processAlbumName(lfmTrack?.album?.title),
             artist: processArtistName(track.artistData.displayName),
           });
         }

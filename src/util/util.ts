@@ -146,13 +146,17 @@ const artistFilters = [
   `${prefix}?\s*(official|公式)\s*${suffix}?`,
 ];
 
+const albumFilters = [
+  " - (EP|Single)"
+];
+
 export function processTrackName(track:string|undefined) {
   if (!track) return "";
   for (let filter of trackFilters) {
     const regex = new RegExp(filter, "gi");
     track = track.replace(regex, "");
   }
-  return track;
+  return track.trim();
 }
 
 export function processArtistName(artist:string|undefined) {
@@ -161,5 +165,14 @@ export function processArtistName(artist:string|undefined) {
     const regex = new RegExp(filter, "gi");
     artist = artist.replace(regex, "");
   }
-  return artist;
+  return artist.trim();
+}
+
+export function processAlbumName(album:string|undefined) {
+  if (!album) return "";
+  for (let filter of albumFilters) {
+    const regex = new RegExp(filter, "gi");
+    album = album.replace(regex, "");
+  }
+  return album.trim();
 }
