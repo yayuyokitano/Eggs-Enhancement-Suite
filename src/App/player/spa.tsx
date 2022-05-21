@@ -172,27 +172,35 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction }) {
       return;
     }
 
-    lastfm.track.getInfo(lastfm.helper.TrackFromName(track.artistData.displayName, processTrackName(track.musicTitle)), {
-      sk
-    }).then(lfmTrack => {
-      setLastfmTrack(lfmTrack);
-      browser.storage.sync.get(track.musicId).then((editResult) => {
-        const edit = editResult?.[track.musicId];
-        if (edit) {
-          setProcessedTrack({
-            track: edit.track,
-            album: edit?.album,
-            artist: edit?.artist,
-          });
-        } else {
+    browser.storage.sync.get(track.musicId).then((editResult) => {
+      const edit = editResult?.[track.musicId];
+      if (edit) {
+        setProcessedTrack({
+          track: edit.track,
+          album: edit?.album,
+          artist: edit?.artist,
+        });
+      }
+
+      lastfm.track.getInfo(lastfm.helper.TrackFromName(track.artistData.displayName, processTrackName(track.musicTitle)), {
+        sk
+      }).then(lfmTrack => {
+        setLastfmTrack(lfmTrack);
+        if (!edit) {
           setProcessedTrack({
             track: processTrackName(track.musicTitle),
             album: processAlbumName(lfmTrack?.album?.title),
             artist: processArtistName(track.artistData.displayName),
           });
         }
-      })
-      
+      }).catch(() => {
+        setLastfmTrack(undefined);
+        setProcessedTrack({
+          track: processTrackName(track.musicTitle),
+          album: "",
+          artist: processArtistName(track.artistData.displayName),
+        });
+      });
     });
   }, [track]);
 

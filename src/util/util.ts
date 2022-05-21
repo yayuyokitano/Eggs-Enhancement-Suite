@@ -135,15 +135,15 @@ export function lastfmAuthLink() {
   });
 }
 
-const prefix = "[([{（「『｢【［｛〈〔《]_＿";
-const suffix = "[)\]}）」』｣】］｝〉〕》]";
+const prefix = "[([{（「『｢【［｛〈〔《（_＿]";
+const suffix = "[)\\]}）」』｣】］｝〉〕》）]";
 
 const trackFilters = [
-  `${prefix}?\s*(MV|ＭＶ|DEMO|デモ|ＤＥＭＯ)\s*${suffix}?`,
+  `${prefix}?\\s*(MV|ＭＶ|DEMO|デモ|ＤＥＭＯ)\\s*${suffix}?`,
 ];
 
 const artistFilters = [
-  `${prefix}?\s*(official|公式)\s*${suffix}?`,
+  `${prefix}?\\s*(official|公式)\\s*${suffix}?`,
 ];
 
 const albumFilters = [
