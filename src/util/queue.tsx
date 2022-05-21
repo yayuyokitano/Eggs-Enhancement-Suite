@@ -7,6 +7,7 @@ import { SongData, SourceType } from "./wrapper/eggs/artist";
 import EventEmitter from "events";
 import TypedEmitter from "typed-emitter";
 import { TimeData } from '../App/player/spa';
+import { Scrobbler } from './scrobbler';
 
 
 export enum Repeat {
@@ -210,6 +211,17 @@ export class Queue {
   private youtube:React.RefObject<HTMLIFrameElement>;
   private setTimeData:React.Dispatch<React.SetStateAction<TimeData>>
   private _isPlaying = false;
+  private scrobbler = new Scrobbler();
+  private realCurrent = 0;
+  private scrobbled = false;
+  private _scrobbleInfo = {
+    track: "",
+    album: "",
+    artist: "",
+  }
+  private secondInterval = setInterval(() => {
+    this.secondUpdate();
+  }, 1000);
 
   constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>) {
     this.initialQueue = initialQueue;
@@ -235,6 +247,7 @@ export class Queue {
     this.historyStack.empty();
     this.currentElement?.destroy();
     delete this.currentElement;
+    clearInterval(this.secondInterval);
   }
 
   public play() {
@@ -249,6 +262,9 @@ export class Queue {
 
   public next() {
     if (!this.innerQueue.length) return;
+    this.realCurrent = 0;
+    this.scrobbled = false;
+
     this.pause();
     this.pop();
     this.play();
@@ -257,6 +273,8 @@ export class Queue {
   public previous() {
     const newTrack = this.historyStack.pop();
     if (!newTrack) return;
+    this.realCurrent = 0;
+    this.scrobbled = false;
 
     this.pause();
     this.innerQueue.playNext(this.current);
@@ -349,6 +367,18 @@ export class Queue {
     this.preload();
   }
 
+  private secondUpdate() {
+    if (!this.isPlaying) return;
+    this.realCurrent++;
+    this.attemptScrobble();
+  }
+
+  private attemptScrobble() {
+    if (!this.scrobbler.loggedIn || this.scrobbled || this.duration < 30 || this.realCurrent < this.duration / 2) return;
+    this.scrobbled = true;
+    this.scrobbler.scrobble(this.scrobbleInfo, this.duration);
+  }
+
   get length() {
     return this.innerQueue.length + this.innerOverrideQueue.length;
   }
@@ -359,6 +389,19 @@ export class Queue {
 
   get isPlaying() {
     return this._isPlaying;
+  }
+
+  get duration() {
+    return Number(document.getElementById("ees-player-controls-time")?.dataset.duration ?? 0);
+  }
+
+  get scrobbleInfo() {
+    return this._scrobbleInfo;
+  }
+
+  set scrobbleInfo(info:{artist:string, album:string, track:string}) {
+    this._scrobbleInfo = info;
+    this.scrobbler.nowPlaying(info, this.duration);
   }
 
   set shuffle(value:boolean) {

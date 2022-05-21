@@ -39,7 +39,7 @@
   "license": "AGPL-3.0",
   "scripts": {
     "start": "parcel watch src/manifest.json --host localhost --config @parcel/config-webextension",
-    "build": "parcel build src/manifest.json --config @parcel/config-webextension"
+    "build": "parcel build src/manifest.json --config @parcel/config-webextension --dist-dir build"
   },
   "dependencies": {
     "arrive": "^2.4.1"

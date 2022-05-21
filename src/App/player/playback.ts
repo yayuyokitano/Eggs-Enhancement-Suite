@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom/client";
 
 import { Queue, Repeat } from "../../util/queue";
+import { Scrobbler } from "../../util/scrobbler";
 import { SongData } from "../../util/wrapper/eggs/artist";
 import { TimeData } from "./spa";
 
@@ -90,7 +91,7 @@ export class PlaybackController {
   }
 
   public setCurrentTime(percentage:number) {
-    this.queue?.setCurrentTime(percentage * this.duration);
+    this.queue?.setCurrentTime(percentage * (this.duration ?? 0));
   }
 
   public toggleShuffle() {
@@ -107,12 +108,17 @@ export class PlaybackController {
     this.queue.repeat = this.repeat;
   }
 
+  set scrobbleInfo(scrobble:{artist:string, track:string, album:string}) {
+    if (!this.queue) return;
+    this.queue.scrobbleInfo = scrobble;
+  }
+
   get current() {
     return this.queue?.current;
   }
 
   get duration() {
-    return Number(document.getElementById("ees-player-controls-time")?.dataset.duration ?? 0);
+    return this.queue?.duration;
   }
 
   get isPlaying() {

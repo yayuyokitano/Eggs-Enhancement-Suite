@@ -5,6 +5,7 @@
     "login": "Login",
     "register": "Register",
     "logoAlt": "Eggs | Japanese Indie Band Music Distribution Site",
+    "confirm": "Confirm",
     "artist": {
       "singular": "Artist",
       "plural": "Artists"

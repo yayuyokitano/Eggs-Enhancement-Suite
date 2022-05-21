@@ -15,10 +15,10 @@ import { Repeat } from '../../util/queue';
 import { LastFMIcon } from '../../util/icons';
 import LastFM from "lastfm-typed";
 import { getInfo as TrackInfo } from "lastfm-typed/dist/interfaces/trackInterface";
-import browser from 'webextension-polyfill';
 import { apiKey, apiSecret, userAgent } from '../../util/scrobbler';
 import "../../i18n/config";
 import { TFunction, useTranslation } from 'react-i18next';
+import browser from 'webextension-polyfill';
 var root:ReactDOM.Root;
 
 export function createSpa() {
@@ -52,7 +52,6 @@ function SPA() {
   const {t, i18n} = useTranslation(["global"]);
 
   useEffect(() => {
-    console.log("a");
     function handleMessage(message:any) {
       if (message.type === "changeLanguage") {
         console.log("change language to " + message.lang);
@@ -112,7 +111,7 @@ function Player(props:{ t:TFunction }) {
       </div>
       <div id="ees-player-controls">
         <div id="ees-player-controls-buttons">
-          <LastFMButton track={current} t={t} />
+          <LastFMButton track={current} t={t} playbackController={playbackController} />
           <button type="button" id="ees-shuffle" className="ees-navtype" data-state={shuffle} onClick={() => playbackController?.toggleShuffle()}><ShuffleRoundedIcon /></button>
           <button type="button" id="ees-prev" className="ees-playnav" onClick={() => {playbackController?.previous()}}><SkipPreviousRoundedIcon /></button>
           <button type="button" id="ees-play" className={`ees-playpause ${playbackController?.isPlaying ? "ees-hidden":""}`} onClick={() => {playbackController?.play()}}><PlayArrowRoundedIcon /></button>
@@ -138,8 +137,8 @@ function Player(props:{ t:TFunction }) {
   );
 }
 
-function LastFMButton(props: { track: SongData|undefined, t:TFunction }) {
-  const { track, t } = props;
+function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackController:PlaybackController|undefined}) {
+  const { track, t, playbackController } = props;
 
   const [sk, setSk] = useState("");
   const [lastfmTrack, setLastfmTrack] = useState<TrackInfo>();
@@ -163,6 +162,7 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction }) {
   }, []);
 
   useEffect(() => {
+
     if (!track) {
       setProcessedTrack({
         track: "",
@@ -172,37 +172,21 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction }) {
       return;
     }
 
-    browser.storage.sync.get(track.musicId).then((editResult) => {
-      const edit = editResult?.[track.musicId];
-      if (edit) {
-        setProcessedTrack({
-          track: edit.track,
-          album: edit?.album,
-          artist: edit?.artist,
-        });
-      }
-
-      lastfm.track.getInfo(lastfm.helper.TrackFromName(track.artistData.displayName, processTrackName(track.musicTitle)), {
-        sk
-      }).then(lfmTrack => {
-        setLastfmTrack(lfmTrack);
-        if (!edit) {
-          setProcessedTrack({
-            track: processTrackName(track.musicTitle),
-            album: processAlbumName(lfmTrack?.album?.title),
-            artist: processArtistName(track.artistData.displayName),
-          });
-        }
-      }).catch(() => {
-        setLastfmTrack(undefined);
-        setProcessedTrack({
-          track: processTrackName(track.musicTitle),
-          album: "",
-          artist: processArtistName(track.artistData.displayName),
-        });
-      });
-    });
+    try {
+      browser.storage.sync.get(track.musicId).then((e) => {
+        setTrack(e[track.musicId], track, lastfm, sk, setLastfmTrack, setProcessedTrack, playbackController);
+      })
+      .catch((e) => console.log(e));
+    } catch(e) {
+      setTrack(null, track, lastfm, sk, setLastfmTrack, setProcessedTrack, playbackController)
+    }
+    
   }, [track]);
+
+  useEffect(() => {
+    if (!playbackController) return;
+    playbackController.scrobbleInfo = processedTrack;
+  }, [processedTrack]);
 
   if (!sk) return (
     <a 
@@ -223,7 +207,7 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction }) {
         <input type="text" id="ees-lastfm-edit-album" name="album" defaultValue={processedTrack.album} />
         <label htmlFor="ees-lastfm-edit-artist">{t("general.artist.singular")}</label>
         <input type="text" id="ees-lastfm-edit-artist" name="artist" defaultValue={processedTrack.artist} />
-        <button type="button" id="ees-lastfm-submit-edit">Confirm</button>
+        <button type="button" id="ees-lastfm-submit-edit" onClick={() => {saveEdit(track, setProcessedTrack)}}>{t("general.confirm")}</button>
       </div>
       <summary id="ees-lastfm" className="ees-navtype">
         <LastFMIcon />
@@ -255,4 +239,93 @@ function onKeyDown(e:React.KeyboardEvent<HTMLDivElement>, track:SongData|undefin
 
 function updateSongMetadata(track:SongData|undefined) {
   console.log(track);
+}
+
+function saveEdit(track:SongData|undefined, setProcessedTrack:React.Dispatch<React.SetStateAction<{
+  track: string;
+  album: string;
+  artist: string;
+}>>) {
+  if (!track) return;
+  const editedTrack = {
+    track: (document.getElementById("ees-lastfm-edit-track") as HTMLInputElement)?.value,
+    album: (document.getElementById("ees-lastfm-edit-album") as HTMLInputElement)?.value ?? "",
+    artist: (document.getElementById("ees-lastfm-edit-artist") as HTMLInputElement)?.value,
+  }
+  if (!editedTrack.track || !editedTrack.track) return;
+  (document.getElementById("ees-lastfm-edit") as HTMLDetailsElement)?.removeAttribute("open");
+  try {
+    browser.storage.sync.set({
+      [track.musicId]: editedTrack
+    });
+    setProcessedTrack(editedTrack);
+  } catch(e) {
+    console.log("Failed to save edit.");
+    console.error(e);
+  }
+}
+
+function setTrack(
+  edit:{
+    artist:string,
+    album:string,
+    track:string,
+  }|null,
+  track:SongData,
+  lastfm:LastFM, sk:string,
+  setLastfmTrack:React.Dispatch<React.SetStateAction<TrackInfo | undefined>>,
+  setProcessedTrack:React.Dispatch<React.SetStateAction<{
+    track: string;
+    album: string;
+    artist: string;
+  }>>,
+  playbackController:PlaybackController|undefined
+){
+  let newTrack = {
+    track: "",
+    album: "",
+    artist: "",
+  }
+
+  if (edit) {
+    newTrack = {
+      track: edit.track,
+      album: edit?.album,
+      artist: edit?.artist,
+    };
+  }
+
+  lastfm.track.getInfo(lastfm.helper.TrackFromName(newTrack.artist || track.artistData.displayName, newTrack.track || processTrackName(track.musicTitle)), {
+    sk
+  }).then(lfmTrack => {
+    setLastfmTrack(lfmTrack);
+    
+    if (!edit) {
+      newTrack = {
+        track: processTrackName(track.musicTitle),
+        album: processAlbumName(lfmTrack?.album?.title),
+        artist: processArtistName(track.artistData.displayName),
+      };
+    }
+
+    setProcessedTrack(newTrack);
+    if (!playbackController) return;
+    playbackController.scrobbleInfo = newTrack;
+
+  }).catch(() => {
+
+    setLastfmTrack(undefined);
+    if (!edit) {
+      newTrack = {
+        track: processTrackName(track.musicTitle),
+        album: "",
+        artist: processArtistName(track.artistData.displayName),
+      }
+    }
+    
+    setProcessedTrack(newTrack);
+    if (!playbackController) return;
+    playbackController.scrobbleInfo = newTrack;
+
+  });
 }
