@@ -147,6 +147,11 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
     album: "",
     artist: ""
   });
+  const [trackForm, setTrackForm] = useState({
+    track: "",
+    album: "",
+    artist: ""
+  });
 
   const lastfm = new LastFM(apiKey, {
     apiSecret,
@@ -174,16 +179,17 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
 
     try {
       browser.storage.sync.get(track.musicId).then((e) => {
-        setTrack(e[track.musicId], track, lastfm, sk, setLastfmTrack, setProcessedTrack, playbackController);
+        setTrack(e[track.musicId], track, lastfm, sk, setLastfmTrack, setProcessedTrack);
       })
       .catch((e) => console.log(e));
     } catch(e) {
-      setTrack(null, track, lastfm, sk, setLastfmTrack, setProcessedTrack, playbackController)
+      setTrack(null, track, lastfm, sk, setLastfmTrack, setProcessedTrack)
     }
     
   }, [track]);
 
   useEffect(() => {
+    setTrackForm(processedTrack);
     if (!playbackController) return;
     playbackController.scrobbleInfo = processedTrack;
     lastfm.track.getInfo(lastfm.helper.TrackFromName(processedTrack.artist, processedTrack.track), { sk }).then((e) => {
@@ -207,11 +213,41 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
     <details id="ees-lastfm-edit">
       <div id="ees-lastfm-edit-window" onKeyDown={(e) => {onKeyDown(e, track)}}>
         <label htmlFor="ees-lastfm-edit-track">{t("general.song.singular")}</label>
-        <input type="text" id="ees-lastfm-edit-track" name="track" defaultValue={processedTrack.track} />
+        <input
+          type="text"
+          id="ees-lastfm-edit-track"
+          name="track"
+          value={trackForm.track}
+          onChange={(e) => { setTrackForm({
+            track: e.target.value,
+            album: trackForm.album,
+            artist: trackForm.artist
+          }) }}
+        />
         <label htmlFor="ees-lastfm-edit-album">{t("general.album.singular")}</label>
-        <input type="text" id="ees-lastfm-edit-album" name="album" defaultValue={processedTrack.album} />
+        <input
+          type="text"
+          id="ees-lastfm-edit-album"
+          name="album"
+          value={trackForm.album}
+          onChange={(e) => { setTrackForm({
+            track: trackForm.track,
+            album: e.target.value,
+            artist: trackForm.artist
+          }) }}
+        />
         <label htmlFor="ees-lastfm-edit-artist">{t("general.artist.singular")}</label>
-        <input type="text" id="ees-lastfm-edit-artist" name="artist" defaultValue={processedTrack.artist} />
+        <input
+          type="text"
+          id="ees-lastfm-edit-artist"
+          name="artist"
+          value={trackForm.artist}
+          onChange={(e) => { setTrackForm({
+            track: trackForm.track,
+            album: trackForm.album,
+            artist: e.target.value
+          }) }}
+        />
         <button type="button" id="ees-lastfm-submit-edit" onClick={() => {saveEdit(track, setProcessedTrack)}}>{t("general.confirm")}</button>
       </div>
       <summary id="ees-lastfm" className="ees-navtype">
@@ -283,8 +319,7 @@ function setTrack(
     track: string;
     album: string;
     artist: string;
-  }>>,
-  playbackController:PlaybackController|undefined
+  }>>
 ){
   let newTrack = {
     track: "",
@@ -295,8 +330,8 @@ function setTrack(
   if (edit) {
     newTrack = {
       track: edit.track,
-      album: edit?.album,
-      artist: edit?.artist,
+      album: edit.album,
+      artist: edit.artist,
     };
   }
 
@@ -314,8 +349,6 @@ function setTrack(
     }
 
     setProcessedTrack(newTrack);
-    if (!playbackController) return;
-    playbackController.scrobbleInfo = newTrack;
 
   }).catch(() => {
 
@@ -329,8 +362,6 @@ function setTrack(
     }
     
     setProcessedTrack(newTrack);
-    if (!playbackController) return;
-    playbackController.scrobbleInfo = newTrack;
 
   });
 }
