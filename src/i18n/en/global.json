@@ -9,6 +9,10 @@
       "singular": "Artist",
       "plural": "Artists"
     },
+    "album": {
+      "singular": "Album",
+      "plural": "Albums"
+    },
     "song": {
       "singular": "Song",
       "plural": "Songs"

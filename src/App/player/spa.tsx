@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { convertTime, defaultAvatar, lastfmAuthLink } from '../../util/util';
+import { convertTime, defaultAvatar, lastfmAuthLink, processArtistName, processTrackName } from '../../util/util';
 import { SongData } from '../../util/wrapper/eggs/artist';
 import { initializePlayback, PlaybackController } from './playback';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
@@ -16,6 +16,9 @@ import { LastFMIcon } from '../../util/icons';
 import LastFM from "lastfm-typed";
 import { getInfo as TrackInfo } from "lastfm-typed/dist/interfaces/trackInterface";
 import browser from 'webextension-polyfill';
+import { apiKey, apiSecret, userAgent } from '../../util/scrobbler';
+import "../../i18n/config";
+import { TFunction, useTranslation } from 'react-i18next';
 var root:ReactDOM.Root;
 
 export function createSpa() {
@@ -45,6 +48,23 @@ function updateSpa(event:SyntheticEvent<HTMLIFrameElement, Event>) {
 }
 
 function SPA() {
+
+  const {t, i18n} = useTranslation(["global"]);
+
+  useEffect(() => {
+    console.log("a");
+    function handleMessage(message:any) {
+      if (message.type === "changeLanguage") {
+        console.log("change language to " + message.lang);
+        i18n.changeLanguage(message.lang);
+      }
+    }
+    browser.runtime.onMessage.addListener(handleMessage);
+    return () => {
+      browser.runtime.onMessage.removeListener(handleMessage);
+    }
+  });
+
   return (
     <div>
       <iframe
@@ -52,7 +72,7 @@ function SPA() {
         src={window.location.href}
         onLoad={updateSpa}
       />
-      <Player />
+      <Player t={t} />
     </div>
   );
 }
@@ -62,7 +82,8 @@ export interface TimeData {
   duration: number;
 }
 
-function Player() {
+function Player(props:{ t:TFunction }) {
+  const { t } = props;
 
   const [playbackController, setPlaybackController] = useState<PlaybackController>();
   const [current, setCurrent] = useState<SongData>();
@@ -91,7 +112,7 @@ function Player() {
       </div>
       <div id="ees-player-controls">
         <div id="ees-player-controls-buttons">
-          <LastFMButton track={current} />
+          <LastFMButton track={current} t={t} />
           <button type="button" id="ees-shuffle" className="ees-navtype" data-state={shuffle} onClick={() => playbackController?.toggleShuffle()}><ShuffleRoundedIcon /></button>
           <button type="button" id="ees-prev" className="ees-playnav" onClick={() => {playbackController?.previous()}}><SkipPreviousRoundedIcon /></button>
           <button type="button" id="ees-play" className={`ees-playpause ${playbackController?.isPlaying ? "ees-hidden":""}`} onClick={() => {playbackController?.play()}}><PlayArrowRoundedIcon /></button>
@@ -117,10 +138,21 @@ function Player() {
   );
 }
 
-function LastFMButton(props: { track: SongData|undefined }) {
-  const {track} = props;
+function LastFMButton(props: { track: SongData|undefined, t:TFunction }) {
+  const { track, t } = props;
 
   const [sk, setSk] = useState("");
+  const [lastfmTrack, setLastfmTrack] = useState<TrackInfo>();
+  const [processedTrack, setProcessedTrack] = useState({
+    track: "",
+    album: "",
+    artist: ""
+  });
+
+  const lastfm = new LastFM(apiKey, {
+    apiSecret,
+    userAgent
+  })
 
   useEffect(() => {
     if (sk) return;
@@ -129,6 +161,40 @@ function LastFMButton(props: { track: SongData|undefined }) {
       setSk(token.lastfmToken);
     });
   }, []);
+
+  useEffect(() => {
+    if (!track) {
+      setProcessedTrack({
+        track: "",
+        album: "",
+        artist: "",
+      });
+      return;
+    }
+
+    lastfm.track.getInfo(lastfm.helper.TrackFromName(track.artistData.displayName, processTrackName(track.musicTitle)), {
+      sk
+    }).then(lfmTrack => {
+      setLastfmTrack(lfmTrack);
+      browser.storage.sync.get(track.musicId).then((editResult) => {
+        const edit = editResult?.[track.musicId];
+        if (edit) {
+          setProcessedTrack({
+            track: edit.track,
+            album: edit?.album,
+            artist: edit?.artist,
+          });
+        } else {
+          setProcessedTrack({
+            track: processTrackName(track.musicTitle),
+            album: lfmTrack?.album?.title ?? "",
+            artist: processArtistName(track.artistData.displayName),
+          });
+        }
+      })
+      
+    });
+  }, [track]);
 
   if (!sk) return (
     <a 
@@ -140,5 +206,45 @@ function LastFMButton(props: { track: SongData|undefined }) {
     </a>
   );
   
-  return <button type="button" id="ees-lasfm" className="ees-navtype"><LastFMIcon /></button>
+  return (
+    <details id="ees-lastfm-edit">
+      <div id="ees-lastfm-edit-window" onKeyDown={(e) => {onKeyDown(e, track)}}>
+        <label htmlFor="ees-lastfm-edit-track">{t("general.song.singular")}</label>
+        <input type="text" id="ees-lastfm-edit-track" name="track" defaultValue={processedTrack.track} />
+        <label htmlFor="ees-lastfm-edit-album">{t("general.album.singular")}</label>
+        <input type="text" id="ees-lastfm-edit-album" name="album" defaultValue={processedTrack.album} />
+        <label htmlFor="ees-lastfm-edit-artist">{t("general.artist.singular")}</label>
+        <input type="text" id="ees-lastfm-edit-artist" name="artist" defaultValue={processedTrack.artist} />
+        <button type="button" id="ees-lastfm-submit-edit">Confirm</button>
+      </div>
+      <summary id="ees-lastfm" className="ees-navtype">
+        <LastFMIcon />
+        <div id="ees-lastfm-playcount" data-displayed={lastfmTrack?.userplaycount || lastfmTrack?.userplaycount === 0}>
+          {
+            lastfmTrack?.userplaycount || lastfmTrack?.userplaycount === 0 ?
+            <PlayArrowRoundedIcon /> : <></>
+          }
+          <span>{lastfmTrack?.userplaycount}</span>
+        </div>
+      </summary>
+    </details>
+  );
+}
+
+window.addEventListener("click", (e) => {
+  if ((e.target as HTMLElement).closest("#ees-lastfm-edit")) return;
+  (window.document.getElementById("ees-lastfm-edit") as HTMLDetailsElement)?.removeAttribute("open");
+});
+
+window.addEventListener("blur", () => {
+  (window.document.getElementById("ees-lastfm-edit") as HTMLDetailsElement)?.removeAttribute("open");
+});
+
+function onKeyDown(e:React.KeyboardEvent<HTMLDivElement>, track:SongData|undefined) {
+  if (e.key !== "Enter" || e.keyCode === 229) return; //keycode 229 indicates IME is being used atm. Dont submit.
+  updateSongMetadata(track);
+}
+
+function updateSongMetadata(track:SongData|undefined) {
+  console.log(track);
 }

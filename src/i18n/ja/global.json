@@ -9,6 +9,10 @@
       "singular": "アーティスト",
       "plural": "アーティスト"
     },
+    "album": {
+      "singular": "アルバム",
+      "plural": "アルバム"
+    },
     "song": {
       "singular": "楽曲",
       "plural": "楽曲"

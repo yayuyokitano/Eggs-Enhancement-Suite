@@ -134,3 +134,32 @@ export function lastfmAuthLink() {
     "cb": location
   });
 }
+
+const prefix = "[([{（「『｢【［｛〈〔《]_＿";
+const suffix = "[)\]}）」』｣】］｝〉〕》]";
+
+const trackFilters = [
+  `${prefix}?\s*(MV|ＭＶ|DEMO|デモ|ＤＥＭＯ)\s*${suffix}?`,
+];
+
+const artistFilters = [
+  `${prefix}?\s*(official|公式)\s*${suffix}?`,
+];
+
+export function processTrackName(track:string|undefined) {
+  if (!track) return "";
+  for (let filter of trackFilters) {
+    const regex = new RegExp(filter, "gi");
+    track = track.replace(regex, "");
+  }
+  return track;
+}
+
+export function processArtistName(artist:string|undefined) {
+  if (!artist) return "";
+  for (let filter of artistFilters) {
+    const regex = new RegExp(filter, "gi");
+    artist = artist.replace(regex, "");
+  }
+  return artist;
+}

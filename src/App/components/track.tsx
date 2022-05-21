@@ -129,6 +129,12 @@ document.addEventListener("click", (e) => {
 
 });
 
+window.addEventListener("blur", () => {
+  document.querySelectorAll(".ees-track-expandable").forEach((details) => {
+    details.removeAttribute("open");
+  });
+})
+
 function createToggleLiked(likedTracks:string[], setLikedTracks:React.Dispatch<React.SetStateAction<string[]>>) {
   return (e:React.MouseEvent<HTMLButtonElement, MouseEvent>, trackID:string) => {
     e.stopPropagation();
