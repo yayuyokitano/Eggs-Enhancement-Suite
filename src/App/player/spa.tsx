@@ -186,6 +186,11 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
   useEffect(() => {
     if (!playbackController) return;
     playbackController.scrobbleInfo = processedTrack;
+    lastfm.track.getInfo(lastfm.helper.TrackFromName(processedTrack.artist, processedTrack.track), { sk }).then((e) => {
+      setLastfmTrack(e);
+    }).catch(() => {
+      setLastfmTrack(undefined);
+    });
   }, [processedTrack]);
 
   if (!sk) return (
