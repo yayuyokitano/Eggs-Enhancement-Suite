@@ -136,6 +136,7 @@ function searchOnClick(e:React.MouseEvent<HTMLSpanElement, MouseEvent>) {
 function createAddToPlaylistFunction(setReload:React.Dispatch<React.SetStateAction<boolean>>) {
   return async (playlist:PlaylistPartial) => {
     const dialog = (document.querySelector("#ees-playlist-dialog") as HTMLDialogElement);
+    //@ts-ignore
     dialog.close();
     const header = (document.querySelector("#ees-playlist-dialog h2") as HTMLElement);
     const musicId = header.dataset.musicId;
@@ -200,6 +201,7 @@ function PlaylistDialog(props: {t:TFunction}) {
       }}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
+          //@ts-ignore
           (e.target as HTMLDialogElement).close();
         }
       }}

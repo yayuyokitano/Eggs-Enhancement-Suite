@@ -13,12 +13,13 @@ import RepeatOneRoundedIcon from '@mui/icons-material/RepeatOneRounded';
 import "./spa.scss";
 import { Repeat } from '../../util/queue';
 import { LastFMIcon } from '../../util/icons';
-import LastFM from "lastfm-typed";
-import { getInfo as TrackInfo } from "lastfm-typed/dist/interfaces/trackInterface";
+import LastFM from "../../util/wrapper/lastfm";
+import { getInfo as TrackInfo } from "../../util/wrapper/lastfm/interfaces/trackInterface";
 import { apiKey, apiSecret, userAgent } from '../../util/scrobbler';
 import "../../i18n/config";
 import { TFunction, useTranslation } from 'react-i18next';
 import browser from 'webextension-polyfill';
+import { TimeData } from './types';
 var root:ReactDOM.Root;
 
 export function createSpa() {
@@ -74,11 +75,6 @@ function SPA() {
       <Player t={t} />
     </div>
   );
-}
-
-export interface TimeData {
-  current: number;
-  duration: number;
 }
 
 function Player(props:{ t:TFunction }) {

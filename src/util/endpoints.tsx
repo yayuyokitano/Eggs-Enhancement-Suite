@@ -15,7 +15,7 @@ export const endpoints:{[key:string]:{
   },
   "/": {
     rootSelector: ".ttl_side",
-    Element: () => <p>hello</p>,
+    Element: () => <p>hello world</p>,
     translations: []
   },
   "/artist": {

@@ -1,6 +1,6 @@
-import LastFM from "lastfm-typed";
 import browser from "webextension-polyfill";
 import { apiKey, apiSecret, userAgent } from "./scrobbler";
+import LastFM from "./wrapper/lastfm";
 
 export async function runScripts() {
   const search = new URLSearchParams(window.location.search);

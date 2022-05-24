@@ -6,7 +6,7 @@ import { SongData, SourceType } from "./wrapper/eggs/artist";
 
 import EventEmitter from "events";
 import TypedEmitter from "typed-emitter";
-import { TimeData } from '../App/player/spa';
+import { TimeData } from '../App/player/types';
 import { Scrobbler } from './scrobbler';
 
 

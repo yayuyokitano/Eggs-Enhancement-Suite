@@ -42,7 +42,7 @@ function App() {
 
   const { t, i18n } = useTranslation(["global"]);
   if (localStorage.getItem("language")) {
-    i18n.changeLanguage(localStorage.getItem("language") as string);
+    i18n.changeLanguage(localStorage.getItem("language") ?? undefined);
   }
 	return (
     <div>

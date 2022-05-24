@@ -57,15 +57,6 @@ export async function getEggsHeaders(isAuthorizedRequest:boolean = false):Promis
   };
 };
 
-export function processedPathname() {
-  const playlistConcat = new URLSearchParams(window.location.search).has("playlist") ? "playlist" : "";
-  const processedPath = "/" + window.location.pathname.split("/").filter((_,i)=>i%2).join("/");
-  if (processedPath !== "/") {
-    return processedPath;
-  }
-  return processedPath + playlistConcat;
-}
-
 // returns shuffled array, avoids mutating the original array to allow unshuffling.
 export function shuffleArray(array:any[]) {
   let copy = [...array];
@@ -175,4 +166,21 @@ export function processAlbumName(album:string|undefined) {
     album = album.replace(regex, "");
   }
   return album.trim();
+}
+
+export async function queryAsync(selector:string):Promise<Element> {
+  return new Promise((resolve, reject) => {
+    const immediate = document.querySelector(selector);
+    if (immediate) resolve(immediate);
+    
+    const observer = new MutationObserver(() => {
+      const rootElement = document.querySelector(selector);
+      if (!rootElement) return;
+      observer.disconnect();
+      resolve(rootElement);
+    });
+    observer.observe(document, {
+      childList: true,
+    });
+  });
 }

@@ -1,5 +1,5 @@
-import LastFM from "lastfm-typed";
 import browser from "webextension-polyfill";
+import LastFM from "./wrapper/lastfm";
 
 export const apiKey = "699d5028ab46ea5598785e3ada3db59b";
 export const apiSecret = "742b3d74dfb267aae61ce2eaa3f0ded9";

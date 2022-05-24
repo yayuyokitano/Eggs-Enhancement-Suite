@@ -1,9 +1,8 @@
 import ReactDOM from "react-dom/client";
 
 import { Queue, Repeat } from "../../util/queue";
-import { Scrobbler } from "../../util/scrobbler";
 import { SongData } from "../../util/wrapper/eggs/artist";
-import { TimeData } from "./spa";
+import { TimeData } from "./types";
 
 export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>) {
   const playbackController = new PlaybackController(root, true, Repeat.All, setCurrent, youtube, setTimeData, setShuffle, setRepeat);

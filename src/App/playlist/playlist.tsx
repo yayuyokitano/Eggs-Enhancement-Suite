@@ -5,7 +5,7 @@ import { TFunction } from "react-i18next";
 import { likePlaylist, playlistLikeInfo } from "../../util/wrapper/eggs/evaluation";
 import { Playlist, playlist } from "../../util/wrapper/eggs/playlists";
 import { PlaylistCover } from "../components/playlistcover";
-import { TrackContainer } from "../components/track";
+import TrackContainer from "../components/track/trackContainer";
 import "./playlist.scss";
 
 export function Playlist(t:TFunction) {

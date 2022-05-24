@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { TFunction } from "react-i18next";
-import { artist, ArtistEndpoint } from "../../util/wrapper/eggs/artist";
-import { TrackContainer } from "../components/track";
+import { ArtistEndpoint } from "../../util/wrapper/eggs/artist";
 import "./artist.scss";
+import { artist } from "../../util/wrapper/eggs/artist";
+import TrackContainer from "../components/track/trackContainer";
 
 export function Artist(t:TFunction) {
   const artistElement = document.getElementsByClassName("header_mypage_wrapper")[0];
@@ -25,7 +26,7 @@ export function Artist(t:TFunction) {
         return <p>{t("general.error")}</p>;
       }
       ref.current.appendChild(artistElement);
-    })
+    });
   }, []);
   
   if (isLoading) return (
