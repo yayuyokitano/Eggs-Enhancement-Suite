@@ -46,11 +46,12 @@
   "scripts": {
     "start": "parcel watch src/manifest.json --host localhost --config @parcel/config-webextension",
     "test": "bash test.sh",
-    "testonly": "node selenium",
+    "testonly": "yarn mocha --require ts-node/register test/**/*.test.ts --timeout 60000",
     "prebuild:chrome": "mkdir -p -- build/chrome && rm -r build/chrome",
     "build:chrome": "parcel build src/v3/manifest.json --config @parcel/config-webextension --dist-dir build/chrome",
     "prebuild:firefox": "mkdir -p -- build/firefox && rm -r build/firefox",
     "build:firefox": "parcel build src/v2/manifest.json --config @parcel/config-webextension --dist-dir build/firefox",
+    "postbuild:firefox": "rm build/firefox.zip && zip -r build/firefox.zip build/firefox -j",
     "build:safari": "bash safari.sh",
     "build": "npm run build:chrome && npm run build:firefox && npm run build:safari",
     "sign:firefox": "web-ext sign -s build/firefox -a build --api-key=\"$(head -n 1 key.txt)\" --api-secret=\"$(tail -n 1 key.txt)\""

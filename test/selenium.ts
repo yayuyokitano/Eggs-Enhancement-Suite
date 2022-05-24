@@ -1,4 +1,5 @@
-import { Builder, ThenableWebDriver } from "selenium-webdriver";
+import { ThenableWebDriver } from "selenium-webdriver";
+const { Builder, By } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome") as typeof import("selenium-webdriver/chrome");
 const firefox = require("selenium-webdriver/firefox") as typeof import("selenium-webdriver/firefox");
 const safari = require("selenium-webdriver/safari") as typeof import("selenium-webdriver/safari");
@@ -12,9 +13,7 @@ export async function loadDrivers() {
     .setChromeOptions(new chrome.Options()
     .addArguments(`--load-extension=${getExtension("chrome")}`))
     .build();
-  await chromeDriver.manage().setTimeouts( { implicit: 10000 } );
-
-  await chromeDriver.get("https://eggs.mu/");
+  await chromeDriver.manage().setTimeouts( { implicit: 20000 } );
 
   const firefoxDriver = new Builder()
     .forBrowser("firefox")
@@ -22,27 +21,37 @@ export async function loadDrivers() {
     .addExtensions(getExtension("firefox.zip"))
     .setProfile("/Users/User/Library/Application Support/Firefox/Profiles/zlf02h2j.testing"))
     .build();
-  await firefoxDriver.manage().setTimeouts( { implicit: 10000 } );
-
-  //ok actually do the things now
-  await firefoxDriver.get("https://eggs.mu/");
+  await firefoxDriver.manage().setTimeouts( { implicit: 20000 } );
 
   const safariDriver = new Builder()
     .forBrowser("safari")
     .setSafariOptions(new safari.Options())
     .build();
-  await safariDriver.manage().setTimeouts( { implicit: 10000 } );
-  
-  await safariDriver.get("https://eggs.mu/");
+  await safariDriver.manage().setTimeouts( { implicit: 20000 } );
   
   return [chromeDriver, firefoxDriver, safariDriver];
 }
 
-export async function runTest(drivers:ThenableWebDriver[], test:(driver:ThenableWebDriver) => Promise<void>) {
+export async function enterFrame(driver:ThenableWebDriver) {
+  const iframe = await driver.findElement(By.id("ees-spa-iframe"));
+  await driver.switchTo().frame(iframe);
+}
+
+export async function exitFrame(driver:ThenableWebDriver) {
+  await driver.switchTo().defaultContent();
+}
+
+export async function runTest(drivers:ThenableWebDriver[], test:(driver:ThenableWebDriver, browser:string) => Promise<void>) {
   let tests:Promise<void>[] = [];
   for (let driver of drivers) {
-    tests.push(test(driver));
+    const browser = `Errored in ${(await driver.getCapabilities()).getBrowserName() ?? "unknown"}`;
+    tests.push(test(driver, browser));
   }
-  await Promise.all(tests);
-  return;
+  let noError = true;
+  for (let test of (await Promise.all(tests))) {
+    if (test !== undefined) {
+      noError = false;
+    }
+  }
+  return noError;
 }
