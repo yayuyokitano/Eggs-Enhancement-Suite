@@ -5,18 +5,21 @@ const { By } = require("selenium-webdriver") as typeof import("selenium-webdrive
 const { expect } = require("chai") as typeof import("chai");
  
 
-describe("test", function() {
+describe("login", function() {
   before(async function() {
     this.drivers = await loadDrivers();
-    return;
   });
 
-  it("should display hello world on front page", async function() {
+  it("should have login and register buttons that are visible", async function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
       await driver.get("https://eggs.mu/");
       await enterFrame(driver);
-      const element = await driver.findElement(By.css(".ttl_side>p"));
-      expect(await element.getText(), browser).to.equal("hello world");
+      const loginButton = await driver.findElement(By.css(`#ees-login :first-child`));
+      const registerButton = await driver.findElement(By.css(`#ees-login :nth-child(2)`));
+      expect(await loginButton.getText(), browser).to.equal("Login");
+      expect(await registerButton.getText(), browser).to.equal("Register");
+      expect(await loginButton.isDisplayed()).to.be.true;
+      expect(await registerButton.isDisplayed()).to.be.true;
     })).to.be.true;
   })
 

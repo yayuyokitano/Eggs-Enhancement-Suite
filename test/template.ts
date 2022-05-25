@@ -15,15 +15,13 @@ describe("test", function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
       await driver.get("https://eggs.mu/");
       await enterFrame(driver);
-      const element = await driver.findElement(By.css(".ttl_side>p"));
+      const element = driver.findElement(By.css(".ttl_side>p"));
       expect(await element.getText(), browser).to.equal("hello world");
     })).to.be.true;
   })
 
   after(async function() {
-    let closeFuncs:Promise<void>[] = [];
-    this.drivers.forEach((driver:ThenableWebDriver) => closeFuncs.push(driver.close()));
-    await Promise.all(closeFuncs);
+    this.drivers.forEach((driver:ThenableWebDriver) => driver.close());
   })
 });
 export {};
