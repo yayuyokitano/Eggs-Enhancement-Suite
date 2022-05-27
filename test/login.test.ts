@@ -1,6 +1,7 @@
 import { ThenableWebDriver } from "selenium-webdriver";
+import { login } from "./selenium";
 
-const { loadDrivers, runTest, enterFrame } = require("./selenium") as typeof import("./selenium");
+const { loadDrivers, runTest, enterFrame, attemptLogout } = require("./selenium") as typeof import("./selenium");
 const { By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const { expect } = require("chai") as typeof import("chai");
 const config = require("../config.json") as typeof import("../config.json");
@@ -47,15 +48,7 @@ describe("login", function() {
 
   it("should login and redirect to previous page", async function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
-      await driver.get("https://eggs.mu/login?location=https://eggs.mu/artist/IG_LiLySketch/");
-      await enterFrame(driver);
-      const username = await driver.findElement(By.css(`.input-wrapper [placeholder="IDまたはメールアドレス"]`));
-      await username.sendKeys(config.username);
-      const password = await driver.findElement(By.css(`.input-wrapper [placeholder="パスワード"]`));
-      await password.sendKeys(config.password);
-      const loginButton = await driver.findElement(By.css(`.form-control>.form-control>.button`));
-      await loginButton.click();
-      await driver.wait(until.urlIs("https://eggs.mu/artist/IG_LiLySketch/"), 10000);
+      await login(driver);
       expect(await driver.getCurrentUrl(), browser).to.equal("https://eggs.mu/artist/IG_LiLySketch/");
     })).to.be.true;
   });
@@ -71,21 +64,7 @@ describe("login", function() {
 
   it("should log out and remain on the same page", async function() {
     expect(await runTest(this.drivers, async (driver, browser) => {
-      await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
-      await enterFrame(driver);
-      try {
-        const user = await driver.findElement(By.id(`ees-user`));
-        await user.click();
-
-        await enterFrame(driver);
-        const logoutButton = await driver.findElement(By.css("#ees-user-container a:last-child>li"));
-        await logoutButton.click();
-      } catch(_) {
-        //do nothing
-      }
-      await driver.sleep(5000);
-      await enterFrame(driver);
-      const loginButton = await driver.findElements(By.id("ees-login"));
+      const loginButton = await attemptLogout(driver);
       expect(loginButton.length, browser).to.equal(1);
       expect(await driver.getCurrentUrl(), browser).to.equal("https://eggs.mu/artist/IG_LiLySketch/");
     })).to.be.true;

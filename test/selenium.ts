@@ -1,10 +1,11 @@
 import { ThenableWebDriver } from "selenium-webdriver";
-const { Builder, By } = require("selenium-webdriver") as typeof import("selenium-webdriver");
+const { Builder, By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome") as typeof import("selenium-webdriver/chrome");
 const firefox = require("selenium-webdriver/firefox") as typeof import("selenium-webdriver/firefox");
 const safari = require("selenium-webdriver/safari") as typeof import("selenium-webdriver/safari");
 const path = require("path") as typeof import("path");
 const getExtension = (browser:string) => path.resolve(__dirname, "..", "build", browser);
+const config = require("../config.json") as typeof import("../config.json");
 
 export async function loadDrivers() {
 
@@ -55,4 +56,34 @@ export async function runTest(drivers:ThenableWebDriver[], test:(driver:Thenable
     }
   }
   return noError;
+}
+
+export async function attemptLogout(driver:ThenableWebDriver) {
+  await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+  await enterFrame(driver);
+  try {
+    const user = await driver.findElement(By.id(`ees-user`));
+    await user.click();
+
+    await enterFrame(driver);
+    const logoutButton = await driver.findElement(By.css("#ees-user-container a:last-child>li"));
+    await logoutButton.click();
+  } catch(_) {
+    //do nothing
+  }
+  await driver.sleep(5000);
+  await enterFrame(driver);
+  return driver.findElements(By.id("ees-login"));
+}
+
+export async function login(driver:ThenableWebDriver) {
+  await driver.get("https://eggs.mu/login?location=https://eggs.mu/artist/IG_LiLySketch/");
+  await enterFrame(driver);
+  const username = await driver.findElement(By.css(`.input-wrapper [placeholder="IDまたはメールアドレス"]`));
+  await username.sendKeys(config.username);
+  const password = await driver.findElement(By.css(`.input-wrapper [placeholder="パスワード"]`));
+  await password.sendKeys(config.password);
+  const loginButton = await driver.findElement(By.css(`.form-control>.form-control>.button`));
+  await loginButton.click();
+  await driver.wait(until.urlIs("https://eggs.mu/artist/IG_LiLySketch/"), 10000);
 }
