@@ -106,7 +106,7 @@ export function UserComponent(props:{t:TFunction}) {
   if (!user.isLoggedIn) {
     return (
       <div id="ees-login">
-        <a className="ees-header-button" href="/login">{t("general.login")}</a>
+        <a className="ees-header-button" href={`/login?location=${location.href}`}>{t("general.login")}</a>
         <a className="ees-header-button" href="/signup">{t("general.register")}</a>
       </div>
     );

@@ -44,7 +44,7 @@
   "author": "yayuyokitano <69117606+yayuyokitano@users.noreply.github.com>",
   "license": "AGPL-3.0",
   "scripts": {
-    "start": "parcel watch src/manifest.json --host localhost --config @parcel/config-webextension",
+    "start": "parcel watch src/v3/manifest.json --host localhost --config @parcel/config-webextension",
     "test": "bash test.sh",
     "testonly": "yarn mocha --require ts-node/register test/**/*.test.ts --timeout 60000",
     "prebuild:chrome": "mkdir -p -- build/chrome && rm -r build/chrome",

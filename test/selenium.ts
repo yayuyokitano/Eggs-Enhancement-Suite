@@ -33,6 +33,7 @@ export async function loadDrivers() {
 }
 
 export async function enterFrame(driver:ThenableWebDriver) {
+  await driver.switchTo().defaultContent();
   const iframe = await driver.findElement(By.id("ees-spa-iframe"));
   await driver.switchTo().frame(iframe);
 }
