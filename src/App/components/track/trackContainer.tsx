@@ -17,6 +17,8 @@ export default function TrackContainer(props: {data:SongData[]|undefined, t:TFun
         .filter((track) => track.isLike)
         .map((track) => track.musicId);
       setLikedTracks(likedTrackList);
+    }).catch(() => {
+      setLikedTracks([]);
     });
   }, []);
 

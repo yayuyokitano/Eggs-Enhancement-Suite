@@ -153,7 +153,7 @@ function createAddToPlaylistFunction(setReload:React.Dispatch<React.SetStateActi
 function PlaylistDialog(props: {t:TFunction}) {
   const {t} = props;
   const [offsetHash, setOffsetHash] = useState("");
-  const [playlists, setPlaylists] = useState<PlaylistPartial[]>();
+  const [playlists, setPlaylists] = useState<PlaylistPartial[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
   const [shouldReload, setReload] = useState(false);
@@ -163,6 +163,9 @@ function PlaylistDialog(props: {t:TFunction}) {
       setTotalCount(playlists.totalCount);
       setPlaylists(playlists.data);
       setOffsetHash(playlists.offsetHash);
+    }).catch(() => {
+      setPlaylists([]);
+      setTotalCount(0);
     });
   }, []);
 
@@ -173,6 +176,9 @@ function PlaylistDialog(props: {t:TFunction}) {
       setTotalCount(playlists.totalCount);
       setPlaylists(playlists.data);
       setOffsetHash(playlists.offsetHash);
+    }).catch(() => {
+      setPlaylists([]);
+      setTotalCount(0);
     });
   }, [shouldReload]);
 
@@ -196,6 +202,9 @@ function PlaylistDialog(props: {t:TFunction}) {
             setPlaylists([...playlists, ...newPlaylists.data]);
             setOffsetHash(newPlaylists.offsetHash);
             setLoadingMore(false);
+          }).catch(() => {
+            setPlaylists([]);
+            setTotalCount(0);
           });
         }
       }}

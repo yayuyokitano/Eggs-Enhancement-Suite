@@ -14,5 +14,14 @@ export async function eggsRequest(url: string, body: {[key:string]:any}, options
     headers: await getEggsHeaders(options?.isAuthorizedRequest),
   }
   
-  return (await fetch(eggsRoot + url, requestOptions)).json();
+  const res = await fetch(eggsRoot + url, requestOptions);
+  if (!res.ok) {
+    throw new Error(`${res.status} ${res.statusText}`);
+  }
+  const resJSON = await res.json();
+  if (resJSON.hasOwnProperty("code") && resJSON.hasOwnProperty("message")) {
+    throw new Error(`${resJSON.code} ${resJSON.message}`);
+  }
+
+  return resJSON;
 }

@@ -63,9 +63,16 @@ function processedPathname() {
   const playlistConcat = new URLSearchParams(window.location.search).has("playlist") ? "playlist" : "";
   const processedPath = "/" + window.location.pathname.split("/").filter((_,i)=>i%2).join("/");
   if (processedPath !== "/") {
-    return processedPath;
+    return removeTrailingSlash(processedPath);
   }
-  return processedPath + playlistConcat;
+  return processedPath + removeTrailingSlash(playlistConcat);
+}
+
+function removeTrailingSlash(path: string) {
+  if (path.endsWith("/")) {
+    return path.slice(0, -1);
+  }
+  return path;
 }
 
 export {};

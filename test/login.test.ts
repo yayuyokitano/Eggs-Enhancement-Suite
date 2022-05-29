@@ -1,7 +1,6 @@
 import { ThenableWebDriver } from "selenium-webdriver";
-import { login } from "./selenium";
 
-const { loadDrivers, runTest, enterFrame, attemptLogout } = require("./selenium") as typeof import("./selenium");
+const { loadDrivers, runTest, enterFrame, attemptLogout, login } = require("./selenium") as typeof import("./selenium");
 const { By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const { expect } = require("chai") as typeof import("chai");
 const config = require("../config.json") as typeof import("../config.json");
