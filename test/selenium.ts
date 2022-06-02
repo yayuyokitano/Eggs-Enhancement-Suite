@@ -1,5 +1,5 @@
 import { ThenableWebDriver } from "selenium-webdriver";
-const { Builder, By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
+const { Builder, By, until, WebElementCondition } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome") as typeof import("selenium-webdriver/chrome");
 const firefox = require("selenium-webdriver/firefox") as typeof import("selenium-webdriver/firefox");
 const safari = require("selenium-webdriver/safari") as typeof import("selenium-webdriver/safari");
@@ -35,6 +35,7 @@ export async function loadDrivers() {
 
 export async function enterFrame(driver:ThenableWebDriver) {
   await driver.switchTo().defaultContent();
+  await driver.wait(until.elementLocated(By.id("ees-spa-iframe")), 10000);
   const iframe = await driver.findElement(By.id("ees-spa-iframe"));
   await driver.switchTo().frame(iframe);
 }
@@ -49,13 +50,12 @@ export async function runTest(drivers:ThenableWebDriver[], test:(driver:Thenable
     const browser = `Errored in ${(await driver.getCapabilities()).getBrowserName() ?? "unknown"}`;
     tests.push(test(driver, browser));
   }
-  let noError = true;
   for (let test of (await Promise.all(tests))) {
     if (test !== undefined) {
-      noError = false;
+      throw new Error(`Test failed`);
     }
   }
-  return noError;
+  return true;
 }
 
 export async function attemptLogout(driver:ThenableWebDriver) {
@@ -76,11 +76,11 @@ export async function attemptLogout(driver:ThenableWebDriver) {
   return driver.findElements(By.id("ees-login"));
 }
 
-export async function login(driver:ThenableWebDriver) {
+export async function login(driver:ThenableWebDriver, browser:string) {
   await driver.get("https://eggs.mu/login?location=https://eggs.mu/artist/IG_LiLySketch/");
   await enterFrame(driver);
   const username = await driver.findElement(By.css(`.input-wrapper [placeholder="IDまたはメールアドレス"]`));
-  await username.sendKeys(config.username);
+  await username.sendKeys(config.username + browser.split(" ").slice(-1)[0].toLowerCase());
   const password = await driver.findElement(By.css(`.input-wrapper [placeholder="パスワード"]`));
   await password.sendKeys(config.password);
   const loginButton = await driver.findElement(By.css(`.form-control>.form-control>.button`));

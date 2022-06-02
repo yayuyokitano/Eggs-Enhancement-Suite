@@ -13,7 +13,7 @@ describe("test preparations", function() {
     expect(await runTest(this.drivers, async (driver, browser) => {
       const loginButton = await attemptLogout(driver);
       expect(loginButton.length, browser).to.equal(1);
-    })).to.be.true;
+    })).to.not.throw;
   });
 
   after(async function() {

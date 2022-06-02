@@ -46,7 +46,7 @@
   "scripts": {
     "start": "parcel watch src/v3/manifest.json --host localhost --config @parcel/config-webextension",
     "test": "bash test.sh",
-    "testonly": "yarn mocha --require ts-node/register test/**/*.test.ts --timeout 60000",
+    "testonly": "yarn mocha --require ts-node/register test/**/*.test.ts --timeout 60000 --retries 2",
     "prebuild:chrome": "mkdir -p -- build/chrome && rm -r build/chrome",
     "build:chrome": "parcel build src/v3/manifest.json --config @parcel/config-webextension --dist-dir build/chrome",
     "prebuild:firefox": "mkdir -p -- build/firefox && rm -r build/firefox",

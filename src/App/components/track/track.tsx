@@ -58,8 +58,8 @@ function addToPlaylist(track:SongData) {
   (document.querySelector("#ees-playlist-dialog") as HTMLDialogElement).showModal();
 }
 
-export default function Track(props:{track:SongData, size:"normal", z:number, t:TFunction, isLiked:boolean, toggleLiked:(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, trackID: string) => void}) {
-  const {track, size, z, t, isLiked, toggleLiked} = props;
+export default function Track(props:{track:SongData, size:"normal", z:number, t:TFunction, loggedIn:boolean, isLiked:boolean, toggleLiked:(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, trackID: string) => void}) {
+  const {track, size, z, t, loggedIn, isLiked, toggleLiked} = props;
 
   return (
     <li
@@ -90,7 +90,7 @@ export default function Track(props:{track:SongData, size:"normal", z:number, t:
         </div>
       </div>
       <div className="ees-track-right">
-        <button type="button" className="ees-track-like" data-liked={isLiked} onClick={(e) => {toggleLiked(e, track.musicId)}}>
+        <button type="button" className="ees-track-like" data-liked={isLiked} onClick={(e) => {loggedIn && toggleLiked(e, track.musicId)}}>
           {
             isLiked ?
             <FavoriteRoundedIcon /> :

@@ -8,6 +8,7 @@ import { songLikeInfo, likeSong } from "../../../util/wrapper/eggs/evaluation";
 export default function TrackContainer(props: {data:SongData[]|undefined, t:TFunction}) {
   const {data, t} = props;
   const [likedTracks, setLikedTracks] = useState<string[]>([]);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     if (!data) return;
@@ -17,8 +18,10 @@ export default function TrackContainer(props: {data:SongData[]|undefined, t:TFun
         .filter((track) => track.isLike)
         .map((track) => track.musicId);
       setLikedTracks(likedTrackList);
+      setLoggedIn(true);
     }).catch(() => {
       setLikedTracks([]);
+      setLoggedIn(false);
     });
   }, []);
 
@@ -30,6 +33,7 @@ export default function TrackContainer(props: {data:SongData[]|undefined, t:TFun
           size="normal"
           z={data.length-i}
           t={t}
+          loggedIn={loggedIn}
           isLiked={likedTracks.includes(song.musicId)}
           toggleLiked={createToggleLiked(likedTracks, setLikedTracks)}
         />

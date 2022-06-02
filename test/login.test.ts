@@ -21,7 +21,7 @@ describe("login", function() {
       expect(await registerButton.getText(), browser).to.equal("Register");
       expect(await loginButton.isDisplayed(), browser).to.be.true;
       expect(await registerButton.isDisplayed(), browser).to.be.true;
-    })).to.be.true;
+    })).to.not.throw;
   });
 
   it("should go to login screen when button clicked and have redirect url", async function() {
@@ -32,7 +32,7 @@ describe("login", function() {
       await loginButton.click();
       await driver.wait(until.urlIs("https://eggs.mu/login?location=https://eggs.mu/artist/IG_LiLySketch/"), 20000);
       expect(await driver.getCurrentUrl(), browser).to.equal("https://eggs.mu/login?location=https://eggs.mu/artist/IG_LiLySketch/");
-    })).to.be.true;
+    })).to.not.throw;
   });
 
   it("should have disclaimer", async function() {
@@ -42,14 +42,14 @@ describe("login", function() {
       const disclaimer = await driver.findElement(By.css(".form-control.pt30p.pb50p p"));
       expect(await disclaimer.getText(), browser).to.equal("By logging in, you also log in with Eggs Enhancement Suite. Note that EES is not endorsed by nor affiliated with Eggs.mu, and that you are logging in at your own risk.");
       expect(await disclaimer.isDisplayed(), browser).to.be.true;
-    })).to.be.true;
+    })).to.not.throw;
   });
 
   it("should login and redirect to previous page", async function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
-      await login(driver);
+      await login(driver, browser);
       expect(await driver.getCurrentUrl(), browser).to.equal("https://eggs.mu/artist/IG_LiLySketch/");
-    })).to.be.true;
+    })).to.not.throw;
   });
 
   it("should be logged in", async function() {
@@ -57,8 +57,8 @@ describe("login", function() {
       await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
       await enterFrame(driver);
       const username = await driver.findElement(By.className("ees-username"));
-      expect(await username.getText(), browser).to.equal(config.username);
-    })).to.be.true;
+      expect(await username.getText(), browser).to.equal(config.username + browser.split(" ").slice(-1)[0].toLowerCase());
+    })).to.not.throw;
   });
 
   it("should log out and remain on the same page", async function() {
@@ -66,7 +66,7 @@ describe("login", function() {
       const loginButton = await attemptLogout(driver);
       expect(loginButton.length, browser).to.equal(1);
       expect(await driver.getCurrentUrl(), browser).to.equal("https://eggs.mu/artist/IG_LiLySketch/");
-    })).to.be.true;
+    })).to.not.throw;
   });
 
   after(async function() {
