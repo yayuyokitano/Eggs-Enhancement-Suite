@@ -1,6 +1,6 @@
 import { ThenableWebDriver } from "selenium-webdriver";
 
-const { loadDrivers, runTest, enterFrame, attemptLogout, login } = require("./selenium") as typeof import("./selenium");
+const { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver } = require("./selenium") as typeof import("./selenium");
 const { By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const { expect } = require("chai") as typeof import("chai");
 const config = require("../config.json") as typeof import("../config.json");
@@ -10,6 +10,10 @@ describe("login", function() {
   before(async function() {
     this.drivers = await loadDrivers();
   });
+
+  let i = 0;
+
+  do{
 
   it("should have login and register buttons that are visible", async function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
@@ -68,6 +72,15 @@ describe("login", function() {
       expect(await driver.getCurrentUrl(), browser).to.equal("https://eggs.mu/artist/IG_LiLySketch/");
     })).to.not.throw;
   });
+
+  it("should set viewport size", async function() {
+    expect(await runTest(this.drivers, async (driver, browser) => {
+      await driver.manage().window().setRect({ width: 390, height: 844 });
+      expect(await isMobileDriver(driver), browser).to.be.true;
+    })).to.not.throw;
+  });
+
+  } while (i++ < 1);
 
   after(async function() {
     let closeFuncs:Promise<void>[] = [];

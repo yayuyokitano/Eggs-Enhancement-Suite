@@ -1,5 +1,5 @@
 import { ThenableWebDriver } from "selenium-webdriver";
-const { Builder, By, until, WebElementCondition } = require("selenium-webdriver") as typeof import("selenium-webdriver");
+const { Builder, By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome") as typeof import("selenium-webdriver/chrome");
 const firefox = require("selenium-webdriver/firefox") as typeof import("selenium-webdriver/firefox");
 const safari = require("selenium-webdriver/safari") as typeof import("selenium-webdriver/safari");
@@ -14,6 +14,7 @@ export async function loadDrivers() {
     .setChromeOptions(new chrome.Options()
     .addArguments(`--load-extension=${getExtension("chrome")}`))
     .build();
+  await chromeDriver.manage().window().setRect({ width: 1280, height: 720 });
   await chromeDriver.manage().setTimeouts( { implicit: 20000 } );
 
   const firefoxDriver = new Builder()
@@ -22,12 +23,15 @@ export async function loadDrivers() {
     .addExtensions(getExtension("firefox.zip"))
     .setProfile("/Users/User/Library/Application Support/Firefox/Profiles/zlf02h2j.testing"))
     .build();
+  await firefoxDriver.manage().window().setRect({ width: 1280, height: 720 });
   await firefoxDriver.manage().setTimeouts( { implicit: 20000 } );
 
   const safariDriver = new Builder()
     .forBrowser("safari")
     .setSafariOptions(new safari.Options())
     .build();
+
+  await safariDriver.manage().window().setRect({ width: 1280, height: 720 });
   await safariDriver.manage().setTimeouts( { implicit: 20000 } );
   
   return [chromeDriver, firefoxDriver, safariDriver];
@@ -44,10 +48,16 @@ export async function exitFrame(driver:ThenableWebDriver) {
   await driver.switchTo().defaultContent();
 }
 
+export async function isMobileDriver(driver:ThenableWebDriver) {
+  const windowSize = await driver.manage().window().getRect();
+  return windowSize.width < 600;
+}
+
 export async function runTest(drivers:ThenableWebDriver[], test:(driver:ThenableWebDriver, browser:string) => Promise<void>) {
   let tests:Promise<void>[] = [];
   for (let driver of drivers) {
-    const browser = `Errored in ${(await driver.getCapabilities()).getBrowserName() ?? "unknown"}`;
+    let browser = `Errored in ${(await driver.getCapabilities()).getBrowserName() ?? "unknown"}`;
+    browser += await isMobileDriver(driver) ? "mobile" : "";
     tests.push(test(driver, browser));
   }
   for (let test of (await Promise.all(tests))) {
