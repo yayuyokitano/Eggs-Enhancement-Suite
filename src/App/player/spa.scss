@@ -28,6 +28,7 @@ $metadata-width-small: 5rem;
   width: 100%;
   display: flex;
   gap: $player-padding;
+  z-index: 9;
 
   #ees-player-thumbnail {
     width: 64px;
@@ -223,6 +224,12 @@ $metadata-width-small: 5rem;
         }
       }
     }
+  }
+
+  #ees-track-expander {
+    padding-right: $player-padding * 3;
+    padding-left: $player-padding * 2;
+    margin-right: -$player-padding * 2;
   }
 
   #ees-youtube-container {

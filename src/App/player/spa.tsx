@@ -10,6 +10,7 @@ import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded';
 import ShuffleRoundedIcon from '@mui/icons-material/ShuffleRounded';
 import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
 import RepeatOneRoundedIcon from '@mui/icons-material/RepeatOneRounded';
+import DetailsRoundedIcon from "@mui/icons-material/DetailsRounded";
 import "./spa.scss";
 import { Repeat } from '../../util/queue';
 import { LastFMIcon } from '../../util/icons';
@@ -20,6 +21,7 @@ import "../../i18n/config";
 import { TFunction, useTranslation } from 'react-i18next';
 import browser from 'webextension-polyfill';
 import { TimeData } from './types';
+import Details from './details';
 var root:ReactDOM.Root;
 
 export function createSpa() {
@@ -98,37 +100,49 @@ function Player(props:{ t:TFunction }) {
 
   useEffect(() => { updateScrollables(); }, [current]);
 
+  function toggleTrackDetails() {
+    const details = document.getElementById("ees-player-details");
+    if (!details) return;
+    details.classList.toggle("active");
+  }
+
   return (
-    <div id="ees-player">
-      <img id="ees-player-thumbnail" src={current?.imageDataPath ?? current?.artistData.imageDataPath ?? defaultAvatar} />
-      <div id="ees-player-metadata">
-        <span id="ees-player-title" className="ees-scroll-container"><span>{current?.musicTitle}</span></span>
-        <span id="ees-player-artist" className="ees-scroll-container"><span>{current?.artistData.displayName}</span></span>
-      </div>
-      <div id="ees-player-controls">
-        <div id="ees-player-controls-buttons">
-          <LastFMButton track={current} t={t} playbackController={playbackController} />
-          <button type="button" id="ees-shuffle" className="ees-navtype" data-state={shuffle} onClick={() => playbackController?.toggleShuffle()}><ShuffleRoundedIcon /></button>
-          <button type="button" id="ees-prev" className="ees-playnav" onClick={() => {playbackController?.previous()}}><SkipPreviousRoundedIcon /></button>
-          <button type="button" id="ees-play" className={`ees-playpause ${playbackController?.isPlaying ? "ees-hidden":""}`} onClick={() => {playbackController?.play()}}><PlayArrowRoundedIcon /></button>
-          <button type="button" id="ees-pause" className={`ees-playpause ${playbackController?.isPlaying ? "":"ees-hidden"}`} onClick={() => {playbackController?.pause()}}><PauseRoundedIcon /></button>
-          <button type="button" id="ees-next" className="ees-playnav" onClick={() => {playbackController?.next()}}><SkipNextRoundedIcon /></button>
-          <button type="button" id="ees-repeat" className="ees-navtype" data-state={repeat} onClick={() => playbackController?.cycleRepeat()}>{
-            repeat === Repeat.One ?
-            <RepeatOneRoundedIcon /> :
-            <RepeatRoundedIcon />
-          }</button>
+    <div id="ees-player-container">
+      <div id="ees-player">
+        <img id="ees-player-thumbnail" src={current?.imageDataPath ?? current?.artistData.imageDataPath ?? defaultAvatar} />
+        <div id="ees-player-metadata">
+          <span id="ees-player-title" className="ees-scroll-container"><span>{current?.musicTitle}</span></span>
+          <span id="ees-player-artist" className="ees-scroll-container"><span>{current?.artistData.displayName}</span></span>
         </div>
-        <div id="ees-player-controls-time" data-current={timeData?.current} data-duration={timeData?.duration}>
-          <span id="ees-player-current-time">{convertTime(timeData?.current ?? 0)}</span>
-          <progress value={timeData?.current} max={timeData?.duration} onClick={(e) => { 
-            playbackController?.setCurrentTime((e.clientX - e.currentTarget.offsetLeft) / e.currentTarget.offsetWidth);
-          }} />
-          <span id="ees-player-duration">{convertTime(timeData?.duration ?? 0)}</span>
+        <div id="ees-player-controls">
+          <div id="ees-player-controls-buttons">
+            <LastFMButton track={current} t={t} playbackController={playbackController} />
+            <button type="button" id="ees-shuffle" className="ees-navtype" data-state={shuffle} onClick={() => playbackController?.toggleShuffle()}><ShuffleRoundedIcon /></button>
+            <button type="button" id="ees-prev" className="ees-playnav" onClick={() => {playbackController?.previous()}}><SkipPreviousRoundedIcon /></button>
+            <button type="button" id="ees-play" className={`ees-playpause ${playbackController?.isPlaying ? "ees-hidden":""}`} onClick={() => {playbackController?.play()}}><PlayArrowRoundedIcon /></button>
+            <button type="button" id="ees-pause" className={`ees-playpause ${playbackController?.isPlaying ? "":"ees-hidden"}`} onClick={() => {playbackController?.pause()}}><PauseRoundedIcon /></button>
+            <button type="button" id="ees-next" className="ees-playnav" onClick={() => {playbackController?.next()}}><SkipNextRoundedIcon /></button>
+            <button type="button" id="ees-repeat" className="ees-navtype" data-state={repeat} onClick={() => playbackController?.cycleRepeat()}>{
+              repeat === Repeat.One ?
+              <RepeatOneRoundedIcon /> :
+              <RepeatRoundedIcon />
+            }</button>
+          </div>
+          <div id="ees-player-controls-time" data-current={timeData?.current} data-duration={timeData?.duration}>
+            <span id="ees-player-current-time">{convertTime(timeData?.current ?? 0)}</span>
+            <progress value={timeData?.current} max={timeData?.duration} onClick={(e) => { 
+              playbackController?.setCurrentTime((e.clientX - e.currentTarget.offsetLeft) / e.currentTarget.offsetWidth);
+            }} />
+            <span id="ees-player-duration">{convertTime(timeData?.duration ?? 0)}</span>
+          </div>
         </div>
+        <button type="button" id="ees-track-expander" onClick={() => { toggleTrackDetails() }}>
+          <DetailsRoundedIcon />
+        </button>
+        <div id="ees-audio-container" />
+        <iframe id="ees-youtube-container" ref={youtubeRef}></iframe>
       </div>
-      <div id="ees-audio-container" />
-      <iframe id="ees-youtube-container" ref={youtubeRef}></iframe>
+      <Details track={current} t={t} />
     </div>
   );
 }
@@ -207,7 +221,7 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
   
   return (
     <details id="ees-lastfm-edit">
-      <div id="ees-lastfm-edit-window" onKeyDown={(e) => {onKeyDown(e, track)}}>
+      <div id="ees-lastfm-edit-window" onKeyDown={(e) => {onKeyDown(e, track, setProcessedTrack)}}>
         <label htmlFor="ees-lastfm-edit-track">{t("general.song.singular")}</label>
         <input
           type="text"
@@ -269,13 +283,13 @@ window.addEventListener("blur", () => {
   (window.document.getElementById("ees-lastfm-edit") as HTMLDetailsElement)?.removeAttribute("open");
 });
 
-function onKeyDown(e:React.KeyboardEvent<HTMLDivElement>, track:SongData|undefined) {
+function onKeyDown(e:React.KeyboardEvent<HTMLDivElement>, track:SongData|undefined, setProcessedTrack:React.Dispatch<React.SetStateAction<{
+  track: string;
+  album: string;
+  artist: string;
+}>>) {
   if (e.key !== "Enter" || e.keyCode === 229) return; //keycode 229 indicates IME is being used atm. Dont submit.
-  updateSongMetadata(track);
-}
-
-function updateSongMetadata(track:SongData|undefined) {
-  console.log(track);
+  saveEdit(track, setProcessedTrack)
 }
 
 function saveEdit(track:SongData|undefined, setProcessedTrack:React.Dispatch<React.SetStateAction<{

@@ -1,0 +1,111 @@
+$player-height: 78px;
+
+#ees-player-details {
+  height: calc(100vh - $player-height);
+  width: 100vw;
+  background-color: #FFF;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(100%);
+  transition: transform 0.2s ease-in-out;
+  padding: 1rem;
+  overflow-y: auto;
+
+  &.active {
+    transform: translateY(0);
+  }
+
+  #ees-player-details-title {
+    font-size: 3rem;
+  }
+
+  #ees-player-details-artist {
+    font-size: 2rem;
+    margin-top: -5px;
+    margin-bottom: 1rem;
+  }
+
+  #ees-player-details-cover {
+    position: relative;
+
+    img {
+      transition: filter 0.2s ease-in-out;
+    }
+
+    #ees-player-details-cover-expand {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      color: #FFF;
+      filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+      transition: filter 0.2s ease-in-out;
+
+      svg {
+        transition: filter 0.2s ease-in-out;
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    &:hover {
+      img {
+        filter: blur(1px);
+      }
+
+      #ees-player-details-cover-expand {
+        filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.6));
+
+        svg {
+          filter: drop-shadow(0 0 3px #FFF);
+        }
+      }
+    }
+  }
+
+  #ees-player-details-lyrics {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  #ees-player-details-lyrics-text {
+    p {
+      white-space: pre-wrap;
+      margin-top: 1rem;
+    }
+  }
+
+  #ees-cover-expanded {
+    border: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    #ees-cover-expanded-buttons {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      color: #FFF;
+
+      button {
+        filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+        transition: filter 0.2s ease-in-out;
+
+        svg {
+          transition: filter 0.2s ease-in-out;
+          width: 32px;
+          height: 32px;
+        }
+
+        &:hover {
+          filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.6));
+
+          svg {
+            filter: drop-shadow(0 0 3px #FFF);
+          }
+        }
+      }
+    }
+  }
+
+}

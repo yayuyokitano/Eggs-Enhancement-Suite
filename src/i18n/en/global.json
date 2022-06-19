@@ -153,7 +153,11 @@
   "track": {
     "playNext": "Play Next",
     "addToQueue": "Add to queue",
-    "addToPlaylist": "Add to playlist"
+    "addToPlaylist": "Add to playlist",
+    "lyrics": "Lyrics",
+    "lyricsNotFound": "No lyrics found",
+    "composer": "Composer: ",
+    "lyricist": "Lyricist: "
   },
   "playlist": {
     "error": "There was an error loading the playlist. It is possible that the playlist has been deleted or is private.",
