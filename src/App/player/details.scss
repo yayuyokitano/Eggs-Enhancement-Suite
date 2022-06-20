@@ -40,6 +40,9 @@ $player-height: 78px;
     position: relative;
 
     img {
+      max-width: 100%;
+      max-height: 300px;
+      height: auto;
       transition: filter 0.2s ease-in-out;
     }
 
@@ -118,4 +121,25 @@ $player-height: 78px;
     }
   }
 
+}
+
+@media only screen and (max-width: 900px) {
+  #ees-player-details #ees-youtube-container {
+    width: 640px;
+    height: 360px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  #ees-player-details #ees-youtube-container {
+    width: 426px;
+    height: 240px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  #ees-player-details #ees-youtube-container {
+    width: 213px;
+    height: 120px;
+  }
 }

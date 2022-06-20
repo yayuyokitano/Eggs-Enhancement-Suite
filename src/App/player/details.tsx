@@ -45,7 +45,7 @@ export default function Details(props:{track?:SongData, t:TFunction, youtubeRef:
         <iframe id="ees-youtube-container" ref={youtubeRef} className={track?.youtubeUrl ? "" : "inactive"} allowFullScreen></iframe>
 
         <button type="button" id="ees-player-details-cover" onClick={(e) => { openTrackImage(); e.stopPropagation(); }}>
-          <img src={track?.imageDataPath ?? track?.artistData.imageDataPath ?? ""} alt="" height="300" />
+          <img src={track?.imageDataPath ?? track?.artistData.imageDataPath ?? ""} alt="" />
           <div id="ees-player-details-cover-expand">
             <OpenInFullRoundedIcon />
           </div>
@@ -73,7 +73,6 @@ export default function Details(props:{track?:SongData, t:TFunction, youtubeRef:
 
 function Lyrics(props:{track?:SongData, t:TFunction}) {
   const { track, t } = props;
-  console.log(track);
   if (!track?.lyrics) return <div id="ees-player-details-lyrics-text"><p>{t("track.lyricsNotFound")}</p></div>
 
   return (
