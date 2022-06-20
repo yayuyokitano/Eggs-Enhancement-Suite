@@ -22,6 +22,7 @@ import { TFunction, useTranslation } from 'react-i18next';
 import browser from 'webextension-polyfill';
 import { TimeData } from './types';
 import Details from './details';
+import Queue from './queue';
 var root:ReactDOM.Root;
 
 export function createSpa() {
@@ -75,6 +76,7 @@ function SPA() {
         onLoad={updateSpa}
       />
       <Player t={t} />
+      <Queue />
     </div>
   );
 }

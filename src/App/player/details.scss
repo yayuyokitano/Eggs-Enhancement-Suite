@@ -7,13 +7,16 @@ $player-height: 78px;
   position: absolute;
   top: 0;
   left: 0;
-  transform: translateY(100%);
-  transition: transform 0.2s ease-in-out;
   padding: 1rem;
   overflow-y: auto;
+  animation: 0s ease-in-out 0.2s forwards hide;
+  transition: transform 200ms ease-in-out;
+  transform: translateY(100%);
 
   &.active {
+    animation: 0.2s ease-in-out 0s forwards show;
     transform: translateY(0);
+    max-height: 100%;
   }
 
   #ees-player-details-title {
@@ -141,5 +144,27 @@ $player-height: 78px;
   #ees-player-details #ees-youtube-container {
     width: 213px;
     height: 120px;
+  }
+}
+
+@keyframes show {
+  0% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+
+@keyframes hide {
+  0% {
+    visibility: visible;
+  }
+  99% {
+    max-height: 100%;
+  }
+  100% {
+    visibility: hidden;
+    max-height: 0;
   }
 }
