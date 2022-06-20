@@ -159,6 +159,10 @@
     "composer": "Composer: ",
     "lyricist": "Lyricist: "
   },
+  "queue": {
+    "manuallyAdded": "Manually Added",
+    "playingNext": "Playing Next"
+  },
   "playlist": {
     "error": "There was an error loading the playlist. It is possible that the playlist has been deleted or is private.",
     "select": "Select a playlist"

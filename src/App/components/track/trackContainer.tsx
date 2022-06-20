@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { TFunction } from "react-i18next";
 import { SongData } from "../../../util/wrapper/eggs/artist";
 import "./track.scss";
-import Track from "./track";
+import Track, { SongDataWIndex } from "./track";
 import { songLikeInfo, likeSong } from "../../../util/wrapper/eggs/evaluation";
+import { PlaybackController } from "App/player/playback";
 
-export default function TrackContainer(props: {data:SongData[]|undefined, t:TFunction}) {
-  const {data, t} = props;
+export default function TrackContainer(props: {data:SongData[]|SongDataWIndex[]|undefined, t:TFunction, size:"small"|"normal", isQueue?:boolean, playbackController?:PlaybackController}) {
+  const {data, t, size, isQueue, playbackController} = props;
   const [likedTracks, setLikedTracks] = useState<string[]>([]);
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -26,16 +27,18 @@ export default function TrackContainer(props: {data:SongData[]|undefined, t:TFun
   }, []);
 
   return (
-    <ul id="ees-song-list" className="ees-track-container">
+    <ul className="ees-track-container">
       {data?.map((song, i) => (
         <Track
           track={song}
-          size="normal"
+          size={size}
           z={data.length-i}
           t={t}
           loggedIn={loggedIn}
           isLiked={likedTracks.includes(song.musicId)}
           toggleLiked={createToggleLiked(likedTracks, setLikedTracks)}
+          isInQueue={isQueue}
+          playbackController={playbackController}
         />
       ))}
     </ul>

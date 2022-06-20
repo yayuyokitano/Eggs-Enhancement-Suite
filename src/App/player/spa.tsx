@@ -55,6 +55,8 @@ function SPA() {
 
   const {t, i18n} = useTranslation(["global"]);
 
+  const [playbackController, setPlaybackController] = useState<PlaybackController>();
+
   useEffect(() => {
     function handleMessage(message:any) {
       if (message.type === "changeLanguage") {
@@ -75,16 +77,15 @@ function SPA() {
         src={window.location.href}
         onLoad={updateSpa}
       />
-      <Player t={t} />
-      <Queue />
+      <Player t={t} playbackController={playbackController} setPlaybackController={setPlaybackController} />
+      <Queue playbackController={playbackController} t={t} />
     </div>
   );
 }
 
-function Player(props:{ t:TFunction }) {
-  const { t } = props;
+function Player(props:{ t:TFunction, playbackController?:PlaybackController, setPlaybackController:React.Dispatch<React.SetStateAction<PlaybackController | undefined>>}) {
+  const { t, playbackController, setPlaybackController } = props;
 
-  const [playbackController, setPlaybackController] = useState<PlaybackController>();
   const [current, setCurrent] = useState<SongData>();
   const [timeData, setTimeData] = useState<TimeData>({
     current: 0,

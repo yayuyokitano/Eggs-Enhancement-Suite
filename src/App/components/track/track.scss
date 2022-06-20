@@ -12,6 +12,7 @@
   cursor: pointer;
   padding: 4px;
   box-sizing: content-box;
+  position: relative;
 
   &:hover {
     background-color: #FDD001;
@@ -23,23 +24,21 @@
 
   .ees-track-thumb {
     object-fit: cover;
-    margin-right: 24px;
   }
 
   .ees-track-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 3px;
 
     .ees-track-title {
-      font-size: 1.5rem;
+      white-space: nowrap;
     }
 
     .ees-artist-name {
+      white-space: nowrap;
       font-size: 0.7rem;
       color: #666;
-      margin-bottom: 6px;
     }
 
     .ees-track-details{
@@ -70,12 +69,9 @@
   .ees-track-right {
     display:flex;
     margin-left: auto;
-    margin-right: 50px;
 
     .ees-track-like svg {
       fill: #D60010;
-      width: 32px;
-      height: 32px;
     }
   }
 
@@ -87,8 +83,6 @@
 
     summary {
       list-style: none;
-      height: 100px;
-      width: 50px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -104,7 +98,6 @@
       }
       
       summary {
-        height: 62px;
         align-items: flex-end;
       }
     }
@@ -128,9 +121,89 @@
 
     height: 100px;
 
+    .ees-track-info {
+      gap: 3px;
+
+      .ees-track-title {
+        font-size: 1.5rem;
+      }
+
+      .ees-artist-name {
+        margin-bottom: 6px;
+      }
+    }
+
     .ees-track-thumb {
       width: 100px;
       height: 100px;
+      margin-right: 24px;
+    }
+
+    .ees-track-like svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .ees-track-right {
+      margin-right: 50px;
+    }
+
+    .ees-track-expandable {
+      summary {
+        height: 100px;
+        width: 50px;
+      }
+
+      &[open] {
+        summary { 
+          height: 62px;
+        }
+      }
+    }
+  }
+
+  &.ees-track-small {
+
+    height: 40px;
+
+    .ees-track-thumb {
+      width: 40px;
+      height: 40px;
+      margin-right: 12px;
+    }
+
+    .ees-track-info {
+      gap: 0;
+
+      .ees-track-title {
+        font-size: 0.8rem;
+      }
+  
+      .ees-track-details {
+        display: none;
+      }
+    }
+
+    .ees-track-right {
+      margin-right: 24px;
+    }
+
+    .ees-track-like svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .ees-track-expandable {
+      summary {
+        height: 40px;
+        width: 24px;
+      }
+
+      &[open] {
+        summary { 
+          height: 32px;
+        }
+      }
     }
   }
 }

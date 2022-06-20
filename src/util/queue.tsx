@@ -277,7 +277,7 @@ export class Queue {
     this.scrobbled = false;
 
     this.pause();
-    this.innerQueue.playNext(this.current);
+    this.innerOverrideQueue.playNext(this.current);
     this.current = newTrack;
     this.play();
   }
@@ -399,6 +399,24 @@ export class Queue {
     return this._scrobbleInfo;
   }
 
+  get priorityQueue() {
+    return this.innerOverrideQueue.all;
+  }
+
+  get mainQueue() {
+    return this.innerQueue.all.map((e) => {
+      e.eesIndex += this.innerOverrideQueue.length;
+      return e;
+    });
+  }
+
+  get all() {
+    return [
+      ...this.priorityQueue,
+      ...this.mainQueue
+    ];
+  }
+
   set scrobbleInfo(info:{artist:string, album:string, track:string}) {
     this._scrobbleInfo = info;
     this.scrobbler.nowPlaying(info, this.duration);
@@ -443,6 +461,13 @@ class InnerQueue {
 
   get length() {
     return this.queue.length;
+  }
+
+  get all() {
+    return this.queue.map((e,i) => ({
+      eesIndex: i,
+      ...e
+    }))
   }
 
 }

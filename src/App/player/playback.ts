@@ -1,4 +1,6 @@
+import EventEmitter from "events";
 import ReactDOM from "react-dom/client";
+import TypedEmitter from "typed-emitter";
 
 import { Queue, Repeat } from "../../util/queue";
 import { SongData } from "../../util/wrapper/eggs/artist";
@@ -37,7 +39,11 @@ export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch
   return playbackController;
 }
 
-export class PlaybackController {
+type PlaybackEmitters = {
+  update: () => void;
+}
+
+export class PlaybackController extends (EventEmitter as new () => TypedEmitter<PlaybackEmitters>) {
   private queue:Queue|undefined;
   private shuffle:boolean;
   private repeat:Repeat;
@@ -49,6 +55,7 @@ export class PlaybackController {
   private setRepeat:React.Dispatch<React.SetStateAction<Repeat>>;
 
   constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>) {
+    super();
     this.shuffle = shuffle;
     this.repeat = repeat;
     this.root = root;
@@ -63,6 +70,7 @@ export class PlaybackController {
     this.queue?.destroy();
     this.queue = new Queue(initialQueue, initialElement, this.root, this.shuffle, this.repeat, this.setCurrent, this.youtube, this.setTimeData);
     this.play();
+    this.emit("update");
   }
 
   public play() {
@@ -75,22 +83,33 @@ export class PlaybackController {
 
   public next() {
     this.queue?.next();
+    this.emit("update");
   }
 
   public previous() {
     this.queue?.previous();
+    this.emit("update");
   }
 
   public playNext(track:SongData) {
     this.queue?.playNext(track);
+    this.emit("update");
   }
 
   public addToQueue(track:SongData) {
     this.queue?.addToQueue(track);
+    this.emit("update");
   }
 
   public setCurrentTime(percentage:number) {
     this.queue?.setCurrentTime(percentage * (this.duration ?? 0));
+  }
+
+  public skipTo(n:number) {
+    for (let i = 0; i <= n; i++) {
+      this.next();
+    }
+    this.emit("update");
   }
 
   public toggleShuffle() {
@@ -98,6 +117,7 @@ export class PlaybackController {
     this.setShuffle(this.shuffle);
     if (!this.queue) return;
     this.queue.shuffle = this.shuffle;
+    this.emit("update");
   }
 
   public cycleRepeat() {
@@ -105,6 +125,7 @@ export class PlaybackController {
     this.setRepeat(this.repeat);
     if (!this.queue) return;
     this.queue.repeat = this.repeat;
+    this.emit("update");
   }
 
   set scrobbleInfo(scrobble:{artist:string, track:string, album:string}) {
@@ -122,5 +143,17 @@ export class PlaybackController {
 
   get isPlaying() {
     return this.queue?.isPlaying;
+  }
+
+  get priorityQueue() {
+    return this.queue?.priorityQueue;
+  }
+
+  get mainQueue() {
+    return this.queue?.mainQueue;
+  }
+
+  get all() {
+    return this.queue?.all;
   }
 }

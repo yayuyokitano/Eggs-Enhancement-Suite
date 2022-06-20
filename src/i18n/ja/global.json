@@ -159,6 +159,10 @@
     "composer": "作曲：",
     "lyricist": "作詞："
   },
+  "queue": {
+    "manuallyAdded": "手動で追加",
+    "playingNext": "次に再生"
+  },
   "playlist": {
     "error": "プレイリストを取得できませんでした。プレイリストは削除されたか、非公開にさせたかもしれません。",
     "select": "プレイリストを選択"

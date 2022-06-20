@@ -40,7 +40,7 @@ export function Artist(t:TFunction) {
     <div id="ees-artist">
       <div ref={ref} />
       <h2>{t("general.song.plural")}</h2>
-      <TrackContainer data={data?.data} t={t} />
+      <TrackContainer data={data?.data} t={t} size="normal" />
     </div>
   )
 }

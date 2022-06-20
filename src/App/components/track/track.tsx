@@ -7,6 +7,11 @@ import ModeCommentRoundedIcon from '@mui/icons-material/ModeCommentRounded';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import "./track.scss";
 import { TFunction } from "react-i18next";
+import { PlaybackController } from "App/player/playback";
+
+export interface SongDataWIndex extends SongData {
+  eesIndex:number;
+}
 
 function setPlayback(e:React.MouseEvent<HTMLLIElement, MouseEvent>, track:SongData) {
   if ((e.target as HTMLElement)?.closest(".ees-track-expandable")) return;
@@ -58,15 +63,31 @@ function addToPlaylist(track:SongData) {
   (document.querySelector("#ees-playlist-dialog") as HTMLDialogElement).showModal();
 }
 
-export default function Track(props:{track:SongData, size:"normal", z:number, t:TFunction, loggedIn:boolean, isLiked:boolean, toggleLiked:(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, trackID: string) => void}) {
-  const {track, size, z, t, loggedIn, isLiked, toggleLiked} = props;
+function skipTo(e:React.MouseEvent<HTMLLIElement, MouseEvent>, track:SongData|SongDataWIndex, playbackController?:PlaybackController) {
+  if ((e.target as HTMLElement)?.closest(".ees-track-expandable")) return;
+  if (!playbackController) return;
+  if (!("eesIndex" in track)) return;
+  playbackController.skipTo(track.eesIndex);
+}
+
+export default function Track(props:{
+  track:SongData|SongDataWIndex,
+  size:"small"|"normal",
+  z:number, t:TFunction,
+  loggedIn:boolean,
+  isLiked:boolean,
+  toggleLiked:(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, trackID: string) => void
+  isInQueue?:boolean,
+  playbackController?:PlaybackController
+}) {
+  const {track, size, z, t, loggedIn, isLiked, toggleLiked, isInQueue, playbackController} = props;
 
   return (
     <li
       key={track.musicId}
       className={`ees-track ees-track-${size}`}
       data-track={JSON.stringify(track)}
-      onClick={(e) => {setPlayback(e, track)}}
+      onClick={(e) => {isInQueue ? skipTo(e, track, playbackController) : setPlayback(e, track)}}
     >
       <img className="ees-track-thumb" src={track.imageDataPath ?? track.artistData.imageDataPath ?? defaultAvatar} alt="" />
       <div className="ees-track-info">

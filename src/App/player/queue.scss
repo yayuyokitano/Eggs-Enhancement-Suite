@@ -1,5 +1,48 @@
 #ees-player-queue {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 100px;
+  right: 0;
+  transform: translateX(100%);
+  background-color: white;
+  transition: transform 0.2s ease-in-out;
+
+  width: 200px;
+  height: calc(100vh - 200px);
+  border-radius: 0 0 0 5px;
+
+  #ees-player-queue-inner {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .ees-track-container {
+    margin-bottom: 0;
+  }
+
+  &.active {
+    transform: translateX(0);
+    box-shadow: -5px 0 5px rgba(0, 0, 0, 0.5);
+  }
+
+  #ees-player-queue-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 17px 2px;
+    padding-bottom: 13px;
+    background-color: white;
+    transform: translateX(-100%);
+    border-radius: 5px 0 0 5px;
+
+    box-shadow: -5px 0 5px rgba(0, 0, 0, 0.5);
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    &:hover {
+      background-color: #FDD001;
+    }
+  }
 }
