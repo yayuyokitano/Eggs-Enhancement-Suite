@@ -26,6 +26,16 @@ $player-height: 78px;
     margin-bottom: 1rem;
   }
 
+  #ees-youtube-container {
+    width: 854px;
+    height: 480px;
+    border: none;
+
+    &.inactive {
+      display: none;
+    }
+  }
+
   #ees-player-details-cover {
     position: relative;
 

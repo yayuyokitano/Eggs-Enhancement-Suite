@@ -140,9 +140,8 @@ function Player(props:{ t:TFunction }) {
           <DetailsRoundedIcon />
         </button>
         <div id="ees-audio-container" />
-        <iframe id="ees-youtube-container" ref={youtubeRef}></iframe>
       </div>
-      <Details track={current} t={t} />
+      <Details track={current} t={t} youtubeRef={youtubeRef} />
     </div>
   );
 }

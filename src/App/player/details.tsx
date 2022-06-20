@@ -1,3 +1,5 @@
+import React from "react";
+
 import { SongData } from "util/wrapper/eggs/artist";
 import OpenInFullRoundedIcon from "@mui/icons-material/OpenInFullRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
@@ -31,14 +33,16 @@ function downloadTrackImage(track?:SongData) {
   elem.click();
 }
 
-export default function Details(props:{track?:SongData, t:TFunction}) {
-  const { track, t } = props;
+export default function Details(props:{track?:SongData, t:TFunction, youtubeRef:React.RefObject<HTMLIFrameElement>}) {
+  const { track, t, youtubeRef } = props;
   return (
     <div id="ees-player-details" onClick={attemptCloseTrackImage}>
 
       <div id="ees-player-details-inner">
         <h2 id="ees-player-details-title">{track?.musicTitle}</h2>
         <p id="ees-player-details-artist">{track?.artistData.displayName}</p>
+
+        <iframe id="ees-youtube-container" ref={youtubeRef} className={track?.youtubeUrl ? "" : "inactive"} allowFullScreen></iframe>
 
         <button type="button" id="ees-player-details-cover" onClick={(e) => { openTrackImage(); e.stopPropagation(); }}>
           <img src={track?.imageDataPath ?? track?.artistData.imageDataPath ?? ""} alt="" height="300" />
@@ -74,8 +78,8 @@ function Lyrics(props:{track?:SongData, t:TFunction}) {
 
   return (
     <div id="ees-player-details-lyrics-wrapper">
-      <p>{t("track.composer")}{track.composer || track.cmoComposer || "--"}</p>
-      <p>{t("track.lyricist")}{track.lyricist || track.cmoLyricist || "--"}</p>
+      <p>{t("track.composer")}{track.composer || track.cmoComposer || "--"}<br />
+         {t("track.lyricist")}{track.lyricist || track.cmoLyricist || "--"}</p>
       <div id="ees-player-details-lyrics-text">
         {track.lyrics.split("\r\n\r\n").map((paragraph) => {
           return <p>{paragraph}</p>;
