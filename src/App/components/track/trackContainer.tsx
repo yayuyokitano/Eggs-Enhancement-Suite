@@ -32,7 +32,7 @@ export default function TrackContainer(props: {data:SongData[]|SongDataWIndex[]|
         <Track
           track={song}
           size={size}
-          z={data.length-i}
+          z={("eesIndex" in song) ? 10000000 - song.eesIndex : data.length-i}
           t={t}
           loggedIn={loggedIn}
           isLiked={likedTracks.includes(song.musicId)}
