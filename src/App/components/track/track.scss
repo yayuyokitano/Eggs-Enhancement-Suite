@@ -174,9 +174,15 @@
 
     .ees-track-info {
       gap: 0;
+      max-width: 120px;
+      overflow: hidden;
 
       .ees-track-title {
         font-size: 0.8rem;
+      }
+
+      .ees-artist-name {
+        margin-bottom: 2px;
       }
   
       .ees-track-details {
@@ -188,9 +194,8 @@
       margin-right: 24px;
     }
 
-    .ees-track-like svg {
-      width: 24px;
-      height: 24px;
+    .ees-track-like {
+      display: none;
     }
 
     .ees-track-expandable {

@@ -153,6 +153,7 @@
   "track": {
     "playNext": "次に再生",
     "addToQueue": "キューに追加",
+    "removeFromQueue": "キューから削除",
     "addToPlaylist": "プレイリストに追加",
     "lyrics": "歌詞",
     "lyricsNotFound": "歌詞が見つかりません",

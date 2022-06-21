@@ -101,6 +101,11 @@ export class PlaybackController extends (EventEmitter as new () => TypedEmitter<
     this.emit("update");
   }
 
+  public removeFromQueue(trackIndex:number) {
+    this.queue?.removeFromQueue(trackIndex);
+    this.emit("update");
+  }
+
   public setCurrentTime(percentage:number) {
     this.queue?.setCurrentTime(percentage * (this.duration ?? 0));
   }

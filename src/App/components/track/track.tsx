@@ -55,6 +55,12 @@ function addToQueue(track:SongData) {
   }, "*");
 }
 
+function removeFromQueue(track:SongData|SongDataWIndex, playbackController?:PlaybackController) {
+  if (!playbackController) return;
+  if (!("eesIndex" in track)) return;
+  playbackController.removeFromQueue(track.eesIndex);
+}
+
 function addToPlaylist(track:SongData) {
   const header = (document.querySelector("#ees-playlist-dialog h2") as HTMLElement);
   header.dataset.musicId = track.musicId;
@@ -122,6 +128,7 @@ export default function Track(props:{
       <details style={{zIndex: z}} className="ees-track-expandable">
           <summary><MoreVertRoundedIcon /></summary>
           <ul className="ees-track-menu">
+            {isInQueue && <li onClick={ () => { removeFromQueue(track, playbackController) } }>{t("track.removeFromQueue")}</li>}
             <li onClick={() => { playNext(track) }}>{t("track.playNext")}</li>
             <li onClick={() => { addToQueue(track) }}>{t("track.addToQueue")}</li>
             <li className="ees-playlist-modal-creator" onClick={() => { addToPlaylist(track) }}>{t("track.addToPlaylist")}</li>

@@ -153,6 +153,7 @@
   "track": {
     "playNext": "Play Next",
     "addToQueue": "Add to queue",
+    "removeFromQueue": "Remove from queue",
     "addToPlaylist": "Add to playlist",
     "lyrics": "Lyrics",
     "lyricsNotFound": "No lyrics found",

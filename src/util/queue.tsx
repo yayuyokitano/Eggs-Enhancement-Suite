@@ -367,6 +367,13 @@ export class Queue {
     this.preload();
   }
 
+  public removeFromQueue(trackIndex:number) {
+    if (this.innerOverrideQueue.length > trackIndex) {
+      this.innerOverrideQueue.remove(trackIndex);
+    }
+    this.innerQueue.remove(trackIndex - this.innerOverrideQueue.length);
+  }
+
   private secondUpdate() {
     if (!this.isPlaying) return;
     this.realCurrent++;
@@ -454,6 +461,8 @@ class InnerQueue {
   public pop = () => this.queue.shift();
 
   public get = (count:number) => this.queue.slice(0, count);
+
+  public remove = (index:number) => this.queue.splice(index, 1);
 
   public playNext(song:SongData) {
     this.queue.unshift(song);
