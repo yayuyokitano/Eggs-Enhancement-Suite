@@ -131,8 +131,8 @@ export default function Track(props:{
             {isInQueue && <li onClick={ () => { removeFromQueue(track, playbackController) } }>{t("track.removeFromQueue")}</li>}
             <li onClick={() => { playNext(track) }}>{t("track.playNext")}</li>
             <li onClick={() => { addToQueue(track) }}>{t("track.addToQueue")}</li>
-            <li className="ees-playlist-modal-creator" onClick={() => { addToPlaylist(track) }}>{t("track.addToPlaylist")}</li>
-            <li>hallo</li>
+            {loggedIn && <li className="ees-playlist-modal-creator" onClick={() => { addToPlaylist(track) }}>{t("track.addToPlaylist")}</li>}
+            <li>hello</li>
             <li>hallo</li>
             <li>hallo</li>
           </ul>
