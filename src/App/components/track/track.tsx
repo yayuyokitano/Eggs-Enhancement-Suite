@@ -82,7 +82,7 @@ export default function Track(props:{
   z:number, t:TFunction,
   loggedIn:boolean,
   isLiked:boolean,
-  toggleLiked:(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, trackID: string) => void
+  toggleLiked:(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, trackID: string, loggedIn:boolean) => void
   isInQueue?:boolean,
   playbackController?:PlaybackController
 }) {
@@ -117,7 +117,7 @@ export default function Track(props:{
         </div>
       </div>
       <div className="ees-track-right">
-        <button type="button" className="ees-track-like" data-liked={isLiked} onClick={(e) => {loggedIn && toggleLiked(e, track.musicId)}}>
+        <button type="button" className="ees-track-like" data-liked={isLiked} onClick={(e) => {toggleLiked(e, track.musicId, loggedIn)}}>
           {
             isLiked ?
             <FavoriteRoundedIcon /> :

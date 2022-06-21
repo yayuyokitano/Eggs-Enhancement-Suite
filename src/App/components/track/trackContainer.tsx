@@ -46,8 +46,9 @@ export default function TrackContainer(props: {data:SongData[]|SongDataWIndex[]|
 }
 
 function createToggleLiked(likedTracks:string[], setLikedTracks:React.Dispatch<React.SetStateAction<string[]>>) {
-  return (e:React.MouseEvent<HTMLButtonElement, MouseEvent>, trackID:string) => {
+  return (e:React.MouseEvent<HTMLButtonElement, MouseEvent>, trackID:string, loggedIn:boolean) => {
     e.stopPropagation();
+    if (!loggedIn) return;
     const isLiked = likedTracks.includes(trackID);
     const newLikedTracks = isLiked ? likedTracks.filter((t) => t !== trackID) : [...likedTracks, trackID];
     setLikedTracks(newLikedTracks);
