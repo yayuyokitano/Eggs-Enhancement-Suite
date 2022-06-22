@@ -1,4 +1,6 @@
 import { ThenableWebDriver } from "selenium-webdriver";
+import { findTrackByIndex } from "./player";
+import { setShuffle } from "./selenium";
 const { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver } = require("./selenium") as typeof import("./selenium");
 const { By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const { expect } = require("chai") as typeof import("chai");
@@ -43,11 +45,7 @@ describe("player", function() {
       expect((await progress.getAttribute("max")).slice(0,5), browser).to.equal("362.9");
       expect((await progress.getAttribute("value")).slice(0,5), browser).to.not.equal("362.9");
 
-      const shuffleElement = await driver.findElement(By.id("ees-shuffle"));
-      if (await shuffleElement.getAttribute("data-state") === "true") {
-        await shuffleElement.click();
-        await driver.sleep(100);
-      }
+      setShuffle(driver, false);
 
       await driver.findElement(By.id("ees-next")).click();
       const duration2 = await driver.findElement(By.id("ees-player-duration"));
@@ -57,7 +55,6 @@ describe("player", function() {
       expect((await driver.findElement(By.id("ees-player-thumbnail")).getAttribute("src")).split("?")[0], browser).to.equal("https://recoeggs.hs.llnwd.net/flmg_img_p/jacket/8091b959-6939-4e0b-9803-0d37c83e4913.jpeg");
 
       await driver.findElement(By.id("ees-prev")).click();
-      const duration3 = await driver.findElement(By.id("ees-player-duration"));
       await driver.wait(until.elementTextIs(duration2, "6:02"), 10000);
       expect(await driver.findElement(By.id("ees-player-title")).getText(), browser).to.equal("night smoke");
       expect(await driver.findElement(By.id("ees-player-artist")).getText(), browser).to.equal("Lily Sketch");
@@ -70,7 +67,36 @@ describe("player", function() {
       expect(await driver.findElement(By.id("ees-player-artist")).getText(), browser).to.equal("Lily Sketch");
       expect((await driver.findElement(By.id("ees-player-thumbnail")).getAttribute("src")).split("?")[0], browser).to.equal("https://recoeggs.hs.llnwd.net/flmg_img_p/jacket/e9eb3673-3553-462e-8b63-7abb1478d98a.jpeg");
       expect(await driver.findElement(By.id("ees-player-duration")).getText(), browser).to.equal("6:02");
-    }));
+    })).to.not.throw;
+  });
+
+  it("should have queue that shows on click and hides on click", async function() {
+    expect(await runTest(this.drivers, async(driver, browser) => {
+      await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+      const width = (await driver.manage().window().getRect()).width;
+
+      const queueInner = await driver.findElement(By.id("ees-player-queue-inner"));
+      expect((await queueInner.getRect()).x, browser).to.be.greaterThanOrEqual(width);
+
+      await driver.findElement(By.id("ees-player-queue-button")).click();
+      await driver.sleep(250);
+      expect((await queueInner.getRect()).x, browser).to.be.lessThan(width);
+
+      await driver.findElement(By.id("ees-player-queue-button")).click();
+      await driver.sleep(250);
+      expect((await queueInner.getRect()).x, browser).to.be.greaterThanOrEqual(width);
+    })).to.not.throw;
+  });
+
+  describe("queue and shuffle/repeat", function() {
+    it("should behave properly with no shuffle and no repeat", async function() {
+      expect(await runTest(this.drivers, async(driver, browser) => {
+        await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+        const nightSmoke = await findTrackByIndex(driver, 0);
+        await nightSmoke.play();
+        
+      })).to.not.throw;
+    });
   });
 
   it("should set viewport size", async function() {

@@ -1,4 +1,5 @@
 import { ThenableWebDriver } from "selenium-webdriver";
+import { Repeat } from "util/queue";
 const { Builder, By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome") as typeof import("selenium-webdriver/chrome");
 const firefox = require("selenium-webdriver/firefox") as typeof import("selenium-webdriver/firefox");
@@ -96,4 +97,22 @@ export async function login(driver:ThenableWebDriver, browser:string) {
   const loginButton = await driver.findElement(By.css(`.form-control>.form-control>.button`));
   await loginButton.click();
   await driver.wait(until.urlIs("https://eggs.mu/artist/IG_LiLySketch/"), 10000);
+}
+
+const oppositeBool = (bool:boolean) => String(!bool);
+
+export async function setShuffle(driver:ThenableWebDriver, shuffle:boolean) {
+  const shuffleElement = await driver.findElement(By.id("ees-shuffle"));
+  if (await shuffleElement.getAttribute("data-state") === oppositeBool(shuffle)) {
+    await shuffleElement.click();
+    await driver.sleep(20);
+  }
+};
+
+export async function setRepeat(driver:ThenableWebDriver, repeat:Repeat) {
+  const repeatElement = await driver.findElement(By.id("ees-repeat"));
+  while (await repeatElement.getAttribute("data-state") !== String(repeat)) {
+    await repeatElement.click();
+    await driver.sleep(20);
+  }
 }

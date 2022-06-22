@@ -71,6 +71,7 @@ export class PlaybackController extends (EventEmitter as new () => TypedEmitter<
     this.queue = new Queue(initialQueue, initialElement, this.root, this.shuffle, this.repeat, this.setCurrent, this.youtube, this.setTimeData);
     this.play();
     this.emit("update");
+    this.queue.on("update", () => { this.emit("update"); })
   }
 
   public play() {

@@ -197,7 +197,11 @@ class SongElement {
 
 }
 
-export class Queue {
+type QueueEmitters = {
+  update: () => void;
+}
+
+export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters>) {
   private innerQueue = new InnerQueue();
   private innerOverrideQueue = new InnerQueue();
   private initialQueue:SongData[];
@@ -224,6 +228,7 @@ export class Queue {
   }, 1000);
 
   constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>) {
+    super();
     this.initialQueue = initialQueue;
     this._shuffle = shuffle;
     this._repeat = repeat;
@@ -247,6 +252,7 @@ export class Queue {
     this.historyStack.empty();
     this.currentElement?.destroy();
     delete this.currentElement;
+    this.removeAllListeners();
     clearInterval(this.secondInterval);
   }
 
@@ -343,6 +349,7 @@ export class Queue {
         this.innerQueue.add(...this.initialQueue)
       }
     }
+    this.emit("update");
     this.preload();
 
   }
@@ -446,7 +453,7 @@ export class Queue {
     this._current = track;
     this.setCurrent(track);
     this.currentElement = new SongElement(this.current, this.youtube, this.setTimeData);
-    this.currentElement.audioEmitter.on("ended", () => { this.next(); })
+    this.currentElement.audioEmitter.on("ended", () => { this.next(); this.emit("update"); })
   }
 
 }
