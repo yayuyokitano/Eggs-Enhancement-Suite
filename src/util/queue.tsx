@@ -319,12 +319,12 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 
   private populate() {
 
-    if (this.innerQueue.length > 50) {
+    if (this.innerQueue.length >= 50) {
       return;
     }
 
     // if no shuffle make sure to add from the selected starting song, if shuffled dont add initial song to queue
-    if (this._repeat === Repeat.All || this._repeat === Repeat.None && !this.innerQueue.length) {
+    if (this.innerQueue.length === 0 && this._repeat === Repeat.All || this._repeat === Repeat.None && !this.innerQueue.length) {
       const curIndex = this.initialQueue.findIndex(track => track.musicDataPath === this.current.musicDataPath);
       if (!this._shuffle) {
         this.innerQueue.add(...this.initialQueue.slice(curIndex + 1));

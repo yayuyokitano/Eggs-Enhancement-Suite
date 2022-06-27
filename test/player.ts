@@ -29,6 +29,18 @@ export async function findTrackByDetails(driver:ThenableWebDriver, details:detai
   throw new Error("Track not found");
 }
 
+export function generateRepeatQueue(titles:string[], index:number, repeat:Repeat) {
+  if (repeat === Repeat.None) throw new Error("repeat is None when generating queue");
+  if (repeat === Repeat.One) {
+    return new Array<string>(50).fill(titles[index]);
+  }
+  let unshuffledQueue = titles.slice(index + 1);
+  while (unshuffledQueue.length < 50) {
+    unshuffledQueue = unshuffledQueue.concat(titles);
+  }
+  return unshuffledQueue;
+}
+
 class Song {
   private element:WebElement;
   constructor(element:WebElement) {
@@ -72,12 +84,12 @@ export class Player {
 }
 
 export class Queue {
-  private element:WebElementPromise;
   private driver:ThenableWebDriver;
   constructor(driver:ThenableWebDriver) {
     this.driver = driver;
-    this.element = driver.findElement(By.id("ees-player-queue-inner"));
   }
+
+  private innerQueue = async() =>  this.driver.findElement(By.id("ees-player-queue-inner"));
 
   public async setShuffle(shuffle:boolean) {
   const shuffleElement = await this.driver.findElement(By.id("ees-shuffle"));
@@ -94,14 +106,14 @@ export class Queue {
 }
 
   public async priorityQueue() {
-    const queue = await this.element.findElements(By.id("ees-player-queue-manuallyadded"));
+    const queue = await (await this.innerQueue()).findElements(By.id("ees-player-queue-manuallyadded"));
     if (queue.length === 0) return [];
     const tracks = await queue[0].findElements(By.className("ees-track"));
     return Promise.all(tracks.map(async(track) => JSON.parse(await track.getAttribute("data-track")) as SongDataWIndex));
   }
 
   public async mainQueue() {
-    const container = (await this.element.findElements(By.className("ees-track-container"))).at(-1);
+    const container = (await (await this.innerQueue()).findElements(By.className("ees-track-container"))).at(-1);
     const tracks = await container?.findElements(By.className("ees-track"));
     if (!tracks) return [];
     return Promise.all(tracks.map(async(track) => JSON.parse(await track.getAttribute("data-track")) as SongDataWIndex));
@@ -114,5 +126,5 @@ export class Queue {
     ]
   }
 
-  public playTrackByIndex = async(index:number) => (await this.element.findElements(By.className("ees-track")))[index].click();
+  public playTrackByIndex = async(index:number) => (await (await this.innerQueue()).findElements(By.className("ees-track")))[index].click();
 }

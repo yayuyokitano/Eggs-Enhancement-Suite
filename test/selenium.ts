@@ -38,7 +38,7 @@ export async function loadDrivers() {
 export async function enterFrame(driver:ThenableWebDriver) {
   await driver.switchTo().defaultContent();
   await driver.wait(until.elementLocated(By.id("ees-spa-iframe")), 30000);
-  await driver.sleep(250); //cursed but seems to be needed for reliability
+  await driver.sleep(300); //cursed but seems to be needed for reliability
   await driver.switchTo().frame(await driver.findElement(By.id("ees-spa-iframe")));
 }
 

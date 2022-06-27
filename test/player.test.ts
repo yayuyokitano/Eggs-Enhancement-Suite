@@ -1,5 +1,5 @@
 import { ThenableWebDriver, until } from "selenium-webdriver";
-import { findTrackByDetails, findTrackByIndex, Player, Queue, Repeat } from "./player";
+import { findTrackByDetails, findTrackByIndex, generateRepeatQueue, Player, Queue, Repeat } from "./player";
 const { loadDrivers, runTest, enterFrame, isMobileDriver } = require("./selenium") as typeof import("./selenium");
 const { By } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const { expect } = require("chai") as typeof import("chai");
@@ -215,6 +215,78 @@ describe("player", function() {
       expect(await queue.mainQueue(), browser).to.be.empty;
       expect(await player.getTitle(), browser).to.equal("night smoke");
     })).to.not.throw;
+  });
+
+  it("should behave properly with repeat and no shuffle", async function() {
+    expect(await runTest(this.drivers, async(driver, browser) => {
+      await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+      await (await findTrackByIndex(driver, 0)).play();
+      await driver.switchTo().defaultContent();
+      const queue = new Queue(driver);
+      const player = new Player(driver);
+      await queue.setShuffle(false);
+      await queue.setRepeat(Repeat.All);
+      expect(await queue.priorityQueue(), browser).to.be.empty;
+
+      const tracks = ["night smoke", "サーチロック", "Black Lily", "灰青", "青十六歳"];
+      expect((await queue.mainQueue()).map(t => t.musicTitle), browser).to.deep.equal(generateRepeatQueue(tracks, 0, Repeat.All));
+      player.next();
+      expect((await queue.mainQueue()).map(t => t.musicTitle), browser).to.deep.equal(generateRepeatQueue(tracks, 1, Repeat.All));
+      player.next();
+      expect((await queue.mainQueue()).map(t => t.musicTitle), browser).to.deep.equal(generateRepeatQueue(tracks, 2, Repeat.All));
+      player.next();
+      expect((await queue.mainQueue()).map(t => t.musicTitle), browser).to.deep.equal(generateRepeatQueue(tracks, 3, Repeat.All));
+      player.next();
+      expect((await queue.mainQueue()).map(t => t.musicTitle), browser).to.deep.equal(generateRepeatQueue(tracks, 4, Repeat.All));
+      player.next();
+      expect((await queue.mainQueue()).map(t => t.musicTitle), browser).to.deep.equal(generateRepeatQueue(tracks, 0, Repeat.All));
+
+      await (await findTrackByIndex(driver, 4)).play();
+      await driver.switchTo().defaultContent();
+      expect((await queue.mainQueue()).map(t => t.musicTitle), browser).to.deep.equal(generateRepeatQueue(tracks, 4, Repeat.All));
+    })).to.not.throw;
+  });
+
+  it("should behave properly with repeat and shuffle", async function() {
+    this.retries(10);
+    expect(await runTest(this.drivers, async(driver, browser) => {
+      await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+      await (await findTrackByIndex(driver, 0)).play();
+      await driver.switchTo().defaultContent();
+      const queue = new Queue(driver);
+      await queue.setShuffle(true);
+      await queue.setRepeat(Repeat.All);
+      expect(await queue.priorityQueue(), browser).to.be.empty;
+
+      const tracks = ["night smoke", "サーチロック", "Black Lily", "灰青", "青十六歳"];
+      const curQueue = (await queue.mainQueue()).map(t => t.musicTitle);
+      expect(curQueue, browser).to.not.deep.equal(generateRepeatQueue(tracks, 0, Repeat.All));
+      expect(curQueue.length, browser).to.be.greaterThanOrEqual(50);
+      expect(curQueue.slice(0, 4).sort(), browser).to.deep.equal(tracks.slice(1).sort());
+      expect(curQueue.slice(4, 9).sort(), browser).to.deep.equal(tracks.sort());
+      expect(curQueue.slice(9, 14).sort(), browser).to.deep.equal(tracks.sort());
+      expect(curQueue.slice(14, 19).sort(), browser).to.deep.equal(tracks.sort());
+    }));
+  });
+
+  it("should behave properly with repeat one", async function() {
+    expect(await runTest(this.drivers, async(driver, browser) => {
+      await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+      await (await findTrackByIndex(driver, 0)).play();
+      await driver.switchTo().defaultContent();
+      const queue = new Queue(driver);
+      await queue.setShuffle(true);
+      await queue.setRepeat(Repeat.One);
+      expect(await queue.priorityQueue(), browser).to.be.empty;
+
+      const tracks = ["night smoke", "サーチロック", "Black Lily", "灰青", "青十六歳"];
+      expect((await queue.mainQueue()).map(t => t.musicTitle), browser).to.deep.equal(generateRepeatQueue(tracks, 0, Repeat.One));
+      await (await findTrackByIndex(driver, 1)).play();
+      await driver.switchTo().defaultContent();
+      expect((await queue.mainQueue()).map(t => t.musicTitle), browser).to.deep.equal(generateRepeatQueue(tracks, 1, Repeat.One));
+      await queue.setShuffle(false);
+      expect((await queue.mainQueue()).map(t => t.musicTitle), browser).to.deep.equal(generateRepeatQueue(tracks, 1, Repeat.One));
+    }));
   });
 
   it("should set viewport size", async function() {
