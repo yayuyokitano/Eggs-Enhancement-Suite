@@ -52,7 +52,7 @@ export default function Details(props:{track?:SongData, t:TFunction, youtubeRef:
         </button>
 
         <h3 id="ees-player-details-lyrics">{t("track.lyrics")}</h3>
-        <p id="ees-player-details-lyrics-text"><Lyrics track={track} t={t} /></p>
+        <Lyrics track={track} t={t} />
       </div>
 
       <dialog id="ees-cover-expanded">

@@ -266,7 +266,7 @@ describe("player", function() {
       expect(curQueue.slice(4, 9).sort(), browser).to.deep.equal(tracks.sort());
       expect(curQueue.slice(9, 14).sort(), browser).to.deep.equal(tracks.sort());
       expect(curQueue.slice(14, 19).sort(), browser).to.deep.equal(tracks.sort());
-    }));
+    })).to.not.throw;
   });
 
   it("should behave properly with repeat one", async function() {
@@ -286,7 +286,78 @@ describe("player", function() {
       expect((await queue.mainQueue()).map(t => t.musicTitle), browser).to.deep.equal(generateRepeatQueue(tracks, 1, Repeat.One));
       await queue.setShuffle(false);
       expect((await queue.mainQueue()).map(t => t.musicTitle), browser).to.deep.equal(generateRepeatQueue(tracks, 1, Repeat.One));
-    }));
+    })).to.not.throw;
+  });
+
+  it("should have a toggleable track info page", async function() {
+    expect(await runTest(this.drivers, async(driver, browser) => {
+      await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+      await (await findTrackByIndex(driver, 0)).play();
+      await driver.switchTo().defaultContent();
+      
+      expect(async() => { await driver.findElement(By.id("ees-player-details")).click(); }, browser).to.throw;
+
+      await driver.findElement(By.id("ees-track-expander")).click();
+      await driver.sleep(250);
+
+      expect(async() => { await driver.findElement(By.id("ees-player-details")).click(); }, browser).to.not.throw;
+
+      const title = await driver.findElement(By.id("ees-player-details-title"));
+      expect(await title.isDisplayed(), browser).to.be.true;
+      expect(await title.getText(), browser).to.equal("night smoke");
+
+      const artist = await driver.findElement(By.id("ees-player-details-artist"));
+      expect(await artist.isDisplayed(), browser).to.be.true;
+      expect(await artist.getText(), browser).to.equal("Lily Sketch");
+
+      const lyricHeader = await driver.findElement(By.id("ees-player-details-lyrics"));
+      expect(await lyricHeader.isDisplayed(), browser).to.be.true;
+      expect(await lyricHeader.getText(), browser).to.equal("Lyrics");
+
+      const lyricCredits = await driver.findElement(By.css("#ees-player-details-lyrics-wrapper>p"));
+      expect(await lyricCredits.isDisplayed(), browser).to.be.true;
+      expect((await lyricCredits.getText()).replaceAll("\n", ""), browser).to.equal("Composer: 上田優衣Lyricist: 上田優衣、加藤岡あや");
+
+      const lyric = await driver.findElement(By.id("ees-player-details-lyrics-text"));
+      expect(await lyric.isDisplayed(), browser).to.be.true;
+      //sorry if you have some text wrapping stuff going on
+      //the replacealls are needed because there are some inconsistencies between browsers on how whitespace is handled in getText()
+      expect((await lyric.getText()).replaceAll("\r\n", "").replaceAll("\n", ""), browser).to.equal("夜の街を泳ぐ魚の群れ鮮やかな街頭の下目を閉じて私を閉じ込めた暗闇孤独を感じた冷気が肌に触れた夜夜に置き去りにされた私は何ができるのか行かないで行かないで行かないでと縋って嫌だ嫌だ嫌だ嫌だ嫌だと願ってもまた　独りになる私は私を誰かに殺してほしくて私は私に生まれたくはなかったもういっそいっそのこと夜の闇に紛れて消えたらいいのに燻らせた煙草　溶けて混じった空気声高に叫ぶ心を濁らせて消えはしない様にずっとずっと愛してる苦しささえも夜の闇に沈めるように骨が軋む度心が締め付けられるから血肉は痛まないはずなのにどうして絶とうとした命は痛みを訴えるの夜に置き去りにされた闇が私を駆り立てた苦しくて苦しくて苦しいから憎んで痛い痛い痛い痛い痛いよと叫んでもまた　惨めになる全てを歌ったつもりでいた認めてもらえるはずもないのに夜に置き去りにされた切り取ったはずの景色も見えないよ見えないよ見たくないよこんな世界暗い暗い暗い暗い暗い中静かに　また夜に置き去りにされた私は何ができるのか行かないで行かないで行かないでと縋って嫌だ嫌だ嫌だ嫌だ嫌だと願ってもまた　独りになる夜の闇が後を引く終ぞ陽は差し込まない");
+
+      await driver.findElement(By.id("ees-track-expander")).click();
+      await driver.sleep(250);
+
+      expect(async() => { await driver.findElement(By.id("ees-player-details")).click(); }, browser).to.throw;
+    })).to.not.throw;
+  });
+
+  it("details image should work properly", async function() {
+    expect(await runTest(this.drivers, async(driver, browser) => {
+      await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+      await (await findTrackByIndex(driver, 0)).play();
+      await driver.switchTo().defaultContent();
+      
+      expect(async() => { await driver.findElement(By.id("ees-player-details")).click(); }, browser).to.throw;
+
+      await driver.findElement(By.id("ees-track-expander")).click();
+      await driver.sleep(250);
+
+      expect(await driver.findElement(By.id("ees-player-details")).isDisplayed(), browser).to.be.true;
+      expect(await driver.findElement(By.id("ees-cover-expanded")).isDisplayed(), browser).to.be.false;
+
+      const image = await driver.findElement(By.css("#ees-player-details-cover>img"));
+      expect(await image.isDisplayed(), browser).to.be.true;
+      expect((await image.getAttribute("src")).split("?")[0]).to.equal("https://recoeggs.hs.llnwd.net/flmg_img_p/jacket/e9eb3673-3553-462e-8b63-7abb1478d98a.jpeg");
+      
+      await driver.findElement(By.id("ees-player-details-cover")).click();
+
+      expect(await driver.findElement(By.id("ees-cover-expanded")).isDisplayed(), browser).to.be.true;
+      expect((await driver.findElement(By.css("#ees-cover-expanded>img")).getAttribute("src")).split("?")[0], browser).to.equal("https://recoeggs.hs.llnwd.net/flmg_img_p/jacket/e9eb3673-3553-462e-8b63-7abb1478d98a.jpeg");
+
+      await driver.findElement(By.id("ees-cover-expanded-buttons-close")).click();
+
+      expect(await driver.findElement(By.id("ees-cover-expanded")).isDisplayed(), browser).to.be.false;
+    })).to.not.throw;
   });
 
   it("should set viewport size", async function() {
