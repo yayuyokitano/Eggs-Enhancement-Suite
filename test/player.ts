@@ -1,9 +1,12 @@
 import { SongDataWIndex } from "App/components/track/track";
-import { ThenableWebDriver, WebElement, WebElementPromise } from "selenium-webdriver";
+import { ThenableWebDriver, until, WebElement, WebElementPromise } from "selenium-webdriver";
 import { SongData } from "util/wrapper/eggs/artist";
+import { enterFrame } from "./selenium";
 const { By } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 
 export async function findTrackByIndex(driver:ThenableWebDriver, index:number):Promise<Song> {
+  await enterFrame(driver);
+  await driver.wait(until.elementLocated(By.className("ees-track")), 5000);
   const tracks = await driver.findElements(By.className("ees-track"));
   return new Song(tracks[index]);
 }
@@ -14,11 +17,13 @@ interface details {
 }
 
 export async function findTrackByDetails(driver:ThenableWebDriver, details:details):Promise<Song> {
+  await enterFrame(driver);
+  await driver.wait(until.elementLocated(By.className("ees-track")), 5000);
   const tracks = await driver.findElements(By.className("ees-track"));
   for (let track of tracks) {
     const trackData = JSON.parse(await track.getAttribute("data-track")) as SongData;
-    if (!details.title || details.title !== trackData.musicTitle) continue;
-    if (!details.artist || details.artist !== trackData.artistData.artistName) continue;
+    if (details.title && details.title !== trackData.musicTitle) continue;
+    if (details.artist && details.artist !== trackData.artistData.artistName) continue;
     return new Song(track);
   }
   throw new Error("Track not found");
@@ -35,11 +40,58 @@ class Song {
   }
 }
 
+export enum Repeat {
+  None = 0,
+  All,
+  One
+}
+
+const oppositeBool = (bool:boolean) => String(!bool);
+
+export class Player {
+  private driver:ThenableWebDriver;
+  constructor(driver:ThenableWebDriver) {
+    this.driver = driver;
+  }
+
+  private getDurationElement = async() => this.driver.findElement(By.id("ees-player-duration"));
+
+  public play = async() => this.driver.findElement(By.id("ees-play")).click();
+  public pause = async() => this.driver.findElement(By.id("ees-pause")).click();
+  public next = async() => this.driver.findElement(By.id("ees-next")).click();
+  public prev = async() => this.driver.findElement(By.id("ees-prev")).click();
+
+  public getCurrentTime = async() => this.driver.findElement(By.id("ees-player-current-time")).getText();
+  public getDuration = async() => (await this.getDurationElement()).getText();
+
+  public getTitle = async() => this.driver.findElement(By.id("ees-player-title")).getText();
+  public getArtist = async() => this.driver.findElement(By.id("ees-player-artist")).getText();
+  public getThumbnail = async() => (await this.driver.findElement(By.id("ees-player-thumbnail")).getAttribute("src")).split("?")[0];
+
+  public waitForDuration = async(duration:string) => this.driver.wait(until.elementTextIs(await this.getDurationElement(), duration), 10000);
+}
+
 export class Queue {
   private element:WebElementPromise;
+  private driver:ThenableWebDriver;
   constructor(driver:ThenableWebDriver) {
-    this.element = driver.findElement(By.id("ees-queue-inner"));
+    this.driver = driver;
+    this.element = driver.findElement(By.id("ees-player-queue-inner"));
   }
+
+  public async setShuffle(shuffle:boolean) {
+  const shuffleElement = await this.driver.findElement(By.id("ees-shuffle"));
+  if (await shuffleElement.getAttribute("data-state") === oppositeBool(shuffle)) {
+    await shuffleElement.click();
+  }
+};
+
+  public async setRepeat(repeat:Repeat) {
+  const repeatElement = await this.driver.findElement(By.id("ees-repeat"));
+  while (await repeatElement.getAttribute("data-state") !== String(repeat)) {
+    await repeatElement.click();
+  }
+}
 
   public async priorityQueue() {
     const queue = await this.element.findElements(By.id("ees-player-queue-manuallyadded"));
@@ -61,4 +113,6 @@ export class Queue {
       ...(await this.mainQueue())
     ]
   }
+
+  public playTrackByIndex = async(index:number) => (await this.element.findElements(By.className("ees-track")))[index].click();
 }

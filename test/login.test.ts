@@ -19,7 +19,8 @@ describe("login", function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
       await driver.get("https://eggs.mu/");
       await enterFrame(driver);
-      const loginButton = await driver.findElement(By.css(`#ees-login :first-child`));
+      await driver.wait(until.elementLocated(By.css("#ees-login :first-child")), 5000);
+      const loginButton = await driver.findElement(By.css("#ees-login :first-child"));
       const registerButton = await driver.findElement(By.css(`#ees-login :nth-child(2)`));
       expect(await loginButton.getText(), browser).to.equal("Login");
       expect(await registerButton.getText(), browser).to.equal("Register");
@@ -32,6 +33,7 @@ describe("login", function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
       await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
       await enterFrame(driver);
+      await driver.wait(until.elementLocated(By.css("#ees-login :first-child")), 5000);
       const loginButton = await driver.findElement(By.css("#ees-login :first-child"));
       await loginButton.click();
       await driver.wait(until.urlIs("https://eggs.mu/login?location=https://eggs.mu/artist/IG_LiLySketch/"), 20000);
@@ -43,6 +45,7 @@ describe("login", function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
       await driver.get("https://eggs.mu/login?location=https://eggs.mu/artist/IG_LiLySketch/");
       await enterFrame(driver);
+      await driver.wait(until.elementLocated(By.css(".form-control.pt30p.pb50p p")), 5000);
       const disclaimer = await driver.findElement(By.css(".form-control.pt30p.pb50p p"));
       expect(await disclaimer.getText(), browser).to.equal("By logging in, you also log in with Eggs Enhancement Suite. Note that EES is not endorsed by nor affiliated with Eggs.mu, and that you are logging in at your own risk.");
       expect(await disclaimer.isDisplayed(), browser).to.be.true;
@@ -60,6 +63,7 @@ describe("login", function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
       await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
       await enterFrame(driver);
+      await driver.wait(until.elementLocated(By.className("ees-username")), 5000);
       const username = await driver.findElement(By.className("ees-username"));
       expect(await username.getText(), browser).to.equal(config.username + browser.split(" ").slice(-1)[0].toLowerCase());
     })).to.not.throw;

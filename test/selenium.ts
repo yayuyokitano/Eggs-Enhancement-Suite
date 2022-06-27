@@ -1,5 +1,4 @@
 import { ThenableWebDriver } from "selenium-webdriver";
-import { Repeat } from "util/queue";
 const { Builder, By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome") as typeof import("selenium-webdriver/chrome");
 const firefox = require("selenium-webdriver/firefox") as typeof import("selenium-webdriver/firefox");
@@ -13,10 +12,10 @@ export async function loadDrivers() {
   const chromeDriver = new Builder()
     .forBrowser("chrome")
     .setChromeOptions(new chrome.Options()
+    .setChromeBinaryPath("/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary")
     .addArguments(`--load-extension=${getExtension("chrome")}`))
     .build();
   await chromeDriver.manage().window().setRect({ width: 1280, height: 720 });
-  await chromeDriver.manage().setTimeouts( { implicit: 20000 } );
 
   const firefoxDriver = new Builder()
     .forBrowser("firefox")
@@ -25,7 +24,6 @@ export async function loadDrivers() {
     .setProfile("/Users/User/Library/Application Support/Firefox/Profiles/zlf02h2j.testing"))
     .build();
   await firefoxDriver.manage().window().setRect({ width: 1280, height: 720 });
-  await firefoxDriver.manage().setTimeouts( { implicit: 20000 } );
 
   const safariDriver = new Builder()
     .forBrowser("safari")
@@ -33,16 +31,15 @@ export async function loadDrivers() {
     .build();
 
   await safariDriver.manage().window().setRect({ width: 1280, height: 720 });
-  await safariDriver.manage().setTimeouts( { implicit: 20000 } );
   
   return [chromeDriver, firefoxDriver, safariDriver];
 }
 
 export async function enterFrame(driver:ThenableWebDriver) {
   await driver.switchTo().defaultContent();
-  await driver.wait(until.elementLocated(By.id("ees-spa-iframe")), 10000);
-  const iframe = await driver.findElement(By.id("ees-spa-iframe"));
-  await driver.switchTo().frame(iframe);
+  await driver.wait(until.elementLocated(By.id("ees-spa-iframe")), 30000);
+  await driver.sleep(250); //cursed but seems to be needed for reliability
+  await driver.switchTo().frame(await driver.findElement(By.id("ees-spa-iframe")));
 }
 
 export async function exitFrame(driver:ThenableWebDriver) {
@@ -73,7 +70,12 @@ export async function attemptLogout(driver:ThenableWebDriver) {
   await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
   await enterFrame(driver);
   try {
-    const user = await driver.findElement(By.id(`ees-user`));
+    const waitRace = [
+      driver.wait(until.elementLocated(By.id("ees-user")), 20000),
+      driver.wait(until.elementLocated(By.id("ees-login")), 20000)
+    ]
+    await Promise.race(waitRace);
+    const user = await driver.findElement(By.id("ees-user"));
     await user.click();
 
     await enterFrame(driver);
@@ -82,7 +84,7 @@ export async function attemptLogout(driver:ThenableWebDriver) {
   } catch(_) {
     //do nothing
   }
-  await driver.sleep(5000);
+  await driver.wait(until.elementLocated(By.id("ees-login")), 20000);
   await enterFrame(driver);
   return driver.findElements(By.id("ees-login"));
 }
@@ -90,6 +92,7 @@ export async function attemptLogout(driver:ThenableWebDriver) {
 export async function login(driver:ThenableWebDriver, browser:string) {
   await driver.get("https://eggs.mu/login?location=https://eggs.mu/artist/IG_LiLySketch/");
   await enterFrame(driver);
+  await driver.wait(until.elementLocated(By.css(`.input-wrapper [placeholder="IDまたはメールアドレス"]`)), 5000);
   const username = await driver.findElement(By.css(`.input-wrapper [placeholder="IDまたはメールアドレス"]`));
   await username.sendKeys(config.username + browser.split(" ").slice(-1)[0].toLowerCase());
   const password = await driver.findElement(By.css(`.input-wrapper [placeholder="パスワード"]`));
@@ -97,22 +100,4 @@ export async function login(driver:ThenableWebDriver, browser:string) {
   const loginButton = await driver.findElement(By.css(`.form-control>.form-control>.button`));
   await loginButton.click();
   await driver.wait(until.urlIs("https://eggs.mu/artist/IG_LiLySketch/"), 10000);
-}
-
-const oppositeBool = (bool:boolean) => String(!bool);
-
-export async function setShuffle(driver:ThenableWebDriver, shuffle:boolean) {
-  const shuffleElement = await driver.findElement(By.id("ees-shuffle"));
-  if (await shuffleElement.getAttribute("data-state") === oppositeBool(shuffle)) {
-    await shuffleElement.click();
-    await driver.sleep(20);
-  }
-};
-
-export async function setRepeat(driver:ThenableWebDriver, repeat:Repeat) {
-  const repeatElement = await driver.findElement(By.id("ees-repeat"));
-  while (await repeatElement.getAttribute("data-state") !== String(repeat)) {
-    await repeatElement.click();
-    await driver.sleep(20);
-  }
 }

@@ -28,6 +28,7 @@ describe("artist", function() {
     expect (await runTest(this.drivers, async(driver, browser) => {
       await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
       await enterFrame(driver);
+      await driver.wait(until.elementLocated(By.className("artist_name")), 5000);
       const artistName = await driver.findElement(By.className("artist_name")).getText();
       expect(artistName, browser).to.equal("Lily Sketch");
       const eggsID = await driver.findElement(By.className("eggsid")).getText();
@@ -40,6 +41,7 @@ describe("artist", function() {
         await driver.findElement(By.css(".btn_profile")).click();
         await driver.wait(until.elementLocated(By.id("profile-box")), 1000);
         expect(await driver.findElement(By.id("profile-box")).getText()).to.equal("スリーピースガールズバンド\nVo .&Ba.ゆい　Gt.なつみ　Dr.あや");
+        await driver.wait(until.elementLocated(By.className("fancybox-close")), 5000);
         await driver.findElement(By.className("fancybox-close")).click();
       } else {
         const description = await driver.findElement(By.className("description")).getText();
@@ -59,6 +61,7 @@ describe("artist", function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
       await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
       await enterFrame(driver);
+      await driver.wait(until.elementLocated(By.className("ees-track-title")), 5000);
       const trackTitles = (await driver.findElements(By.className("ees-track-title"))).map(async (track) => await track.getText());
       expect(await Promise.all(trackTitles), browser).to.deep.equal([
         "night smoke",
@@ -75,6 +78,7 @@ describe("artist", function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
       await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
       await enterFrame(driver);
+      await driver.wait(until.elementLocated(By.className("ees-track-like")), 5000);
       const like = await driver.findElement(By.className("ees-track-like"));
       expect(await like.getAttribute("data-liked"), browser).to.equal("false");
       await like.click();
@@ -94,6 +98,7 @@ describe("artist", function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
       await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
       await enterFrame(driver);
+      await driver.wait(until.elementLocated(By.className("ees-track-title")), 5000);
       const trackTitles = (await driver.findElements(By.className("ees-track-title"))).map(async (track) => await track.getText());
       expect(await Promise.all(trackTitles), browser).to.deep.equal([
         "night smoke",
@@ -108,8 +113,9 @@ describe("artist", function() {
   it("should display hearts, should be interactable, should send request", async function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
       await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
-      await driver.sleep(1000);
       await enterFrame(driver);
+      await driver.wait(until.elementLocated(By.className("ees-track-like")), 5000);
+      await driver.sleep(1000);
       const like = await driver.findElement(By.className("ees-track-like"));
       const likeAttr = await like.getAttribute("data-liked");
       if (likeAttr !== "true" && likeAttr !== "false") {
@@ -117,27 +123,27 @@ describe("artist", function() {
       }
       await like.click();
       await enterFrame(driver);
-      driver.wait(until.elementLocated(By.css(`.ees-track:first-child .ees-track-like[data-liked="${opposite[likeAttr]}"]`)), 5000);
+      await driver.wait(until.elementLocated(By.css(`.ees-track:first-child .ees-track-like[data-liked="${opposite[likeAttr]}"]`)), 5000);
       const like2 = await driver.findElement(By.className("ees-track-like"));
       expect(await like2.getAttribute("data-liked"), browser).to.equal(opposite[likeAttr]);
-      await driver.sleep(2000);
 
       await driver.navigate().refresh();
       await enterFrame(driver);
-      driver.wait(until.elementLocated(By.css(`.ees-track:first-child .ees-track-like[data-liked="${opposite[likeAttr]}"]`)), 5000);
+      await driver.wait(until.elementLocated(By.css(`.ees-track:first-child .ees-track-like[data-liked="${opposite[likeAttr]}"]`)), 5000);
+      await driver.sleep(1000);
       const like3 = await driver.findElement(By.className("ees-track-like"));
       expect(await like3.getAttribute("data-liked"), browser).to.equal(opposite[likeAttr]);
 
       await like3.click();
       await enterFrame(driver);
-      driver.wait(until.elementLocated(By.css(`.ees-track:first-child .ees-track-like[data-liked="${likeAttr}"]`)), 5000);
+      await driver.wait(until.elementLocated(By.css(`.ees-track:first-child .ees-track-like[data-liked="${likeAttr}"]`)), 5000);
       const like4 = await driver.findElement(By.className("ees-track-like"));
       expect(await like4.getAttribute("data-liked"), browser).to.equal(likeAttr);
-      await driver.sleep(2000);
 
       await driver.navigate().refresh();
       await enterFrame(driver);
-      driver.wait(until.elementLocated(By.css(`.ees-track:first-child .ees-track-like[data-liked="${likeAttr}"]`)), 5000);
+      await driver.wait(until.elementLocated(By.css(`.ees-track:first-child .ees-track-like[data-liked="${likeAttr}"]`)), 5000);
+      await driver.sleep(1000);
       const like5 = await driver.findElement(By.className("ees-track-like"));
       expect(await like5.getAttribute("data-liked"), browser).to.equal(likeAttr);
     })).to.not.throw;
