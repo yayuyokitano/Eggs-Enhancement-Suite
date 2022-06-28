@@ -21,7 +21,7 @@ export async function getToken() {
 
 export const eggsRoot = "https://api-flmg.eggs.mu/v1/";
 export const eggsSelector = "https://api-flmg.eggs.mu/v1/*";
-export const eggsUserAgent = "flamingo/7.0.02 (Android; 11)";
+export const eggsUserAgent = "flamingo/7.1.00 (Android; 11)";
 export const defaultAvatar = "https://eggs.mu/wp-content/themes/eggs/assets/img/common/signin.png";
 
 export async function getEggsHeaders(isAuthorizedRequest:boolean = false):Promise<{
@@ -45,7 +45,7 @@ export async function getEggsHeaders(isAuthorizedRequest:boolean = false):Promis
     }
     return {
       "User-Agent": eggsUserAgent,
-      Apversion: "7.0.02",
+      Apversion: "7.1.00",
       "Content-Type": "application/json; charset=utf-8",
       deviceId: await getDeviceID(),
       deviceName: "SM-G977N",
@@ -54,7 +54,7 @@ export async function getEggsHeaders(isAuthorizedRequest:boolean = false):Promis
   }
   return {
     "User-Agent": eggsUserAgent,
-    Apversion: "7.0.02",
+    Apversion: "7.1.00",
     "Content-Type": "application/json; charset=utf-8",
     deviceId: await getDeviceID(),
     deviceName: "SM-G977N"
