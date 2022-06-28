@@ -222,47 +222,49 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
   );
   
   return (
-    <details id="ees-lastfm-edit">
-      <div id="ees-lastfm-edit-window" onKeyDown={(e) => {onKeyDown(e, track, setProcessedTrack)}}>
-        <label htmlFor="ees-lastfm-edit-track">{t("general.song.singular")}</label>
-        <input
-          type="text"
-          id="ees-lastfm-edit-track"
-          name="track"
-          value={trackForm.track}
-          onChange={(e) => { setTrackForm({
-            track: e.target.value,
-            album: trackForm.album,
-            artist: trackForm.artist
-          }) }}
-        />
-        <label htmlFor="ees-lastfm-edit-album">{t("general.album.singular")}</label>
-        <input
-          type="text"
-          id="ees-lastfm-edit-album"
-          name="album"
-          value={trackForm.album}
-          onChange={(e) => { setTrackForm({
-            track: trackForm.track,
-            album: e.target.value,
-            artist: trackForm.artist
-          }) }}
-        />
-        <label htmlFor="ees-lastfm-edit-artist">{t("general.artist.singular")}</label>
-        <input
-          type="text"
-          id="ees-lastfm-edit-artist"
-          name="artist"
-          value={trackForm.artist}
-          onChange={(e) => { setTrackForm({
-            track: trackForm.track,
-            album: trackForm.album,
-            artist: e.target.value
-          }) }}
-        />
-        <button type="button" id="ees-lastfm-submit-edit" onClick={() => {saveEdit(track, setProcessedTrack)}}>{t("general.confirm")}</button>
-      </div>
-      <summary id="ees-lastfm" className="ees-navtype">
+    <div id="ees-lastfm-container">
+      <dialog id="ees-lastfm-edit">
+        <div id="ees-lastfm-edit-window" onKeyDown={(e) => {onKeyDown(e, track, setProcessedTrack)}}>
+          <label htmlFor="ees-lastfm-edit-track">{t("general.song.singular")}</label>
+          <input
+            type="text"
+            id="ees-lastfm-edit-track"
+            name="track"
+            value={trackForm.track}
+            onChange={(e) => { setTrackForm({
+              track: e.target.value,
+              album: trackForm.album,
+              artist: trackForm.artist
+            }) }}
+          />
+          <label htmlFor="ees-lastfm-edit-album">{t("general.album.singular")}</label>
+          <input
+            type="text"
+            id="ees-lastfm-edit-album"
+            name="album"
+            value={trackForm.album}
+            onChange={(e) => { setTrackForm({
+              track: trackForm.track,
+              album: e.target.value,
+              artist: trackForm.artist
+            }) }}
+          />
+          <label htmlFor="ees-lastfm-edit-artist">{t("general.artist.singular")}</label>
+          <input
+            type="text"
+            id="ees-lastfm-edit-artist"
+            name="artist"
+            value={trackForm.artist}
+            onChange={(e) => { setTrackForm({
+              track: trackForm.track,
+              album: trackForm.album,
+              artist: e.target.value
+            }) }}
+          />
+          <button type="button" id="ees-lastfm-submit-edit" onClick={() => {saveEdit(track, setProcessedTrack)}}>{t("general.confirm")}</button>
+        </div>
+      </dialog>
+      <button id="ees-lastfm" className="ees-navtype" onClick={(e) => { togglePopup(e, "ees-lastfm-edit") }}>
         <LastFMIcon />
         <div id="ees-lastfm-playcount" data-displayed={lastfmTrack?.userplaycount || lastfmTrack?.userplaycount === 0}>
           {
@@ -271,18 +273,28 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
           }
           <span>{lastfmTrack?.userplaycount}</span>
         </div>
-      </summary>
-    </details>
+      </button>
+    </div>
   );
+}
+
+function togglePopup(e:React.MouseEvent<HTMLButtonElement, MouseEvent>, id:string) {
+  const popup = document.getElementById(id) as HTMLDialogElement;
+  if (popup.open) {
+    popup?.close();
+  } else {
+    popup?.show();
+  }
+  e.stopPropagation();
 }
 
 window.addEventListener("click", (e) => {
   if ((e.target as HTMLElement).closest("#ees-lastfm-edit")) return;
-  (window.document.getElementById("ees-lastfm-edit") as HTMLDetailsElement)?.removeAttribute("open");
+  (document.getElementById("ees-lastfm-edit") as HTMLDialogElement)?.close();
 });
 
 window.addEventListener("blur", () => {
-  (window.document.getElementById("ees-lastfm-edit") as HTMLDetailsElement)?.removeAttribute("open");
+  (document.getElementById("ees-lastfm-edit") as HTMLDialogElement)?.close();
 });
 
 function onKeyDown(e:React.KeyboardEvent<HTMLDivElement>, track:SongData|undefined, setProcessedTrack:React.Dispatch<React.SetStateAction<{
@@ -306,7 +318,7 @@ function saveEdit(track:SongData|undefined, setProcessedTrack:React.Dispatch<Rea
     artist: (document.getElementById("ees-lastfm-edit-artist") as HTMLInputElement)?.value,
   }
   if (!editedTrack.track || !editedTrack.track) return;
-  (document.getElementById("ees-lastfm-edit") as HTMLDetailsElement)?.removeAttribute("open");
+  (document.getElementById("ees-lastfm-edit") as HTMLDialogElement)?.close();
   try {
     browser.storage.sync.set({
       [track.musicId]: editedTrack
