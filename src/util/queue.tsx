@@ -108,6 +108,16 @@ class YoutubePlayer implements EventListenerObject {
     }), "https://www.youtube.com");
   }
 
+  set volume(newVolume:number) {
+    this.ready.then(() => {
+      this.youtube.contentWindow?.postMessage(JSON.stringify({
+        event: "command",
+        func: "setVolume",
+        args: [(newVolume * 100).toString()],
+      }), "https://www.youtube.com");
+    });
+  }
+
   set currentTime(newTime:number) {
     this.ready.then(() => {
       this.youtube.contentWindow?.postMessage(JSON.stringify({
@@ -115,8 +125,7 @@ class YoutubePlayer implements EventListenerObject {
         func: "seekTo",
         args: [newTime.toString(), "true"],
       }), "https://www.youtube.com");
-    })
-
+    });
   }
 }
 
@@ -195,6 +204,11 @@ class SongElement {
     this.element.currentTime = newTime;
   }
 
+  public setVolume(newVolume:number) {
+    if (!this.element) return;
+    this.element.volume = newVolume;
+  }
+
 }
 
 type QueueEmitters = {
@@ -226,8 +240,9 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
   private secondInterval = setInterval(() => {
     this.secondUpdate();
   }, 1000);
+  private _volume;
 
-  constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>) {
+  constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, volume:number) {
     super();
     this.initialQueue = initialQueue;
     this._shuffle = shuffle;
@@ -240,6 +255,8 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
     this.youtube = youtube;
     this.currentElement = new SongElement(this.current, this.youtube, this.setTimeData);
     this.currentElement.destroy();
+    this._volume = volume;
+    this.volume = volume;
 
     this.current = initialElement;
     this.populate();
@@ -257,6 +274,7 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
   }
 
   public play() {
+    this.currentElement?.setVolume(this._volume);
     this.currentElement?.play();
     this._isPlaying = true;
   }
@@ -429,6 +447,11 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
       ...this.priorityQueue,
       ...this.mainQueue
     ];
+  }
+
+  set volume(volume:number) {
+    this._volume = volume;
+    this.currentElement?.setVolume(volume);
   }
 
   set scrobbleInfo(info:{artist:string, album:string, track:string}) {

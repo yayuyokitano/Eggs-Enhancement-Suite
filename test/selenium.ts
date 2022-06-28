@@ -21,6 +21,7 @@ export async function loadDrivers() {
     .forBrowser("firefox")
     .setFirefoxOptions(new firefox.Options()
     .addExtensions(getExtension("firefox.zip"))
+    //.setPreference("extensions.lastAppBuildId", "1")
     .setProfile("/Users/User/Library/Application Support/Firefox/Profiles/zlf02h2j.testing"))
     .build();
   await firefoxDriver.manage().window().setRect({ width: 1280, height: 720 });

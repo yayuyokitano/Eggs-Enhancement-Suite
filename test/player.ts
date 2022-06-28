@@ -128,3 +128,17 @@ export class Queue {
 
   public playTrackByIndex = async(index:number) => (await (await this.innerQueue()).findElements(By.className("ees-track")))[index].click();
 }
+
+export async function awaitYoutubeVolumeChange(driver:ThenableWebDriver, target:number):Promise<number> {
+  return driver.executeAsyncScript(`
+    const targetVolume = arguments[0];
+    const callback = arguments[1];
+    window.addEventListener("message", function onVolumeChange(event) => {
+      const data = JSON.parse(event.data);
+      if (data.info && data.info.volume && data.info.volume === targetVolume) {
+        window.removeEventListener("message", onVolumeChange);
+        callback(data.info.volume);
+      }
+    });
+  `, target);
+}

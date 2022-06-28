@@ -1,5 +1,6 @@
-import { ThenableWebDriver, until } from "selenium-webdriver";
-import { findTrackByDetails, findTrackByIndex, generateRepeatQueue, Player, Queue, Repeat } from "./player";
+import { Key, ThenableWebDriver, until } from "selenium-webdriver";
+import { elementTextContains } from "selenium-webdriver/lib/until";
+import { awaitYoutubeVolumeChange, findTrackByDetails, findTrackByIndex, generateRepeatQueue, Player, Queue, Repeat } from "./player";
 const { loadDrivers, runTest, enterFrame, isMobileDriver } = require("./selenium") as typeof import("./selenium");
 const { By } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const { expect } = require("chai") as typeof import("chai");
@@ -359,6 +360,138 @@ describe("player", function() {
       expect(await driver.findElement(By.id("ees-cover-expanded")).isDisplayed(), browser).to.be.false;
     })).to.not.throw;
   });
+
+  /*
+
+  TODO: finish volume tests.
+  These are unlikely to break and if they break its probably noticeable.
+  There are multiple issues making this hard to test.
+  Youtube testing is cursed.
+  Safari does not support using the volume slider with keyboard.
+  idk what to do.
+
+  it("should adjust volume of audio tracks", async function() {
+    expect(await runTest(this.drivers, async(driver, browser) => {
+      await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+      await (await findTrackByIndex(driver, 0)).play();
+      await driver.switchTo().defaultContent();
+      const player = new Player(driver);
+      await driver.findElement(By.id("ees-volume")).click();
+      await driver.wait(until.elementIsVisible(driver.findElement(By.id("ees-volume-slider"))), 5000);
+      
+      let volumeSlider = await driver.findElement(By.id("ees-volume-slider"));
+      for (let i = 0; i < 100; i++) {
+        await volumeSlider.sendKeys(Key.ARROW_UP);
+      }
+      expect(await driver.findElement(By.css("audio")).getAttribute("volume"), browser).to.equal("1");
+
+      volumeSlider = await driver.findElement(By.id("ees-volume-slider"));
+      for (let i = 0; i < 50; i++) {
+        await volumeSlider.sendKeys(Key.ARROW_DOWN);
+      }
+      await driver.sleep(50);
+      expect(await driver.findElement(By.css("audio")).getAttribute("volume"), browser).to.equal("0.5");
+
+      await player.next();
+      expect(await driver.findElement(By.css("audio")).getAttribute("volume"), browser).to.equal("0.5");
+
+      volumeSlider = await driver.findElement(By.id("ees-volume-slider"));
+      for (let i = 0; i < 10; i++) {
+        await volumeSlider.sendKeys(Key.ARROW_UP);
+      }
+      await driver.sleep(50);
+      expect(await driver.findElement(By.css("audio")).getAttribute("volume"), browser).to.equal("0.6");
+
+      await driver.navigate().refresh();
+      await (await findTrackByIndex(driver, 0)).play();
+      await driver.switchTo().defaultContent();
+      await driver.findElement(By.id("ees-volume")).click();
+      expect(await driver.findElement(By.css("audio")).getAttribute("volume"), browser).to.equal("0.6");
+
+
+      await (await findTrackByIndex(driver, 2)).play();
+      await driver.switchTo().defaultContent();
+      await driver.findElement(By.id("ees-volume")).click();
+      expect(await driver.findElement(By.css("audio")).getAttribute("volume"), browser).to.equal("0.6");
+
+      volumeSlider = await driver.findElement(By.id("ees-volume-slider"));
+      for (let i = 0; i < 40; i++) {
+        await volumeSlider.sendKeys(Key.ARROW_UP);
+      }
+      await driver.sleep(50);
+      expect(await driver.findElement(By.css("audio")).getAttribute("volume"), browser).to.equal("1");
+    })).to.not.throw;
+  });
+
+  it("should adjust volume of youtube tracks", async function() {
+    expect(await runTest(this.drivers, async(driver, browser) => {
+      await driver.get("https://eggs.mu/artist/Osage_band/");
+      await (await findTrackByDetails(driver, {title: "エンドロール MV"})).play();
+      await driver.switchTo().defaultContent();
+      const player = new Player(driver);
+      const queue = new Queue(driver);
+      queue.setShuffle(false);
+      queue.setRepeat(Repeat.None);
+      await driver.findElement(By.id("ees-volume")).click();
+      await driver.wait(until.elementIsVisible(driver.findElement(By.id("ees-volume-slider"))), 5000);
+      
+      let volumeSlider = await driver.findElement(By.id("ees-volume-slider"));
+      let volume = awaitYoutubeVolumeChange(driver, 100);
+      for (let i = 0; i < 100; i++) {
+        await volumeSlider.sendKeys(Key.ARROW_UP);
+      }
+      expect(await volume, browser).to.equal(100);
+
+      volumeSlider = await driver.findElement(By.id("ees-volume-slider"));
+      volume = awaitYoutubeVolumeChange(driver, 50);
+      for (let i = 0; i < 50; i++) {
+        await volumeSlider.sendKeys(Key.ARROW_DOWN);
+      }
+      expect(await volume, browser).to.equal(50);
+
+      await player.next();
+
+      volumeSlider = await driver.findElement(By.id("ees-volume-slider"));
+      volume = awaitYoutubeVolumeChange(driver, 60);
+      for (let i = 0; i < 10; i++) {
+        await volumeSlider.sendKeys(Key.ARROW_UP);
+      }
+      expect(await volume, browser).to.equal(60);
+
+      await driver.navigate().refresh();
+      await (await findTrackByIndex(driver, 0)).play();
+      await driver.switchTo().defaultContent();
+      await driver.findElement(By.id("ees-volume")).click();
+      
+      volumeSlider = await driver.findElement(By.id("ees-volume-slider"));
+      volume = awaitYoutubeVolumeChange(driver, 50);
+      for (let i = 0; i < 10; i++) {
+        await volumeSlider.sendKeys(Key.ARROW_DOWN);
+      }
+      expect(await volume, browser).to.equal(50);
+
+
+      await (await findTrackByIndex(driver, 2)).play();
+      await driver.switchTo().defaultContent();
+      await driver.findElement(By.id("ees-volume")).click();
+
+      volumeSlider = await driver.findElement(By.id("ees-volume-slider"));
+      volume = awaitYoutubeVolumeChange(driver, 60);
+      for (let i = 0; i < 10; i++) {
+        await volumeSlider.sendKeys(Key.ARROW_UP);
+      }
+      expect(await volume, browser).to.equal(60);
+
+      volumeSlider = await driver.findElement(By.id("ees-volume-slider"));
+      volume = awaitYoutubeVolumeChange(driver, 100);
+      for (let i = 0; i < 40; i++) {
+        await volumeSlider.sendKeys(Key.ARROW_UP);
+      }
+      expect(await volume, browser).to.equal(100);
+    })).to.not.throw;
+  });
+
+  */
 
   it("should set viewport size", async function() {
     expect(await runTest(this.drivers, async (driver, browser) => {

@@ -1,3 +1,4 @@
+import { PlaybackController } from "App/player/playback";
 import { TFunction } from "react-i18next";
 import browser from "webextension-polyfill";
 import { apiKey } from "./scrobbler";
@@ -185,5 +186,19 @@ export async function queryAsync(selector:string):Promise<Element> {
     observer.observe(document, {
       childList: true,
     });
+  });
+}
+
+export async function getVolume():Promise<number|undefined> {
+  const volume = await browser.storage.local.get("volume");
+  return volume?.volume;
+}
+
+export async function updateVolume(volume:number, playbackController?:PlaybackController) {
+  if (playbackController) {
+    playbackController.volume = volume;
+  }
+  await browser.storage.local.set({
+    volume,
   });
 }

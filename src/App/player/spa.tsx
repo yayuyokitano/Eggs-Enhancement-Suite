@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { convertTime, defaultAvatar, lastfmAuthLink, processAlbumName, processArtistName, processTrackName } from '../../util/util';
+import { convertTime, defaultAvatar, getVolume, lastfmAuthLink, processAlbumName, processArtistName, processTrackName, updateVolume } from '../../util/util';
 import { SongData } from '../../util/wrapper/eggs/artist';
 import { initializePlayback, PlaybackController } from './playback';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
@@ -11,6 +11,7 @@ import ShuffleRoundedIcon from '@mui/icons-material/ShuffleRounded';
 import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
 import RepeatOneRoundedIcon from '@mui/icons-material/RepeatOneRounded';
 import DetailsRoundedIcon from "@mui/icons-material/DetailsRounded";
+import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
 import "./spa.scss";
 import { Repeat } from '../../util/queue';
 import { LastFMIcon } from '../../util/icons';
@@ -93,15 +94,21 @@ function Player(props:{ t:TFunction, playbackController?:PlaybackController, set
   });
   const [shuffle, setShuffle] = useState(true);
   const [repeat, setRepeat] = useState(Repeat.All);
+  const [volume, setVolume] = useState(1);
   const youtubeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     if (root) return;
     root = ReactDOM.createRoot(document.getElementById("ees-audio-container")!);
-    setPlaybackController(initializePlayback(root, setCurrent, youtubeRef, setTimeData, setShuffle, setRepeat));
+    getVolume().then(v => {
+      setVolume(v ?? 1);
+      setPlaybackController(initializePlayback(root, setCurrent, youtubeRef, setTimeData, setShuffle, setRepeat, volume));
+    })
   }, []);
 
   useEffect(() => { updateScrollables(); }, [current]);
+
+  useEffect(() => { updateVolume(volume, playbackController); }, [volume]);
 
   function toggleTrackDetails() {
     const details = document.getElementById("ees-player-details");
@@ -130,6 +137,7 @@ function Player(props:{ t:TFunction, playbackController?:PlaybackController, set
               <RepeatOneRoundedIcon /> :
               <RepeatRoundedIcon />
             }</button>
+            <VolumeButton volume={volume} setVolume={setVolume} />
           </div>
           <div id="ees-player-controls-time" data-current={timeData?.current} data-duration={timeData?.duration}>
             <span id="ees-player-current-time">{convertTime(timeData?.current ?? 0)}</span>
@@ -223,6 +231,16 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
   
   return (
     <div id="ees-lastfm-container">
+      <button id="ees-lastfm" className="ees-navtype" onClick={(e) => { togglePopup(e, "ees-lastfm-edit") }}>
+        <LastFMIcon />
+        <div id="ees-lastfm-playcount" data-displayed={lastfmTrack?.userplaycount || lastfmTrack?.userplaycount === 0}>
+          {
+            lastfmTrack?.userplaycount || lastfmTrack?.userplaycount === 0 ?
+            <PlayArrowRoundedIcon /> : <></>
+          }
+          <span>{lastfmTrack?.userplaycount}</span>
+        </div>
+      </button>
       <dialog id="ees-lastfm-edit">
         <div id="ees-lastfm-edit-window" onKeyDown={(e) => {onKeyDown(e, track, setProcessedTrack)}}>
           <label htmlFor="ees-lastfm-edit-track">{t("general.song.singular")}</label>
@@ -264,16 +282,20 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
           <button type="button" id="ees-lastfm-submit-edit" onClick={() => {saveEdit(track, setProcessedTrack)}}>{t("general.confirm")}</button>
         </div>
       </dialog>
-      <button id="ees-lastfm" className="ees-navtype" onClick={(e) => { togglePopup(e, "ees-lastfm-edit") }}>
-        <LastFMIcon />
-        <div id="ees-lastfm-playcount" data-displayed={lastfmTrack?.userplaycount || lastfmTrack?.userplaycount === 0}>
-          {
-            lastfmTrack?.userplaycount || lastfmTrack?.userplaycount === 0 ?
-            <PlayArrowRoundedIcon /> : <></>
-          }
-          <span>{lastfmTrack?.userplaycount}</span>
-        </div>
+    </div>
+  );
+}
+
+function VolumeButton(props:{ volume:number, setVolume:React.Dispatch<React.SetStateAction<number>>}) {
+  const { volume, setVolume } = props;
+  return (
+    <div id="ees-volume-container">
+      <button type="button" id="ees-volume" className="ees-navtype" onClick={(e) => { togglePopup(e, "ees-volume-edit") }}>
+        <VolumeUpRoundedIcon />
       </button>
+      <dialog id="ees-volume-edit">
+        <input id="ees-volume-slider" type="range" min={0} max={1} step={0.01} value={volume} onChange={(e) => { setVolume(Number(e.target.value)) }} />
+      </dialog>
     </div>
   );
 }
@@ -283,18 +305,21 @@ function togglePopup(e:React.MouseEvent<HTMLButtonElement, MouseEvent>, id:strin
   if (popup.open) {
     popup?.close();
   } else {
+    document.querySelectorAll("dialog").forEach((e) => {e.close()});
     popup?.show();
   }
   e.stopPropagation();
 }
 
 window.addEventListener("click", (e) => {
-  if ((e.target as HTMLElement).closest("#ees-lastfm-edit")) return;
-  (document.getElementById("ees-lastfm-edit") as HTMLDialogElement)?.close();
+  document.querySelectorAll("dialog").forEach((dialog) => {
+    if ((e.target as HTMLElement).closest(`#${dialog.id}`)) return;
+    dialog.close()
+  });
 });
 
 window.addEventListener("blur", () => {
-  (document.getElementById("ees-lastfm-edit") as HTMLDialogElement)?.close();
+  document.querySelectorAll("dialog")?.forEach((e) => {e.close()});
 });
 
 function onKeyDown(e:React.KeyboardEvent<HTMLDivElement>, track:SongData|undefined, setProcessedTrack:React.Dispatch<React.SetStateAction<{

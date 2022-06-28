@@ -6,8 +6,8 @@ import { Queue, Repeat } from "../../util/queue";
 import { SongData } from "../../util/wrapper/eggs/artist";
 import { TimeData } from "./types";
 
-export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>) {
-  const playbackController = new PlaybackController(root, true, Repeat.All, setCurrent, youtube, setTimeData, setShuffle, setRepeat);
+export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>, volume:number) {
+  const playbackController = new PlaybackController(root, true, Repeat.All, setCurrent, youtube, setTimeData, setShuffle, setRepeat, volume);
   window.addEventListener("message", (event) => {
     if (event.origin !== window.location.origin) {
       return;
@@ -53,8 +53,9 @@ export class PlaybackController extends (EventEmitter as new () => TypedEmitter<
   private setTimeData:React.Dispatch<React.SetStateAction<TimeData>>;
   private setShuffle:React.Dispatch<React.SetStateAction<boolean>>;
   private setRepeat:React.Dispatch<React.SetStateAction<Repeat>>;
+  private _volume:number;
 
-  constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>) {
+  constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>, volume:number) {
     super();
     this.shuffle = shuffle;
     this.repeat = repeat;
@@ -64,11 +65,13 @@ export class PlaybackController extends (EventEmitter as new () => TypedEmitter<
     this.setTimeData = setTimeData;
     this.setShuffle = setShuffle;
     this.setRepeat = setRepeat;
+    this._volume = volume;
+    this.volume = volume;
   }
 
   public setPlayback(initialQueue:SongData[], initialElement:SongData) {
     this.queue?.destroy();
-    this.queue = new Queue(initialQueue, initialElement, this.root, this.shuffle, this.repeat, this.setCurrent, this.youtube, this.setTimeData);
+    this.queue = new Queue(initialQueue, initialElement, this.root, this.shuffle, this.repeat, this.setCurrent, this.youtube, this.setTimeData, this._volume);
     this.play();
     this.emit("update");
     this.queue.on("update", () => { this.emit("update"); })
@@ -132,6 +135,12 @@ export class PlaybackController extends (EventEmitter as new () => TypedEmitter<
     if (!this.queue) return;
     this.queue.repeat = this.repeat;
     this.emit("update");
+  }
+
+  set volume(volume:number) {
+    this._volume = volume;
+    if (!this.queue) return;
+    this.queue.volume = volume;
   }
 
   set scrobbleInfo(scrobble:{artist:string, track:string, album:string}) {
