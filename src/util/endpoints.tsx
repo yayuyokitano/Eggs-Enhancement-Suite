@@ -1,7 +1,8 @@
 import { TFunction } from "react-i18next";
-import { Artist } from "../App/artist/artist";
-import { Login } from "../App/login/login";
-import { Playlist } from "../App/playlist/playlist";
+import Artist from "../App/artist/artist";
+import Login from "../App/login/login";
+import Playlist from "../App/playlist/playlist";
+import Profile from "../App/profile/profile";
 
 export const endpoints:{[key:string]:{
   rootSelector: string;
@@ -26,6 +27,11 @@ export const endpoints:{[key:string]:{
   "/playlist": {
     rootSelector: ".l-contents_wrapper",
     Element: Playlist,
+    translations: []
+  },
+  "/user": {
+    rootSelector: ".l-contents_wrapper",
+    Element: Profile,
     translations: []
   }
 }

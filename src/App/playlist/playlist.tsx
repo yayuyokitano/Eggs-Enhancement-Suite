@@ -8,7 +8,7 @@ import { PlaylistCover } from "../components/playlistcover";
 import TrackContainer from "../components/track/trackContainer";
 import "./playlist.scss";
 
-export function Playlist(t:TFunction) {
+export default function Playlist(t:TFunction) {
 
   const playlistID = new URLSearchParams(window.location.search).get("playlist")!;
 

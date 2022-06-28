@@ -5,7 +5,7 @@ import "./artist.scss";
 import { artist } from "../../util/wrapper/eggs/artist";
 import TrackContainer from "../components/track/trackContainer";
 
-export function Artist(t:TFunction) {
+export default function Artist(t:TFunction) {
   const artistElement = document.getElementsByClassName("header_mypage_wrapper")[0];
   
   const artistID = window.location.pathname.split("/")[2];

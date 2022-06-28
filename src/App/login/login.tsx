@@ -15,7 +15,7 @@ async function mobileLogin() {
   return;
 }
 
-export function Login(t:TFunction) {
+export default function Login(t:TFunction) {
   return (
     <div className="form-control pt30p pb50p">
       <button type="button" onClick={mobileLogin} className="button w100">{t("global:general.login")}</button>
