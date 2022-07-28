@@ -24,6 +24,7 @@ import browser from 'webextension-polyfill';
 import { TimeData } from './types';
 import Details from './details';
 import Queue from './queue';
+import Sync from "../components/sync/sync";
 var root:ReactDOM.Root;
 
 export function createSpa() {
@@ -80,6 +81,7 @@ function SPA() {
       />
       <Player t={t} playbackController={playbackController} setPlaybackController={setPlaybackController} />
       <Queue playbackController={playbackController} t={t} />
+      <Sync t={t} />
     </div>
   );
 }

@@ -6,6 +6,10 @@
     "storage",
     "*://*.eggs.mu/*"
   ],
+  "background": {
+    "scripts": ["../util/browser-polyfill.js", "../background.ts"],
+    "persistent": false
+  },
   "content_scripts": [{
     "matches": ["*://eggs.mu/*"],
     "js": ["../content.tsx"],
