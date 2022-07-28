@@ -14,7 +14,6 @@ function App(props: {endpoint: {
   Element: (t: TFunction<"translation", undefined>) => JSX.Element;
   translations: string[];
 } | undefined}) {
-
   const {endpoint} = props;
   const Element = endpoint?.Element;
   const translations = endpoint?.translations;
@@ -38,7 +37,7 @@ async function loadContent() {
   } catch {
     console.error("Failed to authenticate, invalid key");
   }
-  // Create SPA if top level or top level within cypress
+  // Create SPA if top level
   if (window.frameElement === null || window.frameElement.classList.contains("aut-iframe")) {
     createSpa();
     return;

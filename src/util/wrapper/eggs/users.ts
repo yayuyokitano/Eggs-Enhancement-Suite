@@ -1,9 +1,7 @@
 import { eggsRequest } from "./request"
 
-export async function profile() {
-  return eggsRequest("users/users/profile", {}, {
-    isAuthorizedRequest: true,
-  }) as Promise<{data:{
+export interface Profile {
+  data: {
     birthDate: string,
     displayName: string,
     displayNameKatakana: string,
@@ -21,5 +19,11 @@ export async function profile() {
     totalToken: number,
     userId: number,
     userName: string
-  }}>;
+  }
+}
+
+export async function profile() {
+  return eggsRequest("users/users/profile", {}, {
+    isAuthorizedRequest: true,
+  }) as Promise<Profile>;
 }
