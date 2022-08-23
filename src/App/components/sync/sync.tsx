@@ -1,7 +1,7 @@
 import { TFunction } from "react-i18next";
 import SyncRoundedIcon from "@mui/icons-material/SyncRounded";
 import "./sync.scss";
-import browser from "webextension-polyfill";
+import Syncer from "./syncer";
 
 function toggleSyncActive() {
   const queue = document.getElementById("ees-sync") as HTMLDivElement;
@@ -10,6 +10,7 @@ function toggleSyncActive() {
 
 export default function Sync(props: { t:TFunction }) {
   const { t } = props;
+
   return (
     <div id="ees-sync">
       <button type="button" id="ees-sync-button" onClick={toggleSyncActive}>
@@ -23,20 +24,21 @@ export default function Sync(props: { t:TFunction }) {
 function SyncContent(props: { t:TFunction }) {
   const { t } = props;
   return (
-    <div id="ees-player-queue-inner">
-      <button type="button" id="ees-sync-test-button" onClick={sendTestMessage}>Test</button>
+    <div id="ees-sync-inner">
+      <button type="button" id="ees-sync-test-button" onClick={() => startCaching(t)}>Test</button>
+      <p id="ees-sync-status"></p>
+      <div id="ees-sync-progress">
+        <progress id="ees-sync-progress-full" max="100" value="0" />
+        <progress id="ees-sync-progress-part" max="100" value="0" />
+      </div>
     </div>
   )
 }
 
-async function sendTestMessage() {
-  const message = {
-    type: "test",
-    data: "testing the thing"
-  };
-  browser.runtime.sendMessage(message);
-}
+async function startCaching(t:TFunction) {
+  const syncButton = document.getElementById("ees-sync-button") as HTMLButtonElement;
+  syncButton.classList.add("syncing");
 
-browser.runtime.onMessage.addListener(async (message: any) => {
-  console.log(message);
-});
+  const syncer = new Syncer(t);
+  await syncer.scan();
+}

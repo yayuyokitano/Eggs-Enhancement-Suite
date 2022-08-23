@@ -39,7 +39,7 @@ export default function Artist(t:TFunction) {
   return (
     <div id="ees-artist">
       <div ref={ref} />
-      <h2>{t("general.song.plural")}</h2>
+      <h2>{t("general.song", {count: data?.totalCount})}</h2>
       <TrackContainer data={data?.data} t={t} size="normal" />
     </div>
   )

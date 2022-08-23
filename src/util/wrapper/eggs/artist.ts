@@ -5,7 +5,7 @@ export enum SourceType {
   Youtube,
 }
 
-interface ArtistData {
+export interface ArtistData {
   activityArea: string|null,
   artistId: number,
   artistName: string,

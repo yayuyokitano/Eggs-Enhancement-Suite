@@ -182,7 +182,7 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
 
   useEffect(() => {
     if (sk) return;
-    browser.storage.local.get("lastfmToken").then((token) => {
+    browser.storage.sync.get("lastfmToken").then((token) => {
       if (!token.lastfmToken) return;
       setSk(token.lastfmToken);
     });
@@ -200,7 +200,7 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
     }
 
     try {
-      browser.storage.sync.get(track.musicId).then((e) => {
+      browser.storage.local.get(track.musicId).then((e) => {
         setTrack(e[track.musicId], track, lastfm, sk, setLastfmTrack, setProcessedTrack);
       })
       .catch((e) => console.log(e));
@@ -245,7 +245,7 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
       </button>
       <dialog id="ees-lastfm-edit">
         <div id="ees-lastfm-edit-window" onKeyDown={(e) => {onKeyDown(e, track, setProcessedTrack)}}>
-          <label htmlFor="ees-lastfm-edit-track">{t("general.song.singular")}</label>
+          <label htmlFor="ees-lastfm-edit-track">{t("general.song", {count: 1})}</label>
           <input
             type="text"
             id="ees-lastfm-edit-track"
@@ -257,7 +257,7 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
               artist: trackForm.artist
             }) }}
           />
-          <label htmlFor="ees-lastfm-edit-album">{t("general.album.singular")}</label>
+          <label htmlFor="ees-lastfm-edit-album">{t("general.album", {count: 1})}</label>
           <input
             type="text"
             id="ees-lastfm-edit-album"
@@ -269,7 +269,7 @@ function LastFMButton(props: { track: SongData|undefined, t:TFunction, playbackC
               artist: trackForm.artist
             }) }}
           />
-          <label htmlFor="ees-lastfm-edit-artist">{t("general.artist.singular")}</label>
+          <label htmlFor="ees-lastfm-edit-artist">{t("general.artist", {count: 1})}</label>
           <input
             type="text"
             id="ees-lastfm-edit-artist"
@@ -347,7 +347,7 @@ function saveEdit(track:SongData|undefined, setProcessedTrack:React.Dispatch<Rea
   if (!editedTrack.track || !editedTrack.track) return;
   (document.getElementById("ees-lastfm-edit") as HTMLDialogElement)?.close();
   try {
-    browser.storage.sync.set({
+    browser.storage.local.set({
       [track.musicId]: editedTrack
     });
     setProcessedTrack(editedTrack);

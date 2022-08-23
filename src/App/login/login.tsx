@@ -1,13 +1,20 @@
 import { TFunction } from "react-i18next";
+import { getEggsHeaders } from "../../util/util";
+import { postAuthenticatedUser } from "../../util/wrapper/eggshellver/user";
 import browser from "webextension-polyfill";
 import { login } from "../../util/wrapper/eggs/auth";
 
 async function mobileLogin() {
   const [userInput, passwordInput] = document.getElementsByClassName("w-variable") as HTMLCollectionOf<HTMLInputElement>;
   const { access_token } = await login(userInput.value, passwordInput.value);
-  if (access_token) {
-    browser.storage.local.set({
-      token: access_token
+  const token = await postAuthenticatedUser({
+    ...await getEggsHeaders(false),
+    Authorization: `Bearer ${access_token}`,
+  });
+  if (access_token && token) {
+    browser.storage.sync.set({
+      token: access_token,
+      eggshellvertoken: token,
     });
   }
 

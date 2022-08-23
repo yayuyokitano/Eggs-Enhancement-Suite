@@ -16,10 +16,6 @@
       "path": "../rules/useragent.json"
     }]
   },
-  "background": {
-    "service_worker": "../background.ts",
-    "type": "module"
-  },
   "content_scripts": [{
     "matches": ["*://eggs.mu/*"],
     "js": ["../content.tsx"],

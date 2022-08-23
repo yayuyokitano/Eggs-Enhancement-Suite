@@ -75,7 +75,7 @@ export default function Playlist(t:TFunction) {
           </div>
         </div>
       </div>
-      <h2>{t("general.song.plural")}</h2>
+      <h2>{t("general.song", {count: data?.musicData.length})}</h2>
       <TrackContainer data={data?.musicData} t={t} size="normal" />
     </div>
   )

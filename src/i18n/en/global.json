@@ -6,43 +6,25 @@
     "register": "Register",
     "logoAlt": "Eggs | Japanese Indie Band Music Distribution Site",
     "confirm": "Confirm",
-    "artist": {
-      "singular": "Artist",
-      "plural": "Artists"
-    },
-    "album": {
-      "singular": "Album",
-      "plural": "Albums"
-    },
-    "song": {
-      "singular": "Song",
-      "plural": "Songs"
-    },
+    "artist_one": "Artist",
+    "artist_other": "Artists",
+    "album_one": "Album",
+    "album_other": "Albums",
+    "song_one": "Song",
+    "song_other": "Songs",
     "timeSince": {
-      "year": {
-        "singular": " year ago",
-        "plural": " years ago"
-      },
-      "month": {
-        "singular": " month ago",
-        "plural": " months ago"
-      },
-      "week": {
-        "singular": " week ago",
-        "plural": " weeks ago"
-      },
-      "day": {
-        "singular": " day ago",
-        "plural": " days ago"
-      },
-      "hour": {
-        "singular": " hour ago",
-        "plural": " hours ago"
-      },
-      "minute": {
-        "singular": " minute ago",
-        "plural": " minutes ago"
-      },
+      "yearWithCount_one": "{{count}} year ago",
+      "yearWithCount_other": "{{count}} years ago",
+      "monthWithCount_one": "{{count}} month ago",
+      "monthWithCount_other": "{{count}} months ago",
+      "weekWithCount_one": "{{count}} week ago",
+      "weekWithCount_other": "{{count}} weeks ago",
+      "dayWithCount_one": "{{count}} day ago",
+      "dayWithCount_other": "{{count}} days ago",
+      "hourWithCount_one": "{{count}} hour ago",
+      "hourWithCount_other": "{{count}} hours ago",
+      "minuteWithCount_one": "{{count}} minute ago",
+      "minuteWithCount_other": "{{count}} minutes ago",
       "recent": "Just now"
     },
     "lastModified": "Last modified: "
@@ -167,5 +149,17 @@
   "playlist": {
     "error": "There was an error loading the playlist. It is possible that the playlist has been deleted or is private.",
     "select": "Select a playlist"
+  },
+  "sync": {
+    "name": {
+      "tracklikes": "track likes",
+      "playlistlikes": "playlist likes",
+      "playlists": "created playlists",
+      "follows": "followed users"
+    },
+    "fetchingPartial": "Fetching partial {{part}} data...\n({{progress, number(maximumFractionDigits: 0)}}%)",
+    "fetchingFull": "Partial fetch failed - fetching full {{part}} data...\n({{progress, number(maximumFractionDigits: 0)}}%)",
+    "completedPart": "Finished fetching {{part}}.",
+    "completedAll": "Fetching completed."
   }
 }

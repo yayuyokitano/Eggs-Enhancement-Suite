@@ -12,7 +12,7 @@ import "./popup.scss";
 
 async function changeLanguage(lang:string, i18n:i18n) {
   i18n.changeLanguage(lang);
-  browser.storage.local.set({
+  browser.storage.sync.set({
     i18nlang: lang
   });
   const tabs = await browser.tabs.query({active: true, currentWindow: true});

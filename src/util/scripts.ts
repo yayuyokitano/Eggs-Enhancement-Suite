@@ -20,6 +20,6 @@ async function lastfmAuth(token:string|null) {
   });
   const session = await lastfm.auth.getSession(token);
   if (!session.key) return;
-  if ((await browser.storage.local.get("lastfmToken")).lastfmToken === session.key) return;
-  await browser.storage.local.set({lastfmToken: session.key});
+  if ((await browser.storage.sync.get("lastfmToken")).lastfmToken === session.key) return;
+  await browser.storage.sync.set({lastfmToken: session.key});
 }

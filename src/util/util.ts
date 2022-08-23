@@ -6,17 +6,21 @@ import { apiKey } from "./scrobbler";
 const generateRandomHex = (size:number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
 
 async function getDeviceID() {
-  const deviceID = await browser.storage.local.get("deviceID");
+  const deviceID = await browser.storage.sync.get("deviceID");
   if (deviceID.deviceID) {
     return deviceID.deviceID;
   }
   const newDeviceID = generateRandomHex(16);
-  await browser.storage.local.set({deviceID: newDeviceID});
+  await browser.storage.sync.set({deviceID: newDeviceID});
   return newDeviceID;
 }
 
-export async function getToken() {
-  return browser.storage.local.get();
+export async function getToken():Promise<string|undefined> {
+  return (await browser.storage.sync.get("token")).token;
+}
+
+export async function getEggshellverToken():Promise<string|undefined> {
+  return (await browser.storage.sync.get("eggshellvertoken")).eggshellvertoken;
 }
 
 export const eggsRoot = "https://api-flmg.eggs.mu/v1/";
@@ -38,7 +42,7 @@ export async function getEggsHeaders(isAuthorizedRequest:boolean = false):Promis
   deviceId: any;
   deviceName: string;
 }> {
-  const token = (await getToken()).token;
+  const token = await getToken();
   if (isAuthorizedRequest) {
     if (!token) {
       throw new Error("Not logged in.");
@@ -77,37 +81,33 @@ export function convertTime(seconds:number) {
   return `${minutes}:${secondsLeft.toString().padStart(2, "0")}`;
 }
 
-export function numToSingularPlural(num:number) {
-  return num === 1 ? "singular" : "plural";
-}
-
 export function getTimeSince(timestamp:string, t:TFunction) {
   const oldUnix = new Date(timestamp).getTime();
   const newUnix = new Date().getTime();
   const diff = newUnix - oldUnix;
   const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
   if (years) {
-    return years.toString() + t(`general.timeSince.year.${numToSingularPlural(years)}`);
+    return t("general.timeSince.yearWithCount", {count: years});
   }
   const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
   if (months) {
-    return months.toString() + t(`general.timeSince.month.${numToSingularPlural(months)}`);
+    return t("general.timeSince.monthWithCount", {count: months});
   }
   const weeks = Math.floor(diff / (1000 * 60 * 60 * 24 * 7));
   if (weeks) {
-    return weeks.toString() + t(`general.timeSince.week.${numToSingularPlural(weeks)}`);
+    return t("general.timeSince.weekWithCount", {count: weeks});
   }
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   if (days) {
-    return days.toString() + t(`general.timeSince.day.${numToSingularPlural(days)}`);
+    return t("general.timeSince.dayWithCount", {count: days});
   }
   const hours = Math.floor(diff / (1000 * 60 * 60));
   if (hours) {
-    return hours.toString() + t(`general.timeSince.hour.${numToSingularPlural(hours)}`);
+    return t("general.timeSince.hourWithCount", {count: hours});
   }
   const minutes = Math.floor(diff / (1000 * 60));
   if (minutes) {
-    return minutes.toString() + t(`general.timeSince.minute.${numToSingularPlural(minutes)}`);
+    return t("general.timeSince.minuteWithCount", {count: minutes});
   }
   return t("general.timeSince.recent");
 }
@@ -190,7 +190,7 @@ export async function queryAsync(selector:string):Promise<Element> {
 }
 
 export async function getVolume():Promise<number|undefined> {
-  const volume = await browser.storage.local.get("volume");
+  const volume = await browser.storage.sync.get("volume");
   return volume?.volume;
 }
 
@@ -198,7 +198,57 @@ export async function updateVolume(volume:number, playbackController?:PlaybackCo
   if (playbackController) {
     playbackController.volume = volume;
   }
-  await browser.storage.local.set({
+  await browser.storage.sync.set({
     volume,
   });
 }
+
+export const prefectures = [
+  "HOKKAIDO",
+  "AOMORI",
+  "IWATE",
+  "MIYAGI",
+  "AKITA",
+  "YAMAGATA",
+  "FUKUSHIMA",
+  "IBARAKI",
+  "TOCHIGI",
+  "GUNMA",
+  "SAITAMA",
+  "CHIBA",
+  "TOKYO",
+  "KANAGAWA",
+  "NIIGATA",
+  "TOYAMA",
+  "ISHIKAWA",
+  "FUKUI",
+  "YAMANASHI",
+  "NAGANO",
+  "GIFU",
+  "SHIZUOKA",
+  "AICHI",
+  "MIE",
+  "SHIGA",
+  "KYOTO",
+  "OSAKA",
+  "HYOGO",
+  "NARA",
+  "WAKAYAMA",
+  "TOTTORI",
+  "SHIMANE",
+  "OKAYAMA",
+  "HIROSHIMA",
+  "YAMAGUCHI",
+  "TOKUSHIMA",
+  "KAGAWA",
+  "EHIME",
+  "KOCHI",
+  "FUKUOKA",
+  "SAGA",
+  "NAGASAKI",
+  "KUMAMOTO",
+  "OITA",
+  "MIYAZAKI",
+  "KAGOSHIMA",
+  "OKINAWA"
+];

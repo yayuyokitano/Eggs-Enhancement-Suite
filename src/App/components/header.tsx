@@ -1,4 +1,4 @@
-import { defaultAvatar, getToken } from "../../util/util";
+import { defaultAvatar, getToken, prefectures } from "../../util/util";
 import { profile } from "../../util/wrapper/eggs/users";
 import React, { useEffect, useState } from "react";
 import "../../i18n/config";
@@ -58,7 +58,7 @@ function toggleActiveRegion(e: React.MouseEvent<HTMLElement, MouseEvent>) {
 }
 
 function mobileLogout() {
-  browser.storage.local.remove("token");
+  browser.storage.sync.remove("token");
   window.location.reload();
 }
 
@@ -85,7 +85,7 @@ export function UserComponent(props:{t:TFunction}) {
 
   useEffect(() => {
     getToken().then((token) => {
-      user.isLoggedIn = token.token !== undefined;
+      user.isLoggedIn = token !== undefined;
       setUser(user);
       if (!user.isLoggedIn) {
         setLoading(false);
@@ -271,8 +271,8 @@ export function HeaderSubmenu() {
         <li id="gn_artist" className="ees-submenu-parent" onClick={expandSubmenu} onAnimationEnd={addTransitioned}>
           <span><span>{t("nav.ranking")}</span></span>
           <ul className="gn_submenu transitioned">
-            <li><a href="/ranking/artist/daily"><span>{t("general.artist.singular")}</span></a></li>
-            <li><a href="/ranking/song/daily"><span>{t("general.song.singular")}</span></a></li>
+            <li><a href="/ranking/artist/daily"><span>{t("general.artist", {count: 1})}</span></a></li>
+            <li><a href="/ranking/song/daily"><span>{t("general.song", {count: 1})}</span></a></li>
             <li><a href="/ranking/youtube/daily"><span>YouTube</span></a></li>
           </ul>
         </li>
@@ -395,54 +395,4 @@ const regions = [
     name: "kyushuOkinawa",
     count: 8
   }
-];
-
-const prefectures = [
-  "HOKKAIDO",
-  "AOMORI",
-  "IWATE",
-  "MIYAGI",
-  "AKITA",
-  "YAMAGATA",
-  "FUKUSHIMA",
-  "IBARAKI",
-  "TOCHIGI",
-  "GUNMA",
-  "SAITAMA",
-  "CHIBA",
-  "TOKYO",
-  "KANAGAWA",
-  "NIIGATA",
-  "TOYAMA",
-  "ISHIKAWA",
-  "FUKUI",
-  "YAMANASHI",
-  "NAGANO",
-  "GIFU",
-  "SHIZUOKA",
-  "AICHI",
-  "MIE",
-  "SHIGA",
-  "KYOTO",
-  "OSAKA",
-  "HYOGO",
-  "NARA",
-  "WAKAYAMA",
-  "TOTTORI",
-  "SHIMANE",
-  "OKAYAMA",
-  "HIROSHIMA",
-  "YAMAGUCHI",
-  "TOKUSHIMA",
-  "KAGAWA",
-  "EHIME",
-  "KOCHI",
-  "FUKUOKA",
-  "SAGA",
-  "NAGASAKI",
-  "KUMAMOTO",
-  "OITA",
-  "MIYAZAKI",
-  "KAGOSHIMA",
-  "OKINAWA"
 ];

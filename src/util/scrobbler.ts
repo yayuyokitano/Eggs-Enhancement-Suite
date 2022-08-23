@@ -10,7 +10,7 @@ export class Scrobbler {
   private lastfm:LastFM;
   private _loggedIn = false;
   private sk:Promise<string> = new Promise((resolve, reject) => {
-    browser.storage.local.get("lastfmToken").then((data) => {
+    browser.storage.sync.get("lastfmToken").then((data) => {
       if (data.lastfmToken) {
         this._loggedIn = true;
         resolve(data.lastfmToken);

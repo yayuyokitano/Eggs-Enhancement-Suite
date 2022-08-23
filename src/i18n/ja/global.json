@@ -6,43 +6,15 @@
     "register": "アカウント登録",
     "logoAlt": "Eggs｜インディーズバンド音楽配信サイト",
     "confirm": "確認",
-    "artist": {
-      "singular": "アーティスト",
-      "plural": "アーティスト"
-    },
-    "album": {
-      "singular": "アルバム",
-      "plural": "アルバム"
-    },
-    "song": {
-      "singular": "楽曲",
-      "plural": "楽曲"
-    },
+    "artist_other": "アーティスト",
+    "album_other": "アルバム",
+    "song_other": "楽曲",
     "timeSince": {
-      "year": {
-        "singular": "年前",
-        "plural": "年前"
-      },
-      "month": {
-        "singular": "月前",
-        "plural": "月前"
-      },
-      "week": {
-        "singular": "週間前",
-        "plural": "週間前"
-      },
-      "day": {
-        "singular": "日前",
-        "plural": "日前"
-      },
-      "hour": {
-        "singular": "時間前",
-        "plural": "時間前"
-      },
-      "minute": {
-        "singular": "分前",
-        "plural": "分前"
-      },
+      "year_other": "年前",
+      "month_other": "ヶ月前",
+      "day_other": "日前",
+      "hour_other": "時間前",
+      "minute_other": "分前",
       "recent": "たった今"
     },
     "lastModified": "最終更新："
@@ -167,5 +139,17 @@
   "playlist": {
     "error": "プレイリストを取得できませんでした。プレイリストは削除されたか、非公開にさせたかもしれません。",
     "select": "プレイリストを選択"
+  },
+  "sync": {
+    "name": {
+      "tracklikes": "いいねした楽曲",
+      "playlistlikes": "いいねしたプレイリスト",
+      "playlists": "自作プレイリスト",
+      "follows": "フォローしたユーザー"
+    },
+    "fetchingPartial": "部分的な{{part}}のデータを取得中...\n({{progress, number(maximumFractionDigits: 0)}}%)",
+    "fetchingFull": "部分的ないいねデータの取得に失敗しました - {{part}}のデータを全て取得中...\n({{progress, number(maximumFractionDigits: 0)}}%)",
+    "completedPart": "{{part}}を取得しました。",
+    "completedAll": "すべてのデータを取得しました。"
   }
 }

@@ -29,6 +29,10 @@
     box-shadow: -5px 0 5px rgba(0, 0, 0, 0.5);
   }
 
+  #ees-sync-status {
+    white-space: pre-line;
+  }
+
   #ees-sync-button {
     position: absolute;
     top: 0;
@@ -49,5 +53,41 @@
     &:hover {
       background-color: #FDD001;
     }
+
+    &.syncing {
+      background: repeating-linear-gradient(45deg, #FFFFFF, #FDD001 10%, #FFFFFF 20%);
+      background-size: 300%;
+      animation: sync-animation 10s linear infinite;
+
+      svg {
+        animation: sync-rotate 1.8s infinite;
+      }
+    }
+
+    &.errored {
+      background-color: #D60010;
+
+      svg {
+        color: #FFF;
+      }
+    }
+  }
+}
+
+@keyframes sync-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 99% 50%;
+  }
+}
+
+@keyframes sync-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-180deg);
   }
 }

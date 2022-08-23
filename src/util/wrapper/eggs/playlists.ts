@@ -45,6 +45,18 @@ export async function getPlaylists(limit:number, offsetHash?:string) {
   return eggsRequest(`playlists/playlists?${qs}`, {}, { isAuthorizedRequest: true }) as Promise<PlaylistPartials>;
 }
 
+export async function getEggsPlaylistsWrapped(offset:string, limit:number) {
+  const playlists = await getPlaylists(limit, offset || undefined)
+  return {
+    syncItems: playlists.data.map(playlist => ({
+      playlistID: playlist.playlistId,
+      lastModified: new Date(playlist.updatedAt),
+    })),
+    totalCount: playlists.totalCount,
+    offset: playlists.offsetHash,
+  }
+}
+
 interface PlaylistModifier {
   playlistId: string;
   playlistName: string;
