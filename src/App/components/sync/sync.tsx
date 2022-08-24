@@ -9,7 +9,11 @@ function toggleSyncActive() {
   queue.classList.toggle("active");
 }
 
-interface SyncState {
+interface SyncState extends SyncStateReducerType {
+  state: "" | "syncing" | "errored";
+}
+
+interface SyncStateReducerType {
   progressPart: {
     value: number;
     max: number;
@@ -19,7 +23,6 @@ interface SyncState {
     max: number;
   },
   status: StatusMessage;
-  state: "" | "syncing" | "errored";
 }
 
 const initialState:SyncState = {
@@ -39,17 +42,7 @@ const initialState:SyncState = {
 
 export type StateAction = ({
   type: "updateStatus";
-  payload: {
-    progressPart: {
-      value: number;
-      max: number;
-    };
-    progressFull: {
-      value: number;
-      max: number;
-    };
-    status:StatusMessage;
-  };
+  payload: SyncStateReducerType;
 })|({
   type: "setState";
   payload: ""|"syncing"|"errored";
