@@ -3,7 +3,7 @@
   top: 172px;
   right: 0;
   transform: translateX(100%);
-  background-color: white;
+  background-color: var(--bg);
   transition: transform 0.2s ease-in-out;
 
   width: 200px;
@@ -39,7 +39,7 @@
     left: 0;
     padding: 17px 2px;
     padding-bottom: 13px;
-    background-color: white;
+    background-color: var(--bg);
     transform: translateX(-100%);
     border-radius: 5px 0 0 5px;
 
@@ -51,11 +51,11 @@
     }
 
     &:hover {
-      background-color: #FDD001;
+      background-color: var(--eggsyellow);
     }
 
     &.syncing {
-      background: repeating-linear-gradient(45deg, #FFFFFF, #FDD001 10%, #FFFFFF 20%);
+      background: repeating-linear-gradient(45deg, var(--bg), var(--eggsyellow) 10%, var(--bg) 20%);
       background-size: 300%;
       animation: sync-animation 10s linear infinite;
 
@@ -65,10 +65,10 @@
     }
 
     &.errored {
-      background-color: #D60010;
+      background-color: var(--highlight);
 
       svg {
-        color: #FFF;
+        color: var(--alwayslight);
       }
     }
   }

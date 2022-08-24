@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import "./i18n/config";
 import { TFunction, useTranslation } from 'react-i18next';
@@ -8,6 +7,9 @@ import { createSpa } from "./App/player/spa";
 import { queryAsync } from "./util/util";
 import { endpoints } from "./util/endpoints";
 import { initializeHeader } from "./util/loginButtons";
+
+import "./theme/themes.scss";
+import { initializeThemes } from './theme/themes';
 
 function App(props: {endpoint: {
   rootSelector: string;
@@ -37,6 +39,7 @@ async function loadContent() {
   } catch {
     console.error("Failed to authenticate, invalid key");
   }
+  await initializeThemes();
   // Create SPA if top level
   if (window.frameElement === null || window.frameElement.classList.contains("aut-iframe")) {
     createSpa();

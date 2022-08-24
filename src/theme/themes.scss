@@ -1,0 +1,185 @@
+$themes: (
+  light: (
+    alwayslight: #FFF,
+    alwaysdark: #000,
+    eggsyellow: #FDD001,
+    highlight: #D60010,
+    bg: #FFF,
+    monoaccent: #F2F2F2,
+    monoaccent2: #EAEAEA,
+    monoaccent3: #CCC,
+    text: #000,
+    textlight: #333,
+    textlighter: #666,
+    inverted: invert(0),
+  ),
+  dark: (
+    alwayslight: #FFF,
+    alwaysdark: #000,
+    eggsyellow: #FDD001,
+    highlight: #D60010,
+    bg: #000,
+    monoaccent: #1E1E1E,
+    monoaccent2: #2E2E2E,
+    monoaccent3: #444,
+    text: #FFF,
+    textlight: #CCC,
+    textlighter: #999,
+    inverted: invert(1),
+  ),
+);
+
+@each $name, $map in $themes {
+    .theme-#{$name} {
+        @each $key, $value in $map {
+            --#{$key}: #{$value};
+        }
+    }
+}
+
+//global props
+body:not(table) {
+  background-color: var(--bg);
+  color: var(--textlight);
+  a,
+  a:hover {
+    color: var(--text);
+  }
+}
+
+.m-contents_app:not(table) {
+  background-color: var(--monoaccent);
+  p {
+    color: var(--textlight);
+  }
+}
+
+.m-btn_pagetop a:not(table) {
+  color: var(--textlight);
+}
+
+footer:not(table) {
+  background-color: var(--monoaccent);
+  .footer_sponsor:before,
+  a {
+    color: var(--text);
+  }
+
+  .footer_logo img {
+    filter: var(--inverted);
+  }
+}
+
+#info_apple2:not(table) {
+  border: 5px solid var(--monoaccent);
+  background-color: var(--bg);
+  dt {
+    color: var(--textlight);
+  }
+  dd {
+    color: var(--textlighter);
+  }
+}
+
+.m-mainvisual .slider-pro:not(table) {
+  background-color: var(--bg);
+}
+
+.sp-button:not(table) {
+  background-color: var(--monoaccent3);
+  &.sp-selected-button {
+    background-color: var(--textlight);
+  }
+}
+
+header:not(table) {
+  background-color: var(--bg);
+  border-bottom: var(--monoaccent3);
+  color: var(--textlight);
+
+  #nav-toggle span {
+    background: var(--text);
+  }
+
+  .logo {
+    background-color: var(--bg);
+  }
+
+  .globalnav {
+    background: var(--bg);
+    li a:not(span),
+    li span:not(a) {
+      color: var(--textlight);
+    }
+  }
+
+  .globalnav li,
+  .m-header_submenu li {
+    border-bottom: 1px solid var(--monoaccent2);
+  }
+
+  .artistSearchBox {
+    &,
+    .artistSearchBox_inner {
+      background-color: var(--bg);
+    }
+  }
+
+  .artistSearch {
+    .artistSearch_genre li a {
+      color: var(--textlight);
+      background-color: var(--monoaccent);
+      border: 1px solid var(--monoaccent2);
+
+      &:hover {
+        background-color: var(--eggsyellow);
+        color: var(--alwaysdark);
+      }
+    }
+
+    .artistSearch_areaBox {
+      .artistSearch_areaName {
+        background-color: var(--monoaccent);
+
+        &::after {
+          filter: var(--inverted);
+        }
+      }
+
+      ul {
+        border-left: 5px solid var(--monoaccent);
+        border-right: 5px solid var(--monoaccent);
+        border-bottom: 5px solid var(--monoaccent);
+
+        li {
+          border-bottom: 2px solid var(--monoaccent);
+
+          a:hover {
+            background-color: var(--eggsyellow);
+            color: var(--alwaysdark);
+          }
+        }
+      }
+    }
+
+    .artistSearchBox input[type="text"] {
+      background-color: var(--monoaccent);
+      border: 1px solid var(--textlight);
+      color: var(--textlighter);
+    }
+  }
+}
+
+.m_octagon:not(table) {
+  &::before,
+  &::after {
+    border-top: 32px solid var(--bg);
+  }
+
+  &>span {
+    &::before,
+    &::after {
+      border-bottom: 32px solid var(--bg);
+    }
+  }
+}

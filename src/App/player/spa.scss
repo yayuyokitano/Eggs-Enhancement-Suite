@@ -9,7 +9,7 @@ $metadata-width-small: 5rem;
 }
 
 .ees-disabled svg {
-  fill: #333 !important;
+  fill: var(--textlight) !important;
 }
 
 #ees-spa-iframe {
@@ -19,7 +19,7 @@ $metadata-width-small: 5rem;
 }
 
 #ees-player {
-  background-color: #FDD001;
+  background-color: var(--eggsyellow);
   box-sizing: border-box;
   height: $player-height;
   padding: $player-padding;
@@ -48,7 +48,7 @@ $metadata-width-small: 5rem;
 
     #ees-player-artist {
       font-size: 0.8rem;
-      color: #D60010;
+      color: var(--highlight);
       margin-bottom: 5px;
     }
 
@@ -81,11 +81,11 @@ $metadata-width-small: 5rem;
 
       .ees-navtype[data-state="false"] svg,
       .ees-navtype[data-state="0"] svg {
-        fill: #000;
+        fill: var(--text);
       }
 
       .ees-navtype svg {
-        fill: #D60010;
+        fill: var(--highlight);
         width: 24px;
         height: 24px;
       }
@@ -116,7 +116,7 @@ $metadata-width-small: 5rem;
   
             span {
               font-size: 0.8rem;
-              color: #D60010;
+              color: var(--highlight);
               user-select: none !important;
             }
           }
@@ -132,7 +132,7 @@ $metadata-width-small: 5rem;
           transform: translate(-100%, -100%);
           left: 28px;
           top: -8px;
-          background-color: #FFF;
+          background-color: var(--bg);
           display: flex;
           flex-direction: column;
           box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
@@ -148,8 +148,8 @@ $metadata-width-small: 5rem;
           input {
             font-size: 0.8rem;
             padding: 5px;
-            border: 1px solid #333;
-            color: #333;
+            border: 1px solid var(--textlight);
+            color: var(--textlight);
             border-radius: 5px;
             width: 250px;
           }
@@ -160,7 +160,7 @@ $metadata-width-small: 5rem;
             width: 100%;
             
             &:hover {
-              background-color: #FDD001;
+              background-color: var(--eggsyellow);
             }
           }
   
@@ -168,7 +168,7 @@ $metadata-width-small: 5rem;
           &::after {
             content: "";
             position: absolute;
-            background-color: #FFF;
+            background-color: var(--bg);
           }
   
           &::before {
@@ -246,11 +246,11 @@ $metadata-width-small: 5rem;
         overflow: hidden;
 
         &::-webkit-progress-bar {
-          background-color: #FFF;
+          background-color: var(--bg);
         }
 
         &::-webkit-progress-value {
-          background-color: #D60010;
+          background-color: var(--highlight);
         }
       }
     }

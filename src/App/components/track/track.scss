@@ -15,10 +15,10 @@
   position: relative;
 
   &:hover {
-    background-color: #FDD001;
+    background-color: var(--eggsyellow);
 
     .ees-track-info .ees-artist-name {
-      color: #D60010;
+      color: var(--highlight);
     }
   }
 
@@ -38,7 +38,7 @@
     .ees-artist-name {
       white-space: nowrap;
       font-size: 0.7rem;
-      color: #666;
+      color: var(--textlighter);
     }
 
     .ees-track-details{
@@ -71,7 +71,7 @@
     margin-left: auto;
 
     .ees-track-like svg {
-      fill: #D60010;
+      fill: var(--highlight);
     }
   }
 
@@ -103,18 +103,18 @@
     }
 
     li {
-      background-color: white;
+      background-color: var(--bg);
       padding: 0.5rem 0.75rem;
 
       &:hover {
-        background-color: #D60010;
-        color: #FFF;
+        background-color: var(--highlight);
+        color: var(--alwayslight);
       }
     }
   }
 
   &:hover .ees-track-expandable summary {
-    background-color: #FDD001;
+    background-color: var(--eggsyellow);
   }
 
   &.ees-track-normal {

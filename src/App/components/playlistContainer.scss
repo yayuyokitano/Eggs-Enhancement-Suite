@@ -17,11 +17,11 @@
     .ees-playlist-lastmodified {
       margin-bottom: 7px;
       font-size: 0.7rem;
-      color: #666;
+      color: var(--textlighter);
     }
   }
 
   &:hover {
-    background-color: #FDD001;
+    background-color: var(--eggsyellow);
   }
 }

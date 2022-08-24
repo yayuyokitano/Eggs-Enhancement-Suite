@@ -5,23 +5,27 @@ import LanguageDetector from "i18next-browser-languagedetector";
 
 import globalen from "./en/global.json";
 import loginen from "./en/login.json";
+import homeen from "./en/home.json";
 
 import globalja from "./ja/global.json";
 import loginja from "./ja/login.json";
+import homeja from "./ja/home.json";
 const resources = {
   en: {
     global: globalen,
-    login: loginen
+    login: loginen,
+    home: homeen,
   },
   ja: {
     global: globalja,
-    login: loginja
+    login: loginja,
+    home: homeja,
   }
 }
 
 i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
   fallbackLng: "en",
-  ns: ["global", "login"],
+  ns: ["global", "login", "home"],
   debug: true,
   interpolation: {
     escapeValue: false,

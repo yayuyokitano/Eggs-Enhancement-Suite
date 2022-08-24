@@ -1,3 +1,4 @@
+import Home from "../App/home/home";
 import { TFunction } from "react-i18next";
 import Artist from "../App/artist/artist";
 import Login from "../App/login/login";
@@ -15,9 +16,9 @@ export const endpoints:{[key:string]:{
     translations: ["login"]
   },
   "/": {
-    rootSelector: ".ttl_side",
-    Element: () => <p>hello world</p>,
-    translations: []
+    rootSelector: ".l-contents_wrapper>.inner",
+    Element: Home,
+    translations: ["home"]
   },
   "/artist": {
     rootSelector: ".l-contents_wrapper",
