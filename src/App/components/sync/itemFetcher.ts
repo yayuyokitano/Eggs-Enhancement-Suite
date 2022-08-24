@@ -108,7 +108,6 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
   }
 
   private async completeFullScan(eggs:SyncItems<T>) {
-
     while (this.count < eggs.totalCount) {
       try {
         this.emitProgress(this.count, eggs.totalCount, FetchLabel.FETCHING_FULL);
@@ -119,6 +118,13 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
         this.count += this.limit;
       } catch(err) {
         if (err instanceof Error && err.message === IncrementerError.NoItemsError) {
+          try {
+            await this.putFunction(eggs.syncItems);
+            this.emitComplete();
+          } catch(err) {
+            console.error(err);
+            this.emitError(err);
+          }
           break;
         }
         console.error(err);
@@ -146,9 +152,15 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
       return {eggs: {syncItems: [], totalCount: 0, offset: ""}, shouldFullscan: false};
     }
 
-    const eggs = await this.incrementer.getPage();
+    let eggs:SyncItems<T>;
+    try {
+      eggs = await this.incrementer.getPage();
+    } catch(err) {
+      return {eggs: {syncItems: [], totalCount: 0, offset: ""}, shouldFullscan: true};
+    }
+    
     this.count += this.limit
-    if (eggshellver.totalCount === 0 || this.shouldFullScan) return {eggs, shouldFullscan: true};
+    if (this.shouldFullScan) return {eggs, shouldFullscan: true};
     
     while (eggs.totalCount - this.count >= eggshellver.totalCount) {
       try {
@@ -160,7 +172,6 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
         this.count += this.limit;
       } catch(err) {
         if (err instanceof Error && err.message === IncrementerError.NoItemsError) {
-          this.emitComplete();
           return {eggs, shouldFullscan: true};
         }
         console.error(err);
@@ -172,7 +183,7 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
     let shouldFullscan = false;
 
     //yes this is cursed im sorry
-    if (eggs.syncItems.filter((e) => e === eggshellver.item
+    if (eggshellver.item && eggs.syncItems.filter((e) => e === eggshellver.item
       || ((e as UserStub).hasOwnProperty("userName")
       && (e as UserStub).userName === (eggshellver.item as UserStub).userName)
       || ((e as PlaylistWrapper).hasOwnProperty("playlistID")
