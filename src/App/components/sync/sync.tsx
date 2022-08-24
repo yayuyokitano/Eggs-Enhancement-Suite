@@ -70,7 +70,6 @@ interface StatusMessage {
 }
 
 function reducer(state:SyncState, action:StateAction):SyncState {
-  console.log(action);
   switch (action.type) {
     case "updateStatus":
       return {
@@ -96,7 +95,6 @@ export default function Sync(props: { t:TFunction }) {
   const { t } = props;
 
   const [syncState, dispatch] = React.useReducer(reducer, initialState);
-  useEffect(() => {console.log(syncState)} ,[syncState]);
 
   return (
     <div id="ees-sync">
