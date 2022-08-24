@@ -81,13 +81,15 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
   private count = 0;
   private putFunction:(targets:T[]) => Promise<string>;
   private postFunction:(targets:T[]) => Promise<string>;
+  private shouldFullScan:boolean;
 
   constructor(
     eggsID:string,
     eggshellverGet:EggshellverGet<T>,
     eggsGet:EggsGet<T>,
     putFunction:(targetIDs:T[]) => Promise<string>,
-    postFunction:(targetIDs:T[]) => Promise<string>
+    postFunction:(targetIDs:T[]) => Promise<string>,
+    shouldFullScan:boolean,
   ) {
     super();
     this.eggshellverGet = eggshellverGet;
@@ -95,13 +97,13 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
     this.incrementer = new Incrementer(eggsGet, this.limit);
     this.putFunction = putFunction;
     this.postFunction = postFunction;
+    this.shouldFullScan = shouldFullScan;
     this.start()
   }
 
   private async start() {
     const {eggs, shouldFullscan} = await this.attemptPartialScan();
     if (!shouldFullscan) return;
-
     await this.completeFullScan(eggs);
   }
 
@@ -146,7 +148,7 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
 
     const eggs = await this.incrementer.getPage();
     this.count += this.limit
-    if (eggshellver.totalCount === 0) return {eggs, shouldFullscan: true};
+    if (eggshellver.totalCount === 0 || this.shouldFullScan) return {eggs, shouldFullscan: true};
     
     while (eggs.totalCount - this.count >= eggshellver.totalCount) {
       try {

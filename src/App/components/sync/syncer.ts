@@ -7,28 +7,24 @@ import { getEggshellverPlaylistLikesWrapped, getEggshellverTrackLikesWrapped, po
 import ItemFetcher, { FetchLabel } from "./itemFetcher";
 import { getEggshellverFollowsWrapped, postFollows, putFollows } from "../../../util/wrapper/eggshellver/follow";
 import { UserStub } from "../../../util/wrapper/eggshellver/util";
+import React from "react";
+import { StateAction } from "./sync";
 
 export default class Syncer {
 
-  private t:TFunction;
-  private statusElement:HTMLParagraphElement;
-  private fullProgress:HTMLProgressElement;
-  private partProgress:HTMLProgressElement;
-  private syncButton:HTMLButtonElement;
   private eggsID:string;
   private completedParts = 0;
   private totalParts = 4;
   private ready:Promise<Boolean>
+  private dispatch:React.Dispatch<StateAction>;
+  private shouldFullScan:boolean;
   
-  constructor(t:TFunction) {
-    this.t = t;
-    this.syncButton = document.getElementById("ees-sync-button") as HTMLButtonElement;
-    this.statusElement = document.getElementById("ees-sync-status") as HTMLParagraphElement;
-    this.fullProgress = document.getElementById("ees-sync-progress-full") as HTMLProgressElement;
-    this.partProgress = document.getElementById("ees-sync-progress-part") as HTMLProgressElement;
+  constructor(dispatch:React.Dispatch<StateAction>, shouldFullScan:boolean) {
     this.eggsID = "";
+    this.dispatch = dispatch;
+    this.shouldFullScan = shouldFullScan;
     this.ready = new Promise(async(resolve) => {
-      const user = await profile()
+      const user = await profile();
       this.eggsID = user.data.userName;
       resolve(true);
     });
@@ -71,6 +67,7 @@ export default class Syncer {
       getEggsFollowsWrapped,
       putFollows,
       postFollows,
+      this.shouldFullScan,
     );
     return this.handleFetcher(fetcher, "follows");
   }
@@ -81,7 +78,8 @@ export default class Syncer {
       getEggshellverPlaylistsWrapped,
       getEggsPlaylistsWrapped,
       putPlaylists,
-      postPlaylists
+      postPlaylists,
+      this.shouldFullScan,
     );
     return this.handleFetcher(fetcher, "playlists");
   }
@@ -92,7 +90,8 @@ export default class Syncer {
       getEggshellverTrackLikesWrapped,
       getEggsTrackLikesWrapped,
       (targetIDs:string[]) => putLikes(targetIDs, "track"),
-      (targetIDs:string[]) => postLikes(targetIDs, "track")
+      (targetIDs:string[]) => postLikes(targetIDs, "track"),
+      this.shouldFullScan,
     );
     return this.handleFetcher(fetcher, "tracklikes");
   }
@@ -103,7 +102,8 @@ export default class Syncer {
       getEggshellverPlaylistLikesWrapped,
       getEggsPlaylistLikesWrapped,
       (targetIDs:string[]) => putLikes(targetIDs, "playlist"),
-      (targetIDs:string[]) => postLikes(targetIDs, "playlist")
+      (targetIDs:string[]) => postLikes(targetIDs, "playlist"),
+      this.shouldFullScan,
     );
     return this.handleFetcher(fetcher, "playlistlikes");
   }
@@ -124,20 +124,43 @@ export default class Syncer {
 
     const complete = new Promise<void>((resolve, reject) => {
       fetcher.on("update", (progress) => {
-        this.partProgress.value = progress.current;
-        this.partProgress.max = progress.total;
-        this.statusElement.innerText = this.processFetchLabel(progress.label, part, progress.percentage);
-        this.fullProgress.value = progress.current + progress.total * this.completedParts;
-        this.fullProgress.max = progress.total * this.totalParts;
+        this.dispatch({
+          type: "updateStatus",
+          payload: {
+            status: this.processFetchLabel(progress.label, part, progress.percentage),
+            progressPart: {
+              value: progress.current,
+              max: progress.total,
+            },
+            progressFull: {
+              value: progress.current + progress.total * this.completedParts,
+              max: progress.total * this.totalParts,
+            },
+          },
+        });
       });
   
       fetcher.on("complete", () => {
-        this.partProgress.value = 1;
-        this.partProgress.max = 1;
-        this.statusElement.innerText = this.t("sync.completedPart", {part: this.t(`sync.name.${part}`)});
         this.completedParts++;
-        this.fullProgress.value = this.completedParts;
-        this.fullProgress.max = this.totalParts;
+        this.dispatch({
+          type: "updateStatus",
+          payload: {
+            status: {
+              key: "sync.completedPart",
+              options: {
+                part: `sync.name.${part}`,
+              }
+            },
+            progressPart: {
+              value: 1,
+              max: 1,
+            },
+            progressFull: {
+              value: this.completedParts,
+              max: this.totalParts,
+            },
+          },
+        });
         resolve();
       });
 
@@ -151,22 +174,49 @@ export default class Syncer {
   }
 
   private displayError() {
-    this.statusElement.innerText = this.t("general.error");
-    this.syncButton.classList.remove("syncing");
-    this.syncButton.classList.add("errored");
+    this.dispatch({
+      type: "updateMessage",
+      payload: {
+        key: "general.error",
+      }
+    });
+    this.dispatch({
+      type: "setState",
+      payload: "errored",
+    });
   }
 
   private completeScan() {
-    this.statusElement.innerText = this.t("sync.completedAll");
-    this.syncButton.classList.remove("syncing");
+    this.dispatch({
+      type: "updateMessage",
+      payload: {
+        key: "sync.completedAll",
+      }
+    });
+    this.dispatch({
+      type: "setState",
+      payload: "",
+    });
   }
 
   private processFetchLabel(label:FetchLabel, part:string, progress:number) {
     switch (label) {
       case FetchLabel.FETCHING_PARTIAL:
-        return this.t("sync.fetchingPartial", {part: this.t(`sync.name.${part}`), progress});
+        return {
+          key: "sync.fetchingPartial",
+          options: {
+            part: `sync.name.${part}`,
+            progress,
+          }
+        };
       case FetchLabel.FETCHING_FULL:
-        return this.t("sync.fetchingFull", {part: this.t(`sync.name.${part}`), progress});
+        return {
+          key: "sync.fetchingFull",
+          options: {
+            part: `sync.name.${part}`,
+            progress,
+          }
+        };
     }
   }
 }
