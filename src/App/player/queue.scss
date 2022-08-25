@@ -3,7 +3,7 @@
   top: 100px;
   right: 0;
   transform: translateX(100%);
-  background-color: var(--bg);
+  background-color: var(--menubg);
   transition: transform 0.2s ease-in-out;
 
   width: 200px;
@@ -26,7 +26,7 @@
 
   &.active {
     transform: translateX(0);
-    box-shadow: -5px 0 5px rgba(0, 0, 0, 0.5);
+    box-shadow: -5px 0 5px var(--shadow5);
   }
 
   #ees-player-queue-button {
@@ -35,11 +35,11 @@
     left: 0;
     padding: 17px 2px;
     padding-bottom: 13px;
-    background-color: var(--bg);
+    background-color: var(--menubg);
     transform: translateX(-100%);
     border-radius: 5px 0 0 5px;
 
-    box-shadow: -5px 0 5px rgba(0, 0, 0, 0.5);
+    box-shadow: -5px 0 5px var(--shadow5);
 
     svg {
       width: 32px;
@@ -48,6 +48,10 @@
 
     &:hover {
       background-color: var(--eggsyellow);
+
+      svg {
+        color: var(--alwaysdark2);
+      }
     }
   }
 }

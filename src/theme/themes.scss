@@ -2,12 +2,21 @@ $themes: (
   light: (
     alwayslight: #FFF,
     alwaysdark: #000,
+    alwaysdark2: #333,
     eggsyellow: #FDD001,
     highlight: #D60010,
+    shadow3: rgba(0, 0, 0, 0.3),
+    shadow5: rgba(0, 0, 0, 0.5),
+    shadow6: rgba(0, 0, 0, 0.6),
     bg: #FFF,
+    playerbg: #FDD001,
+    activeelement: #D60010,
+    rangebg: #FFF,
+    menubg: #FFF,
     monoaccent: #F2F2F2,
     monoaccent2: #EAEAEA,
     monoaccent3: #CCC,
+    monoaccentinv: #1E1E1E,
     text: #000,
     textlight: #333,
     textlighter: #666,
@@ -16,12 +25,21 @@ $themes: (
   dark: (
     alwayslight: #FFF,
     alwaysdark: #000,
+    alwaysdark2: #333,
     eggsyellow: #FDD001,
     highlight: #D60010,
+    shadow3: rgba(0, 0, 0, 0.3),
+    shadow5: rgba(0, 0, 0, 0.5),
+    shadow6: rgba(0, 0, 0, 0.6),
     bg: #000,
+    playerbg: #1E1E1E,
+    activeelement: #FDD001,
+    rangebg: #FDD001,
+    menubg: #1E1E1E,
     monoaccent: #1E1E1E,
     monoaccent2: #2E2E2E,
     monoaccent3: #444,
+    monoaccentinv: #F2F2F2,
     text: #FFF,
     textlight: #CCC,
     textlighter: #999,
@@ -111,6 +129,16 @@ header:not(table) {
     li span:not(a) {
       color: var(--textlight);
     }
+
+    .gn_submenu {
+      background-color: var(--bg);
+      border-bottom: 1px solid var(--monoaccent2);
+      border-top: 1px solid var(--monoaccent2);
+      li a:not(span),
+      li span:not(a) {
+        color: var(--textlight);
+      }
+    }
   }
 
   .globalnav li,
@@ -182,4 +210,143 @@ header:not(table) {
       border-bottom: 32px solid var(--bg);
     }
   }
+}
+
+.mainv:not(table)::before {
+  background: var(--bg);
+}
+
+.forartistInner:not(table) .contents dd a {
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+
+  &:hover {
+    background: var(--eggsyellow);
+    color: var(--alwaysdark);
+  }
+}
+
+.listnerContent:not(table) {
+  background: var(--monoaccent);
+
+  &::before,
+  &::after {
+    background: var(--bg);
+  }
+}
+
+.eggsisscon:not(table) {
+  background: var(--bg);
+  &::before {
+    background: var(--bg);
+  }
+}
+
+.pertnerCon:not(table)::after {
+  background: var(--bg);
+}
+
+.tit_readtxt:not(table) {
+  color: var(--textlighter);
+}
+
+.m-pagination:not(table) li {
+  a {
+    background-color: var(--monoaccent);
+
+    &:hover {
+      background-color: var(--eggsyellow);
+      color: var(--alwaysdark);
+    }
+  }
+
+  .pagination_arrow {
+    background-color: var(--monoaccent) !important;
+
+    &:not(:hover) img {
+      filter: var(--inverted);
+    }
+    
+    &:hover {
+      background-color: var(--eggsyellow) !important;
+      color: var(--alwaysdark) !important;
+    }
+  }
+
+  span {
+    background-color: var(--eggsyellow);
+    color: var(--alwaysdark);
+  }
+  
+}
+
+.m-main_article_list:not(table) {
+  .mult_ellipsis p {
+    color: var(--text);
+  }
+
+  .article_date {
+    color: var(--textlighter);
+  }
+}
+
+//what the fuck
+header:not(table) .globalnav li:not(#gn_notice):not(#gn_upload):not(#gn_curator) > a span:after, header .globalnav li:not(#gn_notice):not(#gn_upload):not(#gn_curator) > span span:after {
+  background: var(--monoaccentinv);
+}
+
+.dayweekNav:not(table) {
+
+  border: none;
+
+  li {
+    span {
+      background-color: var(--eggsyellow);
+      color: var(--alwaysdark);
+    }
+  
+    a {
+      background-color: var(--monoaccent);
+      color: var(--textlight);
+  
+      &:hover {
+        background-color: var(--eggsyellow);
+        color: var(--alwaysdark);
+      }
+    }
+  }
+}
+
+.ranking_category:not(table) li {
+  span {
+    color: var(--eggsyellow);
+    border-bottom: 3px solid var(--eggsyellow);
+  }
+
+  a {
+    color: var(--textlight);
+    border-bottom: none;
+
+    &:hover {
+      color: var(--eggsyellow);
+      border-bottom: 3px solid var(--eggsyellow);
+    }
+  }
+}
+
+.btn_more:not(table) .btn_radius {
+  border: 1px solid var(--textlight);
+  color: var(--textlight);
+
+  &:hover {
+    background-color: var(--eggsyellow);
+    color: var(--alwaysdark);
+    border: 1px solid var(--eggsyellow);
+  }
+}
+
+.loading img,
+.sp-arrow {
+  filter: var(--inverted);
 }

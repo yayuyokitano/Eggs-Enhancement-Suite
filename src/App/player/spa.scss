@@ -19,7 +19,7 @@ $metadata-width-small: 5rem;
 }
 
 #ees-player {
-  background-color: var(--eggsyellow);
+  background-color: var(--playerbg);
   box-sizing: border-box;
   height: $player-height;
   padding: $player-padding;
@@ -48,7 +48,7 @@ $metadata-width-small: 5rem;
 
     #ees-player-artist {
       font-size: 0.8rem;
-      color: var(--highlight);
+      color: var(--activeelement);
       margin-bottom: 5px;
     }
 
@@ -85,7 +85,7 @@ $metadata-width-small: 5rem;
       }
 
       .ees-navtype svg {
-        fill: var(--highlight);
+        fill: var(--activeelement);
         width: 24px;
         height: 24px;
       }
@@ -135,7 +135,7 @@ $metadata-width-small: 5rem;
           background-color: var(--bg);
           display: flex;
           flex-direction: column;
-          box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 2px 5px var(--shadow3);
           padding: 0.5rem 1rem;
           border-radius: 5px 5px 0 0;
           width: fit-content;
@@ -177,7 +177,7 @@ $metadata-width-small: 5rem;
             width: 12px;
             height: 12px;
             transform: rotate(45deg);
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 2px 2px 5px var(--shadow3);
           }
   
           &::after {
@@ -208,6 +208,7 @@ $metadata-width-small: 5rem;
             display: none;
           }
           
+          background-color: var(--eggsyellow);
           border: none;
           border-radius: 1000px;
           bottom: 32px;
@@ -215,12 +216,8 @@ $metadata-width-small: 5rem;
           justify-content: center;
           align-items: center;
           padding: 0.4rem 0.7rem;
-          box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.3);
+          box-shadow: -2px 0px 5px var(--shadow3);
           transform: translate(-50%, 50%) rotate(-90deg) translate(50%, 50%);
-
-          /*#ees-volume-slider {
-            margin-top: 1px;
-          }*/
         }
       }
     }

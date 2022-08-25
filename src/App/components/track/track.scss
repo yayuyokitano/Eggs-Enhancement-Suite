@@ -16,6 +16,7 @@
 
   &:hover {
     background-color: var(--eggsyellow);
+    color: var(--alwaysdark2);
 
     .ees-track-info .ees-artist-name {
       color: var(--highlight);
@@ -94,7 +95,7 @@
       .ees-track-menu{
         border-radius: 0 0 5px 5px;
         overflow: hidden;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 2px 5px var(--shadow3);
       }
       
       summary {
@@ -103,8 +104,9 @@
     }
 
     li {
-      background-color: var(--bg);
+      background-color: var(--menubg);
       padding: 0.5rem 0.75rem;
+      color: var(--textlight);
 
       &:hover {
         background-color: var(--highlight);
