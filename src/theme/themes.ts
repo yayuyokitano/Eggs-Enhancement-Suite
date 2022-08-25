@@ -2,18 +2,39 @@ import browser from "webextension-polyfill";
 
 export async function initializeThemes() {
   const theme = (await browser.storage.sync.get("theme")).theme;
-  console.log("a");
   if (theme) {
-    console.log("b");
-    document.body.classList.add(theme);
+    document.body.classList.add(await processTheme(theme));
     return;
   }
-  console.log("c");
 
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.body.classList.add("theme-dark");
-  } else {
-    document.body.classList.add("theme-light");
+  updateTheme("theme-system");
+}
+
+export async function updateTheme(theme:string) {
+  document.body.classList.remove("theme-dark");
+  document.body.classList.remove("theme-light");
+  document.body.classList.add(await processTheme(theme));
+  await browser.storage.sync.set({
+    theme,
+  });
+}
+
+async function processTheme(theme:string) {
+  if (theme === "theme-system") {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return "theme-dark";
+    }
+    return "theme-light";
   }
-  console.log(document.body.classList);
+  return theme;
+}
+
+export const themeList = [
+  "system",
+  "dark",
+  "light",
+]
+
+export async function getTheme() {
+  return (await browser.storage.sync.get("theme")).theme || "theme-system";
 }

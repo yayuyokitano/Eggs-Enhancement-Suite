@@ -25,6 +25,7 @@ import { TimeData } from './types';
 import Details from './details';
 import Queue from './queue';
 import Sync from "../components/sync/sync";
+import { updateTheme } from '../../theme/themes';
 var root:ReactDOM.Root;
 
 export function createSpa() {
@@ -61,9 +62,15 @@ function SPA() {
 
   useEffect(() => {
     function handleMessage(message:any) {
-      if (message.type === "changeLanguage") {
-        console.log("change language to " + message.lang);
-        i18n.changeLanguage(message.lang);
+      switch (message.type) {
+        case "changeLanguage":
+          console.log("change language to " + message.lang);
+          i18n.changeLanguage(message.lang);
+          break;
+        case "changeTheme":
+          console.log("change theme to " + message.theme);
+          updateTheme(message.theme);
+          break;
       }
     }
     browser.runtime.onMessage.addListener(handleMessage);

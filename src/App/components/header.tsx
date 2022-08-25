@@ -9,6 +9,7 @@ import { t } from "i18next";
 import browser from "webextension-polyfill";
 import { PlaylistContainer } from "./playlistContainer";
 import { getPlaylists, playlistAdd, PlaylistPartial } from "../../util/wrapper/eggs/playlists";
+import { updateTheme } from "../../theme/themes";
 
 interface User {
   displayName: string;
@@ -232,9 +233,15 @@ export function HeaderSubmenu() {
 
   useEffect(() => {
     function handleMessage(message:any) {
-      if (message.type === "changeLanguage") {
-        console.log("change language to " + message.lang);
-        i18n.changeLanguage(message.lang);
+      switch (message.type) {
+        case "changeLanguage":
+          console.log("change language to " + message.lang);
+          i18n.changeLanguage(message.lang);
+          break;
+        case "changeTheme":
+          console.log("change theme to " + message.theme);
+          updateTheme(message.theme);
+          break;
       }
     }
     browser.runtime.onMessage.addListener(handleMessage);

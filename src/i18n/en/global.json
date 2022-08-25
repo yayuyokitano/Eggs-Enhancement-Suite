@@ -71,10 +71,6 @@
     "12": "R&B",
     "13": "Reggae"
   },
-  "popup": {
-    "helloWorld": "Hello World!",
-    "language": "Language"
-  },
   "prefecture": {
     "region": {
       "hokkaidoTohoku": "Hokkaido and Tohoku",
