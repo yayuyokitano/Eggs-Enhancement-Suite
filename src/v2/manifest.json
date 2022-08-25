@@ -1,17 +1,17 @@
 {
-  "manifest_version": 2,
-  "name": "Eggs Enhancement Suite",
-  "version": "2.0.0",
-  "permissions": [
-    "storage",
-    "*://*.eggs.mu/*"
-  ],
-  "content_scripts": [{
-    "matches": ["*://eggs.mu/*"],
-    "js": ["../content.tsx"],
-    "all_frames": true,
-    "run_at": "document_start"
-  }],
+	"manifest_version": 2,
+	"name": "Eggs Enhancement Suite",
+	"version": "2.0.0",
+	"permissions": [
+		"storage",
+		"*://*.eggs.mu/*"
+	],
+	"content_scripts": [{
+		"matches": ["*://eggs.mu/*"],
+		"js": ["../content.tsx"],
+		"all_frames": true,
+		"run_at": "document_start"
+	}],
 	"browser_action": {
 		"default_icon": {
 			"16": "../icons/icon16.png",
@@ -34,10 +34,10 @@
 		"64": "../icons/icon64.png",
 		"128": "../icons/icon128.png"
 	},
-  "web_accessible_resources": ["../icons/icon128.png"],
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "maxmulhallbiseth@gmail.com"
-    }
-  }
+	"web_accessible_resources": ["../icons/icon128.png"],
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "maxmulhallbiseth@gmail.com"
+		}
+	}
 }

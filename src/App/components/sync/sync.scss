@@ -1,97 +1,102 @@
 #ees-sync {
-  position: absolute;
-  top: 172px;
-  right: 0;
-  transform: translateX(100%);
-  background-color: var(--menubg);
-  transition: transform 0.2s ease-in-out;
+	position: absolute;
+	top: 172px;
+	right: 0;
+	transform: translateX(100%);
+	background-color: var(--menubg);
+	transition: transform 0.2s ease-in-out;
 
-  width: 200px;
-  height: calc(100vh - 272px);
-  border-radius: 0 0 0 5px;
+	width: 200px;
+	height: calc(100vh - 272px);
+	border-radius: 0 0 0 5px;
 
-  #ees-sync-inner {
-    height: 100%;
-    overflow-y: auto;
-  }
+	#ees-sync-inner {
+		height: 100%;
+		overflow-y: auto;
+	}
 
-  h3 {
-    padding-top: 2px;
-    padding-left: 4px;
-  }
+	h3 {
+		padding-top: 2px;
+		padding-left: 4px;
+	}
 
-  .ees-track-container {
-    margin-bottom: 0;
-  }
+	.ees-track-container {
+		margin-bottom: 0;
+	}
 
-  &.active {
-    transform: translateX(0);
-    box-shadow: -5px 0 5px var(--shadow5);
-  }
+	&.active {
+		transform: translateX(0);
+		box-shadow: -5px 0 5px var(--shadow5);
+	}
 
-  #ees-sync-status {
-    white-space: pre-line;
-  }
+	#ees-sync-status {
+		white-space: pre-line;
+	}
 
-  #ees-sync-button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 17px 2px;
-    padding-bottom: 13px;
-    background-color: var(--menubg);
-    transform: translateX(-100%);
-    border-radius: 5px 0 0 5px;
+	#ees-sync-button {
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 17px 2px;
+		padding-bottom: 13px;
+		background-color: var(--menubg);
+		transform: translateX(-100%);
+		border-radius: 5px 0 0 5px;
 
-    box-shadow: -5px 0 5px var(--shadow5);
+		box-shadow: -5px 0 5px var(--shadow5);
 
-    svg {
-      width: 32px;
-      height: 32px;
-    }
+		svg {
+			width: 32px;
+			height: 32px;
+		}
 
-    &:hover {
-      background-color: var(--eggsyellow);
+		&:hover {
+			background-color: var(--eggsyellow);
 
-      svg {
-        color: var(--alwaysdark2);
-      }
-    }
+			svg {
+				color: var(--alwaysdark2);
+			}
+		}
 
-    &.syncing {
-      background: repeating-linear-gradient(45deg, var(--menubg), var(--eggsyellow) 10%, var(--menubg) 20%);
-      background-size: 300%;
-      animation: sync-animation 10s linear infinite;
+		&.syncing {
+			background: repeating-linear-gradient(
+				45deg,
+				var(--menubg),
+				var(--eggsyellow) 10%,
+				var(--menubg) 20%
+			);
+			background-size: 300%;
+			animation: sync-animation 10s linear infinite;
 
-      svg {
-        animation: sync-rotate 1.8s infinite;
-      }
-    }
+			svg {
+				animation: sync-rotate 1.8s infinite;
+			}
+		}
 
-    &.errored {
-      background-color: var(--highlight);
+		&.errored {
+			background-color: var(--highlight);
 
-      svg {
-        color: var(--alwayslight);
-      }
-    }
-  }
+			svg {
+				color: var(--alwayslight);
+			}
+		}
+	}
 }
 
 @keyframes sync-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 99% 50%;
-  }
+	0% {
+		background-position: 0% 50%;
+	}
+	100% {
+		background-position: 99% 50%;
+	}
 }
 
 @keyframes sync-rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(-180deg);
-  }
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(-180deg);
+	}
 }

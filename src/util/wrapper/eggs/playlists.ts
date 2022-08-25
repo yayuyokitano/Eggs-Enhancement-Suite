@@ -1,5 +1,5 @@
 import { SongData } from "./artist";
-import { eggsRequest } from "./request"
+import { eggsRequest } from "./request";
 
 export interface Playlist {
   createdAt: string,
@@ -36,42 +36,34 @@ interface Playlists {
 }
 
 export async function playlist(playlistID:string) {
-  return eggsRequest(`playlists/playlists/${playlistID}`, {}, { isAuthorizedRequest: true }) as Promise<Playlists>;
+	return eggsRequest(`playlists/playlists/${playlistID}`, {}, { isAuthorizedRequest: true }) as Promise<Playlists>;
 }
 
 export async function getPlaylists(limit:number, offsetHash?:string) {
-  let qs = `limit=${limit}`;
-  if (offsetHash) qs += `&offsetHash=${offsetHash}`;
-  return eggsRequest(`playlists/playlists?${qs}`, {}, { isAuthorizedRequest: true }) as Promise<PlaylistPartials>;
+	let qs = `limit=${limit}`;
+	if (offsetHash) qs += `&offsetHash=${offsetHash}`;
+	return eggsRequest(`playlists/playlists?${qs}`, {}, { isAuthorizedRequest: true }) as Promise<PlaylistPartials>;
 }
 
 export async function getEggsPlaylistsWrapped(offset:string, limit:number) {
-  const playlists = await getPlaylists(limit, offset || undefined)
-  return {
-    syncItems: playlists.data.map(playlist => ({
-      playlistID: playlist.playlistId,
-      lastModified: new Date(playlist.updatedAt),
-    })),
-    totalCount: playlists.totalCount,
-    offset: playlists.offsetHash,
-  }
-}
-
-interface PlaylistModifier {
-  playlistId: string;
-  playlistName: string;
-  arrayOfArtistId: string;
-  arrayOfMusicId: string;
-  isPrivate: number;
+	const playlists = await getPlaylists(limit, offset || undefined);
+	return {
+		syncItems: playlists.data.map(playlist => ({
+			playlistID: playlist.playlistId,
+			lastModified: new Date(playlist.updatedAt),
+		})),
+		totalCount: playlists.totalCount,
+		offset: playlists.offsetHash,
+	};
 }
 
 export async function playlistAdd(playlist:PlaylistPartial, song:{artistId:number, musicId:string}) {
-  const playlistModifier = {
-    playlistId: playlist.playlistId,
-    playlistName: playlist.playlistName,
-    arrayOfArtistId: playlist.arrayOfArtistId + `,${song.artistId}`,
-    arrayOfMusicId: playlist.arrayOfMusicId + `,${song.musicId}`,
-    isPrivate: playlist.isPrivate,
-  }
-  return eggsRequest(`playlists/playlists`, playlistModifier, { isPutRequest: true, isAuthorizedRequest: true }) as Promise<Playlist>;
+	const playlistModifier = {
+		playlistId: playlist.playlistId,
+		playlistName: playlist.playlistName,
+		arrayOfArtistId: playlist.arrayOfArtistId + `,${song.artistId}`,
+		arrayOfMusicId: playlist.arrayOfMusicId + `,${song.musicId}`,
+		isPrivate: playlist.isPrivate,
+	};
+	return eggsRequest("playlists/playlists", playlistModifier, { isPutRequest: true, isAuthorizedRequest: true }) as Promise<Playlist>;
 }

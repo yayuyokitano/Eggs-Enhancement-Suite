@@ -10,29 +10,29 @@ export const endpoints:{[key:string]:{
   Element: (t:TFunction) => JSX.Element;
   translations:string[];
 }|undefined} = {
-  "/login": {
-    rootSelector: ".form-main>.form-control.pt30p.pb50p",
-    Element: Login,
-    translations: ["login"]
-  },
-  "/": {
-    rootSelector: ".l-contents_wrapper>.inner",
-    Element: Home,
-    translations: ["home"]
-  },
-  "/artist": {
-    rootSelector: ".l-contents_wrapper",
-    Element: Artist,
-    translations: []
-  },
-  "/playlist": {
-    rootSelector: ".l-contents_wrapper",
-    Element: Playlist,
-    translations: []
-  },
-  "/user": {
-    rootSelector: ".l-contents_wrapper",
-    Element: Profile,
-    translations: []
-  }
-}
+	"/login": {
+		rootSelector: ".form-main>.form-control.pt30p.pb50p",
+		Element: Login,
+		translations: ["login"]
+	},
+	"/": {
+		rootSelector: ".l-contents_wrapper>.inner",
+		Element: Home,
+		translations: ["home"]
+	},
+	"/artist": {
+		rootSelector: ".l-contents_wrapper",
+		Element: Artist,
+		translations: []
+	},
+	"/playlist": {
+		rootSelector: ".l-contents_wrapper",
+		Element: Playlist,
+		translations: []
+	},
+	"/user": {
+		rootSelector: ".l-contents_wrapper",
+		Element: Profile,
+		translations: []
+	}
+};

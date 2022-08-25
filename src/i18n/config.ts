@@ -13,33 +13,33 @@ import loginja from "./ja/login.json";
 import homeja from "./ja/home.json";
 import popupja from "./ja/popup.json";
 const resources = {
-  en: {
-    global: globalen,
-    login: loginen,
-    home: homeen,
-    popup: popupen,
-  },
-  ja: {
-    global: globalja,
-    login: loginja,
-    home: homeja,
-    popup: popupja,
-  }
-}
+	en: {
+		global: globalen,
+		login: loginen,
+		home: homeen,
+		popup: popupen,
+	},
+	ja: {
+		global: globalja,
+		login: loginja,
+		home: homeja,
+		popup: popupja,
+	}
+};
 
 i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
-  fallbackLng: "en",
-  ns: ["global", "login", "home", "popup"],
-  debug: true,
-  interpolation: {
-    escapeValue: false,
-  },
-  resources
+	fallbackLng: "en",
+	ns: ["global", "login", "home", "popup"],
+	debug: true,
+	interpolation: {
+		escapeValue: false,
+	},
+	resources
 });
 
 export const languageList = [
-  "en",
-  "ja"
-]
+	"en",
+	"ja"
+];
 
 export default i18n;

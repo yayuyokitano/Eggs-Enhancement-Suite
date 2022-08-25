@@ -10,16 +10,15 @@ export interface UserStub {
 }
 
 export function fillUrlSearchParams(url: URL, params: { [key: string]: string|number|string[] }): URL {
-  for (let [key, value] of Object.entries(params)) {
-    if (Array.isArray(value)) {
-      value = value.join(",");
-    }
-    if (typeof value === "number") {
-      value = value.toString();
-    }
-    url.searchParams.set(key, value);
-  }
-  return url;
+	for (const [key, value] of Object.entries(params)) {
+		if (Array.isArray(value)) {
+			url.searchParams.set(key, value.join(","));
+		}
+		if (typeof value === "number") {
+			url.searchParams.set(key, value.toString());
+		}
+	}
+	return url;
 }
 
 export function createUserStub(user:{
@@ -35,20 +34,20 @@ export function createUserStub(user:{
   prefectureCode: number|null;
   imageDataPath: string|null;
 }): UserStub {
-  if ("userName" in user) return {
-    userName: user.userName,
-    displayName: user.displayName,
-    isArtist: false,
-    imageDataPath: user.imageDataPath ?? "",
-    prefectureCode: user.prefectureCode ?? 0,
-    profile: user.profile ?? "",
-  };
-  return {
-    userName: user.artistName,
-    displayName: user.displayName,
-    isArtist: user.profile !== null,
-    imageDataPath: user.imageDataPath ?? "",
-    prefectureCode: user.prefectureCode ?? 0,
-    profile: user.profile ?? "",
-  };
+	if ("userName" in user) return {
+		userName: user.userName,
+		displayName: user.displayName,
+		isArtist: false,
+		imageDataPath: user.imageDataPath ?? "",
+		prefectureCode: user.prefectureCode ?? 0,
+		profile: user.profile ?? "",
+	};
+	return {
+		userName: user.artistName,
+		displayName: user.displayName,
+		isArtist: user.profile !== null,
+		imageDataPath: user.imageDataPath ?? "",
+		prefectureCode: user.prefectureCode ?? 0,
+		profile: user.profile ?? "",
+	};
 }

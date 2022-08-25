@@ -1,46 +1,46 @@
 .l-contents_wrapper {
-  margin-top: 70px;
+	margin-top: 70px;
 }
 
 #ees-playlist-header {
-  margin: 20px;
-  display: flex;
-  gap: 20px;
+	margin: 20px;
+	display: flex;
+	gap: 20px;
 
-  #ees-playlist-metadata {
-    display: flex;
-    flex-direction: column;
+	#ees-playlist-metadata {
+		display: flex;
+		flex-direction: column;
 
-    #ees-playlist-name {
-      font-size: 4rem;
-      font-weight: bold;
-    }
-  
-    #ees-playlist-creator {
-      font-size: 1.5rem;
-      color: var(--textlighter);
-    }
-  
-    #ees-playlist-date {
-      color: var(--textlighter);
-    }
-  
-    #ees-playlist-like {
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-  
-      #ees-playlist-like-button {
-        display: flex;
-        align-items: center;
+		#ees-playlist-name {
+			font-size: 4rem;
+			font-weight: bold;
+		}
 
-        svg {
-          fill: var(--highlight);
-          width: 32px;
-          height: 32px;
-        }
-      }
-    }
-  }
+		#ees-playlist-creator {
+			font-size: 1.5rem;
+			color: var(--textlighter);
+		}
+
+		#ees-playlist-date {
+			color: var(--textlighter);
+		}
+
+		#ees-playlist-like {
+			margin-top: auto;
+			display: flex;
+			align-items: center;
+			gap: 7px;
+
+			#ees-playlist-like-button {
+				display: flex;
+				align-items: center;
+
+				svg {
+					fill: var(--highlight);
+					width: 32px;
+					height: 32px;
+				}
+			}
+		}
+	}
 }

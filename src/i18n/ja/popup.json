@@ -1,19 +1,19 @@
 {
 
-  "popup": {
-    "helloWorld": "ハロー・ワールド！",
-    "language": "言語",
-    "theme": "テーマ"
-  },
-  "options": {
-    "language": {
-      "en": "English",
-      "ja": "日本語"
-    },
-    "theme": {
-      "system": "システム",
-      "light": "ライト",
-      "dark": "ダーク"
-    }
-  }
+	"popup": {
+		"helloWorld": "ハロー・ワールド！",
+		"language": "言語",
+		"theme": "テーマ"
+	},
+	"options": {
+		"language": {
+			"en": "English",
+			"ja": "日本語"
+		},
+		"theme": {
+			"system": "システム",
+			"light": "ライト",
+			"dark": "ダーク"
+		}
+	}
 }

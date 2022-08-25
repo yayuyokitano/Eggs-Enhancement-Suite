@@ -1,0 +1,19 @@
+{
+	"plugin": [
+		"stylelint-scss"
+	],
+	"extends": [
+		"stylelint-config-recommended-scss",
+		"stylelint-prettier/recommended"
+	],
+	"ignoreFiles": [
+		"**/node_modules/**"
+	],
+	"rules": {
+		"at-rule-no-unknown": [true, {
+			"ignoreAtRules": ["function", "if", "use", "else", "for", "each", "include", "mixin", "content"]
+		}],
+		"no-descending-specificity": null,
+		"keyframe-declaration-no-important": null
+	}
+}

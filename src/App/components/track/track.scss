@@ -1,216 +1,212 @@
 .ees-track-container {
-  margin-bottom: 70px;
+	margin-bottom: 70px;
 }
 
 .clearfix::before {
-  border: none !important;
+	border: none !important;
 }
 
 .ees-track {
+	display: flex;
+	cursor: pointer;
+	padding: 4px;
+	box-sizing: content-box;
+	position: relative;
 
-  display: flex;
-  cursor: pointer;
-  padding: 4px;
-  box-sizing: content-box;
-  position: relative;
+	&:hover {
+		background-color: var(--eggsyellow);
+		color: var(--alwaysdark2);
 
-  &:hover {
-    background-color: var(--eggsyellow);
-    color: var(--alwaysdark2);
+		.ees-track-info .ees-artist-name {
+			color: var(--highlight);
+		}
+	}
 
-    .ees-track-info .ees-artist-name {
-      color: var(--highlight);
-    }
-  }
+	.ees-track-thumb {
+		object-fit: cover;
+	}
 
-  .ees-track-thumb {
-    object-fit: cover;
-  }
+	.ees-track-info {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 
-  .ees-track-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+		.ees-track-title {
+			white-space: nowrap;
+		}
 
-    .ees-track-title {
-      white-space: nowrap;
-    }
+		.ees-artist-name {
+			white-space: nowrap;
+			font-size: 0.7rem;
+			color: var(--textlighter);
+		}
 
-    .ees-artist-name {
-      white-space: nowrap;
-      font-size: 0.7rem;
-      color: var(--textlighter);
-    }
+		.ees-track-details {
+			display: flex;
+			flex-direction: row;
+			margin-bottom: 11px;
 
-    .ees-track-details{
-      display: flex;
-      flex-direction: row;
-      margin-bottom: 11px;
+			.ees-data-icon {
+				width: 12px;
+				height: 12px;
+			}
+			.ees-data-count {
+				font-size: 12px;
+				margin-left: 3px;
+			}
 
-      .ees-data-icon {
-        width: 12px;
-        height: 12px;
-      }
-      .ees-data-count {
-        font-size: 12px;
-        margin-left: 3px;
-      }
+			& > div {
+				display: flex;
+				align-items: center;
 
-      &>div {
-        display: flex;
-        align-items: center;
+				&:not(:last-child) .ees-data-count::after {
+					content: "・";
+				}
+			}
+		}
+	}
 
-        &:not(:last-child) .ees-data-count::after {
-          content: "・";
-        }
-      }
-    }
-  }
+	.ees-track-right {
+		display: flex;
+		margin-left: auto;
 
-  .ees-track-right {
-    display:flex;
-    margin-left: auto;
+		.ees-track-like svg {
+			fill: var(--highlight);
+		}
+	}
 
-    .ees-track-like svg {
-      fill: var(--highlight);
-    }
-  }
+	.ees-track-expandable {
+		position: absolute;
+		height: min-content;
+		right: 0;
+		margin-top: -2px;
 
-  .ees-track-expandable {
-    position: absolute;
-    height: min-content;
-    right: 0;
-    margin-top: -2px;
+		summary {
+			list-style: none;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-left: auto;
+		}
 
-    summary {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-left: auto;
-    }
+		&[open] {
+			.ees-track-menu {
+				border-radius: 0 0 5px 5px;
+				overflow: hidden;
+				box-shadow: 0px 2px 5px var(--shadow3);
+			}
 
-    &[open] {
+			summary {
+				align-items: flex-end;
+			}
+		}
 
-      .ees-track-menu{
-        border-radius: 0 0 5px 5px;
-        overflow: hidden;
-        box-shadow: 0px 2px 5px var(--shadow3);
-      }
-      
-      summary {
-        align-items: flex-end;
-      }
-    }
+		li {
+			background-color: var(--menubg);
+			padding: 0.5rem 0.75rem;
+			color: var(--textlight);
 
-    li {
-      background-color: var(--menubg);
-      padding: 0.5rem 0.75rem;
-      color: var(--textlight);
+			&:hover {
+				background-color: var(--highlight);
+				color: var(--alwayslight);
+			}
+		}
+	}
 
-      &:hover {
-        background-color: var(--highlight);
-        color: var(--alwayslight);
-      }
-    }
-  }
+	&:hover .ees-track-expandable summary {
+		background-color: var(--eggsyellow);
+	}
 
-  &:hover .ees-track-expandable summary {
-    background-color: var(--eggsyellow);
-  }
+	&.ees-track-normal {
+		height: 100px;
 
-  &.ees-track-normal {
+		.ees-track-info {
+			gap: 3px;
 
-    height: 100px;
+			.ees-track-title {
+				font-size: 1.5rem;
+			}
 
-    .ees-track-info {
-      gap: 3px;
+			.ees-artist-name {
+				margin-bottom: 6px;
+			}
+		}
 
-      .ees-track-title {
-        font-size: 1.5rem;
-      }
+		.ees-track-thumb {
+			width: 100px;
+			height: 100px;
+			margin-right: 24px;
+		}
 
-      .ees-artist-name {
-        margin-bottom: 6px;
-      }
-    }
+		.ees-track-like svg {
+			width: 32px;
+			height: 32px;
+		}
 
-    .ees-track-thumb {
-      width: 100px;
-      height: 100px;
-      margin-right: 24px;
-    }
+		.ees-track-right {
+			margin-right: 50px;
+		}
 
-    .ees-track-like svg {
-      width: 32px;
-      height: 32px;
-    }
+		.ees-track-expandable {
+			summary {
+				height: 100px;
+				width: 50px;
+			}
 
-    .ees-track-right {
-      margin-right: 50px;
-    }
+			&[open] {
+				summary {
+					height: 62px;
+				}
+			}
+		}
+	}
 
-    .ees-track-expandable {
-      summary {
-        height: 100px;
-        width: 50px;
-      }
+	&.ees-track-small {
+		height: 40px;
 
-      &[open] {
-        summary { 
-          height: 62px;
-        }
-      }
-    }
-  }
+		.ees-track-thumb {
+			width: 40px;
+			height: 40px;
+			margin-right: 12px;
+		}
 
-  &.ees-track-small {
+		.ees-track-info {
+			gap: 0;
+			max-width: 120px;
+			overflow: hidden;
 
-    height: 40px;
+			.ees-track-title {
+				font-size: 0.8rem;
+			}
 
-    .ees-track-thumb {
-      width: 40px;
-      height: 40px;
-      margin-right: 12px;
-    }
+			.ees-artist-name {
+				margin-bottom: 2px;
+			}
 
-    .ees-track-info {
-      gap: 0;
-      max-width: 120px;
-      overflow: hidden;
+			.ees-track-details {
+				display: none;
+			}
+		}
 
-      .ees-track-title {
-        font-size: 0.8rem;
-      }
+		.ees-track-right {
+			margin-right: 24px;
+		}
 
-      .ees-artist-name {
-        margin-bottom: 2px;
-      }
-  
-      .ees-track-details {
-        display: none;
-      }
-    }
+		.ees-track-like {
+			display: none;
+		}
 
-    .ees-track-right {
-      margin-right: 24px;
-    }
+		.ees-track-expandable {
+			summary {
+				height: 40px;
+				width: 24px;
+			}
 
-    .ees-track-like {
-      display: none;
-    }
-
-    .ees-track-expandable {
-      summary {
-        height: 40px;
-        width: 24px;
-      }
-
-      &[open] {
-        summary { 
-          height: 32px;
-        }
-      }
-    }
-  }
+			&[open] {
+				summary {
+					height: 32px;
+				}
+			}
+		}
+	}
 }

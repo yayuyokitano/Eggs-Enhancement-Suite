@@ -1,4 +1,4 @@
-import { eggsRequest } from "./request"
+import { eggsRequest } from "./request";
 
 export enum SourceType {
   Eggs = 1,
@@ -67,5 +67,5 @@ export interface ArtistEndpoint {
 }
 
 export async function artist(artistID:string) {
-  return eggsRequest(`artists/artists/${artistID}/musics`, {}) as Promise<ArtistEndpoint>;
+	return eggsRequest(`artists/artists/${artistID}/musics`, {}) as Promise<ArtistEndpoint>;
 }

@@ -1,57 +1,57 @@
 @use "../components/carousel.scss";
 
 .ees-article {
-  width: 220px;
-  height: 290px;
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-end;
-  align-items: center;
-  position: relative;
-  box-sizing: content-box;
-  padding: 10px;
-  padding-bottom: 20px;
-  margin: 10px;
-  border-radius: 10px;
-  background-color: var(--monoaccent);
+	width: 220px;
+	height: 290px;
+	display: flex;
+	flex-direction: column-reverse;
+	justify-content: flex-end;
+	align-items: center;
+	position: relative;
+	box-sizing: content-box;
+	padding: 10px;
+	padding-bottom: 20px;
+	margin: 10px;
+	border-radius: 10px;
+	background-color: var(--monoaccent);
 
-  .ees-article-text-wrapper {
-    height: 100%;
-    background-color: var(--bg);
-    padding: 10px;
-    border-radius: 10px;
+	.ees-article-text-wrapper {
+		height: 100%;
+		background-color: var(--bg);
+		padding: 10px;
+		border-radius: 10px;
 
-    .ees-article-title {
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-  }
+		.ees-article-title {
+			font-size: 14px;
+			font-weight: bold;
+			margin-bottom: 5px;
+		}
+	}
 
-  .m_octagon {
-    margin: 1rem 0;
-    width: 180px;
-    flex-shrink: 0;
+	.m_octagon {
+		margin: 1rem 0;
+		width: 180px;
+		flex-shrink: 0;
 
-    .ees-article-image {
-      object-fit: cover;
-    }
-  }
+		.ees-article-image {
+			object-fit: cover;
+		}
+	}
 
-  .ees-article-date {
-    position: absolute;
-    left: 11px;
-    top: 29px;
-    transform: rotate(-45deg);
-    font-size: 9px;
-    z-index: 1000;
-  }
+	.ees-article-date {
+		position: absolute;
+		left: 11px;
+		top: 29px;
+		transform: rotate(-45deg);
+		font-size: 9px;
+		z-index: 1000;
+	}
 
-  .ees-article-type {
-    position: absolute;
-    font-weight: bold;
-    color: var(--themedyellow);
-    right: 10px;
-    bottom: 0;
-  }
+	.ees-article-type {
+		position: absolute;
+		font-weight: bold;
+		color: var(--themedyellow);
+		right: 10px;
+		bottom: 0;
+	}
 }

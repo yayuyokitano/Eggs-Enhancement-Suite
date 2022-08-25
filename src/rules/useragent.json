@@ -1,11 +1,11 @@
 [{
-  "id": 1,
-  "priority": 1,
-  "action": {
-    "type": "modifyHeaders",
-    "requestHeaders": [
-      { "header": "User-Agent", "operation": "set", "value": "flamingo/7.1.00 (Android; 11)" }
-    ]
-  },
-  "condition": { "urlFilter": "api-flmg.eggs.mu/v1/" }
+	"id": 1,
+	"priority": 1,
+	"action": {
+		"type": "modifyHeaders",
+		"requestHeaders": [
+			{ "header": "User-Agent", "operation": "set", "value": "flamingo/7.1.00 (Android; 11)" }
+		]
+	},
+	"condition": { "urlFilter": "api-flmg.eggs.mu/v1/" }
 }]
