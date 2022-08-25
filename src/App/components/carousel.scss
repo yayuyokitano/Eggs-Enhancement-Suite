@@ -1,0 +1,30 @@
+.ees-carousel-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  &.ees-carousel-wrapper-large {
+    height: 342px;
+  }
+
+  .ees-carousel {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    scroll-behavior: smooth;
+  }
+
+  .ees-carousel-btn {
+    height: 100%;
+    padding: 0 10px;
+  
+    &:hover {
+      background-color: var(--eggsyellow);
+  
+      svg {
+        color: var(--alwaysdark);
+      }
+    }
+  }
+}

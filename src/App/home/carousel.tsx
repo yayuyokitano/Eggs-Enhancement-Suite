@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
-import "./carousel.scss";
+import "./carouselItems.scss";
 import { clamp } from "../../util/util";
 
-export default function Carousel(props: { children:JSX.Element[], width:number }) {
-  const { children, width } = props;
+export default function Carousel(props: { children:JSX.Element[], width:number, size:string }) {
+  const { children, width, size } = props;
   const [scroll, setScroll] = useState(0);
   const carouselRef = useRef<HTMLUListElement>(null);
 
@@ -17,12 +17,12 @@ export default function Carousel(props: { children:JSX.Element[], width:number }
   } , [scroll]);
 
   return (
-    <div className="ees-carousel-wrapper">
-      <button className="ees-carousel-prev" onClick={() => carouselPrev(width, scroll, setScroll)}><ArrowBackIosNewRoundedIcon /></button>
+    <div className={`ees-carousel-wrapper ees-carousel-wrapper-${size}`}>
+      <button className="ees-carousel-btn ees-carousel-prev" onClick={() => carouselPrev(width, scroll, setScroll)}><ArrowBackIosNewRoundedIcon /></button>
       <ul className="ees-carousel" ref={carouselRef}>
         {children.map((Item, i) => <CarouselItem key={i}>{Item}</CarouselItem>)}
       </ul>
-      <button className="ees-carousel-next" onClick={() => carouselNext(width, scroll, setScroll)}><ArrowForwardIosRoundedIcon /></button>
+      <button className="ees-carousel-btn ees-carousel-next" onClick={() => carouselNext(width, scroll, setScroll)}><ArrowForwardIosRoundedIcon /></button>
     </div>
   );
 }

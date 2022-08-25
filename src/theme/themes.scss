@@ -4,6 +4,7 @@ $themes: (
     alwaysdark: #000,
     alwaysdark2: #333,
     eggsyellow: #FDD001,
+    themedyellow: #FC7625,
     highlight: #D60010,
     shadow3: rgba(0, 0, 0, 0.3),
     shadow5: rgba(0, 0, 0, 0.5),
@@ -27,6 +28,7 @@ $themes: (
     alwaysdark: #000,
     alwaysdark2: #333,
     eggsyellow: #FDD001,
+    themedyellow: #FDD001,
     highlight: #D60010,
     shadow3: rgba(0, 0, 0, 0.3),
     shadow5: rgba(0, 0, 0, 0.5),
@@ -201,13 +203,13 @@ header:not(table) {
 .m_octagon:not(table) {
   &::before,
   &::after {
-    border-top: 32px solid var(--bg);
+    border-top: 32px solid var(--monoaccent);
   }
 
   &>span {
     &::before,
     &::after {
-      border-bottom: 32px solid var(--bg);
+      border-bottom: 32px solid var(--monoaccent);
     }
   }
 }
@@ -320,8 +322,8 @@ header:not(table) .globalnav li:not(#gn_notice):not(#gn_upload):not(#gn_curator)
 
 .ranking_category:not(table) li {
   span {
-    color: var(--eggsyellow);
-    border-bottom: 3px solid var(--eggsyellow);
+    color: var(--themedyellow);
+    border-bottom: 3px solid var(--themedyellow);
   }
 
   a {
@@ -329,8 +331,8 @@ header:not(table) .globalnav li:not(#gn_notice):not(#gn_upload):not(#gn_curator)
     border-bottom: none;
 
     &:hover {
-      color: var(--eggsyellow);
-      border-bottom: 3px solid var(--eggsyellow);
+      color: var(--themedyellow);
+      border-bottom: 3px solid var(--themedyellow);
     }
   }
 }

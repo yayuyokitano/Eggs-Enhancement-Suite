@@ -1,17 +1,8 @@
-.ees-carousel {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  overflow: hidden;
-  scroll-behavior: smooth;
-}
-
-
-// news articles
+@use "../components/carousel.scss";
 
 .ees-article {
-  width: 200px;
-  height: 270px;
+  width: 220px;
+  height: 290px;
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-end;
@@ -22,10 +13,13 @@
   padding-bottom: 20px;
   margin: 10px;
   border-radius: 10px;
-  border: 1px solid #eee;
+  background-color: var(--monoaccent);
 
   .ees-article-text-wrapper {
     height: 100%;
+    background-color: var(--bg);
+    padding: 10px;
+    border-radius: 10px;
 
     .ees-article-title {
       font-size: 14px;
@@ -46,8 +40,8 @@
 
   .ees-article-date {
     position: absolute;
-    left: -3px;
-    top: 21px;
+    left: 11px;
+    top: 29px;
     transform: rotate(-45deg);
     font-size: 9px;
     z-index: 1000;
@@ -55,7 +49,9 @@
 
   .ees-article-type {
     position: absolute;
-    right: 0;
+    font-weight: bold;
+    color: var(--themedyellow);
+    right: 10px;
     bottom: 0;
   }
 }

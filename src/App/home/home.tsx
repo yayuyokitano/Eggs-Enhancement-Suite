@@ -3,6 +3,8 @@ import { TFunction } from "react-i18next";
 import Carousel from "./carousel";
 import { NewsGenerator } from "./generators";
 
+import "./home.scss";
+
 export interface News {
   title: string;
   image: string;
@@ -25,5 +27,5 @@ export default function Home(t:TFunction) {
     })));
   }, []);
   
-  return <Carousel width={242}>{NewsGenerator(t, news)}</Carousel>
+  return <Carousel width={260} size="large">{NewsGenerator(t, news)}</Carousel>
 }
