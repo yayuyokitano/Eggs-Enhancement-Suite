@@ -212,6 +212,16 @@ header:not(table) {
 			border-bottom: 32px solid var(--monoaccent);
 		}
 	}
+
+	&::before,
+	& > span::before {
+		border-right: 32px solid transparent;
+	}
+
+	&::after,
+	& > span::after {
+		border-left: 32px solid transparent;
+	}
 }
 
 .mainv:not(table)::before {
