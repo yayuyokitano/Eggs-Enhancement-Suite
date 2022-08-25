@@ -31,6 +31,10 @@ $metadata-width-small: 5rem;
 	gap: $player-padding;
 	z-index: 9;
 
+	svg {
+		fill: var(--textlight);
+	}
+
 	#ees-player-thumbnail {
 		width: 64px;
 		height: 64px;
@@ -82,7 +86,7 @@ $metadata-width-small: 5rem;
 
 			.ees-navtype[data-state="false"] svg,
 			.ees-navtype[data-state="0"] svg {
-				fill: var(--text);
+				fill: var(--textlight);
 			}
 
 			.ees-navtype svg {

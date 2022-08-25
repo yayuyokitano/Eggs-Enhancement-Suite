@@ -61,7 +61,7 @@ export async function runTest(drivers:ThenableWebDriver[], test:(driver:Thenable
 	}
 	for (const test of (await Promise.all(tests))) {
 		if (test !== undefined) {
-			throw new Error("Test failed");
+			throw new Error("test failed");
 		}
 	}
 	return true;

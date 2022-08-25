@@ -30,7 +30,7 @@ export default function TrackContainer(props: {data:SongData[]|SongDataWIndex[]|
 		<ul className="ees-track-container">
 			{data?.map((song, i) => (
 				<Track
-					key={song.musicId}
+					key={i}
 					track={song}
 					size={size}
 					z={("eesIndex" in song) ? 10000000 - song.eesIndex : data.length-i}

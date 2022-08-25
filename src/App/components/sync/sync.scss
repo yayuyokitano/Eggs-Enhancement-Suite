@@ -48,13 +48,14 @@
 		svg {
 			width: 32px;
 			height: 32px;
+			fill: var(--textlight);
 		}
 
 		&:hover {
 			background-color: var(--eggsyellow);
 
 			svg {
-				color: var(--alwaysdark2);
+				fill: var(--alwaysdark2);
 			}
 		}
 

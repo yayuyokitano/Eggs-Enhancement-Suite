@@ -51,7 +51,7 @@ export async function getEggshellverFollowsWrapped(eggsID:string) {
 export async function postFollows(followees:UserStub[]) {
 	const userStubRes = await postUserStubs(followees);
 	if (!userStubRes.ok) {
-		throw new Error("UserStubs:"+await userStubRes.text());
+		throw new Error("userStubs:"+await userStubRes.text());
 	}
 	const res = await fetch(`${baseURL}/follows`, {
 		method: "POST",
@@ -67,7 +67,7 @@ export async function postFollows(followees:UserStub[]) {
 export async function putFollows(followees:UserStub[]) {
 	const userStubRes = await postUserStubs(followees);
 	if (!userStubRes.ok) {
-		throw new Error("UserStubs:"+await userStubRes.text());
+		throw new Error("userStubs:"+await userStubRes.text());
 	}
 	const res = await fetch(`${baseURL}/follows`, {
 		method: "PUT",

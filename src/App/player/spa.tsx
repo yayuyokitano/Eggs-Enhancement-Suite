@@ -202,11 +202,11 @@ function Player(props:{ t:TFunction, playbackController?:PlaybackController, set
 					<div
 						id="ees-player-controls-time"
 						data-current={timeData?.current}
-						data-duration={timeData?.duration}>
+						data-duration={timeData?.duration || 0}>
 						<span id="ees-player-current-time">{convertTime(timeData?.current ?? 0)}</span>
 						<progress
 							value={timeData?.current}
-							max={timeData?.duration}
+							max={timeData?.duration || 0}
 							onClick={(e) => { 
 								playbackController?.setCurrentTime((e.clientX - e.currentTarget.offsetLeft) / e.currentTarget.offsetWidth);
 							}} />

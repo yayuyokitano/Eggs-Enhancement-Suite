@@ -13,12 +13,20 @@
 	box-sizing: content-box;
 	position: relative;
 
+	svg {
+		fill: var(--textlight);
+	}
+
 	&:hover {
 		background-color: var(--eggsyellow);
 		color: var(--alwaysdark2);
 
 		.ees-track-info .ees-artist-name {
 			color: var(--highlight);
+		}
+
+		svg {
+			fill: var(--alwaysdark2);
 		}
 	}
 

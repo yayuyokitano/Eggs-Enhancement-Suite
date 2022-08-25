@@ -15,7 +15,7 @@ export class Scrobbler {
 				this._loggedIn = true;
 				resolve(data.lastfmToken);
 			} else {
-				reject("No session key found");
+				reject("no session key found");
 			}
 		});
 	});

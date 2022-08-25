@@ -45,7 +45,7 @@ export async function getEggsHeaders(isAuthorizedRequest = false):Promise<{
 	const token = await getToken();
 	if (isAuthorizedRequest) {
 		if (!token) {
-			throw new Error("Not logged in.");
+			throw new Error("not logged in.");
 		}
 		return {
 			"User-Agent": eggsUserAgent,
