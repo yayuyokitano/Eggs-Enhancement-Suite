@@ -1,8 +1,8 @@
 import { TFunction } from "react-i18next";
-import SyncRoundedIcon from "@mui/icons-material/SyncRounded";
 import "./sync.scss";
 import Syncer from "./syncer";
-import React, { useEffect } from "react";
+import React from "react";
+import { SyncRoundedIcon } from "../../../util/icons";
 
 function toggleSyncActive() {
   const queue = document.getElementById("ees-sync") as HTMLDivElement;

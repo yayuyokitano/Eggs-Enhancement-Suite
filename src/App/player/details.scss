@@ -61,6 +61,7 @@ $player-height: 78px;
         transition: filter 0.2s ease-in-out;
         width: 32px;
         height: 32px;
+        fill: var(--alwayslight);
       }
     }
 
@@ -101,7 +102,6 @@ $player-height: 78px;
       position: absolute;
       top: 1rem;
       right: 1rem;
-      color: var(--bg);
 
       button {
         filter: drop-shadow(0 0 3px var(--shadow5));
@@ -111,6 +111,7 @@ $player-height: 78px;
           transition: filter 0.2s ease-in-out;
           width: 32px;
           height: 32px;
+          fill: var(--alwayslight);
         }
 
         &:hover {

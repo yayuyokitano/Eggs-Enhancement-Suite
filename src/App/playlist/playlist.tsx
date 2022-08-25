@@ -1,7 +1,6 @@
-import FavoriteBorderRounded from "@mui/icons-material/FavoriteBorderRounded";
-import FavoriteRounded from "@mui/icons-material/FavoriteRounded";
 import { useEffect, useState } from "react";
 import { TFunction } from "react-i18next";
+import { FavoriteBorderRoundedIcon, FavoriteRoundedIcon } from "../../util/icons";
 import { likePlaylist, playlistLikeInfo } from "../../util/wrapper/eggs/evaluation";
 import { Playlist, playlist } from "../../util/wrapper/eggs/playlists";
 import { PlaylistCover } from "../components/playlistcover";
@@ -68,7 +67,7 @@ export default function Playlist(t:TFunction) {
               likePlaylist(playlistID);
             }}>
               {
-                isLiked ? <FavoriteRounded /> : <FavoriteBorderRounded />
+                isLiked ? <FavoriteRoundedIcon /> : <FavoriteBorderRoundedIcon />
               }
             </button>
             <span id="ees-playlist-like-count">{likeCount}</span>

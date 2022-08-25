@@ -3,18 +3,9 @@ import ReactDOM from 'react-dom/client';
 import { convertTime, defaultAvatar, getVolume, lastfmAuthLink, processAlbumName, processArtistName, processTrackName, updateVolume } from '../../util/util';
 import { SongData } from '../../util/wrapper/eggs/artist';
 import { initializePlayback, PlaybackController } from './playback';
-import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
-import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
-import SkipNextRoundedIcon from '@mui/icons-material/SkipNextRounded';
-import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded';
-import ShuffleRoundedIcon from '@mui/icons-material/ShuffleRounded';
-import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
-import RepeatOneRoundedIcon from '@mui/icons-material/RepeatOneRounded';
-import DetailsRoundedIcon from "@mui/icons-material/DetailsRounded";
-import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
 import "./spa.scss";
 import { Repeat } from '../../util/queue';
-import { LastFMIcon } from '../../util/icons';
+import { DetailsRoundedIcon, LastFMIcon, PauseRoundedIcon, PlayArrowRoundedIcon, RepeatOneRoundedIcon, RepeatRoundedIcon, ShuffleRoundedIcon, SkipNextRoundedIcon, SkipPreviousRoundedIcon, VolumeUpRoundedIcon } from '../../util/icons';
 import LastFM from "../../util/wrapper/lastfm";
 import { getInfo as TrackInfo } from "../../util/wrapper/lastfm/interfaces/trackInterface";
 import { apiKey, apiSecret, userAgent } from '../../util/scrobbler';
@@ -28,9 +19,25 @@ import Sync from "../components/sync/sync";
 import { updateTheme } from '../../theme/themes';
 var root:ReactDOM.Root;
 
+function deleteNewElements() {
+  const deleter = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        node.parentElement?.removeChild(node);
+      });
+    });
+  });
+  deleter.observe(document.body, { childList: true });
+
+}
+
 export function createSpa() {
-  const root = ReactDOM.createRoot(document.body);
+  const wrapper = document.createElement("div");
+  wrapper.id = "eggs-full-wrapper";
+  document.body.replaceChildren(wrapper);
+  const root = ReactDOM.createRoot(wrapper);
   root.render(<SPA />);
+  deleteNewElements();
 }
 
 function updateScrollables() {

@@ -352,3 +352,8 @@ header:not(table) .globalnav li:not(#gn_notice):not(#gn_upload):not(#gn_curator)
 .sp-arrow {
   filter: var(--inverted);
 }
+
+.MuiSvgIcon-fontSizeMedium {
+  width: 24px;
+  height: 24px;
+}

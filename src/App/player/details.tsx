@@ -1,12 +1,10 @@
 import React from "react";
 
 import { SongData } from "util/wrapper/eggs/artist";
-import OpenInFullRoundedIcon from "@mui/icons-material/OpenInFullRounded";
-import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import "./details.scss";
 import { TFunction } from "react-i18next";
+import { CloseRoundedIcon, DownloadRoundedIcon, OpenInFullRoundedIcon } from "../../util/icons";
 
 function openTrackImage() {
   const dialog = document.getElementById("ees-cover-expanded") as HTMLDialogElement;

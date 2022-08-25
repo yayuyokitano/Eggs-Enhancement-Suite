@@ -185,6 +185,7 @@ export async function queryAsync(selector:string):Promise<Element> {
     });
     observer.observe(document, {
       childList: true,
+      subtree: true,
     });
   });
 }

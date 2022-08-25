@@ -1,13 +1,9 @@
 import { defaultAvatar } from "../../../util/util";
 import { SongData } from "../../../util/wrapper/eggs/artist";
-import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
-import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
-import ModeCommentRoundedIcon from '@mui/icons-material/ModeCommentRounded';
-import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import "./track.scss";
 import { TFunction } from "react-i18next";
 import { PlaybackController } from "App/player/playback";
+import { FavoriteBorderRoundedIcon, FavoriteRoundedIcon, ModeCommentRoundedIcon, MoreVertRoundedIcon, PlayArrowRoundedIcon } from "../../../util/icons";
 
 export interface SongDataWIndex extends SongData {
   eesIndex:number;

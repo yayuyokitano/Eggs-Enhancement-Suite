@@ -32,6 +32,17 @@ function App(props: {endpoint: {
 	)*/
 }
 
+async function bodyExists() {
+  return new Promise((resolve) => {
+    const interval = setInterval(() => {
+      if (document.body) {
+        clearInterval(interval);
+        resolve(true);
+      }
+    }, 1);
+  });
+}
+
 async function loadContent() {
 
   try {
@@ -39,10 +50,10 @@ async function loadContent() {
   } catch {
     console.error("Failed to authenticate, invalid key");
   }
-  await initializeThemes();
   // Create SPA if top level
   if (window.frameElement === null || window.frameElement.classList.contains("aut-iframe")) {
     createSpa();
+    await initializeThemes();
     return;
   }
 
@@ -55,11 +66,19 @@ async function loadContent() {
   }
 
 
+  console.log(rootSelector);
   const rootElement = await queryAsync(rootSelector);
+  console.log(rootElement);
   const root = ReactDOM.createRoot(rootElement);
   root.render(<App endpoint={endpoint} />);
+  await initializeThemes();
 }
-loadContent();
+
+async function waitForLoad() {
+  await bodyExists();
+  loadContent();
+}
+waitForLoad();
 
 function processedPathname() {
   const playlistConcat = new URLSearchParams(window.location.search).has("playlist") ? "playlist" : "";

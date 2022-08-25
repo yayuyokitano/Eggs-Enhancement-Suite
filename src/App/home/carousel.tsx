@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import "./carouselItems.scss";
 import { clamp } from "../../util/util";
+import { ArrowBackIosNewRoundedIcon, ArrowForwardIosRoundedIcon } from "../../util/icons";
 
 export default function Carousel(props: { children:JSX.Element[], width:number, size:string }) {
   const { children, width, size } = props;

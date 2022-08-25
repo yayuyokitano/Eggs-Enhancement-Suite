@@ -1,9 +1,9 @@
-import QueueMusicRoundedIcon from "@mui/icons-material/QueueMusicRounded";
+import { QueueMusicRoundedIcon } from "../../util/icons";
 import TrackContainer from "../components/track/trackContainer";
 import { TFunction } from "react-i18next";
 import { PlaybackController } from "./playback";
 import "./queue.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function toggleQueueActive() {
   const queue = document.getElementById("ees-player-queue") as HTMLDivElement;
