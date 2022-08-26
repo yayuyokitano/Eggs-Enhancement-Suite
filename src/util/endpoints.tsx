@@ -51,6 +51,9 @@ export const endpoints:{[key:string]:{
 async function fetchArtist(cache:Cacher) {
 	fetchProfile(cache);
 	const artistID = window.location.pathname.split("/")[2];
+
+	// for some reason this breaks in the dev environment sometimes, dont worry about it, it works in prod.
+	// even if it breaks it only slows down load by about 100ms its fine.
 	const artistData = await artist(artistID, cache);
 	songLikeInfo(artistData.data.map((song) => song.musicId), cache);
 }
