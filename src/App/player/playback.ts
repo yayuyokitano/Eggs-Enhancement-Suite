@@ -1,3 +1,4 @@
+import { Incrementer } from "../../App/components/sync/itemFetcher";
 import EventEmitter from "events";
 import ReactDOM from "react-dom/client";
 import TypedEmitter from "typed-emitter";
@@ -5,10 +6,11 @@ import TypedEmitter from "typed-emitter";
 import { Queue, Repeat } from "../../util/queue";
 import { SongData } from "../../util/wrapper/eggs/artist";
 import { TimeData } from "./types";
+import { currySongFunction, SongCurry } from "../../util/util";
 
 export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>, volume:number) {
 	const playbackController = new PlaybackController(root, true, Repeat.All, setCurrent, youtube, setTimeData, setShuffle, setRepeat, volume);
-	window.addEventListener("message", (event) => {
+	window.addEventListener("message", async(event) => {
 		if (event.origin !== window.location.origin) {
 			return;
 		}
@@ -21,6 +23,19 @@ export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch
 			const track = event.data.data.track as SongData;
 			const trackList = event.data.data.trackList as SongData[];
 			playbackController.setPlayback(trackList, track);
+			break;
+		}
+		case "setPlaybackDynamic": {
+			const eggsGetCurry = event.data.data.eggsGetSongCurry as SongCurry;
+			const eggsGet = currySongFunction(eggsGetCurry);
+			const incrementer = new Incrementer(eggsGet, 1);
+			try {
+				const initialItems = (await incrementer.getPage()).data.flat();
+				playbackController.setPlaybackDynamic(initialItems, incrementer);
+			} catch(err) {
+				console.error(err);
+			}
+
 			break;
 		}
 		case "playNext": {
@@ -75,6 +90,12 @@ export class PlaybackController extends (EventEmitter as new () => TypedEmitter<
 		this.play();
 		this.emit("update");
 		this.queue.on("update", () => { this.emit("update"); });
+	}
+
+	public async setPlaybackDynamic(initialQueue:SongData[], incrementer:Incrementer<SongData>) {
+		this.queue?.destroy();
+		this.queue = new Queue(initialQueue, initialQueue[0], this.root, this.shuffle, this.repeat, this.setCurrent, this.youtube, this.setTimeData, this._volume, incrementer);
+		this.emit("update");
 	}
 
 	public play() {

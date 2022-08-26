@@ -74,7 +74,7 @@ export async function getEggsTrackLikesWrapped(offset:string, limit:number) {
 		offset: offsetNum,
 	});
 	return {
-		syncItems: likes.data.map(like => like.musicId),
+		data: likes.data.map(like => like.musicId),
 		totalCount: likes.totalCount,
 		offset: (offsetNum + limit).toString()
 	};
@@ -106,7 +106,7 @@ export async function getEggsPlaylistLikesWrapped(offset:string, limit:number) {
 		offset: offsetNum,
 	});
 	return {
-		syncItems: likes.data.map(like => like.playlistId),
+		data: likes.data.map(like => like.playlistId),
 		totalCount: likes.totalCount,
 		offset: (offsetNum + limit).toString()
 	};

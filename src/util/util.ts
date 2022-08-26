@@ -2,6 +2,8 @@ import { PlaybackController } from "App/player/playback";
 import { TFunction } from "react-i18next";
 import browser from "webextension-polyfill";
 import { apiKey } from "./scrobbler";
+import { artistAllTracks, artistNewTrack, artistTopTrack } from "./wrapper/eggs/artist";
+import { curryEggsRecommendedArtistsWrapped } from "./wrapper/eggs/recommend";
 
 const generateRandomHex = (size:number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join("");
 
@@ -242,3 +244,37 @@ function removeTrailingSlash(path: string) {
 }
 
 export const sleep:(ms:number) => Promise<void> = (ms:number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export const getArtistPage = (artistName:string) => `https://eggs.mu/artist/${artistName}`;
+
+export type ArtistFetcherString = "curryEggsRecommendedArtistsWrapped";
+export type SongFetcherString = "artistAllTracks"|"artistTopTrack"|"artistNewTrack";
+
+export interface SongCurry {
+	artistFetcher:ArtistFetcherString;
+	songFetcher:SongFetcherString;
+}
+
+export function currySongFunction(songCurry:SongCurry) {
+	const songFunction = getSongFunction(songCurry.songFetcher);
+	
+	switch(songCurry.artistFetcher) {
+	case "curryEggsRecommendedArtistsWrapped":
+		return curryEggsRecommendedArtistsWrapped(songFunction);
+	}
+}
+
+function getSongFunction(name:SongFetcherString) {
+	switch(name) {
+	case "artistAllTracks": {
+		return artistAllTracks;
+	}
+	case "artistNewTrack": {
+		return artistNewTrack;
+	}
+	case "artistTopTrack": {
+		return artistTopTrack;
+	}
+	}
+}
+//eggsGetSongCurry:(trackFunc: (artistID: string, cache?: Cacher) => Promise<SongData[]>) => EggsGet<SongData>

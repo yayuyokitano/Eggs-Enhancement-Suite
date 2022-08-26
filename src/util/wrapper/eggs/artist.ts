@@ -67,6 +67,26 @@ export interface ArtistEndpoint {
   data: SongData[]
 }
 
-export async function artist(artistID:string, cache?:Cacher) {
+export async function artistTracks(artistID:string, cache?:Cacher) {
 	return eggsRequest(`artists/artists/${artistID}/musics`, {}, {cache}) as Promise<ArtistEndpoint>;
+}
+
+
+export async function artistAllTracks(artistID:string, cache?:Cacher) {
+	return (await artistTracks(artistID, cache)).data;
+}
+
+export async function artistNewTrack(artistID:string, cache?:Cacher) {
+	return (await eggsRequest(`artists/artists/${artistID}/musics?limit=1`, {}, {cache}) as ArtistEndpoint).data;
+}
+
+export async function artistTopTrack(artistID:string, cache?:Cacher) {
+	const allTracks = await artistAllTracks(artistID, cache);
+	let topTrack = allTracks[0];
+	for (const track of allTracks) {
+		if (track.numberOfMusicPlays > topTrack.numberOfMusicPlays) {
+			topTrack = track;
+		}
+	}
+	return [topTrack];
 }

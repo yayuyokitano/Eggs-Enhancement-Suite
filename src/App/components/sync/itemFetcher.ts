@@ -11,8 +11,8 @@ interface SingleItem<T> {
   totalCount:number;
 }
 
-interface SyncItems<T> {
-  syncItems:T[];
+interface IncrementerItems<T> {
+  data:T[];
   totalCount:number;
   offset:string;
 }
@@ -22,13 +22,14 @@ export enum IncrementerError {
   NoItemsError = "NoItemsError",
 }
 
-class Incrementer<T> {
+export class Incrementer<T> {
 
 	private eggsGet:EggsGet<T>;
 	private offset = "";
 	private limit:number;
 	private prevCount = -1;
 	private ready:Promise<void>; //rate limit avoider
+	private alive = true;
 
 	constructor(eggsGet:EggsGet<T>, limit:number) {
 		this.eggsGet = eggsGet;
@@ -37,6 +38,7 @@ class Incrementer<T> {
 	}
 
 	public async getPage() {
+		if (!this.alive) throw new Error(IncrementerError.NoItemsError);
 		await this.ready;
 		const items = await this.eggsGet(this.offset, this.limit);
 		this.offset = items.offset;
@@ -44,10 +46,18 @@ class Incrementer<T> {
 		if (items.totalCount === 0) throw new Error(IncrementerError.NoItemsError);
 		if (items.totalCount < this.prevCount) throw new Error(IncrementerError.CountDecreaseError);
 
-		items.syncItems = items.syncItems.slice(items.totalCount - this.prevCount);
+		items.data = items.data.slice(items.totalCount - this.prevCount);
 		this.prevCount = items.totalCount;
 		this.ready = Promise.resolve(sleep(800 + (200 * Math.random())));
 		return items;
+	}
+
+	public kill() {
+		this.alive = false;
+	}
+
+	public get isAlive() {
+		return this.alive;
 	}
 
 }
@@ -71,7 +81,7 @@ type FetcherEmitters = {
 }
 
 type EggshellverGet<T> = (eggsID:string) => Promise<SingleItem<T>>;
-type EggsGet<T> = (offset:string, limit:number) => Promise<SyncItems<T>>;
+export type EggsGet<T> = (offset:string, limit:number) => Promise<IncrementerItems<T>>;
 
 export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmitter<FetcherEmitters>) {
 
@@ -108,19 +118,19 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
 		await this.completeFullScan(eggs);
 	}
 
-	private async completeFullScan(eggs:SyncItems<T>) {
+	private async completeFullScan(eggs:IncrementerItems<T>) {
 		while (this.count < eggs.totalCount) {
 			try {
 				this.emitProgress(this.count, eggs.totalCount, FetchLabel.FETCHING_FULL);
 				const newEggs = await this.incrementer.getPage();
-				eggs.syncItems.push(...newEggs.syncItems);
+				eggs.data.push(...newEggs.data);
 				eggs.offset = newEggs.offset;
 				eggs.totalCount = newEggs.totalCount;
 				this.count += this.limit;
 			} catch(err) {
 				if (err instanceof Error && err.message === IncrementerError.NoItemsError) {
 					try {
-						await this.putFunction(eggs.syncItems);
+						await this.putFunction(eggs.data);
 						this.emitComplete();
 					} catch(err) {
 						console.error(err);
@@ -135,7 +145,7 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
 		}
 
 		try {
-			await this.putFunction(eggs.syncItems);
+			await this.putFunction(eggs.data);
 			this.emitComplete();
 		} catch(err) {
 			console.error(err);
@@ -150,14 +160,14 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
 		} catch(err) {
 			console.error(err);
 			this.emitError(err);
-			return {eggs: {syncItems: [], totalCount: 0, offset: ""}, shouldFullscan: false};
+			return {eggs: {data: [], totalCount: 0, offset: ""}, shouldFullscan: false};
 		}
 
-		let eggs:SyncItems<T>;
+		let eggs:IncrementerItems<T>;
 		try {
 			eggs = await this.incrementer.getPage();
 		} catch(err) {
-			return {eggs: {syncItems: [], totalCount: 0, offset: ""}, shouldFullscan: true};
+			return {eggs: {data: [], totalCount: 0, offset: ""}, shouldFullscan: true};
 		}
     
 		this.count += this.limit;
@@ -167,7 +177,7 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
 			try {
 				this.emitProgress(this.count, eggs.totalCount - eggshellver.totalCount, FetchLabel.FETCHING_PARTIAL);
 				const newEggs = await this.incrementer.getPage();
-				eggs.syncItems.push(...newEggs.syncItems);
+				eggs.data.push(...newEggs.data);
 				eggs.offset = newEggs.offset;
 				eggs.totalCount = newEggs.totalCount;
 				this.count += this.limit;
@@ -183,13 +193,13 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
 
 		let shouldFullscan = false;
 
-		if (eggshellver.item && eggs.syncItems.filter((e) => fetchFilter(e, eggshellver.item)).length === 0) {
+		if (eggshellver.item && eggs.data.filter((e) => fetchFilter(e, eggshellver.item)).length === 0) {
 			shouldFullscan = true;
 			return {eggs, shouldFullscan};
 		}
 
 		try {
-			await this.postFunction(eggs.syncItems);
+			await this.postFunction(eggs.data);
 			this.emitComplete();
 		} catch(err) {
 			console.error(err);

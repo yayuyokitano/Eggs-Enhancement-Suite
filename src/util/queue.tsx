@@ -8,6 +8,7 @@ import EventEmitter from "events";
 import TypedEmitter from "typed-emitter";
 import { TimeData } from "../App/player/types";
 import { Scrobbler } from "./scrobbler";
+import { Incrementer, IncrementerError } from "../App/components/sync/itemFetcher";
 
 
 export enum Repeat {
@@ -255,13 +256,26 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 		this.secondUpdate();
 	}, 1000);
 	private _volume;
+	private incrementer?:Incrementer<SongData>;
+	private populating = false;
 
-	constructor(initialQueue:SongData[], initialElement:SongData, root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, volume:number) {
+	constructor(
+		initialQueue:SongData[],
+		initialElement:SongData,
+		root:ReactDOM.Root,
+		shuffle:boolean,
+		repeat:Repeat,
+		setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>,
+		youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>,
+		volume:number,
+		incrementer?:Incrementer<SongData>
+	) {
+
 		super();
 		this.initialQueue = initialQueue;
+		this._current = initialElement;
 		this._shuffle = shuffle;
 		this._repeat = repeat;
-		this._current = initialElement;
 		this.preloader = new DOMPreloader(root);
 		this.historyStack = new HistoryStack();
 		this.setCurrent = setCurrent;
@@ -271,7 +285,8 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 		this.currentElement.destroy();
 		this._volume = volume;
 		this.volume = volume;
-
+		this.incrementer = incrementer;
+			
 		this.current = initialElement;
 		this.populate();
 	}
@@ -349,9 +364,24 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 		this.preloader.render(tracks);
 	}
 
-	private populate() {
+	private async populate() {
 
-		if (this.innerQueue.length >= 50) {
+		if (this.innerQueue.length >= 50 || this.populating) return;
+		this.populating = true;
+
+		// ignore options and use incrementer if present
+		if (this.incrementer) {
+			try {
+				this.innerQueue.add(...(await this.incrementer.getPage()).data);
+			} catch(err) {
+				// stop populating if there is an empty items error
+				if (err instanceof Error && err.message === IncrementerError.NoItemsError) {
+					return;
+				}
+			}
+			this.emit("update");
+			this.preload();
+			this.populating = false;
 			return;
 		}
 
@@ -366,23 +396,25 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 			}
 		}
 
-		if (this._repeat === Repeat.None) return;
+		if (this._repeat !== Repeat.None) {
+			while (this.innerQueue.length < 50) {
 
-		while (this.innerQueue.length < 50) {
-
-			if (this._repeat === Repeat.One) {
-				this.innerQueue.add(this.current);
-				continue;
-			}
-
-			if (this._shuffle) {
-				this.innerQueue.add(...shuffleArray(this.initialQueue));
-			} else {
-				this.innerQueue.add(...this.initialQueue);
+				if (this._repeat === Repeat.One) {
+					this.innerQueue.add(this.current);
+					continue;
+				}
+	
+				if (this._shuffle) {
+					this.innerQueue.add(...shuffleArray(this.initialQueue));
+				} else {
+					this.innerQueue.add(...this.initialQueue);
+				}
 			}
 		}
+		
 		this.emit("update");
 		this.preload();
+		this.populating = false;
 
 	}
   

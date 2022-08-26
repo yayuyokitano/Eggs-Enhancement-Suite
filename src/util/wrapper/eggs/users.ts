@@ -47,7 +47,7 @@ export async function getEggsFollowsWrapped(offset:string, limit:number) {
 	const offsetNum = offset === "" ? 0 : Number(offset);
 	const follows = await getFollows(limit, offsetNum);
 	return {
-		syncItems: follows.data.map(follow => artistToUserStub(follow)),
+		data: follows.data.map(follow => artistToUserStub(follow)),
 		totalCount: follows.totalCount,
 		offset: (offsetNum + limit).toString()
 	};

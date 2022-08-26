@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { TFunction } from "react-i18next";
 import { ArtistEndpoint } from "../../util/wrapper/eggs/artist";
 import "./artist.scss";
-import { artist } from "../../util/wrapper/eggs/artist";
+import { artistTracks } from "../../util/wrapper/eggs/artist";
 import TrackContainer from "../components/track/trackContainer";
 
 export default function Artist(t:TFunction) {
@@ -19,7 +19,7 @@ export default function Artist(t:TFunction) {
 			ref.current.appendChild(artistElement);
 		}
 		setLoading(true);
-		artist(artistID).then((artistData) => {
+		artistTracks(artistID).then((artistData) => {
 			setData(artistData);
 			setLoading(false);
 			if (ref.current === null) {

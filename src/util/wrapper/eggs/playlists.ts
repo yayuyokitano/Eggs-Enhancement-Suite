@@ -52,7 +52,7 @@ export async function getPlaylists(limit:number, options?: {
 export async function getEggsPlaylistsWrapped(offset:string, limit:number) {
 	const playlists = await getPlaylists(limit, { offsetHash: offset || undefined });
 	return {
-		syncItems: playlists.data.map(playlist => ({
+		data: playlists.data.map(playlist => ({
 			playlistID: playlist.playlistId,
 			lastModified: new Date(playlist.updatedAt),
 		})),

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { TFunction } from "react-i18next";
+import { getEggsRecommendedArtistsWrapped } from "../../util/wrapper/eggs/recommend";
 import Carousel from "./carousel";
-import { NewsGenerator } from "./generators";
+import { NewsGenerator, RecommendedGenerator } from "./generators";
 
 import "./home.scss";
 
@@ -26,8 +27,19 @@ export default function Home(t:TFunction) {
 			type: el.querySelector(".article_category")?.textContent ?? "error",
 		})));
 	}, []);
-  
-	return <Carousel
-		width={260}
-		size="large">{NewsGenerator(t, news)}</Carousel>;
+	return (
+		<div id="ees-home-wrapper">
+			<Carousel
+				width={260}
+				size="large"
+				type="basic">{NewsGenerator(t, news)}</Carousel>
+			<Carousel
+				width={260}
+				size="large"
+				type="artist"
+				eggsGet={getEggsRecommendedArtistsWrapped}
+				elementGenerator={RecommendedGenerator}
+				eggsGetSongCurry="curryEggsRecommendedArtistsWrapped"></Carousel>
+		</div>
+	);
 }
