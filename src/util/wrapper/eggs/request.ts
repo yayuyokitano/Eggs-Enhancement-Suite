@@ -1,5 +1,7 @@
 import { eggsRoot, getEggsHeaders } from "../../util";
 
+console.log("a");
+
 export async function eggsRequest<Req extends object, Res extends object>(url: string, body:Req, options?:{
   isPostRequest?: boolean,
   isPutRequest?: boolean,

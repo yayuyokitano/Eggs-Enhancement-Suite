@@ -1,6 +1,6 @@
 import { TFunction } from "react-i18next";
 import "./sync.scss";
-import Syncer from "./syncer";
+import Syncer, { StateAction, StatusMessage, SyncStateReducerType } from "./syncer";
 import React from "react";
 import { SyncRoundedIcon } from "../../../util/icons";
 
@@ -11,18 +11,6 @@ function toggleSyncActive() {
 
 interface SyncState extends SyncStateReducerType {
   state: "" | "syncing" | "errored";
-}
-
-interface SyncStateReducerType {
-  progressPart: {
-    value: number;
-    max: number;
-  },
-  progressFull: {
-    value: number;
-    max: number;
-  },
-  status: StatusMessage;
 }
 
 const initialState:SyncState = {
@@ -40,17 +28,6 @@ const initialState:SyncState = {
 	state: "",
 };
 
-export type StateAction = ({
-  type: "updateStatus";
-  payload: SyncStateReducerType;
-})|({
-  type: "setState";
-  payload: ""|"syncing"|"errored";
-})|({
-  type: "updateMessage";
-  payload: StatusMessage;
-});
-
 function statusHandler(t:TFunction, status:StatusMessage) {
 	if (status.options != undefined) {
 		return t(status.key, {
@@ -59,14 +36,6 @@ function statusHandler(t:TFunction, status:StatusMessage) {
 		});
 	}
 	return t(status.key);
-}
-
-interface StatusMessage {
-  key: string;
-  options?: {
-    part: string;
-    progress?: number;
-  };
 }
 
 function reducer(state:SyncState, action:StateAction):SyncState {

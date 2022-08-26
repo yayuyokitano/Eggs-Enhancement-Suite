@@ -182,13 +182,7 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
 
 		let shouldFullscan = false;
 
-		//yes this is cursed im sorry
-		if (eggshellver.item && eggs.syncItems.filter((e) => e === eggshellver.item
-      || ("userName" in e
-      && (e as UserStub).userName === (eggshellver.item as UserStub).userName)
-      || ("playlistID" in e
-      && (e as PlaylistWrapper).playlistID === (eggshellver.item as PlaylistWrapper).playlistID))
-			.length === 0) {
+		if (eggshellver.item && eggs.syncItems.filter((e) => fetchFilter(e, eggshellver.item)).length === 0) {
 			shouldFullscan = true;
 			return {eggs, shouldFullscan};
 		}
@@ -230,4 +224,13 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
 		}
 		this.emit("error", new Error(JSON.stringify(error)));
 	}
+}
+
+//yes this is cursed im sorry
+function fetchFilter<T>(e:T, item:T) {
+	if (e === item) return true;
+	if (typeof e === "string") return false;
+	if ("userName" in e && (e as UserStub).userName === (item as UserStub).userName) return true;
+	if ("playlistID" in e && (e as PlaylistWrapper).playlistID === (item as PlaylistWrapper).playlistID) return true;
+	return false;
 }

@@ -7,7 +7,37 @@ import ItemFetcher, { FetchLabel } from "./itemFetcher";
 import { getEggshellverFollowsWrapped, postFollows, putFollows } from "../../../util/wrapper/eggshellver/follow";
 import { UserStub } from "../../../util/wrapper/eggshellver/util";
 import React from "react";
-import { StateAction } from "./sync";
+
+export type StateAction = ({
+  type: "updateStatus";
+  payload: SyncStateReducerType;
+})|({
+  type: "setState";
+  payload: ""|"syncing"|"errored";
+})|({
+  type: "updateMessage";
+  payload: StatusMessage;
+});
+
+export interface StatusMessage {
+  key: string;
+  options?: {
+    part: string;
+    progress?: number;
+  };
+}
+
+export interface SyncStateReducerType {
+  progressPart: {
+    value: number;
+    max: number;
+  },
+  progressFull: {
+    value: number;
+    max: number;
+  },
+  status: StatusMessage;
+}
 
 export default class Syncer {
 

@@ -9,14 +9,21 @@ export interface UserStub {
   profile: string;
 }
 
-export function fillUrlSearchParams(url: URL, params: { [key: string]: string|number|string[] }): URL {
+type Param = string|number|string[];
+
+function stringifyParam(param:Param) {
+	if (Array.isArray(param)) {
+		return param.join(",");
+	}
+	if (typeof param === "number") {
+		return param.toString();
+	}
+	return param;
+}
+
+export function fillUrlSearchParams(url: URL, params: { [key: string]: Param }): URL {
 	for (const [key, value] of Object.entries(params)) {
-		if (Array.isArray(value)) {
-			url.searchParams.set(key, value.join(","));
-		}
-		if (typeof value === "number") {
-			url.searchParams.set(key, value.toString());
-		}
+		url.searchParams.set(key, stringifyParam(value));
 	}
 	return url;
 }
