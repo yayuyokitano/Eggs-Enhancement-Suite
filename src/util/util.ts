@@ -5,10 +5,10 @@ import { apiKey } from "./scrobbler";
 
 const generateRandomHex = (size:number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join("");
 
-async function getDeviceID() {
+export async function getDeviceID() {
 	const deviceID = await browser.storage.sync.get("deviceID");
 	if (deviceID.deviceID) {
-		return deviceID.deviceID;
+		return deviceID.deviceID as string;
 	}
 	const newDeviceID = generateRandomHex(16);
 	await browser.storage.sync.set({deviceID: newDeviceID});
@@ -23,47 +23,8 @@ export async function getEggshellverToken():Promise<string|undefined> {
 	return (await browser.storage.sync.get("eggshellvertoken")).eggshellvertoken;
 }
 
-export const eggsRoot = "https://api-flmg.eggs.mu/v1/";
 export const eggsSelector = "https://api-flmg.eggs.mu/v1/*";
-export const eggsUserAgent = "flamingo/7.1.00 (Android; 11)";
 export const defaultAvatar = "https://eggs.mu/wp-content/themes/eggs/assets/img/common/signin.png";
-
-export async function getEggsHeaders(isAuthorizedRequest = false):Promise<{
-  "User-Agent": string;
-  Apversion: string;
-  "Content-Type": string;
-  deviceId: string;
-  deviceName: string;
-  authorization: string;
-} | {
-  "User-Agent": string;
-  Apversion: string;
-  "Content-Type": string;
-  deviceId: string;
-  deviceName: string;
-}> {
-	const token = await getToken();
-	if (isAuthorizedRequest) {
-		if (!token) {
-			throw new Error("not logged in.");
-		}
-		return {
-			"User-Agent": eggsUserAgent,
-			Apversion: "7.1.00",
-			"Content-Type": "application/json; charset=utf-8",
-			deviceId: await getDeviceID(),
-			deviceName: "SM-G977N",
-			authorization: "Bearer " + token,
-		};
-	}
-	return {
-		"User-Agent": eggsUserAgent,
-		Apversion: "7.1.00",
-		"Content-Type": "application/json; charset=utf-8",
-		deviceId: await getDeviceID(),
-		deviceName: "SM-G977N"
-	};
-}
 
 // returns shuffled array, avoids mutating the original array to allow unshuffling.
 export function shuffleArray<T>(array:T[]) {
@@ -263,3 +224,21 @@ export type PopupMessage = {
 	type: "changeTheme";
 	theme: string;
 }
+
+export function processedPathname() {
+	const playlistConcat = new URLSearchParams(window.location.search).has("playlist") ? "playlist" : "";
+	const processedPath = "/" + window.location.pathname.split("/").filter((_,i)=>i%2).join("/");
+	if (processedPath !== "/") {
+		return removeTrailingSlash(processedPath);
+	}
+	return processedPath + removeTrailingSlash(playlistConcat);
+}
+
+function removeTrailingSlash(path: string) {
+	if (path.endsWith("/")) {
+		return path.slice(0, -1);
+	}
+	return path;
+}
+
+export const sleep:(ms:number) => Promise<void> = (ms:number) => new Promise((resolve) => setTimeout(resolve, ms));

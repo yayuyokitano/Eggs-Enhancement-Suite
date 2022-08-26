@@ -1,3 +1,4 @@
+import Cacher from "./cacher";
 import { eggsRequest } from "./request";
 
 type LikeInfo = {
@@ -10,13 +11,13 @@ type LikeInfo = {
   }[];
 }
 
-export async function songLikeInfo(musicIds: (string|undefined)[]) {
+export async function songLikeInfo(musicIds: (string|undefined)[], cache?:Cacher) {
 	musicIds = musicIds.filter((id) => id !== undefined);
 	if (musicIds.length === 0) return {
 		totalCount: 0,
 		data: [],
 	};
-	return eggsRequest(`evaluation/evaluation/musics/like_info?musicIds=${musicIds.join(",")}`, {}, { isAuthorizedRequest: true }) as Promise<LikeInfo>;
+	return eggsRequest(`evaluation/evaluation/musics/like_info?musicIds=${musicIds.join(",")}`, {}, { isAuthorizedRequest: true, cache }) as Promise<LikeInfo>;
 }
 
 export async function playlistLikeInfo(playlistIds: (string|undefined)[]) {

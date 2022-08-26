@@ -1,4 +1,5 @@
 import { SongData } from "./artist";
+import Cacher from "./cacher";
 import { eggsRequest } from "./request";
 
 export interface Playlist {
@@ -39,14 +40,17 @@ export async function playlist(playlistID:string) {
 	return eggsRequest(`playlists/playlists/${playlistID}`, {}, { isAuthorizedRequest: true }) as Promise<Playlists>;
 }
 
-export async function getPlaylists(limit:number, offsetHash?:string) {
+export async function getPlaylists(limit:number, options?: {
+	offsetHash?:string,
+	cache?:Cacher
+}) {
 	let qs = `limit=${limit}`;
-	if (offsetHash) qs += `&offsetHash=${offsetHash}`;
-	return eggsRequest(`playlists/playlists?${qs}`, {}, { isAuthorizedRequest: true }) as Promise<PlaylistPartials>;
+	if (options?.offsetHash) qs += `&offsetHash=${options.offsetHash}`;
+	return eggsRequest(`playlists/playlists?${qs}`, {}, { isAuthorizedRequest: true, cache: options?.cache }) as Promise<PlaylistPartials>;
 }
 
 export async function getEggsPlaylistsWrapped(offset:string, limit:number) {
-	const playlists = await getPlaylists(limit, offset || undefined);
+	const playlists = await getPlaylists(limit, { offsetHash: offset || undefined });
 	return {
 		syncItems: playlists.data.map(playlist => ({
 			playlistID: playlist.playlistId,

@@ -4,12 +4,13 @@ import { TFunction, useTranslation } from "react-i18next";
 import "./rules/useragent.json";
 import { runScripts } from "./util/scripts";
 import { createSpa } from "./App/player/spa";
-import { queryAsync } from "./util/util";
+import { processedPathname, queryAsync } from "./util/util";
 import { endpoints } from "./util/endpoints";
 import { initializeHeader } from "./util/loginButtons";
 
 import "./theme/themes.scss";
 import { initializeThemes } from "./theme/themes";
+import { addLoadHandler, loadPageDetails } from "./util/loadHandler";
 
 function App(props: {endpoint: {
   rootSelector: string;
@@ -44,6 +45,7 @@ async function bodyExists() {
 }
 
 async function loadContent() {
+	loadPageDetails();
 
 	try {
 		await runScripts();
@@ -53,6 +55,7 @@ async function loadContent() {
 	// Create SPA if top level
 	if (window.frameElement === null || window.frameElement.classList.contains("aut-iframe")) {
 		createSpa();
+		addLoadHandler();
 		await initializeThemes();
 		return;
 	}
@@ -76,21 +79,5 @@ async function waitForLoad() {
 	loadContent();
 }
 waitForLoad();
-
-function processedPathname() {
-	const playlistConcat = new URLSearchParams(window.location.search).has("playlist") ? "playlist" : "";
-	const processedPath = "/" + window.location.pathname.split("/").filter((_,i)=>i%2).join("/");
-	if (processedPath !== "/") {
-		return removeTrailingSlash(processedPath);
-	}
-	return processedPath + removeTrailingSlash(playlistConcat);
-}
-
-function removeTrailingSlash(path: string) {
-	if (path.endsWith("/")) {
-		return path.slice(0, -1);
-	}
-	return path;
-}
 
 export {};

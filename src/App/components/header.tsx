@@ -208,7 +208,7 @@ function PlaylistDialog(props: {t:TFunction}) {
 				if (totalCount === playlists.length) return;
 				if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop - e.currentTarget.clientHeight < 100) {
 					setLoadingMore(true);
-					getPlaylists(10, offsetHash).then((newPlaylists) => {
+					getPlaylists(10, {offsetHash}).then((newPlaylists) => {
 						setTotalCount(newPlaylists.totalCount);
 						setPlaylists([...playlists, ...newPlaylists.data]);
 						setOffsetHash(newPlaylists.offsetHash);

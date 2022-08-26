@@ -1,5 +1,6 @@
 import { UserStub } from "../eggshellver/util";
 import { ArtistData } from "./artist";
+import Cacher from "./cacher";
 import { eggsRequest } from "./request";
 
 export interface Profile {
@@ -24,9 +25,10 @@ export interface Profile {
   }
 }
 
-export async function profile() {
+export async function profile(cache?:Cacher) {
 	return eggsRequest("users/users/profile", {}, {
 		isAuthorizedRequest: true,
+		cache,
 	}) as Promise<Profile>;
 }
 

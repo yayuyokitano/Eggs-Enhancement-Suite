@@ -1,9 +1,10 @@
 import EventEmitter from "events";
 import TypedEmitter from "typed-emitter";
-import { PlaylistWrapper } from "util/wrapper/eggshellver/playlist";
+import { sleep } from "../../../util/util";
+import { PlaylistWrapper } from "../../../util/wrapper/eggshellver/playlist";
 import { UserStub } from "../../../util/wrapper/eggshellver/util";
 
-const sleep:(ms:number) => Promise<void> = (ms:number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 
 interface SingleItem<T> {
   item: T;

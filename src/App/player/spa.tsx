@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { convertTime, defaultAvatar, getVolume, lastfmAuthLink, PopupMessage, processAlbumName, processArtistName, processTrackName, updateVolume } from "../../util/util";
 import { SongData } from "../../util/wrapper/eggs/artist";
@@ -54,8 +54,7 @@ function updateScrollables() {
 
 window.addEventListener("resize", updateScrollables);
 
-function updateSpa(event:SyntheticEvent<HTMLIFrameElement, Event>) {
-	const url = event.currentTarget.contentWindow?.location.href;
+export function updateSpa(url?:string) {
 	if (typeof url !== "undefined") {
 		history.replaceState(null, "", url);
 	}
@@ -91,7 +90,6 @@ function SPA() {
 			<iframe
 				id="ees-spa-iframe"
 				src={window.location.href}
-				onLoad={updateSpa}
 			/>
 			<Player
 				t={t}
