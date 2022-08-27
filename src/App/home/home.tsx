@@ -1,3 +1,4 @@
+import { Incrementer } from "../../App/components/sync/itemFetcher";
 import { TFunction } from "react-i18next";
 import { getEggsRecommendedArtistsWrapped } from "../../util/wrapper/eggs/recommend";
 import Carousel from "./carousel";
@@ -39,7 +40,7 @@ export default function Home(t:TFunction) {
 				t={t}
 				init={[]}
 				ElementList={RecommendedList}
-				eggsGet={getEggsRecommendedArtistsWrapped}
+				incrementer={new Incrementer(getEggsRecommendedArtistsWrapped, 10)}
 				eggsGetSongCurry="curryEggsRecommendedArtistsWrapped" />
 		</div>
 	);

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "./carouselItems.scss";
 import { ArtistFetcherString, clamp, SongCurry } from "../../util/util";
 import { ArrowBackIosNewRoundedIcon, ArrowForwardIosRoundedIcon } from "../../util/icons";
-import { EggsGet, Incrementer, IncrementerError } from "../../App/components/sync/itemFetcher";
+import { Incrementer, IncrementerError } from "../../App/components/sync/itemFetcher";
 import { TFunction } from "react-i18next";
 
 interface CarouselSetParams<T> {
@@ -15,7 +15,7 @@ interface CarouselSetParams<T> {
 }
 
 interface CarouselFullParams<T> extends CarouselSetParams<T> {
-	eggsGet:EggsGet<T>,
+	incrementer:Incrementer<T>,
 	eggsGetSongCurry:ArtistFetcherString
 }
 
@@ -23,9 +23,7 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselFullParam
 	const { ElementList, init, width, size, t } = props;
 	const [scroll, setScroll] = useState(0);
 	const [children, setChildren] = useState<T[]>(init);
-
 	const carouselRef = useRef<HTMLUListElement>(null);
-	const incrementer = ("eggsGet" in props && new Incrementer(props.eggsGet, 50)) || undefined;
 
 	useEffect(() => {
 		if (carouselRef.current === null) return;
@@ -33,16 +31,16 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselFullParam
 		carouselRef.current.scrollLeft = scroll;
 
 		// add dynamic elements
-		if (incrementer && incrementer.isAlive && carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000) {
+		if ("incrementer" in props && props.incrementer.isAlive && carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000) {
 			console.log("getting new");
-			incrementer.getPage().then(page => {
+			props.incrementer.getPage().then(page => {
 				setChildren((children) => [
 					...children,
 					...page.data
 				]);
 			}).catch(err => {
 				if (err instanceof Error && err.message === IncrementerError.NoItemsError) {
-					incrementer.kill();
+					props.incrementer.kill();
 				}
 			});
 		}
