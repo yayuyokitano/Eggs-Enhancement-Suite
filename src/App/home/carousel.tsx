@@ -32,7 +32,6 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselFullParam
 
 		// add dynamic elements
 		if ("incrementer" in props && props.incrementer.isAlive && carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000) {
-			console.log("getting new");
 			props.incrementer.getPage().then(page => {
 				setChildren((children) => [
 					...children,
