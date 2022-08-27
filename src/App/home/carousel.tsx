@@ -3,27 +3,26 @@ import "./carouselItems.scss";
 import { ArtistFetcherString, clamp, SongCurry } from "../../util/util";
 import { ArrowBackIosNewRoundedIcon, ArrowForwardIosRoundedIcon } from "../../util/icons";
 import { EggsGet, Incrementer, IncrementerError } from "../../App/components/sync/itemFetcher";
+import { TFunction } from "react-i18next";
 
-interface CarouselSetParams {
-	children?:JSX.Element[],
+interface CarouselSetParams<T> {
 	width:number,
 	size:string,
-	type:string
+	type:string,
+	t:TFunction,
+	init:T[],
+	ElementList:(props:{t:TFunction, items:T[], refName:React.RefObject<HTMLUListElement>}) => JSX.Element
 }
 
-interface CarouselFullParams<T> extends CarouselSetParams {
+interface CarouselFullParams<T> extends CarouselSetParams<T> {
 	eggsGet:EggsGet<T>,
-	elementGenerator:(e:T) => JSX.Element,
 	eggsGetSongCurry:ArtistFetcherString
 }
 
-export default function Carousel<T>(props:CarouselSetParams|CarouselFullParams<T>) {
-	const { children, width, size } = props;
+export default function Carousel<T>(props:CarouselSetParams<T>|CarouselFullParams<T>) {
+	const { ElementList, init, width, size, t } = props;
 	const [scroll, setScroll] = useState(0);
-	const [childState, setChildren] = useState<JSX.Element[]>([]);
-
-	// this is scuffed but it works. It's needed because the first time the element is rendered, there are no children.
-	if (children && childState.length === 0 && children.length > 0) setChildren(children);
+	const [children, setChildren] = useState<T[]>(init);
 
 	const carouselRef = useRef<HTMLUListElement>(null);
 	const incrementer = ("eggsGet" in props && new Incrementer(props.eggsGet, 50)) || undefined;
@@ -34,11 +33,12 @@ export default function Carousel<T>(props:CarouselSetParams|CarouselFullParams<T
 		carouselRef.current.scrollLeft = scroll;
 
 		// add dynamic elements
-		if ("elementGenerator" in props && incrementer && incrementer.isAlive && carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000) {
+		if (incrementer && incrementer.isAlive && carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000) {
+			console.log("getting new");
 			incrementer.getPage().then(page => {
 				setChildren((children) => [
 					...children,
-					...page.data.map(props.elementGenerator)
+					...page.data
 				]);
 			}).catch(err => {
 				if (err instanceof Error && err.message === IncrementerError.NoItemsError) {
@@ -56,11 +56,10 @@ export default function Carousel<T>(props:CarouselSetParams|CarouselFullParams<T
 				<button
 					className="ees-carousel-btn ees-carousel-prev"
 					onClick={() => carouselPrev(width, scroll, setScroll)}><ArrowBackIosNewRoundedIcon /></button>
-				<ul
-					className="ees-carousel"
-					ref={carouselRef}>
-					{childState.map((Item) => <CarouselItem key={Item.key}>{Item}</CarouselItem>)}
-				</ul>
+				<ElementList
+					t={t}
+					items={children}
+					refName={carouselRef} />
 				<button
 					className="ees-carousel-btn ees-carousel-next"
 					onClick={() => carouselNext(width, scroll, setScroll)}><ArrowForwardIosRoundedIcon /></button>
@@ -95,14 +94,4 @@ function carouselNext(width:number, scroll:number, setScroll:React.Dispatch<Reac
 
 function carouselPrev(width:number, scroll:number, setScroll:React.Dispatch<React.SetStateAction<number>>) {
 	setScroll(scroll - ((scroll % width) || width));
-}
-
-function CarouselItem(props: { children:JSX.Element }) {
-	const { children } = props;
-
-	return (
-		<li className="ees-carousel-item">
-			{children}
-		</li>
-	);
 }
