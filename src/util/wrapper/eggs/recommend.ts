@@ -44,8 +44,6 @@ export function curryEggsRecommendedArtistsWrapped(trackFunc: (artistID:string, 
 		const artist = artists.data[offsetNumber % internalLimit];
 
 		// return the actual tracks
-		console.log(offsetNumber, internalLimit, offsetNumber % internalLimit);
-		console.log(artists.data);
 		return {
 			data: await trackFunc(artist.artistName),
 			offset: (offsetNumber + 1).toString(),

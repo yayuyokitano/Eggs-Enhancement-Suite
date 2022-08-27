@@ -95,7 +95,9 @@ export class PlaybackController extends (EventEmitter as new () => TypedEmitter<
 	public async setPlaybackDynamic(initialQueue:SongData[], incrementer:Incrementer<SongData>) {
 		this.queue?.destroy();
 		this.queue = new Queue(initialQueue, initialQueue[0], this.root, this.shuffle, this.repeat, this.setCurrent, this.youtube, this.setTimeData, this._volume, incrementer);
+		this.play();
 		this.emit("update");
+		this.queue.on("update", () => { this.emit("update"); });
 	}
 
 	public play() {

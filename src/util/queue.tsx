@@ -372,10 +372,16 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 		// ignore options and use incrementer if present
 		if (this.incrementer) {
 			try {
-				this.innerQueue.add(...(await this.incrementer.getPage()).data);
+				while (this.innerQueue.length < 50 && this.incrementer.isAlive) {
+					this.innerQueue.add(...(await this.incrementer.getPage()).data);
+					this.emit("update");
+					this.preload();
+				}
 			} catch(err) {
 				// stop populating if there is an empty items error
 				if (err instanceof Error && err.message === IncrementerError.NoItemsError) {
+					this.emit("update");
+					this.preload();
 					return;
 				}
 			}

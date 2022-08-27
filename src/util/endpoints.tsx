@@ -6,7 +6,7 @@ import Playlist from "../App/playlist/playlist";
 import Profile from "../App/profile/profile";
 import { profile } from "./wrapper/eggs/users";
 import { getPlaylists } from "./wrapper/eggs/playlists";
-import { artist } from "./wrapper/eggs/artist";
+import { artistTracks } from "./wrapper/eggs/artist";
 import { songLikeInfo } from "./wrapper/eggs/evaluation";
 import Cacher from "./wrapper/eggs/cacher";
 
@@ -54,7 +54,7 @@ async function fetchArtist(cache:Cacher) {
 
 	// for some reason this breaks in the dev environment sometimes, dont worry about it, it works in prod.
 	// even if it breaks it only slows down load by about 100ms its fine.
-	const artistData = await artist(artistID, cache);
+	const artistData = await artistTracks(artistID, cache);
 	songLikeInfo(artistData.data.map((song) => song.musicId), cache);
 }
 
