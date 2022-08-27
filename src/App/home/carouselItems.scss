@@ -13,7 +13,8 @@
 	padding-bottom: 20px;
 	margin: 10px;
 	border-radius: 10px;
-	background-color: var(--monoaccent);
+	background-color: var(--eggsyellow);
+	transition: transform 0.2s ease-in-out;
 
 	.ees-article-text-wrapper {
 		height: 100%;
@@ -28,13 +29,51 @@
 		}
 	}
 
-	.m_octagon {
+	.ees-article-image-wrapper {
 		margin: 1rem 0;
 		width: 180px;
+		height: 106px;
 		flex-shrink: 0;
 
+		// avoid weird clipping bugs with scaling
+		$start: -1px;
+		$end: calc(100% + 1px);
+
+		$octagonstart: 30px;
+		$octagonend: calc(100% - $octagonstart);
+		clip-path: polygon(
+			$start $octagonstart,
+			$start $octagonend,
+			$octagonstart $end,
+			$octagonend $end,
+			$end $octagonend,
+			$end $octagonstart,
+			$octagonend $start,
+			$octagonstart $start
+		);
+		overflow: hidden;
+
 		.ees-article-image {
+			// dear eggs: wat
+			transform: translateY(0);
+			top: 0;
+			transform-origin: bottom;
+
 			object-fit: cover;
+			transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+		}
+	}
+
+	&:hover {
+		transform: scale(1.05);
+
+		.ees-article-image {
+			transform: scale(1.1);
+			filter: blur(0.3px);
+			-ms-filter: blur(0.3px);
+			opacity: 1;
+			-webkit-opacity: 1;
+			-moz-opacity: 1;
 		}
 	}
 
@@ -45,13 +84,47 @@
 		transform: rotate(-45deg);
 		font-size: 9px;
 		z-index: 1000;
+		color: var(--alwaysdark);
 	}
 
 	.ees-article-type {
 		position: absolute;
 		font-weight: bold;
-		color: var(--themedyellow);
+		color: var(--alwaysdark);
 		right: 10px;
 		bottom: 0;
+	}
+}
+
+.ees-carousel-artist {
+	display: flex;
+	flex-direction: column-reverse;
+	align-items: center;
+	padding: 0 15px;
+	gap: 10px;
+	justify-content: center;
+	height: 250px;
+
+	.ees-carousel-artist-image-wrapper {
+		width: 175px;
+		height: 175px;
+		border-radius: 50%;
+		overflow: hidden;
+
+		.ees-carousel-artist-image {
+			object-fit: cover;
+			transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+		}
+	}
+
+	&:hover {
+		.ees-carousel-artist-image {
+			transform: scale(1.1);
+			filter: blur(0.4px);
+			-ms-filter: blur(0.4px);
+			opacity: 1;
+			-webkit-opacity: 1;
+			-moz-opacity: 1;
+		}
 	}
 }

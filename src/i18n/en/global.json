@@ -157,5 +157,11 @@
 		"fetchingFull": "Partial fetch failed - fetching full {{part}} data...\n({{progress, number(maximumFractionDigits: 0)}}%)",
 		"completedPart": "Finished fetching {{part}}.",
 		"completedAll": "Fetching completed."
+	},
+	"carousel": {
+		"forEachArtist": "For each artist",
+		"playAllTracks": "Play all tracks",
+		"playTopTrack": "Play top track",
+		"playNewestTrack": "Play newest track"
 	}
 }

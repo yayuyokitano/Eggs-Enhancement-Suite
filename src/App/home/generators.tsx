@@ -1,5 +1,5 @@
 import { TFunction } from "react-i18next";
-import { getArtistPage } from "../../util/util";
+import { defaultAvatar, getArtistPage } from "../../util/util";
 import { ArtistData } from "../../util/wrapper/eggs/artist";
 import { News } from "./home";
 
@@ -17,13 +17,13 @@ export function NewsList(props: {t:TFunction, items:News[], refName:React.RefObj
 						<div className="ees-article-text-wrapper">
 							<h3 className="ees-article-title">{summary.title}</h3>
 						</div>
-						<div className="m_octagon">
-							<span>
-								<img
-									className="ees-article-image"
-									src={summary.image}
-									alt="" />
-							</span>
+						<div className="ees-article-image-wrapper">
+							<img
+								className="ees-article-image"
+								src={summary.image}
+								alt=""
+								width={180}
+								height={106} />
 						</div>
 						<span className="ees-article-date">{summary.date}</span>
 						<span className="ees-article-type">{t("news."+summary.type)}</span>
@@ -34,8 +34,8 @@ export function NewsList(props: {t:TFunction, items:News[], refName:React.RefObj
 	);
 }
 
-export function RecommendedList(props: {t:TFunction, items:ArtistData[], refName:React.RefObject<HTMLUListElement>}) {
-	const { t, items, refName } = props;
+export function ArtistList(props: {t:TFunction, items:ArtistData[], refName:React.RefObject<HTMLUListElement>}) {
+	const { items, refName } = props;
 	return (
 		<ul
 			className="ees-carousel"
@@ -45,8 +45,15 @@ export function RecommendedList(props: {t:TFunction, items:ArtistData[], refName
 					<a
 						className="ees-carousel-artist"
 						href={getArtistPage(artist.artistName)}>
-						<p>{artist.displayName}</p>
-						<p>{t("news.error")}</p>
+						<h3 className="ees-carousel-artist-name">{artist.displayName}</h3>
+						<div className="ees-carousel-artist-image-wrapper">
+							<img
+								className="ees-carousel-artist-image"
+								src={artist.imageDataPath ?? defaultAvatar}
+								alt=""
+								width={175}
+								height={175} />
+						</div>
 					</a>
 				</CarouselItem>
 			))}

@@ -203,13 +203,13 @@ header:not(table) {
 .m_octagon:not(table) {
 	&::before,
 	&::after {
-		border-top: 32px solid var(--monoaccent);
+		border-top: 32px solid var(--eggsyellow);
 	}
 
 	& > span {
 		&::before,
 		&::after {
-			border-bottom: 32px solid var(--monoaccent);
+			border-bottom: 32px solid var(--eggsyellow);
 		}
 	}
 

@@ -7,5 +7,9 @@
 		"インタビュー": "Interview",
 		"ニュース": "News",
 		"error": "An error has occured"
+	},
+	"heading": {
+		"news": "News",
+		"recommendedByEggs": "Recommended by Eggs"
 	}
 }

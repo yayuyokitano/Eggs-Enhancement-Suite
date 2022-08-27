@@ -1,34 +1,104 @@
-.ees-carousel-wrapper {
-	width: 100%;
+.ees-carousel-outer {
 	display: flex;
-	align-items: center;
+	flex-direction: column;
+	align-items: flex-end;
+	margin-bottom: 50px;
 
-	&.ees-carousel-wrapper-large {
-		height: 342px;
-	}
-
-	.ees-carousel {
+	.ees-carousel-wrapper {
+		width: 100%;
 		display: flex;
 		align-items: center;
-		width: 100%;
+		background-color: var(--monoaccent);
 		overflow: hidden;
-		scroll-behavior: smooth;
-	}
 
-	.ees-carousel-btn {
-		height: 100%;
-		padding: 0 10px;
-
-		svg {
-			fill: var(--text);
+		&.ees-carousel-wrapper-large {
+			height: 342px;
 		}
 
-		&:hover {
-			background-color: var(--eggsyellow);
+		&.ees-carousel-wrapper-medium {
+			height: 250px;
+		}
+
+		.ees-carousel {
+			display: flex;
+			align-items: center;
+			width: 100%;
+			overflow: hidden;
+			scroll-behavior: smooth;
+		}
+
+		.ees-carousel-btn {
+			height: 100%;
+			padding: 0 10px;
 
 			svg {
-				fill: var(--alwaysdark);
+				fill: var(--text);
 			}
+
+			&:hover {
+				background-color: var(--eggsyellow);
+
+				svg {
+					fill: var(--alwaysdark);
+				}
+			}
+		}
+	}
+
+	.ees-carousel-header {
+		width: 100%;
+		display: flex;
+		align-items: center;
+
+		h2 {
+			flex-grow: 1;
+			text-align: center;
+			padding: 1rem;
+		}
+
+		.ees-carousel-play-wrapper {
+			background-color: var(--monoaccent);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 0.7rem 1.4rem;
+			border-radius: 20px 0 0 0;
+
+			.ees-carousel-play-buttons button {
+				background-color: var(--bg);
+				padding: 0.4rem 0.8rem;
+				margin: 0.2rem;
+
+				&:hover {
+					background-color: var(--eggsyellow);
+					color: var(--alwaysdark2);
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 850px) {
+	.ees-carousel-outer .ees-carousel-header {
+		flex-direction: column;
+
+		.ees-carousel-play-wrapper {
+			border-radius: 0;
+			width: 100%;
+		}
+	}
+}
+
+@media only screen and (min-width: 1240px) {
+	.ees-carousel-outer .ees-carousel-header .ees-carousel-play-wrapper {
+		border-radius: 20px 20px 0 0;
+	}
+
+	.ees-carousel-wrapper {
+		border-radius: 20px 0 20px 20px;
+
+		&:not(.ees-carousel-with-player) {
+			border-radius: 20px;
 		}
 	}
 }

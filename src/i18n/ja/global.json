@@ -147,5 +147,11 @@
 		"fetchingFull": "部分的ないいねデータの取得に失敗しました - {{part}}のデータを全て取得中...\n({{progress, number(maximumFractionDigits: 0)}}%)",
 		"completedPart": "{{part}}を取得しました。",
 		"completedAll": "すべてのデータを取得しました。"
+	},
+	"carousel": {
+		"forEachArtist": "それぞれのアーティストの",
+		"playAllTracks": "すべてを再生",
+		"playTopTrack": "人気曲を再生",
+		"playNewestTrack": "新着曲を再生"
 	}
 }
