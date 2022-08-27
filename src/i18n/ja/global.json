@@ -149,8 +149,8 @@
 		"completedAll": "すべてのデータを取得しました。"
 	},
 	"carousel": {
-		"forEachArtist": "それぞれのアーティストの",
-		"playAllTracks": "すべてを再生",
+		"forEachArtist": "各アーティストの",
+		"playAllTracks": "全曲を再生",
 		"playTopTrack": "人気曲を再生",
 		"playNewestTrack": "新着曲を再生"
 	}
