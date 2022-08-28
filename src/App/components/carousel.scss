@@ -16,7 +16,7 @@
 		}
 
 		&.ees-carousel-wrapper-medium {
-			height: 250px;
+			height: 270px;
 		}
 
 		.ees-carousel-inner {
@@ -24,11 +24,13 @@
 			overflow: hidden;
 			.ees-carousel {
 				display: flex;
-				align-items: center;
 				width: 100%;
 				overflow-x: scroll;
-				scroll-behavior: smooth;
-				scroll-snap-type: x mandatory;
+
+				&.ees-smooth-scroll {
+					scroll-snap-type: x mandatory;
+					scroll-behavior: smooth;
+				}
 
 				.ees-carousel-item {
 					scroll-snap-align: start;

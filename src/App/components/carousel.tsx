@@ -12,15 +12,19 @@ interface CarouselSetParams<T> {
 	t:TFunction,
 	title:string,
 	init:T[],
-	ElementList:(props:{t:TFunction, items:T[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) => JSX.Element
+	ElementList:(props:{t:TFunction, items:T[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) => JSX.Element,
 }
 
-interface CarouselFullParams<T> extends CarouselSetParams<T> {
+interface CarouselIncrementer<T> extends CarouselSetParams<T> {
 	incrementer:Incrementer<T>,
+	uniquePropName:keyof T,
+}
+
+interface CarouselFullParams<T> extends CarouselIncrementer<T> {
 	eggsGetSongCurry:ArtistFetcherString
 }
 
-export default function Carousel<T>(props:CarouselSetParams<T>|CarouselFullParams<T>) {
+export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrementer<T>|CarouselFullParams<T>) {
 	const { ElementList, init, width, size, t, title } = props;
 	const [scroll, setScroll] = useState(0);
 	const [children, setChildren] = useState<T[]>(init);
@@ -28,18 +32,29 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselFullParam
 
 	useEffect(() => {
 		if (carouselRef.current === null) return;
-		//setScroll(clamp(0, scroll, carouselRef.current.scrollWidth - carouselRef.current.clientWidth));
+		carouselRef.current.classList.remove("ees-smooth-scroll");
+		setTimeout(() => {
+			if (carouselRef.current === null) return;
+			carouselRef.current.classList.add("ees-smooth-scroll");
+		}, 0);
+	}, [children]);
+
+	useEffect(() => {
+		if (carouselRef.current === null) return;
 
 		// add dynamic elements
-		if ("incrementer" in props && props.incrementer.isAlive && carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000) {
-			props.incrementer.getPage().then(page => {
+		if ("incrementer" in props && props.incrementer.isAlive && !props.incrementer.fetching && carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000) {
+			props.incrementer.getPage(false).then(page => {
+				console.log(children.length);
 				setChildren((children) => [
 					...children,
-					...page.data
+					...page.data.filter(item => !children.some(child => child[props.uniquePropName] === item[props.uniquePropName]))
 				]);
+				console.log(children.length);
 			}).catch(err => {
+				console.error(err);
 				if (err instanceof Error && err.message === IncrementerError.NoItemsError) {
-					props.incrementer.kill();
+					props.incrementer?.kill();
 				}
 			});
 		}
@@ -117,5 +132,5 @@ function carouselNext(width:number, carouselRef:React.RefObject<HTMLUListElement
 
 function carouselPrev(width:number, carouselRef:React.RefObject<HTMLUListElement>) {
 	if (carouselRef.current === null) return;
-	carouselRef.current.scrollLeft -= width;
+	carouselRef.current.scrollLeft -= width - (carouselRef.current.scrollLeft % width);
 }

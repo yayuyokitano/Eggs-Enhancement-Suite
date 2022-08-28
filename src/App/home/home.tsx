@@ -2,9 +2,10 @@ import { Incrementer } from "../../App/components/sync/itemFetcher";
 import { TFunction } from "react-i18next";
 import { getEggsRecommendedArtistsWrapped } from "../../util/wrapper/eggs/recommend";
 import Carousel from "../components/carousel";
-import { NewsList, ArtistList } from "./generators";
+import { NewsList, ArtistList, PlaylistList } from "./generators";
 
 import "./home.scss";
+import { getEggsNewPlaylistsWrapped, getEggsPopularPlaylistsWrapped } from "../../util/wrapper/eggs/playlists";
 
 export interface News {
   title: string;
@@ -43,7 +44,31 @@ export default function Home(t:TFunction) {
 				init={[]}
 				ElementList={ArtistList}
 				incrementer={new Incrementer(getEggsRecommendedArtistsWrapped, 10)}
-				eggsGetSongCurry="curryEggsRecommendedArtistsWrapped" />
+				uniquePropName="artistName"
+				eggsGetSongCurry="curryEggsRecommendedArtistsWrapped"
+			/>
+			<Carousel
+				width={204}
+				size="medium"
+				type="playlist"
+				t={t}
+				title="heading.newPlaylists"
+				init={[]}
+				ElementList={PlaylistList}
+				incrementer={new Incrementer(getEggsNewPlaylistsWrapped, 30, true)}
+				uniquePropName="playlistId"
+			/>
+			<Carousel
+				width={204}
+				size="medium"
+				type="playlist"
+				t={t}
+				title="heading.popularPlaylists"
+				init={[]}
+				ElementList={PlaylistList}
+				incrementer={new Incrementer(getEggsPopularPlaylistsWrapped, 30)}
+				uniquePropName="playlistId"
+			/>
 		</div>
 	);
 }

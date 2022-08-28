@@ -25,9 +25,12 @@ export interface PlaylistPartial {
   userId: number;
 }
 
-interface PlaylistPartials {
-  data: PlaylistPartial[];
+interface PlaylistPartials extends PlaylistPartialList {
   offsetHash: string;
+}
+
+interface PlaylistPartialList {
+  data: PlaylistPartial[];
   totalCount: number;
 }
 
@@ -70,4 +73,44 @@ export async function playlistAdd(playlist:PlaylistPartial, song:{artistId:numbe
 		isPrivate: playlist.isPrivate,
 	};
 	return eggsRequest("playlists/playlists", playlistModifier, { isPutRequest: true, isAuthorizedRequest: true }) as Promise<Playlist>;
+}
+
+export async function newPlaylists(options?:{offset?:number, limit?:number}) {
+	const qs = new URLSearchParams();
+	if (options?.offset) qs.set("offset", options.offset.toString());
+	qs.set("limit", options?.limit?.toString() ?? "30");
+	return eggsRequest(`playlists/new/playlists?${qs.toString()}`, {}, {}) as Promise<PlaylistPartialList>;
+}
+
+export async function getEggsNewPlaylistsWrapped(offset:string, limit:number) {
+	const offsetNum = offset === "" ? 0 : Number(offset);
+	const playlists = await newPlaylists({
+		limit,
+		offset: offsetNum,
+	});
+	return {
+		data: playlists.data,
+		totalCount: playlists.totalCount,
+		offset: (offsetNum + limit).toString()
+	};
+}
+
+export async function popularPlaylists(options?:{offset?:number, limit?:number}) {
+	const qs = new URLSearchParams();
+	if (options?.offset) qs.set("offset", options.offset.toString());
+	qs.set("limit", options?.limit?.toString() ?? "30");
+	return eggsRequest(`playlists/playlists/popular?${qs.toString()}`, {}, {}) as Promise<PlaylistPartialList>;
+}
+
+export async function getEggsPopularPlaylistsWrapped(offset:string, limit:number) {
+	const offsetNum = offset === "" ? 0 : Number(offset);
+	const playlists = await popularPlaylists({
+		limit,
+		offset: offsetNum,
+	});
+	return {
+		data: playlists.data,
+		totalCount: playlists.totalCount,
+		offset: (offsetNum + limit).toString()
+	};
 }

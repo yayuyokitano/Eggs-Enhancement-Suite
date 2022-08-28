@@ -30,25 +30,34 @@ export class Incrementer<T> {
 	private prevCount = -1;
 	private ready:Promise<void>; //rate limit avoider
 	private alive = true;
+	private oneRequest:boolean;
+	public fetching = false;
 
-	constructor(eggsGet:EggsGet<T>, limit:number) {
+	constructor(eggsGet:EggsGet<T>, limit:number, oneRequest?:boolean) {
 		this.eggsGet = eggsGet;
 		this.limit = limit;
+		this.oneRequest = oneRequest ?? false;
 		this.ready = Promise.resolve();
 	}
 
-	public async getPage() {
+	public async getPage(shouldCompare = true) {
+		this.fetching = true;
 		if (!this.alive) throw new Error(IncrementerError.NoItemsError);
 		await this.ready;
 		const items = await this.eggsGet(this.offset, this.limit);
 		this.offset = items.offset;
 		if (this.prevCount === -1) this.prevCount = items.totalCount;
 		if (items.totalCount === 0) throw new Error(IncrementerError.NoItemsError);
-		if (items.totalCount < this.prevCount) throw new Error(IncrementerError.CountDecreaseError);
+		if (shouldCompare && items.totalCount < this.prevCount) throw new Error(IncrementerError.CountDecreaseError);
+		if (this.oneRequest) this.kill();
 
-		items.data = items.data.slice(items.totalCount - this.prevCount);
+		if (shouldCompare) {
+			items.data = items.data.slice(items.totalCount - this.prevCount);
+		}
+		
 		this.prevCount = items.totalCount;
 		this.ready = Promise.resolve(sleep(800 + (200 * Math.random())));
+		this.fetching = false;
 		return items;
 	}
 

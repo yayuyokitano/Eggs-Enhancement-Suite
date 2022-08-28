@@ -10,6 +10,8 @@
 	},
 	"heading": {
 		"news": "ニュース",
-		"recommendedByEggs": "Eggsからのおすすめ"
+		"recommendedByEggs": "Eggsからのおすすめ",
+		"newPlaylists": "新着プレイリスト",
+		"popularPlaylists": "人気のプレイリスト"
 	}
 }
