@@ -45,12 +45,10 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 		// add dynamic elements
 		if ("incrementer" in props && props.incrementer.isAlive && !props.incrementer.fetching && carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000) {
 			props.incrementer.getPage(false).then(page => {
-				console.log(children.length);
 				setChildren((children) => [
 					...children,
 					...page.data.filter(item => !children.some(child => child[props.uniquePropName] === item[props.uniquePropName]))
 				]);
-				console.log(children.length);
 			}).catch(err => {
 				console.error(err);
 				if (err instanceof Error && err.message === IncrementerError.NoItemsError) {
