@@ -3,7 +3,7 @@ import { TFunction } from "react-i18next";
 import browser from "webextension-polyfill";
 import { apiKey } from "./scrobbler";
 import { artistAllTracks, artistNewTrack, artistTopTrack } from "./wrapper/eggs/artist";
-import { curryEggsRecommendedArtistsWrapped } from "./wrapper/eggs/recommend";
+import { curryEggsRecommendedArtistsPlayback } from "./wrapper/eggs/recommend";
 import { curryEggsArtistSearchPlayback } from "./wrapper/eggs/search";
 
 const generateRandomHex = (size:number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join("");
@@ -26,7 +26,6 @@ export async function getEggshellverToken():Promise<string|undefined> {
 	return (await browser.storage.sync.get("eggshellvertoken")).eggshellvertoken;
 }
 
-export const eggsSelector = "https://api-flmg.eggs.mu/v1/*";
 export const defaultAvatar = "https://eggs.mu/wp-content/themes/eggs/assets/img/common/signin.png";
 
 // returns shuffled array, avoids mutating the original array to allow unshuffling.
@@ -262,7 +261,7 @@ export function currySongFunction(songCurry:SongCurry) {
 	
 	switch(songCurry.artistFetcher) {
 	case "curryEggsRecommendedArtistsWrapped":
-		return curryEggsRecommendedArtistsWrapped(songFunction);
+		return curryEggsRecommendedArtistsPlayback(songFunction);
 	case "curryEggsArtistSearchPlayback":
 		if (!songCurry.payload) throw new Error("payload is required for curryEggsArtistSearchPlayback");
 		return curryEggsArtistSearchPlayback(songCurry.payload, songFunction);
@@ -283,3 +282,15 @@ function getSongFunction(name:SongFetcherString) {
 	}
 }
 //eggsGetSongCurry:(trackFunc: (artistID: string, cache?: Cacher) => Promise<SongData[]>) => EggsGet<SongData>
+
+export type Param = string|number|string[];
+
+export function stringifyParam(param:Param) {
+	if (Array.isArray(param)) {
+		return param.join(",");
+	}
+	if (typeof param === "number") {
+		return param.toString();
+	}
+	return param;
+}

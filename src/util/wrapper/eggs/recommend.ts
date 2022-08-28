@@ -1,55 +1,22 @@
 import { ArtistData, SongData } from "./artist";
 import Cacher from "./cacher";
 import { eggsRequest } from "./request";
-
-interface ArtistList {
-	data: ArtistData[];
-	totalCount: number;
-}
+import { createEggsWrappedGetter, createEggsWrappedGetterCached, fillEggsSearchParams, List } from "./util";
 
 export async function recommendedArtists(options?:{
 		limit?:number,
 		offset?:number,
 		cache?:Cacher,
 }) {
-	const params = new URLSearchParams();
-	if (options?.limit) params.set("limit", options.limit.toString());
-	if (options?.offset) params.set("offset", options.offset.toString());
-	return eggsRequest(`recommend/recommend/artists?${params.toString()}`, {}, {cache: options?.cache}) as Promise<ArtistList>;
-}
-
-export async function getEggsRecommendedArtistsWrapped(offset:string, limit:number) {
-	const offsetNum = offset === "" ? 0 : Number(offset);
-	const artists = await recommendedArtists({
-		limit,
-		offset: offsetNum,
+	const url = fillEggsSearchParams("recommend/recommend/artists", {
+		limit: options?.limit,
+		offset: options?.offset,
 	});
-	return {
-		data: artists.data,
-		totalCount: artists.totalCount,
-		offset: (offsetNum + limit).toString()
-	};
+	return eggsRequest(url, {}, {cache: options?.cache}) as Promise<List<ArtistData>>;
 }
 
-export function curryEggsRecommendedArtistsWrapped(trackFunc: (artistID:string, cache?:Cacher) => Promise<SongData[]>) {
+export const eggsRecommendedArtistsWrapped = async(offset:string, limit:number) =>
+	await createEggsWrappedGetter(recommendedArtists)(offset, limit);
 
-	return async(offset:string) => {
-
-		// normalize inputs to make use of caching
-		const internalLimit = 50;
-		const adjOffset = offset || "0";
-		const offsetNumber = parseInt(adjOffset);
-		const offsetRounded = offsetNumber - (offsetNumber % internalLimit);
-		const artists = await recommendedArtists({ limit: internalLimit, offset: offsetRounded });
-		const artist = artists.data[offsetNumber % internalLimit];
-
-		// return the actual tracks
-		return {
-			data: await trackFunc(artist.artistName),
-			offset: (offsetNumber + 1).toString(),
-			totalCount: artists.totalCount,
-		};
-			
-	};
-
-}
+export const curryEggsRecommendedArtistsPlayback = (trackFunc: (artistID:string, cache?:Cacher) => Promise<SongData[]>) =>
+	createEggsWrappedGetterCached(recommendedArtists, trackFunc);

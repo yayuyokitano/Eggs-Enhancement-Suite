@@ -1,5 +1,6 @@
 import EventEmitter from "events";
 import TypedEmitter from "typed-emitter";
+import { OffsetList } from "../../../util/wrapper/eggs/util";
 import { sleep } from "../../../util/util";
 import { PlaylistWrapper } from "../../../util/wrapper/eggshellver/playlist";
 import { UserStub } from "../../../util/wrapper/eggshellver/util";
@@ -9,12 +10,6 @@ import { UserStub } from "../../../util/wrapper/eggshellver/util";
 interface SingleItem<T> {
   item: T;
   totalCount:number;
-}
-
-interface IncrementerItems<T> {
-  data:T[];
-  totalCount:number;
-  offset:string;
 }
 
 export enum IncrementerError {
@@ -90,7 +85,7 @@ type FetcherEmitters = {
 }
 
 type EggshellverGet<T> = (eggsID:string) => Promise<SingleItem<T>>;
-export type EggsGet<T> = (offset:string, limit:number) => Promise<IncrementerItems<T>>;
+export type EggsGet<T> = (offset:string, limit:number) => Promise<OffsetList<T>>;
 
 export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmitter<FetcherEmitters>) {
 
@@ -127,7 +122,7 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
 		await this.completeFullScan(eggs);
 	}
 
-	private async completeFullScan(eggs:IncrementerItems<T>) {
+	private async completeFullScan(eggs:OffsetList<T>) {
 		while (this.count < eggs.totalCount) {
 			try {
 				this.emitProgress(this.count, eggs.totalCount, FetchLabel.FETCHING_FULL);
@@ -172,7 +167,7 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
 			return {eggs: {data: [], totalCount: 0, offset: ""}, shouldFullscan: false};
 		}
 
-		let eggs:IncrementerItems<T>;
+		let eggs:OffsetList<T>;
 		try {
 			eggs = await this.incrementer.getPage();
 		} catch(err) {

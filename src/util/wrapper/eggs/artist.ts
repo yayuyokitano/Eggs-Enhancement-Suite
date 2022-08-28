@@ -1,5 +1,6 @@
 import Cacher from "./cacher";
 import { eggsRequest } from "./request";
+import { List } from "./util";
 
 export enum SourceType {
   Eggs = 1,
@@ -62,13 +63,8 @@ export interface SongData {
   youtubeVideoId: string|null,
 }
 
-export interface ArtistEndpoint {
-  totalCount: number,
-  data: SongData[]
-}
-
 export async function artistTracks(artistID:string, cache?:Cacher) {
-	return eggsRequest(`artists/artists/${artistID}/musics`, {}, {cache}) as Promise<ArtistEndpoint>;
+	return eggsRequest(`artists/artists/${artistID}/musics`, {}, {cache}) as Promise<List<SongData>>;
 }
 
 
@@ -77,7 +73,7 @@ export async function artistAllTracks(artistID:string, cache?:Cacher) {
 }
 
 export async function artistNewTrack(artistID:string, cache?:Cacher) {
-	return (await eggsRequest(`artists/artists/${artistID}/musics?limit=1`, {}, {cache}) as ArtistEndpoint).data;
+	return (await eggsRequest(`artists/artists/${artistID}/musics?limit=1`, {}, {cache}) as List<SongData>).data;
 }
 
 export async function artistTopTrack(artistID:string, cache?:Cacher) {

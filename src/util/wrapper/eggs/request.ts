@@ -1,7 +1,8 @@
 import { cache } from "../../../util/loadHandler";
-import Cacher, { eggsRoot } from "./cacher";
+import Cacher from "./cacher";
+import { eggsRoot } from "./util";
 
-export async function eggsRequest<Req extends object, Res extends object>(url: string, body:Req, options?:{
+export async function eggsRequest<Req extends object, Res extends object>(url: string|URL, body:Req, options?:{
   isPostRequest?: boolean,
   isPutRequest?: boolean,
   isAuthorizedRequest?: boolean,
@@ -16,7 +17,9 @@ export async function eggsRequest<Req extends object, Res extends object>(url: s
 		method: "GET",
 		headers: await preferredCacher.getEggsHeaders(options?.isAuthorizedRequest),
 	};
+
+	const urlStr = typeof url === "string" ? eggsRoot + url : url.toString();
   
 	// use a cache that allows loading immediately, as sometimes eggs websites loads slow and we can reduce the overhead of the extension
-	return preferredCacher.fetch(eggsRoot + url, requestOptions);
+	return preferredCacher.fetch(urlStr, requestOptions);
 }

@@ -1,6 +1,7 @@
 import { SongData } from "./artist";
 import Cacher from "./cacher";
 import { eggsRequest } from "./request";
+import { createEggsWrappedGetter, createEggsWrappedGetterHash, fillEggsSearchParams, List, OffsetHashList, offsetListMap } from "./util";
 
 export interface Playlist {
   createdAt: string,
@@ -25,48 +26,30 @@ export interface PlaylistPartial {
   userId: number;
 }
 
-interface PlaylistPartials extends PlaylistPartialList {
-  offsetHash: string;
-}
-
-export interface PlaylistPartialList {
-  data: PlaylistPartial[];
-  totalCount: number;
-}
-
-interface Playlists {
-  data: Playlist[];
-  totalCount: number;
-}
-
 export async function playlist(playlistID:string) {
-	const playlist = await eggsRequest(`search/search/playlists?playlistIds=${playlistID}&limit=1`, {}, {}) as Playlists;
+	const playlist = await eggsRequest(`search/search/playlists?playlistIds=${playlistID}&limit=1`, {}, {}) as List<Playlist>;
 	if (playlist.totalCount) {
 		return playlist;
 	}
-	return eggsRequest(`playlists/playlists/${playlistID}`, {}, { isAuthorizedRequest: true }) as Promise<Playlists>;
+	return eggsRequest(`playlists/playlists/${playlistID}`, {}, { isAuthorizedRequest: true }) as Promise<List<Playlist>>;
 }
 
 export async function getPlaylists(limit:number, options?: {
 	offsetHash?:string,
 	cache?:Cacher
 }) {
-	let qs = `limit=${limit}`;
-	if (options?.offsetHash) qs += `&offsetHash=${options.offsetHash}`;
-	return eggsRequest(`playlists/playlists?${qs}`, {}, { isAuthorizedRequest: true, cache: options?.cache }) as Promise<PlaylistPartials>;
+	const url = fillEggsSearchParams("playlists/playlists", {
+		limit,
+		offsetHash: options?.offsetHash
+	});
+	return eggsRequest(url, {}, { isAuthorizedRequest: true, cache: options?.cache }) as Promise<OffsetHashList<PlaylistPartial>>;
 }
 
-export async function getEggsPlaylistsWrapped(offset:string, limit:number) {
-	const playlists = await getPlaylists(limit, { offsetHash: offset || undefined });
-	return {
-		data: playlists.data.map(playlist => ({
-			playlistID: playlist.playlistId,
-			lastModified: new Date(playlist.updatedAt),
-		})),
-		totalCount: playlists.totalCount,
-		offset: playlists.offsetHash,
-	};
-}
+export const eggsPlaylistsWrapped = async(offset:string, limit:number) => 
+	offsetListMap(await createEggsWrappedGetterHash(getPlaylists)(limit, {offsetHash:offset || undefined}), playlist => ({
+		playlistID: playlist.playlistId,
+		lastModified: new Date(playlist.updatedAt),
+	}));
 
 export async function playlistAdd(playlist:PlaylistPartial, song:{artistId:number, musicId:string}) {
 	const playlistModifier = {
@@ -80,41 +63,24 @@ export async function playlistAdd(playlist:PlaylistPartial, song:{artistId:numbe
 }
 
 export async function newPlaylists(options?:{offset?:number, limit?:number}) {
-	const qs = new URLSearchParams();
-	if (options?.offset) qs.set("offset", options.offset.toString());
-	qs.set("limit", options?.limit?.toString() ?? "30");
-	return eggsRequest(`playlists/new/playlists?${qs.toString()}`, {}, {}) as Promise<PlaylistPartialList>;
+	const url = fillEggsSearchParams("playlists/new/playlists", {
+		offset: options?.offset ?? 0,
+		limit: options?.limit ?? 30,
+	});
+	return eggsRequest(url, {}, {}) as Promise<List<PlaylistPartial>>;
 }
 
-export async function getEggsNewPlaylistsWrapped(offset:string, limit:number) {
-	const offsetNum = offset === "" ? 0 : Number(offset);
-	const playlists = await newPlaylists({
-		limit,
-		offset: offsetNum,
-	});
-	return {
-		data: playlists.data,
-		totalCount: playlists.totalCount,
-		offset: (offsetNum + limit).toString()
-	};
-}
+export const eggsNewPlaylistsWrapped = async(offset:string, limit:number) =>
+	await createEggsWrappedGetter(newPlaylists)(offset, limit);
 
 export async function popularPlaylists(options?:{offset?:number, limit?:number}) {
-	const qs = new URLSearchParams();
-	if (options?.offset) qs.set("offset", options.offset.toString());
-	qs.set("limit", options?.limit?.toString() ?? "30");
-	return eggsRequest(`playlists/playlists/popular?${qs.toString()}`, {}, {}) as Promise<PlaylistPartialList>;
+	const url = fillEggsSearchParams("playlists/playlists/popular", {
+		offset: options?.offset ?? 0,
+		limit: options?.limit ?? 30,
+	});
+	return eggsRequest(url, {}, {}) as Promise<List<PlaylistPartial>>;
 }
 
-export async function getEggsPopularPlaylistsWrapped(offset:string, limit:number) {
-	const offsetNum = offset === "" ? 0 : Number(offset);
-	const playlists = await popularPlaylists({
-		limit,
-		offset: offsetNum,
-	});
-	return {
-		data: playlists.data,
-		totalCount: playlists.totalCount,
-		offset: (offsetNum + limit).toString()
-	};
-}
+export const eggsPopularPlaylistsWrapped = async(offset:string, limit:number) =>
+	await createEggsWrappedGetter(popularPlaylists)(offset, limit);
+

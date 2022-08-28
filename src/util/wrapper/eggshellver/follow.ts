@@ -1,6 +1,6 @@
 import { getEggshellverToken } from "../../util";
 import { postUserStubs } from "./userstub";
-import { baseURL, fillUrlSearchParams, UserStub } from "./util";
+import { baseURL, fillEggshellverSearchParams, UserStub } from "./util";
 
 interface rawFollows {
   follows: {
@@ -25,7 +25,7 @@ export async function getFollows(options:{
   limit?: number,
   offset?: number,
 }):Promise<Follows> {
-	const url = fillUrlSearchParams(new URL(`${baseURL}/follows`), options);
+	const url = fillEggshellverSearchParams("follows", options);
 	const res = (await (await fetch(url)).json()) as rawFollows;
 	return {
 		follows: res.follows.map(follow => ({
@@ -81,7 +81,7 @@ export async function putFollows(followees:UserStub[]) {
 }
 
 export async function deleteFollows(followeeIDs:string[]) {
-	const url = fillUrlSearchParams(new URL(`${baseURL}/follows`), {
+	const url = fillEggshellverSearchParams("follows", {
 		target: followeeIDs
 	});
 	const res = await fetch(url, {

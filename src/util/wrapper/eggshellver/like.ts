@@ -1,5 +1,5 @@
 import { getEggshellverToken } from "../../util";
-import { baseURL, fillUrlSearchParams, UserStub } from "./util";
+import { baseURL, fillEggshellverSearchParams, UserStub } from "./util";
 
 interface rawLikes {
   likes: {
@@ -27,7 +27,7 @@ export async function getLikes(options:{
   limit?: number,
   offset?: number,
 }):Promise<Likes> {
-	const url = fillUrlSearchParams(new URL(`${baseURL}/likes`), options);
+	const url = fillEggshellverSearchParams("likes", options);
 	const res = await fetch(url);
 	if (!res.ok) throw new Error(await res.text());
 
@@ -99,7 +99,7 @@ export async function putLikes(targetIDs:string[], type:"track"|"playlist") {
 }
 
 export async function deleteLikes(trackIDs:string[]) {
-	const url = fillUrlSearchParams(new URL(`${baseURL}/likes`), {
+	const url = fillEggshellverSearchParams("likes", {
 		target: trackIDs
 	});
 	const res = await fetch(url, {

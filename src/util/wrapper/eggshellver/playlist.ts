@@ -1,5 +1,5 @@
 import { getEggshellverToken } from "../../util";
-import { baseURL, fillUrlSearchParams, UserStub } from "./util";
+import { baseURL, fillEggshellverSearchParams, UserStub } from "./util";
 
 interface rawPlaylists {
   playlists: {
@@ -24,7 +24,7 @@ export async function getPlaylists(options:{
   limit?: number,
   offset?: number,
 }):Promise<Playlists> {
-	const url = fillUrlSearchParams(new URL(`${baseURL}/playlists`), options);
+	const url = fillEggshellverSearchParams("playlists", options);
 	const res = await fetch(url);
 	if (!res.ok) throw new Error(await res.text());
 	const playlists = (await (await fetch(url)).json()) as rawPlaylists;
@@ -77,7 +77,7 @@ export async function putPlaylists(playlists:PlaylistWrapper[]) {
 }
 
 export async function deletePlaylists(playlistIDs:string[]) {
-	const url = fillUrlSearchParams(new URL(`${baseURL}/playlists`), {
+	const url = fillEggshellverSearchParams("playlists", {
 		target: playlistIDs
 	});
 	const res = await fetch(url, {

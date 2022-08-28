@@ -1,7 +1,6 @@
 import { endpoints } from "../../../util/endpoints";
 import { getDeviceID, getToken, processedPathname } from "../../../util/util";
 
-export const eggsRoot = "https://api-flmg.eggs.mu/v1/";
 const eggsUserAgent = "flamingo/7.1.00 (Android; 11)";
 
 export default class Cacher {

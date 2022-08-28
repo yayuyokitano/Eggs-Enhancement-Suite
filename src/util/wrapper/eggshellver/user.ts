@@ -1,10 +1,10 @@
 import { prefectures } from "../../util";
-import { baseURL, fillUrlSearchParams, UserStub } from "./util";
+import { baseURL, fillEggshellverSearchParams, UserStub } from "./util";
 
 export async function getUsers(options:{
   users: string[],
 }):Promise<UserStub[]> {
-	const url = fillUrlSearchParams(new URL(`${baseURL}/users`), options);
+	const url = fillEggshellverSearchParams("users", options);
 	return (await fetch(url)).json();
 }
 

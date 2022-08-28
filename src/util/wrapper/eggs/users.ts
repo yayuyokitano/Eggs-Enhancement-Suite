@@ -2,6 +2,7 @@ import { UserStub } from "../eggshellver/util";
 import { ArtistData } from "./artist";
 import Cacher from "./cacher";
 import { eggsRequest } from "./request";
+import { createEggsWrappedGetter, fillEggsSearchParams, List, offsetListMap } from "./util";
 
 export interface Profile {
   data: {
@@ -32,26 +33,15 @@ export async function profile(cache?:Cacher) {
 	}) as Promise<Profile>;
 }
 
-export async function getFollows(limit:number, offset?:number) {
-	let qs = `?limit=${limit}`;
-	if (offset) qs += `&offset=${offset}`;
-	return eggsRequest("users/users/follow" + qs, {}, {
+export async function getFollows(options:{limit:number, offset?:number}) {
+	const url = fillEggsSearchParams("users/users/follow", {...options});
+	return eggsRequest(url, {}, {
 		isAuthorizedRequest: true,
-	}) as Promise<{
-    data: ArtistData[],
-    totalCount: number,
-  }>;
+	}) as Promise<List<ArtistData>>;
 }
 
-export async function getEggsFollowsWrapped(offset:string, limit:number) {
-	const offsetNum = offset === "" ? 0 : Number(offset);
-	const follows = await getFollows(limit, offsetNum);
-	return {
-		data: follows.data.map(follow => artistToUserStub(follow)),
-		totalCount: follows.totalCount,
-		offset: (offsetNum + limit).toString()
-	};
-}
+export const eggsFollowsWrapped = async(offset:string, limit:number) => 
+	offsetListMap(await createEggsWrappedGetter(getFollows)(offset, limit), artist => artistToUserStub(artist));
 
 function artistToUserStub(artist:ArtistData):UserStub {
 	return {

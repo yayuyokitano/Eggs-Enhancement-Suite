@@ -1,14 +1,20 @@
 import Cacher from "./cacher";
 import { eggsRequest } from "./request";
+import { createEggsWrappedGetter, fillEggsSearchParams, List, offsetListMap } from "./util";
 
-type LikeInfo = {
-  totalCount:number;
-  data: {
-    isLike: boolean;
-    musicId: string;
-    numberOfComments: number;
-    numberOfLikes: number;
-  }[];
+
+interface Like {
+	isLike: boolean;
+	numberOfLikes: number;
+}
+interface MusicLike extends Like {
+	musicId: string;
+	numberOfComments: number;
+}
+
+interface PlaylistLike {
+	userId: number;
+	playlistId: string;
 }
 
 export async function songLikeInfo(musicIds: (string|undefined)[], cache?:Cacher) {
@@ -17,7 +23,7 @@ export async function songLikeInfo(musicIds: (string|undefined)[], cache?:Cacher
 		totalCount: 0,
 		data: [],
 	};
-	return eggsRequest(`evaluation/evaluation/musics/like_info?musicIds=${musicIds.join(",")}`, {}, { isAuthorizedRequest: true, cache }) as Promise<LikeInfo>;
+	return eggsRequest(`evaluation/evaluation/musics/like_info?musicIds=${musicIds.join(",")}`, {}, { isAuthorizedRequest: true, cache }) as Promise<List<MusicLike>>;
 }
 
 export async function playlistLikeInfo(playlistIds: (string|undefined)[]) {
@@ -26,7 +32,7 @@ export async function playlistLikeInfo(playlistIds: (string|undefined)[]) {
 		totalCount: 0,
 		data: [],
 	};
-	return eggsRequest(`evaluation/evaluation/playlists/like_info?playlistIds=${playlistIds.join(",")}`, {}, { isAuthorizedRequest: true }) as Promise<LikeInfo>;
+	return eggsRequest(`evaluation/evaluation/playlists/like_info?playlistIds=${playlistIds.join(",")}`, {}, { isAuthorizedRequest: true }) as Promise<List<PlaylistLike>>;
 }
 
 
@@ -48,67 +54,29 @@ export async function likePlaylist(playlistId: string) {
   musicData: SongData;
 }*/
 
-export async function getMusicLikes(options: {
+export async function musicLikes(options: {
   limit: number,
   offset: number,
 }) {
-	const qs = new URLSearchParams();
-	qs.set("limit", options.limit.toString());
-	qs.set("offset", options.offset.toString());
-	qs.set("sortByUpdateAtOfLikes", "desc");
-	return eggsRequest("evaluation/evaluation/musics/like?" + qs.toString(), {}, { isAuthorizedRequest: true }) as Promise<{
-    totalCount: number;
-    data: {
-      isLike: boolean;
-      musicId: string;
-      numberOfComments: number;
-      numberOfLikes: number;
-    }[];
-  }>;
-}
-
-export async function getEggsTrackLikesWrapped(offset:string, limit:number) {
-	const offsetNum = offset === "" ? 0 : Number(offset);
-	const likes = await getMusicLikes({
-		limit,
-		offset: offsetNum,
+	const url = fillEggsSearchParams("evaluation/evaluation/musics/like", {
+		...options,
+		sortByUpdateAtOfLikes: "desc",
 	});
-	return {
-		data: likes.data.map(like => like.musicId),
-		totalCount: likes.totalCount,
-		offset: (offsetNum + limit).toString()
-	};
+	return eggsRequest(url, {}, { isAuthorizedRequest: true }) as Promise<List<MusicLike>>;
 }
 
-export async function getPlaylistLikes(options: {
+export const eggsTrackLikesWrapped = async(offset:string, limit:number) =>
+	offsetListMap(await createEggsWrappedGetter(musicLikes)(offset, limit), track => track.musicId);
+
+export async function playlistLikes(options: {
   limit: number,
   offset: number,
 }) {
-	const qs = new URLSearchParams();
-	qs.set("limit", options.limit.toString());
-	qs.set("offset", options.offset.toString());
-	qs.set("sortByUpdateAtOfLikes", "desc");
-	return eggsRequest("evaluation/evaluation/playlists/like?" + qs.toString(), {}, { isAuthorizedRequest: true }) as Promise<{
-    totalCount: number;
-    data: {
-      isLike: boolean;
-      playlistId: string;
-      userId: number;
-      numberOfLikes: number;
-    }[];
-  }>;
-}
-
-export async function getEggsPlaylistLikesWrapped(offset:string, limit:number) {
-	const offsetNum = offset === "" ? 0 : Number(offset);
-	const likes = await getPlaylistLikes({
-		limit,
-		offset: offsetNum,
+	const url = fillEggsSearchParams("evaluation/evaluation/playlists/like", {
+		...options, sortByUpdateAtOfLikes: "desc",
 	});
-	return {
-		data: likes.data.map(like => like.playlistId),
-		totalCount: likes.totalCount,
-		offset: (offsetNum + limit).toString()
-	};
+	return eggsRequest(url, {}, { isAuthorizedRequest: true }) as Promise<List<PlaylistLike>>;
 }
 
+export const eggsPlaylistLikesWrapped = async(offset:string, limit:number) =>
+	offsetListMap(await createEggsWrappedGetter(playlistLikes)(offset, limit), playlist => playlist.playlistId);

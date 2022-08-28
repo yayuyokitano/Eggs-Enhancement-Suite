@@ -1,4 +1,6 @@
-export const baseURL = "http://localhost:10000";
+import { Param, stringifyParam } from "../../../util/util";
+
+export const baseURL = "http://localhost:10000/";
 
 export interface UserStub {
   userName: string;
@@ -9,20 +11,10 @@ export interface UserStub {
   profile: string;
 }
 
-type Param = string|number|string[];
-
-function stringifyParam(param:Param) {
-	if (Array.isArray(param)) {
-		return param.join(",");
-	}
-	if (typeof param === "number") {
-		return param.toString();
-	}
-	return param;
-}
-
-export function fillUrlSearchParams(url: URL, params: { [key: string]: Param }): URL {
+export function fillEggshellverSearchParams(urlStr:string, params: { [key: string]: Param|undefined }): URL {
+	const url = new URL(`${baseURL}${urlStr}`);
 	for (const [key, value] of Object.entries(params)) {
+		if (value === undefined) continue;
 		url.searchParams.set(key, stringifyParam(value));
 	}
 	return url;

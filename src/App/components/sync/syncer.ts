@@ -1,7 +1,7 @@
-import { getEggsPlaylistsWrapped } from "../../../util/wrapper/eggs/playlists";
+import { eggsPlaylistsWrapped } from "../../../util/wrapper/eggs/playlists";
 import { getEggshellverPlaylistsWrapped, PlaylistWrapper, postPlaylists, putPlaylists } from "../../../util/wrapper/eggshellver/playlist";
-import { getEggsPlaylistLikesWrapped, getEggsTrackLikesWrapped } from "../../../util/wrapper/eggs/evaluation";
-import { getEggsFollowsWrapped, profile } from "../../../util/wrapper/eggs/users";
+import { eggsPlaylistLikesWrapped, eggsTrackLikesWrapped } from "../../../util/wrapper/eggs/evaluation";
+import { eggsFollowsWrapped, profile } from "../../../util/wrapper/eggs/users";
 import { getEggshellverPlaylistLikesWrapped, getEggshellverTrackLikesWrapped, postLikes, putLikes } from "../../../util/wrapper/eggshellver/like";
 import ItemFetcher, { FetchLabel } from "./itemFetcher";
 import { getEggshellverFollowsWrapped, postFollows, putFollows } from "../../../util/wrapper/eggshellver/follow";
@@ -92,7 +92,7 @@ export default class Syncer {
 		const fetcher = new ItemFetcher<UserStub>(
 			this.eggsID,
 			getEggshellverFollowsWrapped,
-			getEggsFollowsWrapped,
+			eggsFollowsWrapped,
 			putFollows,
 			postFollows,
 			this.shouldFullScan,
@@ -104,7 +104,7 @@ export default class Syncer {
 		const fetcher = new ItemFetcher<PlaylistWrapper>(
 			this.eggsID,
 			getEggshellverPlaylistsWrapped,
-			getEggsPlaylistsWrapped,
+			eggsPlaylistsWrapped,
 			putPlaylists,
 			postPlaylists,
 			this.shouldFullScan,
@@ -116,7 +116,7 @@ export default class Syncer {
 		const fetcher = new ItemFetcher<string>(
 			this.eggsID,
 			getEggshellverTrackLikesWrapped,
-			getEggsTrackLikesWrapped,
+			eggsTrackLikesWrapped,
 			(targetIDs:string[]) => putLikes(targetIDs, "track"),
 			(targetIDs:string[]) => postLikes(targetIDs, "track"),
 			this.shouldFullScan,
@@ -128,7 +128,7 @@ export default class Syncer {
 		const fetcher = new ItemFetcher<string>(
 			this.eggsID,
 			getEggshellverPlaylistLikesWrapped,
-			getEggsPlaylistLikesWrapped,
+			eggsPlaylistLikesWrapped,
 			(targetIDs:string[]) => putLikes(targetIDs, "playlist"),
 			(targetIDs:string[]) => postLikes(targetIDs, "playlist"),
 			this.shouldFullScan,

@@ -2,7 +2,7 @@ import Carousel from "../../App/components/carousel/carousel";
 import { ArtistList, PlaylistList } from "../../App/components/carousel/generators";
 import { TFunction } from "react-i18next";
 import { Incrementer } from "../../App/components/sync/itemFetcher";
-import { curryEggsArtistSearchWrapped, curryEggsPlaylistSearchWrapped } from "../../util/wrapper/eggs/search";
+import { currySearchArtistsWrapped, currySearchPlaylistsWrapped } from "../../util/wrapper/eggs/search";
 import "./search.scss";
 
 export default function Search(t:TFunction) {
@@ -20,7 +20,7 @@ export default function Search(t:TFunction) {
 				title="artistResult"
 				init={[]}
 				ElementList={ArtistList}
-				incrementer={new Incrementer(curryEggsArtistSearchWrapped(searchKeyword), 30)}
+				incrementer={new Incrementer(currySearchArtistsWrapped(searchKeyword), 30)}
 				uniquePropName="artistName"
 				eggsGetSongCurry="curryEggsArtistSearchPlayback"
 				payload={searchKeyword}
@@ -33,7 +33,7 @@ export default function Search(t:TFunction) {
 				title="playlistResult"
 				init={[]}
 				ElementList={PlaylistList}
-				incrementer={new Incrementer(curryEggsPlaylistSearchWrapped(searchKeyword), 30)}
+				incrementer={new Incrementer(currySearchPlaylistsWrapped(searchKeyword), 30)}
 				uniquePropName="playlistId"
 			/>
 		</div>
