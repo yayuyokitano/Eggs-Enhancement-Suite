@@ -258,6 +258,7 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 	private _volume;
 	private incrementer?:Incrementer<SongData>;
 	private populating = false;
+	private initialQueueUsed = false;
 
 	constructor(
 		initialQueue:SongData[],
@@ -371,6 +372,10 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 
 		// ignore options and use incrementer if present
 		if (this.incrementer) {
+			if (!this.initialQueueUsed) {
+				this.innerQueue.add(...this.initialQueue.slice(1));
+				this.initialQueueUsed = true;
+			}
 			try {
 				while (this.innerQueue.length < 50 && this.incrementer.isAlive) {
 					this.innerQueue.add(...(await this.incrementer.getPage()).data);

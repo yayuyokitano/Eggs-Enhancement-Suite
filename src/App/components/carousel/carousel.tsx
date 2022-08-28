@@ -21,13 +21,15 @@ interface CarouselIncrementer<T> extends CarouselSetParams<T> {
 }
 
 interface CarouselFullParams<T> extends CarouselIncrementer<T> {
-	eggsGetSongCurry:ArtistFetcherString
+	eggsGetSongCurry:ArtistFetcherString,
+	payload?:string,
 }
 
 export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrementer<T>|CarouselFullParams<T>) {
 	const { ElementList, init, width, size, t, title } = props;
 	const [scroll, setScroll] = useState(0);
 	const [children, setChildren] = useState<T[]>(init);
+	const [totalCount, setTotalCount] = useState(0);
 	const carouselRef = useRef<HTMLUListElement>(null);
 
 	useEffect(() => {
@@ -45,6 +47,7 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 		// add dynamic elements
 		if ("incrementer" in props && props.incrementer.isAlive && !props.incrementer.fetching && carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000) {
 			props.incrementer.getPage(false).then(page => {
+				setTotalCount(page.totalCount);
 				setChildren((children) => [
 					...children,
 					...page.data.filter(item => !children.some(child => child[props.uniquePropName] === item[props.uniquePropName]))
@@ -62,10 +65,11 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 	return (
 		<div className="ees-carousel-outer">
 			<div className="ees-carousel-header">
-				<h2>{t(title)}</h2>
+				<h2>{t(title, {count: totalCount})}</h2>
 				{("eggsGetSongCurry" in props) ? <CarouselPlayer
 					t={t}
-					eggsGetSongCurry={props.eggsGetSongCurry} /> : <></>}
+					eggsGetSongCurry={props.eggsGetSongCurry}
+					payload={props.payload} /> : <></>}
 			</div>
 			<div className={`ees-carousel-wrapper ees-carousel-wrapper-${size}${("eggsGetSongCurry" in props) ? " ees-carousel-with-player" : ""}`}>
 				<button
@@ -86,8 +90,8 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 	);
 }
 
-function CarouselPlayer(props: {t:TFunction, eggsGetSongCurry:ArtistFetcherString}) {
-	const { eggsGetSongCurry, t } = props;
+function CarouselPlayer(props: {t:TFunction, eggsGetSongCurry:ArtistFetcherString, payload?:string}) {
+	const { eggsGetSongCurry, t, payload } = props;
 	return <div className="ees-carousel-play-wrapper">
 		<span className="ees-carousel-play-label">{t("global:carousel.forEachArtist")}</span>
 		<div className="ees-carousel-play-buttons">
@@ -95,19 +99,22 @@ function CarouselPlayer(props: {t:TFunction, eggsGetSongCurry:ArtistFetcherStrin
 				type="button"
 				onClick={async () => playDynamic({
 					artistFetcher: eggsGetSongCurry,
-					songFetcher: "artistAllTracks"
+					songFetcher: "artistAllTracks",
+					payload,
 				})}>{t("global:carousel.playAllTracks")}</button>
 			<button
 				type="button"
 				onClick={async () => playDynamic({
 					artistFetcher: eggsGetSongCurry,
-					songFetcher: "artistTopTrack"
+					songFetcher: "artistTopTrack",
+					payload,
 				})}>{t("global:carousel.playTopTrack")}</button>
 			<button
 				type="button"
 				onClick={async () => playDynamic({
 					artistFetcher: eggsGetSongCurry,
-					songFetcher: "artistNewTrack"
+					songFetcher: "artistNewTrack",
+					payload,
 				})}>{t("global:carousel.playNewestTrack")}</button>
 		</div>
 	</div>;

@@ -22,6 +22,8 @@
 		.ees-carousel-inner {
 			height: 100%;
 			overflow: hidden;
+			flex-grow: 1;
+
 			.ees-carousel {
 				display: flex;
 				width: 100%;

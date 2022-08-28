@@ -29,7 +29,7 @@ interface PlaylistPartials extends PlaylistPartialList {
   offsetHash: string;
 }
 
-interface PlaylistPartialList {
+export interface PlaylistPartialList {
   data: PlaylistPartial[];
   totalCount: number;
 }

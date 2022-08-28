@@ -1,0 +1,8 @@
+{
+	"header": "Search results for {{searchKeyword}}",
+	"noKeyword": "No keyword specified.",
+	"playlistResult_one": "Playlist ({{count}})",
+	"playlistResult_other": "Playlists ({{count}})",
+	"artistResult_one": "Artist ({{count}})",
+	"artistResult_other": "Artists ({{count}})"
+}

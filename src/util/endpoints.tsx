@@ -9,6 +9,8 @@ import { getPlaylists } from "./wrapper/eggs/playlists";
 import { artistTracks } from "./wrapper/eggs/artist";
 import { songLikeInfo } from "./wrapper/eggs/evaluation";
 import Cacher from "./wrapper/eggs/cacher";
+import { searchArtists, searchPlaylists } from "./wrapper/eggs/search";
+import Search from "../App/search/search";
 
 export const endpoints:{[key:string]:{
   rootSelector: string;
@@ -33,6 +35,12 @@ export const endpoints:{[key:string]:{
 		Element: Artist,
 		translations: [],
 		cacheFunc: fetchArtist
+	},
+	"/search": {
+		rootSelector: ".l-contents_wrapper",
+		Element: Search,
+		translations: ["search"],
+		cacheFunc: fetchSearch
 	},
 	"/playlist": {
 		rootSelector: ".l-contents_wrapper",
@@ -61,4 +69,15 @@ async function fetchArtist(cache:Cacher) {
 async function fetchProfile(cache:Cacher) {
 	profile(cache);
 	getPlaylists(10, { cache: cache });
+}
+
+async function fetchSearch(cache:Cacher) {
+	fetchProfile(cache);
+	const searchWord = new URLSearchParams(window.location.search).get("searchKeyword");
+	if (!searchWord) return;
+
+	// for some reason this breaks in the dev environment sometimes, dont worry about it, it works in prod.
+	// even if it breaks it only slows down load by about 100ms its fine.
+	searchPlaylists(searchWord, {offset: 0, limit: 30}, cache);
+	searchArtists(searchWord, {offset: 0, limit: 30}, cache);
 }

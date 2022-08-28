@@ -4,6 +4,7 @@ import browser from "webextension-polyfill";
 import { apiKey } from "./scrobbler";
 import { artistAllTracks, artistNewTrack, artistTopTrack } from "./wrapper/eggs/artist";
 import { curryEggsRecommendedArtistsWrapped } from "./wrapper/eggs/recommend";
+import { curryEggsArtistSearchPlayback } from "./wrapper/eggs/search";
 
 const generateRandomHex = (size:number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join("");
 
@@ -247,12 +248,13 @@ export const sleep:(ms:number) => Promise<void> = (ms:number) => new Promise((re
 
 export const getArtistPage = (artistName:string) => `https://eggs.mu/artist/${artistName}`;
 
-export type ArtistFetcherString = "curryEggsRecommendedArtistsWrapped";
+export type ArtistFetcherString = "curryEggsRecommendedArtistsWrapped"|"curryEggsArtistSearchPlayback";
 export type SongFetcherString = "artistAllTracks"|"artistTopTrack"|"artistNewTrack";
 
 export interface SongCurry {
 	artistFetcher:ArtistFetcherString;
 	songFetcher:SongFetcherString;
+	payload?:string;
 }
 
 export function currySongFunction(songCurry:SongCurry) {
@@ -261,6 +263,9 @@ export function currySongFunction(songCurry:SongCurry) {
 	switch(songCurry.artistFetcher) {
 	case "curryEggsRecommendedArtistsWrapped":
 		return curryEggsRecommendedArtistsWrapped(songFunction);
+	case "curryEggsArtistSearchPlayback":
+		if (!songCurry.payload) throw new Error("payload is required for curryEggsArtistSearchPlayback");
+		return curryEggsArtistSearchPlayback(songCurry.payload, songFunction);
 	}
 }
 

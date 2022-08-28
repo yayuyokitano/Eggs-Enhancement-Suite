@@ -30,8 +30,15 @@ export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch
 			const eggsGet = currySongFunction(eggsGetCurry);
 			const incrementer = new Incrementer(eggsGet, 1);
 			try {
-				const initialItems = (await incrementer.getPage()).data.flat();
-				playbackController.setPlaybackDynamic(initialItems, incrementer);
+				let shouldContinue = true;
+				do {
+					const initialItems = (await incrementer.getPage()).data.flat();
+					if (initialItems.length === 0) {
+						continue;
+					}
+					playbackController.setPlaybackDynamic(initialItems, incrementer);
+					shouldContinue = false;
+				} while (shouldContinue);
 			} catch(err) {
 				console.error(err);
 			}
