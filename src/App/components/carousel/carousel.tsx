@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import "../home/carouselItems.scss";
-import { ArtistFetcherString, SongCurry } from "../../util/util";
-import { ArrowBackIosNewRoundedIcon, ArrowForwardIosRoundedIcon } from "../../util/icons";
-import { Incrementer, IncrementerError } from "./sync/itemFetcher";
+import "./carouselItems.scss";
+import { ArtistFetcherString, SongCurry } from "../../../util/util";
+import { ArrowBackIosNewRoundedIcon, ArrowForwardIosRoundedIcon } from "../../../util/icons";
+import { Incrementer, IncrementerError } from "../sync/itemFetcher";
 import { TFunction } from "react-i18next";
 
 interface CarouselSetParams<T> {

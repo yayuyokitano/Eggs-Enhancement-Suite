@@ -1,8 +1,8 @@
 import { Incrementer } from "../../App/components/sync/itemFetcher";
 import { TFunction } from "react-i18next";
 import { getEggsRecommendedArtistsWrapped } from "../../util/wrapper/eggs/recommend";
-import Carousel from "../components/carousel";
-import { NewsList, ArtistList, PlaylistList } from "./generators";
+import Carousel from "../components/carousel/carousel";
+import { NewsList, ArtistList, PlaylistList } from "../components/carousel/generators";
 
 import "./home.scss";
 import { getEggsNewPlaylistsWrapped, getEggsPopularPlaylistsWrapped } from "../../util/wrapper/eggs/playlists";

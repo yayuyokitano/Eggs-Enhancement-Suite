@@ -1,9 +1,9 @@
 import { TFunction } from "react-i18next";
-import { PlaylistPartial } from "../../util/wrapper/eggs/playlists";
-import { defaultAvatar, getArtistPage } from "../../util/util";
-import { ArtistData } from "../../util/wrapper/eggs/artist";
-import { News } from "./home";
-import { PlaylistCover } from "../../App/components/playlistcover";
+import { PlaylistPartial } from "../../../util/wrapper/eggs/playlists";
+import { defaultAvatar, getArtistPage } from "../../../util/util";
+import { ArtistData } from "../../../util/wrapper/eggs/artist";
+import { News } from "../../home/home";
+import { PlaylistCover } from "../playlistcover";
 
 export function NewsList(props: {t:TFunction, items:News[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) {
 	const {t, items, refName, setScroll} = props;
