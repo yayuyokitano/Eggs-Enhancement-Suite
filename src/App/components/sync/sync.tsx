@@ -66,11 +66,13 @@ export default function Sync(props: { t:TFunction }) {
 	const [syncState, dispatch] = React.useReducer(reducer, initialState);
 
 	return (
-		<div id="ees-sync">
+		<div
+			id="ees-sync"
+			className="ees-popout-wrapper">
 			<button
 				type="button"
 				id="ees-sync-button"
-				className={syncState.state}
+				className={`ees-popout-button ${syncState.state}`}
 				onClick={toggleSyncActive}>
 				<SyncRoundedIcon />
 			</button>
@@ -85,7 +87,9 @@ export default function Sync(props: { t:TFunction }) {
 function SyncContent(props: { t:TFunction, syncState:SyncState, dispatch:React.Dispatch<StateAction> }) {
 	const { t, syncState, dispatch } = props;
 	return (
-		<div id="ees-sync-inner">
+		<div
+			id="ees-sync-inner"
+			className="ees-popout-inner">
 			<button
 				type="button"
 				id="ees-sync-test-button"

@@ -1,0 +1,53 @@
+.ees-popout-wrapper {
+	position: absolute;
+	right: 0;
+	transform: translateX(100%);
+	background-color: var(--menubg);
+	transition: transform 0.2s ease-in-out;
+
+	width: 200px;
+	height: calc(100vh - 272px);
+	border-radius: 0 0 0 5px;
+
+	.ees-popout-button {
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 17px 2px;
+		padding-bottom: 13px;
+		background-color: var(--menubg);
+		transform: translateX(-100%);
+		border-radius: 5px 0 0 5px;
+
+		box-shadow: -5px 0 5px var(--shadow5);
+
+		svg {
+			width: 32px;
+			height: 32px;
+			fill: var(--textlight);
+		}
+
+		&:hover {
+			background-color: var(--eggsyellow);
+
+			svg {
+				fill: var(--alwaysdark2);
+			}
+		}
+	}
+
+	.ees-popout-inner {
+		height: 100%;
+		overflow-y: auto;
+	}
+
+	h3 {
+		padding-top: 2px;
+		padding-left: 4px;
+	}
+
+	&.active {
+		transform: translateX(0);
+		box-shadow: -5px 0 5px var(--shadow5);
+	}
+}

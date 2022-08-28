@@ -13,10 +13,13 @@ function toggleQueueActive() {
 export default function Queue(props: { playbackController?:PlaybackController, t:TFunction }) {
 	const { playbackController, t } = props;
 	return (
-		<div id="ees-player-queue">
+		<div
+			id="ees-player-queue"
+			className="ees-popout-wrapper">
 			<button
 				type="button"
 				id="ees-player-queue-button"
+				className="ees-popout-button"
 				onClick={toggleQueueActive}>
 				<QueueMusicRoundedIcon />
 			</button>
@@ -37,7 +40,9 @@ function QueueContent(props: { playbackController?:PlaybackController, t:TFuncti
 	});
 
 	return (
-		<div id="ees-player-queue-inner">
+		<div
+			id="ees-player-queue-inner"
+			className="ees-popout-inner">
 			<PlayNext
 				playbackController={playbackController}
 				t={t} />

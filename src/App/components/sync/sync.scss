@@ -1,64 +1,13 @@
+@use "../popouts.scss";
+
 #ees-sync {
-	position: absolute;
 	top: 172px;
-	right: 0;
-	transform: translateX(100%);
-	background-color: var(--menubg);
-	transition: transform 0.2s ease-in-out;
-
-	width: 200px;
-	height: calc(100vh - 272px);
-	border-radius: 0 0 0 5px;
-
-	#ees-sync-inner {
-		height: 100%;
-		overflow-y: auto;
-	}
-
-	h3 {
-		padding-top: 2px;
-		padding-left: 4px;
-	}
-
-	.ees-track-container {
-		margin-bottom: 0;
-	}
-
-	&.active {
-		transform: translateX(0);
-		box-shadow: -5px 0 5px var(--shadow5);
-	}
 
 	#ees-sync-status {
 		white-space: pre-line;
 	}
 
 	#ees-sync-button {
-		position: absolute;
-		top: 0;
-		left: 0;
-		padding: 17px 2px;
-		padding-bottom: 13px;
-		background-color: var(--menubg);
-		transform: translateX(-100%);
-		border-radius: 5px 0 0 5px;
-
-		box-shadow: -5px 0 5px var(--shadow5);
-
-		svg {
-			width: 32px;
-			height: 32px;
-			fill: var(--textlight);
-		}
-
-		&:hover {
-			background-color: var(--eggsyellow);
-
-			svg {
-				fill: var(--alwaysdark2);
-			}
-		}
-
 		&.syncing {
 			background: repeating-linear-gradient(
 				45deg,
