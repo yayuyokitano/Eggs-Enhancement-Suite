@@ -68,9 +68,9 @@
 		transform: scale(1.05);
 
 		.ees-article-image {
-			transform: scale(1.1);
-			filter: blur(0.3px);
-			-ms-filter: blur(0.3px);
+			transform: scale(1.15);
+			filter: blur(0.4px);
+			-ms-filter: blur(0.4px);
 			opacity: 1;
 			-webkit-opacity: 1;
 			-moz-opacity: 1;
@@ -112,9 +112,9 @@
 
 	&:hover {
 		.ees-carousel-artist-image {
-			transform: scale(1.1);
-			filter: blur(0.4px);
-			-ms-filter: blur(0.4px);
+			transform: scale(1.15);
+			filter: blur(0.5px);
+			-ms-filter: blur(0.5px);
 			opacity: 1;
 			-webkit-opacity: 1;
 			-moz-opacity: 1;
@@ -154,9 +154,9 @@
 			border-radius: 30%;
 
 			.ees-playlist-cover {
-				transform: scale(1.1);
-				filter: blur(0.4px);
-				-ms-filter: blur(0.4px);
+				transform: scale(1.15);
+				filter: blur(0.7px);
+				-ms-filter: blur(0.7px);
 
 				img {
 					opacity: 1;

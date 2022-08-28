@@ -40,6 +40,10 @@ interface Playlists {
 }
 
 export async function playlist(playlistID:string) {
+	const playlist = await eggsRequest(`search/search/playlists?playlistIds=${playlistID}&limit=1`, {}, {}) as Playlists;
+	if (playlist.totalCount) {
+		return playlist;
+	}
 	return eggsRequest(`playlists/playlists/${playlistID}`, {}, { isAuthorizedRequest: true }) as Promise<Playlists>;
 }
 
