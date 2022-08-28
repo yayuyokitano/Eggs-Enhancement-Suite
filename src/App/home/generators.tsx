@@ -3,12 +3,13 @@ import { defaultAvatar, getArtistPage } from "../../util/util";
 import { ArtistData } from "../../util/wrapper/eggs/artist";
 import { News } from "./home";
 
-export function NewsList(props: {t:TFunction, items:News[], refName:React.RefObject<HTMLUListElement>}) {
-	const {t, items, refName} = props;
+export function NewsList(props: {t:TFunction, items:News[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) {
+	const {t, items, refName, setScroll} = props;
 	return (
 		<ul
 			className="ees-carousel"
-			ref={refName}>
+			ref={refName}
+			onScroll={e => setScroll(e.currentTarget.scrollLeft)}>
 			{items.map((summary) => (
 				<CarouselItem key={summary.url}>
 					<a
@@ -34,12 +35,13 @@ export function NewsList(props: {t:TFunction, items:News[], refName:React.RefObj
 	);
 }
 
-export function ArtistList(props: {t:TFunction, items:ArtistData[], refName:React.RefObject<HTMLUListElement>}) {
-	const { items, refName } = props;
+export function ArtistList(props: {t:TFunction, items:ArtistData[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) {
+	const { items, refName, setScroll } = props;
 	return (
 		<ul
 			className="ees-carousel"
-			ref={refName}>
+			ref={refName}
+			onScroll={e => setScroll(e.currentTarget.scrollLeft)}>
 			{items.map((artist) => (
 				<CarouselItem key={artist.artistName}>
 					<a

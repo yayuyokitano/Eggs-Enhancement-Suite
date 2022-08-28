@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../home/carouselItems.scss";
-import { ArtistFetcherString, clamp, SongCurry } from "../../util/util";
+import { ArtistFetcherString, SongCurry } from "../../util/util";
 import { ArrowBackIosNewRoundedIcon, ArrowForwardIosRoundedIcon } from "../../util/icons";
 import { Incrementer, IncrementerError } from "./sync/itemFetcher";
 import { TFunction } from "react-i18next";
@@ -12,7 +12,7 @@ interface CarouselSetParams<T> {
 	t:TFunction,
 	title:string,
 	init:T[],
-	ElementList:(props:{t:TFunction, items:T[], refName:React.RefObject<HTMLUListElement>}) => JSX.Element
+	ElementList:(props:{t:TFunction, items:T[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) => JSX.Element
 }
 
 interface CarouselFullParams<T> extends CarouselSetParams<T> {
@@ -28,8 +28,7 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselFullParam
 
 	useEffect(() => {
 		if (carouselRef.current === null) return;
-		setScroll(clamp(0, scroll, carouselRef.current.scrollWidth - carouselRef.current.clientWidth));
-		carouselRef.current.scrollLeft = scroll;
+		//setScroll(clamp(0, scroll, carouselRef.current.scrollWidth - carouselRef.current.clientWidth));
 
 		// add dynamic elements
 		if ("incrementer" in props && props.incrementer.isAlive && carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000) {
@@ -58,14 +57,17 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselFullParam
 			<div className={`ees-carousel-wrapper ees-carousel-wrapper-${size}${("eggsGetSongCurry" in props) ? " ees-carousel-with-player" : ""}`}>
 				<button
 					className="ees-carousel-btn ees-carousel-prev"
-					onClick={() => carouselPrev(width, scroll, setScroll)}><ArrowBackIosNewRoundedIcon /></button>
-				<ElementList
-					t={t}
-					items={children}
-					refName={carouselRef} />
+					onClick={() => carouselPrev(width, carouselRef)}><ArrowBackIosNewRoundedIcon /></button>
+				<div className="ees-carousel-inner">
+					<ElementList
+						t={t}
+						items={children}
+						refName={carouselRef}
+						setScroll={setScroll} />
+				</div>
 				<button
 					className="ees-carousel-btn ees-carousel-next"
-					onClick={() => carouselNext(width, scroll, setScroll)}><ArrowForwardIosRoundedIcon /></button>
+					onClick={() => carouselNext(width, carouselRef)}><ArrowForwardIosRoundedIcon /></button>
 			</div>
 		</div>
 	);
@@ -108,10 +110,12 @@ function playDynamic(eggsGetSongCurry:SongCurry) {
 	}, "*");
 }
 
-function carouselNext(width:number, scroll:number, setScroll:React.Dispatch<React.SetStateAction<number>>) {
-	setScroll(scroll + width);
+function carouselNext(width:number, carouselRef:React.RefObject<HTMLUListElement>) {
+	if (carouselRef.current === null) return;
+	carouselRef.current.scrollLeft += width;
 }
 
-function carouselPrev(width:number, scroll:number, setScroll:React.Dispatch<React.SetStateAction<number>>) {
-	setScroll(scroll - ((scroll % width) || width));
+function carouselPrev(width:number, carouselRef:React.RefObject<HTMLUListElement>) {
+	if (carouselRef.current === null) return;
+	carouselRef.current.scrollLeft -= width;
 }
