@@ -11,6 +11,8 @@ import { songLikeInfo } from "./wrapper/eggs/evaluation";
 import Cacher from "./wrapper/eggs/cacher";
 import { searchArtists, searchPlaylists } from "./wrapper/eggs/search";
 import Search from "../App/search/search";
+import Ranking from "../App/ranking/ranking";
+import { getRanking } from "./util";
 
 export const endpoints:{[key:string]:{
   rootSelector: string;
@@ -41,6 +43,12 @@ export const endpoints:{[key:string]:{
 		Element: Search,
 		translations: ["search"],
 		cacheFunc: fetchSearch
+	},
+	"/ranking": {
+		rootSelector: ".l-contents_wrapper",
+		Element: Ranking,
+		translations: [],
+		cacheFunc: fetchRanking
 	},
 	"/playlist": {
 		rootSelector: ".l-contents_wrapper",
@@ -81,3 +89,9 @@ async function fetchSearch(cache:Cacher) {
 	searchPlaylists(searchWord, {offset: 0, limit: 30}, cache);
 	searchArtists(searchWord, {offset: 0, limit: 30}, cache);
 }
+
+async function fetchRanking(cache:Cacher) {
+	fetchProfile(cache);
+	getRanking(cache);
+}
+

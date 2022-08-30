@@ -163,5 +163,11 @@
 		"playAllTracks": "Play all tracks",
 		"playTopTrack": "Play top track",
 		"playNewestTrack": "Play newest track"
+	},
+	"ranking": {
+		"ranking": "Ranking",
+		"daily": "Daily",
+		"weekly": "Weekly",
+		"youtube": "YouTube"
 	}
 }

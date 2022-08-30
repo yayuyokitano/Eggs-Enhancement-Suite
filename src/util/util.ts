@@ -2,7 +2,9 @@ import { PlaybackController } from "App/player/playback";
 import { TFunction } from "react-i18next";
 import browser from "webextension-polyfill";
 import { apiKey } from "./scrobbler";
-import { artistAllTracks, artistNewTrack, artistTopTrack } from "./wrapper/eggs/artist";
+import { artistAllTracks, artistNewTrack, artistTopTrack, SourceType } from "./wrapper/eggs/artist";
+import Cacher from "./wrapper/eggs/cacher";
+import { artistRanking, curryEggsArtistRankingPlayback, musicRanking } from "./wrapper/eggs/ranking";
 import { curryEggsRecommendedArtistsPlayback } from "./wrapper/eggs/recommend";
 import { curryEggsArtistSearchPlayback } from "./wrapper/eggs/search";
 
@@ -229,7 +231,7 @@ export type PopupMessage = {
 
 export function processedPathname() {
 	const playlistConcat = new URLSearchParams(window.location.search).has("playlist") ? "playlist" : "";
-	const processedPath = "/" + window.location.pathname.split("/").filter((_,i)=>i%2).join("/");
+	const processedPath = "/" + window.location.pathname.split("/").filter((e,i)=>i%2 && e !== "daily" && e !== "weekly").join("/");
 	if (processedPath !== "/") {
 		return removeTrailingSlash(processedPath);
 	}
@@ -247,7 +249,7 @@ export const sleep:(ms:number) => Promise<void> = (ms:number) => new Promise((re
 
 export const getArtistPage = (artistName:string) => `https://eggs.mu/artist/${artistName}`;
 
-export type ArtistFetcherString = "curryEggsRecommendedArtistsWrapped"|"curryEggsArtistSearchPlayback";
+export type ArtistFetcherString = "curryEggsRecommendedArtistsPlayback"|"curryEggsArtistSearchPlayback"|"curryEggsArtistRankingPlayback";
 export type SongFetcherString = "artistAllTracks"|"artistTopTrack"|"artistNewTrack";
 
 export interface SongCurry {
@@ -260,11 +262,15 @@ export function currySongFunction(songCurry:SongCurry) {
 	const songFunction = getSongFunction(songCurry.songFetcher);
 	
 	switch(songCurry.artistFetcher) {
-	case "curryEggsRecommendedArtistsWrapped":
+	case "curryEggsRecommendedArtistsPlayback":
 		return curryEggsRecommendedArtistsPlayback(songFunction);
 	case "curryEggsArtistSearchPlayback":
 		if (!songCurry.payload) throw new Error("payload is required for curryEggsArtistSearchPlayback");
 		return curryEggsArtistSearchPlayback(songCurry.payload, songFunction);
+	case "curryEggsArtistRankingPlayback":
+		if (!songCurry.payload) throw new Error("payload is required for curryEggsArtistRankingPlayback");
+		if (songCurry.payload !== "daily" && songCurry.payload !== "weekly") throw new Error("payload must be either daily or weekly");
+		return curryEggsArtistRankingPlayback(songCurry.payload, songFunction);
 	}
 }
 
@@ -293,4 +299,25 @@ export function stringifyParam(param:Param) {
 		return param.toString();
 	}
 	return param;
+}
+
+export async function getRanking(cache?:Cacher) {
+	const path = window.location.pathname.split("/").slice(2);
+	if (path.length !== 2) throw new Error("Invalid path");
+
+	const timePeriod = path[1];
+	if (timePeriod !== "daily" && timePeriod !== "weekly") throw new Error("Invalid path");
+
+
+	// for some reason this breaks in the dev environment sometimes, dont worry about it, it works in prod.
+	// even if it breaks it only slows down load by about 100ms its fine.
+	switch(path[0]) {
+	case "artist":
+		return artistRanking(timePeriod, {limit: 30, offset: 0}, cache);
+	case "song":
+		return musicRanking(SourceType.Eggs, timePeriod, cache);
+	case "youtube":
+		return musicRanking(SourceType.YouTube, timePeriod, cache);
+	}
+	throw new Error("Invalid path");
 }

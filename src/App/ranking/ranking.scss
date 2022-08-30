@@ -1,0 +1,28 @@
+.m-pagetitle {
+	display: none;
+}
+
+.ees-ranking-wrapper {
+	max-width: 1240px;
+	margin: 0 auto;
+
+	h1 {
+		text-align: center;
+	}
+}
+
+.ranking_category {
+	margin-bottom: 2rem;
+}
+
+.dayweekNav {
+	max-width: 1000px;
+	margin: 0 auto;
+	margin-bottom: 4rem;
+	li {
+		a,
+		span {
+			padding: 0.25rem 0;
+		}
+	}
+}

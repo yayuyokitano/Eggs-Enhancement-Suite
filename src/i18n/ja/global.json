@@ -153,5 +153,11 @@
 		"playAllTracks": "全曲を再生",
 		"playTopTrack": "人気曲を再生",
 		"playNewestTrack": "新着曲を再生"
+	},
+	"ranking": {
+		"ranking": "ランキング",
+		"daily": "デイリー",
+		"weekly": "ウィークリー",
+		"youtube": "YouTube"
 	}
 }

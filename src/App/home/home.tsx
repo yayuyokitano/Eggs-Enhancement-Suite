@@ -45,7 +45,7 @@ export default function Home(t:TFunction) {
 				ElementList={ArtistList}
 				incrementer={new Incrementer(eggsRecommendedArtistsWrapped, 10)}
 				uniquePropName="artistName"
-				eggsGetSongCurry="curryEggsRecommendedArtistsWrapped"
+				eggsGetSongCurry="curryEggsRecommendedArtistsPlayback"
 			/>
 			<Carousel
 				width={204}

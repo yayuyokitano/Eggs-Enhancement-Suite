@@ -4,7 +4,7 @@ import { List } from "./util";
 
 export enum SourceType {
   Eggs = 1,
-  Youtube,
+  YouTube,
 }
 
 export interface ArtistData {

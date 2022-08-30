@@ -32,7 +32,7 @@ export async function searchArtists(searchWord:string, options: {
 	return eggsRequest(url, {}, {cache}) as Promise<{totalCount:number, data: ArtistData[]}>;
 }
 
-const currySearchArtists = (searchWord:string) => async(options: {offset:number, limit:number}) => searchArtists(searchWord, {...options});
+const currySearchArtists = (searchWord:string) => async(options: {offset:number, limit:number}) => searchArtists(searchWord, options);
 
 export const currySearchArtistsWrapped = (searchWord:string) => async(offset:string, limit:number) => 
 	await createEggsWrappedGetter(currySearchArtists(searchWord))(offset, limit);

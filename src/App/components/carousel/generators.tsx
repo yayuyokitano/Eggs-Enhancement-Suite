@@ -4,6 +4,7 @@ import { defaultAvatar, getArtistPage } from "../../../util/util";
 import { ArtistData } from "../../../util/wrapper/eggs/artist";
 import { News } from "../../home/home";
 import { PlaylistCover } from "../playlistcover";
+import { RankingArtist } from "util/wrapper/eggs/ranking";
 
 export function NewsList(props: {t:TFunction, items:News[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) {
 	const {t, items, refName, setScroll} = props;
@@ -54,6 +55,34 @@ export function ArtistList(props: {t:TFunction, items:ArtistData[], refName:Reac
 							<img
 								className="ees-carousel-artist-image"
 								src={artist.imageDataPath ?? defaultAvatar}
+								alt=""
+								width={175}
+								height={175} />
+						</div>
+					</a>
+				</CarouselItem>
+			))}
+		</ul>
+	);
+}
+
+export function RankingArtistList(props: {t:TFunction, items:RankingArtist[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) {
+	const { items, refName, setScroll } = props;
+	return (
+		<ul
+			className="ees-carousel"
+			ref={refName}
+			onScroll={e => setScroll(e.currentTarget.scrollLeft)}>
+			{items.map((artist) => (
+				<CarouselItem key={artist.artistId}>
+					<a
+						className="ees-carousel-artist"
+						href={getArtistPage(artist.artistData.artistName)}>
+						<h3 className="ees-carousel-artist-name">{artist.artistData.displayName}</h3>
+						<div className="ees-carousel-artist-image-wrapper">
+							<img
+								className="ees-carousel-artist-image"
+								src={artist.artistData.imageDataPath ?? defaultAvatar}
 								alt=""
 								width={175}
 								height={175} />

@@ -183,7 +183,7 @@ class SongElement {
 				});
 			});
 			break;
-		case SourceType.Youtube:
+		case SourceType.YouTube:
 			if (!youtube.current) return;
 			this.element = new YoutubePlayer(youtube.current, track, this.audioEmitter, this.setTimeData);
 			break;
@@ -199,7 +199,7 @@ class SongElement {
 	}
 
 	public destroy() {
-		if (this.sourceType === SourceType.Youtube) {
+		if (this.sourceType === SourceType.YouTube) {
 			(this.element as YoutubePlayer).destroy();
 		}
 	}
