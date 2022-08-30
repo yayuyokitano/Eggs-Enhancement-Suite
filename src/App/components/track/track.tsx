@@ -139,7 +139,7 @@ export default function Track(props:{
 					<li onClick={() => { addToQueue(track); }}>{t("global:track.addToQueue")}</li>
 					{loggedIn && <li
 						className="ees-playlist-modal-creator"
-						onClick={() => { addToPlaylist(track); }}>{t("global:track.addToPlaylist")}</li>}
+						onClick={(e) => { addToPlaylist(track); e.stopPropagation(); }}>{t("global:track.addToPlaylist")}</li>}
 					<li>hello</li>
 					<li>hallo</li>
 					<li>hallo</li>

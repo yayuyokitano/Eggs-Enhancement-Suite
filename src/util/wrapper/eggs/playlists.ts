@@ -40,9 +40,12 @@ export async function getPlaylists(limit:number, options?: {
 }) {
 	const url = fillEggsSearchParams("playlists/playlists", {
 		limit,
-		offsetHash: options?.offsetHash
 	});
-	return eggsRequest(url, {}, { isAuthorizedRequest: true, cache: options?.cache }) as Promise<OffsetHashList<PlaylistPartial>>;
+
+	// avoid urlencoding
+	const urlWHash = new URL(url.toString() + (options?.offsetHash ? `&offsetHash=${options.offsetHash}` : ""));
+
+	return eggsRequest(urlWHash, {}, { isAuthorizedRequest: true, cache: options?.cache }) as Promise<OffsetHashList<PlaylistPartial>>;
 }
 
 export const eggsPlaylistsWrapped = async(offset:string, limit:number) => 

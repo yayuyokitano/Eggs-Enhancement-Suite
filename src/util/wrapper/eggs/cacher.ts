@@ -23,7 +23,9 @@ export default class Cacher {
 	}
 
 	public async fetch<T>(input: URL | RequestInfo, init?: RequestInit): Promise<T> {
-		if (init?.method === "GET" && !Object.prototype.hasOwnProperty.call(this.cachedRequests, input.toString())) {
+		if (init?.method !== "GET") return (await fetch(input, init)).json();
+
+		if (!Object.prototype.hasOwnProperty.call(this.cachedRequests, input.toString())) {
 
 			console.log(this.id, Date.now() - this.startTime, "cache: adding " + input.toString());
 
@@ -67,6 +69,11 @@ export default class Cacher {
 			deviceId: await this.deviceId,
 			deviceName: "SM-G977N"
 		};
+	}
+
+	public reset() {
+		console.log(this.id, Date.now() - this.startTime, "cache: reset");
+		this.cachedRequests = {};
 	}
 }
 

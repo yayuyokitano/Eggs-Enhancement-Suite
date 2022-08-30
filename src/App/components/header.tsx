@@ -10,6 +10,7 @@ import browser from "webextension-polyfill";
 import { PlaylistContainer } from "./playlistContainer";
 import { getPlaylists, playlistAdd, PlaylistPartial } from "../../util/wrapper/eggs/playlists";
 import { updateTheme } from "../../theme/themes";
+import { cache } from "../../util/loadHandler";
 
 interface User {
   displayName: string;
@@ -157,6 +158,7 @@ function createAddToPlaylistFunction(setReload:React.Dispatch<React.SetStateActi
 			artistId: Number(artistId),
 			musicId
 		});
+		cache.reset();
 		setReload(true);
 	};
 }
