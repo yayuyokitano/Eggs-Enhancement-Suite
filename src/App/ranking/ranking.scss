@@ -31,6 +31,7 @@
 	width: 20px;
 	height: 20px;
 	position: relative !important;
+	filter: var(--inverseinverted);
 
 	&::after {
 		position: relative !important;
@@ -45,4 +46,60 @@
 .ees-carousel-rank {
 	display: flex;
 	gap: 5px;
+}
+
+.ees-rank-track-container {
+	.ees-track-label {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100px;
+		font-size: 24px;
+	}
+
+	.ees-track {
+		&:nth-child(-n + 3) {
+			color: var(--alwaysdark2);
+
+			.ees-track-info .ees-artist-name {
+				color: var(--highlight);
+			}
+
+			svg {
+				fill: var(--alwaysdark2);
+			}
+
+			.ees-track-expandable summary {
+				background-color: transparent;
+			}
+
+			.ees-track-like svg {
+				fill: var(--highlight);
+			}
+		}
+
+		&:first-child {
+			background-color: var(--gold);
+
+			&:hover {
+				background-color: var(--gold-hover);
+			}
+		}
+
+		&:nth-child(2) {
+			background-color: var(--silver);
+
+			&:hover {
+				background-color: var(--silver-hover);
+			}
+		}
+
+		&:nth-child(3) {
+			background-color: var(--bronze);
+
+			&:hover {
+				background-color: var(--bronze-hover);
+			}
+		}
+	}
 }

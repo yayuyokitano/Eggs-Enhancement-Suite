@@ -80,8 +80,9 @@ export default function Track(props:{
   toggleLiked:(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, trackID: string, loggedIn:boolean) => void
   isInQueue?:boolean,
   playbackController?:PlaybackController
+	label?:string
 }) {
-	const {track, size, z, t, loggedIn, isLiked, toggleLiked, isInQueue, playbackController} = props;
+	const {track, size, z, t, loggedIn, isLiked, toggleLiked, isInQueue, playbackController, label} = props;
 
 	return (
 		<li
@@ -90,6 +91,7 @@ export default function Track(props:{
 			data-track={JSON.stringify(track)}
 			onClick={(e) => {isInQueue ? skipTo(e, track, playbackController) : setPlayback(e, track);}}
 		>
+			{label && <div className="ees-track-label">{label}</div>}
 			<img
 				className="ees-track-thumb"
 				src={track.imageDataPath ?? track.artistData.imageDataPath ?? defaultAvatar}

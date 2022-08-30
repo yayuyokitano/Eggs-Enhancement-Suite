@@ -22,6 +22,13 @@ $themes: (
 		textlight: #333,
 		textlighter: #666,
 		inverted: invert(0),
+		inverseinverted: invert(1),
+		"gold": #ffd700,
+		gold-hover: #ffb400,
+		"silver": #c0c0c0,
+		silver-hover: #b0b0b0,
+		bronze: #cd7f32,
+		bronze-hover: #b86b2d,
 	),
 	dark: (
 		alwayslight: #fff,
@@ -46,6 +53,13 @@ $themes: (
 		textlight: #ccc,
 		textlighter: #999,
 		inverted: invert(1),
+		inverseinverted: invert(0),
+		"gold": #ffd700,
+		gold-hover: #ffb400,
+		"silver": #c0c0c0,
+		silver-hover: #b0b0b0,
+		bronze: #cd7f32,
+		bronze-hover: #b86b2d,
 	),
 );
 

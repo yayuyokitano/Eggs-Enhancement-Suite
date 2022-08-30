@@ -6,7 +6,7 @@ import { RankingArtistList } from "../../App/components/carousel/generators";
 import { Incrementer } from "../../App/components/sync/itemFetcher";
 import { useEffect, useState } from "react";
 import { List } from "../../util/wrapper/eggs/util";
-import TrackContainer from "../../App/components/track/trackContainer";
+import RankTrackContainer from "../../App/components/track/rankTrackContainer";
 
 export default function Ranking(t:TFunction) {const path = window.location.pathname.split("/").slice(2);
 	if (path.length !== 2) return <p>{t("general.error")}</p>;
@@ -82,8 +82,8 @@ function SongRanking(props: {timePeriod:TimePeriod, type:"song"|"youtube", t:TFu
 	}, []);
 
 	if (loading) return <p>{t("general.loading")}</p>;
-	return <TrackContainer
-		data={data?.data.map(song => song.musicData)}
+	return <RankTrackContainer
+		data={data?.data}
 		t={t}
 		size="normal" />;
 }

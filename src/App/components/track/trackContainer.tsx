@@ -46,7 +46,7 @@ export default function TrackContainer(props: {data:SongData[]|SongDataWIndex[]|
 	);
 }
 
-function createToggleLiked(likedTracks:string[], setLikedTracks:React.Dispatch<React.SetStateAction<string[]>>) {
+export function createToggleLiked(likedTracks:string[], setLikedTracks:React.Dispatch<React.SetStateAction<string[]>>) {
 	return (e:React.MouseEvent<HTMLButtonElement, MouseEvent>, trackID:string, loggedIn:boolean) => {
 		e.stopPropagation();
 		if (!loggedIn) return;
