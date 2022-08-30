@@ -19,25 +19,12 @@ import Sync from "../components/sync/sync";
 import { updateTheme } from "../../theme/themes";
 let root:ReactDOM.Root;
 
-function deleteNewElements() {
-	const deleter = new MutationObserver((mutations) => {
-		mutations.forEach((mutation) => {
-			mutation.addedNodes.forEach((node) => {
-				node.parentElement?.removeChild(node);
-			});
-		});
-	});
-	deleter.observe(document.body, { childList: true });
-
-}
-
 export function createSpa() {
 	const wrapper = document.createElement("div");
 	wrapper.id = "eggs-full-wrapper";
 	document.body.replaceChildren(wrapper);
 	const root = ReactDOM.createRoot(wrapper);
 	root.render(<SPA />);
-	deleteNewElements();
 }
 
 function updateScrollables() {

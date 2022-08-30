@@ -55,6 +55,7 @@ async function loadContent() {
 	// Create SPA if top level
 	if (window.frameElement === null || window.frameElement.classList.contains("aut-iframe")) {
 		createSpa();
+		deleteNewElements(document.body);
 		addLoadHandler();
 		await initializeThemes();
 		return;
@@ -72,6 +73,7 @@ async function loadContent() {
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(<App endpoint={endpoint} />);
 	await initializeThemes();
+	deleteNewElements(rootElement);
 }
 
 async function waitForLoad() {
@@ -79,5 +81,16 @@ async function waitForLoad() {
 	loadContent();
 }
 waitForLoad();
+
+function deleteNewElements(target:Element) {
+	const deleter = new MutationObserver((mutations) => {
+		mutations.forEach((mutation) => {
+			mutation.addedNodes.forEach((node) => {
+				node.parentElement?.removeChild(node);
+			});
+		});
+	});
+	deleter.observe(target, { childList: true });
+}
 
 export {};
