@@ -62,23 +62,23 @@ export async function playlistAdd(playlist:PlaylistPartial, song:{artistId:numbe
 	return eggsRequest("playlists/playlists", playlistModifier, { isPutRequest: true, isAuthorizedRequest: true }) as Promise<Playlist>;
 }
 
-export async function newPlaylists(options?:{offset?:number, limit?:number}) {
+export async function newPlaylists(options?:{offset?:number, limit?:number}, cache?:Cacher) {
 	const url = fillEggsSearchParams("playlists/new/playlists", {
 		offset: options?.offset ?? 0,
 		limit: options?.limit ?? 30,
 	});
-	return eggsRequest(url, {}, {}) as Promise<List<PlaylistPartial>>;
+	return eggsRequest(url, {}, {cache}) as Promise<List<PlaylistPartial>>;
 }
 
 export const eggsNewPlaylistsWrapped = async(offset:string, limit:number) =>
 	await createEggsWrappedGetter(newPlaylists)(offset, limit);
 
-export async function popularPlaylists(options?:{offset?:number, limit?:number}) {
+export async function popularPlaylists(options?:{offset?:number, limit?:number}, cache?:Cacher) {
 	const url = fillEggsSearchParams("playlists/playlists/popular", {
 		offset: options?.offset ?? 0,
 		limit: options?.limit ?? 30,
 	});
-	return eggsRequest(url, {}, {}) as Promise<List<PlaylistPartial>>;
+	return eggsRequest(url, {}, {cache}) as Promise<List<PlaylistPartial>>;
 }
 
 export const eggsPopularPlaylistsWrapped = async(offset:string, limit:number) =>

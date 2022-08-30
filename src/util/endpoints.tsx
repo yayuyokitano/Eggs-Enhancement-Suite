@@ -5,14 +5,15 @@ import Login from "../App/login/login";
 import Playlist from "../App/playlist/playlist";
 import Profile from "../App/profile/profile";
 import { profile } from "./wrapper/eggs/users";
-import { getPlaylists } from "./wrapper/eggs/playlists";
-import { artistTracks } from "./wrapper/eggs/artist";
+import { getPlaylists, newPlaylists, popularPlaylists } from "./wrapper/eggs/playlists";
+import { artistTracks, newTracks } from "./wrapper/eggs/artist";
 import { songLikeInfo } from "./wrapper/eggs/evaluation";
 import Cacher from "./wrapper/eggs/cacher";
-import { searchArtists, searchPlaylists } from "./wrapper/eggs/search";
+import { searchArtists, searchPlaylists, searchTracks } from "./wrapper/eggs/search";
 import Search from "../App/search/search";
 import Ranking from "../App/ranking/ranking";
 import { getRanking } from "./util";
+import { recommendedArtists } from "./wrapper/eggs/recommend";
 
 export const endpoints:{[key:string]:{
   rootSelector: string;
@@ -30,7 +31,7 @@ export const endpoints:{[key:string]:{
 		rootSelector: ".l-contents_wrapper>.inner",
 		Element: Home,
 		translations: ["home"],
-		cacheFunc: fetchProfile
+		cacheFunc: fetchHome
 	},
 	"/artist": {
 		rootSelector: ".l-contents_wrapper",
@@ -88,10 +89,32 @@ async function fetchSearch(cache:Cacher) {
 	// even if it breaks it only slows down load by about 100ms its fine.
 	searchPlaylists(searchWord, {offset: 0, limit: 30}, cache);
 	searchArtists(searchWord, {offset: 0, limit: 30}, cache);
+	searchTracks(searchWord, {offset: 0, limit: 30}, cache);
 }
 
 async function fetchRanking(cache:Cacher) {
 	fetchProfile(cache);
 	getRanking(cache);
+}
+
+async function fetchHome(cache:Cacher) {
+	fetchProfile(cache);
+	recommendedArtists({
+		offset: 0,
+		limit: 10,
+		cache
+	});
+	newPlaylists({
+		offset: 0,
+		limit: 30,
+	}, cache);
+	popularPlaylists({
+		offset: 0,
+		limit: 30,
+	}, cache);
+	newTracks({
+		offset: 0,
+		limit: 30,
+	}, cache);
 }
 
