@@ -14,7 +14,7 @@ export default function Search(t:TFunction) {
 			<h1>{t("header", {searchKeyword})}</h1>
 			<Carousel
 				width={205}
-				size="medium"
+				size="small"
 				type="artist"
 				t={t}
 				title="artistResult"
@@ -27,7 +27,7 @@ export default function Search(t:TFunction) {
 			/>
 			<Carousel
 				width={204}
-				size="medium"
+				size="small"
 				type="playlist"
 				t={t}
 				title="playlistResult"

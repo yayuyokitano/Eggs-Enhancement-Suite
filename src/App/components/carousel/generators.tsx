@@ -1,10 +1,10 @@
 import { TFunction } from "react-i18next";
 import { PlaylistPartial } from "../../../util/wrapper/eggs/playlists";
-import { defaultAvatar, getArtistPage } from "../../../util/util";
+import { defaultAvatar, getArtistPage, toOrdinal } from "../../../util/util";
 import { ArtistData } from "../../../util/wrapper/eggs/artist";
 import { News } from "../../home/home";
 import { PlaylistCover } from "../playlistcover";
-import { RankingArtist } from "util/wrapper/eggs/ranking";
+import { ComparedRank, RankingArtist } from "../../../util/wrapper/eggs/ranking";
 
 export function NewsList(props: {t:TFunction, items:News[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) {
 	const {t, items, refName, setScroll} = props;
@@ -76,9 +76,14 @@ export function RankingArtistList(props: {t:TFunction, items:RankingArtist[], re
 			{items.map((artist) => (
 				<CarouselItem key={artist.artistId}>
 					<a
-						className="ees-carousel-artist"
+						className="ees-carousel-artist-detailed"
 						href={getArtistPage(artist.artistData.artistName)}>
+						
 						<h3 className="ees-carousel-artist-name">{artist.artistData.displayName}</h3>
+						<div className="ees-carousel-rank m-search artistranking">
+							<span className="ees-carousel-rank-number">{toOrdinal(artist.rank)}</span>
+							<RankingArrow comparedRank={artist.comparedRank} />
+						</div>
 						<div className="ees-carousel-artist-image-wrapper">
 							<img
 								className="ees-carousel-artist-image"
@@ -93,6 +98,15 @@ export function RankingArtistList(props: {t:TFunction, items:RankingArtist[], re
 		</ul>
 	);
 }
+
+const rankingObj = {
+	"up": 2,
+	"stay": 3,
+	"down": 4,
+};
+
+const RankingArrow = (props: {comparedRank:ComparedRank}) =>
+	<div className={`m-ranking_counter ranking_${rankingObj[props.comparedRank]}`} />;
 
 export function PlaylistList(props: {t:TFunction, items:PlaylistPartial[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) {
 	const { items, refName, setScroll } = props;

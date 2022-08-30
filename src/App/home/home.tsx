@@ -37,7 +37,7 @@ export default function Home(t:TFunction) {
 				ElementList={NewsList} />
 			<Carousel
 				width={205}
-				size="medium"
+				size="small"
 				type="artist"
 				t={t}
 				title="heading.recommendedByEggs"
@@ -49,7 +49,7 @@ export default function Home(t:TFunction) {
 			/>
 			<Carousel
 				width={204}
-				size="medium"
+				size="small"
 				type="playlist"
 				t={t}
 				title="heading.newPlaylists"
@@ -60,7 +60,7 @@ export default function Home(t:TFunction) {
 			/>
 			<Carousel
 				width={204}
-				size="medium"
+				size="small"
 				type="playlist"
 				t={t}
 				title="heading.popularPlaylists"

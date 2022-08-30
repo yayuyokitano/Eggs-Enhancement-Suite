@@ -5,7 +5,7 @@ import { createEggsWrappedGetter, createEggsWrappedGetterCached, fillEggsSearchP
 
 export type TimePeriod = "daily"|"weekly";
 export type RankingType = "artist"|"song"|"youtube";
-type ComparedRank = "stay"|"up"|"down";
+export type ComparedRank = "stay"|"up"|"down";
 
 export interface RankingSong {
 	aggregationStartDate:string;

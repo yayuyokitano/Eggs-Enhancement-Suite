@@ -26,3 +26,23 @@
 		}
 	}
 }
+
+.m-search.artistranking:not(table):not(table) .m-ranking_counter {
+	width: 20px;
+	height: 20px;
+	position: relative !important;
+
+	&::after {
+		position: relative !important;
+		right: 0 !important;
+		bottom: 0 !important;
+		height: 100%;
+		display: flex;
+		align-items: center;
+	}
+}
+
+.ees-carousel-rank {
+	display: flex;
+	gap: 5px;
+}

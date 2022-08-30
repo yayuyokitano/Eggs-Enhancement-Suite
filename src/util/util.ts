@@ -1,4 +1,5 @@
 import { PlaybackController } from "App/player/playback";
+import i18next from "i18next";
 import { TFunction } from "react-i18next";
 import browser from "webextension-polyfill";
 import { apiKey } from "./scrobbler";
@@ -320,4 +321,17 @@ export async function getRanking(cache?:Cacher) {
 		return musicRanking(SourceType.YouTube, timePeriod, cache);
 	}
 	throw new Error("Invalid path");
+}
+
+export function toOrdinal(n:number) {
+	switch (i18next.resolvedLanguage) {
+	case "en": {
+		const s = ["th","st","nd","rd"];
+		const v = n % 100;
+		return `${n}${s[(v-20)%10]||s[v]||s[0]}`;
+	}
+	case "ja":
+		return `${n}位`;
+	}
+	return n.toString();
 }
