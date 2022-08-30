@@ -267,6 +267,10 @@ body {
 	padding-top: 0 !important;
 }
 
+html {
+	overflow: hidden;
+}
+
 @keyframes scroll-text {
 	0% {
 		transform: translateX(0);
