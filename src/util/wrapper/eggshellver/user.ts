@@ -15,7 +15,7 @@ export async function postAuthenticatedUser(auth:{
   Apversion: string,
   Authorization: string,
 }) {
-	const res = await fetch(`${baseURL}/users`, {
+	const res = await fetch(`${baseURL}users`, {
 		method: "POST",
 		body: JSON.stringify(auth)
 	});
@@ -23,7 +23,7 @@ export async function postAuthenticatedUser(auth:{
 	return res.text();
 }
 
-export async function crawlUser():Promise<UserStub> {
+export function crawlUser():UserStub {
 	const header = document.getElementsByClassName("header_inner")[0];
 	if (!header) throw new Error("cannot find header");
 	const userName = header.getElementsByClassName("eggsid")[0].textContent?.slice(7);

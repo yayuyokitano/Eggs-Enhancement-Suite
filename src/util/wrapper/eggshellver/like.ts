@@ -68,7 +68,7 @@ export async function getEggshellverPlaylistLikesWrapped(eggsID:string) {
 }
 
 export async function postLikes(targetIDs:string[], type:"track"|"playlist") {
-	const res = await fetch(`${baseURL}/likes`, {
+	const res = await fetch(`${baseURL}likes`, {
 		method: "POST",
 		headers: {
 			Authorization: `Bearer ${await getEggshellverToken()}`,
@@ -82,7 +82,7 @@ export async function postLikes(targetIDs:string[], type:"track"|"playlist") {
 }
 
 export async function putLikes(targetIDs:string[], type:"track"|"playlist") {
-	const res = await fetch(`${baseURL}/likes`, {
+	const res = await fetch(`${baseURL}likes`, {
 		method: "PUT",
 		headers: {
 			Authorization: `Bearer ${await getEggshellverToken()}`,

@@ -53,7 +53,7 @@ export async function getEggshellverPlaylistsWrapped(eggsID:string) {
 }
 
 export async function postPlaylists(playlists:PlaylistWrapper[]) {
-	const res = await fetch(`${baseURL}/playlists`, {
+	const res = await fetch(`${baseURL}playlists`, {
 		method: "POST",
 		headers: {
 			Authorization: `Bearer ${await getEggshellverToken()}`,
@@ -65,7 +65,7 @@ export async function postPlaylists(playlists:PlaylistWrapper[]) {
 }
 
 export async function putPlaylists(playlists:PlaylistWrapper[]) {
-	const res = await fetch(`${baseURL}/playlists`, {
+	const res = await fetch(`${baseURL}playlists`, {
 		method: "PUT",
 		headers: {
 			Authorization: `Bearer ${await getEggshellverToken()}`,

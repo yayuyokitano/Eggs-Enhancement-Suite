@@ -53,7 +53,7 @@ export async function postFollows(followees:UserStub[]) {
 	if (!userStubRes.ok) {
 		throw new Error("userStubs:"+await userStubRes.text());
 	}
-	const res = await fetch(`${baseURL}/follows`, {
+	const res = await fetch(`${baseURL}follows`, {
 		method: "POST",
 		headers: {
 			Authorization: `Bearer ${await getEggshellverToken()}`,
@@ -69,7 +69,7 @@ export async function putFollows(followees:UserStub[]) {
 	if (!userStubRes.ok) {
 		throw new Error("userStubs:"+await userStubRes.text());
 	}
-	const res = await fetch(`${baseURL}/follows`, {
+	const res = await fetch(`${baseURL}follows`, {
 		method: "PUT",
 		headers: {
 			Authorization: `Bearer ${await getEggshellverToken()}`,
