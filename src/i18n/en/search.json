@@ -4,5 +4,7 @@
 	"playlistResult_one": "Playlist ({{count}})",
 	"playlistResult_other": "Playlists ({{count}})",
 	"artistResult_one": "Artist ({{count}})",
-	"artistResult_other": "Artists ({{count}})"
+	"artistResult_other": "Artists ({{count}})",
+	"trackResult_one": "Track ({{count}})",
+	"trackResult_other": "Tracks ({{count}})"
 }

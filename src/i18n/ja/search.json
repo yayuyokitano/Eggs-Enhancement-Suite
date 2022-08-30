@@ -2,5 +2,6 @@
 	"header": "「{{searchKeyword}}」の検索結果",
 	"noKeyword": "キーワードを入力してください",
 	"playlistResult_other": "プレイリスト（{{count}}）",
-	"artistResult_other": "アーティスト（{{count}}）"
+	"artistResult_other": "アーティスト（{{count}}）",
+	"trackResult_other": "楽曲（{{count}}）"
 }

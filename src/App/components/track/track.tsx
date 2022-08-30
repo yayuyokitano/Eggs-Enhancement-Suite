@@ -134,12 +134,12 @@ export default function Track(props:{
 				className="ees-track-expandable">
 				<summary><MoreVertRoundedIcon /></summary>
 				<ul className="ees-track-menu">
-					{isInQueue && <li onClick={ () => { removeFromQueue(track, playbackController); } }>{t("track.removeFromQueue")}</li>}
-					<li onClick={() => { playNext(track); }}>{t("track.playNext")}</li>
-					<li onClick={() => { addToQueue(track); }}>{t("track.addToQueue")}</li>
+					{isInQueue && <li onClick={ () => { removeFromQueue(track, playbackController); } }>{t("global:track.removeFromQueue")}</li>}
+					<li onClick={() => { playNext(track); }}>{t("global:track.playNext")}</li>
+					<li onClick={() => { addToQueue(track); }}>{t("global:track.addToQueue")}</li>
 					{loggedIn && <li
 						className="ees-playlist-modal-creator"
-						onClick={() => { addToPlaylist(track); }}>{t("track.addToPlaylist")}</li>}
+						onClick={() => { addToPlaylist(track); }}>{t("global:track.addToPlaylist")}</li>}
 					<li>hello</li>
 					<li>hallo</li>
 					<li>hallo</li>

@@ -2,8 +2,11 @@ import Carousel from "../../App/components/carousel/carousel";
 import { ArtistList, PlaylistList } from "../../App/components/carousel/generators";
 import { TFunction } from "react-i18next";
 import { Incrementer } from "../../App/components/sync/itemFetcher";
-import { currySearchArtistsWrapped, currySearchPlaylistsWrapped } from "../../util/wrapper/eggs/search";
+import { currySearchArtistsWrapped, currySearchPlaylistsWrapped, currySearchTracksWrapped } from "../../util/wrapper/eggs/search";
 import "./search.scss";
+import DynamicTrackContainer from "../../App/components/track/dynamicTrackContainer";
+import { List } from "../../util/wrapper/eggs/util";
+import { SongData } from "../../util/wrapper/eggs/artist";
 
 export default function Search(t:TFunction) {
 	const searchKeyword = new URLSearchParams(window.location.search).get("searchKeyword");
@@ -36,6 +39,12 @@ export default function Search(t:TFunction) {
 				incrementer={new Incrementer(currySearchPlaylistsWrapped(searchKeyword), 30)}
 				uniquePropName="playlistId"
 			/>
+			<DynamicTrackContainer
+				size="normal"
+				title="trackResult"
+				t={t}
+				incrementer={new Incrementer(currySearchTracksWrapped(searchKeyword), 30)}
+				convert={(e:List<SongData>) => e.data} />
 		</div>
 	);
 }
