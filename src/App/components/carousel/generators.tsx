@@ -5,6 +5,7 @@ import { ArtistData } from "../../../util/wrapper/eggs/artist";
 import { News } from "../../home/home";
 import { PlaylistCover } from "../playlistcover";
 import { ComparedRank, RankingArtist } from "../../../util/wrapper/eggs/ranking";
+import { RecommendedArtist } from "../../../util/wrapper/eggs/recommend";
 
 export function NewsList(props: {t:TFunction, items:News[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) {
 	const {t, items, refName, setScroll} = props;
@@ -76,7 +77,7 @@ export function RankingArtistList(props: {t:TFunction, items:RankingArtist[], re
 			{items.map((artist) => (
 				<CarouselItem key={artist.artistId}>
 					<a
-						className="ees-carousel-artist-detailed"
+						className="ees-carousel-artist-rank"
 						href={getArtistPage(artist.artistData.artistName)}>
 						
 						<h3 className="ees-carousel-artist-name">{artist.artistData.displayName}</h3>
@@ -92,6 +93,35 @@ export function RankingArtistList(props: {t:TFunction, items:RankingArtist[], re
 								width={175}
 								height={175} />
 						</div>
+					</a>
+				</CarouselItem>
+			))}
+		</ul>
+	);
+}
+
+export function IntroducedArtistList(props: {t:TFunction, items:RecommendedArtist[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) {
+	const { items, refName, setScroll } = props;
+	return (
+		<ul
+			className="ees-carousel"
+			ref={refName}
+			onScroll={e => setScroll(e.currentTarget.scrollLeft)}>
+			{items.map((artist) => (
+				<CarouselItem key={artist.artistId}>
+					<a
+						className="ees-carousel-artist-introduction"
+						href={getArtistPage(artist.artistName)}>
+						<div className="ees-carousel-artist-image-wrapper">
+							<img
+								className="ees-carousel-artist-image"
+								src={artist.imageDataPath ?? defaultAvatar}
+								alt=""
+								width={175}
+								height={175} />
+						</div>
+						<h3 className="ees-carousel-artist-name">{artist.displayName}</h3>
+						<span className="ees-carousel-artist-introtext">{artist.introduction}</span>
 					</a>
 				</CarouselItem>
 			))}

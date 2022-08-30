@@ -3,6 +3,10 @@ import Cacher from "./cacher";
 import { eggsRequest } from "./request";
 import { createEggsWrappedGetter, createEggsWrappedGetterCached, fillEggsSearchParams, List } from "./util";
 
+export interface RecommendedArtist extends ArtistData {
+	introduction:string;
+}
+
 export async function recommendedArtists(options?:{
 		limit?:number,
 		offset?:number,
@@ -12,7 +16,7 @@ export async function recommendedArtists(options?:{
 		limit: options?.limit,
 		offset: options?.offset,
 	});
-	return eggsRequest(url, {}, {cache: options?.cache}) as Promise<List<ArtistData>>;
+	return eggsRequest(url, {}, {cache: options?.cache}) as Promise<List<RecommendedArtist>>;
 }
 
 export const eggsRecommendedArtistsWrapped = async(offset:string, limit:number) =>

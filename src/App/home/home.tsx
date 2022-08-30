@@ -2,7 +2,7 @@ import { Incrementer } from "../../App/components/sync/itemFetcher";
 import { TFunction } from "react-i18next";
 import { eggsRecommendedArtistsWrapped } from "../../util/wrapper/eggs/recommend";
 import Carousel from "../components/carousel/carousel";
-import { NewsList, ArtistList, PlaylistList } from "../components/carousel/generators";
+import { NewsList, PlaylistList, IntroducedArtistList } from "../components/carousel/generators";
 
 import "./home.scss";
 import { eggsNewPlaylistsWrapped, eggsPopularPlaylistsWrapped } from "../../util/wrapper/eggs/playlists";
@@ -37,12 +37,12 @@ export default function Home(t:TFunction) {
 				ElementList={NewsList} />
 			<Carousel
 				width={205}
-				size="small"
+				size="large"
 				type="artist"
 				t={t}
 				title="heading.recommendedByEggs"
 				init={[]}
-				ElementList={ArtistList}
+				ElementList={IntroducedArtistList}
 				incrementer={new Incrementer(eggsRecommendedArtistsWrapped, 10)}
 				uniquePropName="artistName"
 				eggsGetSongCurry="curryEggsRecommendedArtistsPlayback"
