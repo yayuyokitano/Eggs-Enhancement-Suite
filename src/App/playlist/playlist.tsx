@@ -86,7 +86,7 @@ export default function Playlist(t:TFunction) {
 			<TrackContainer
 				data={data?.musicData}
 				t={t}
-				size="normal" />
+				size="large" />
 		</div>
 	);
 }

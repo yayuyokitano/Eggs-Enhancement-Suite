@@ -6,7 +6,7 @@ import { RankingSong } from "../../../util/wrapper/eggs/ranking";
 import Track from "./track";
 import { createToggleLiked } from "./trackContainer";
 
-export default function RankTrackContainer(props: {data:RankingSong[]|undefined, t:TFunction, size:"small"|"normal"}) {
+export default function RankTrackContainer(props: {data:RankingSong[]|undefined, t:TFunction, size:"small"|"medium"|"large"}) {
 	const {data, t, size} = props;
 	const [likedTracks, setLikedTracks] = useState<string[]>([]);
 	const [loggedIn, setLoggedIn] = useState(false);

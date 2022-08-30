@@ -40,7 +40,7 @@ export default function Search(t:TFunction) {
 				uniquePropName="playlistId"
 			/>
 			<DynamicTrackContainer
-				size="normal"
+				size="medium"
 				title="trackResult"
 				t={t}
 				incrementer={new Incrementer(currySearchTracksWrapped(searchKeyword), 30)}

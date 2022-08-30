@@ -10,7 +10,7 @@ import Track from "./track";
 import { ExpandMoreRoundedIcon, MoreHorizRoundedIcon } from "../../../util/icons";
 
 interface DynamicTrackContainerParams<T> {
-	size:"small"|"normal",
+	size:"small"|"medium"|"large",
 	title:string,
 	t:TFunction,
 	incrementer:Incrementer<T>,
@@ -69,7 +69,7 @@ export default function DynamicTrackContainer<T>(props:DynamicTrackContainerPara
 function Container<T>(props: {
 	incrementer:Incrementer<T>,
 	loading:boolean, data:SongData[],
-	size:"small"|"normal",
+	size:"small"|"medium"|"large",
 	likedTracks:string[],
 	setLikedTracks:React.Dispatch<React.SetStateAction<string[]>>,
 	t:TFunction, loggedIn:boolean, convert:(data:OffsetList<T>) => SongData[],

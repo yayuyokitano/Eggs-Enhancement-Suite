@@ -43,7 +43,7 @@ export default function Artist(t:TFunction) {
 			<TrackContainer
 				data={data?.data}
 				t={t}
-				size="normal" />
+				size="large" />
 		</div>
 	);
 }

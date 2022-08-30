@@ -85,7 +85,7 @@ function SongRanking(props: {timePeriod:TimePeriod, type:"song"|"youtube", t:TFu
 	return <RankTrackContainer
 		data={data?.data}
 		t={t}
-		size="normal" />;
+		size="large" />;
 }
 
 function ConditionalSourceTypeLink(props:{t:TFunction, hrefName:string, children:string}) {

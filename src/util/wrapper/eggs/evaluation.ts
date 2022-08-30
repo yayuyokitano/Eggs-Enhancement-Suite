@@ -12,7 +12,7 @@ interface MusicLike extends Like {
 	numberOfComments: number;
 }
 
-interface PlaylistLike {
+interface PlaylistLike extends Like {
 	userId: number;
 	playlistId: string;
 }

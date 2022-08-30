@@ -73,7 +73,6 @@
 		.ees-track-details {
 			display: flex;
 			flex-direction: row;
-			margin-bottom: 11px;
 
 			.ees-data-icon {
 				width: 12px;
@@ -146,8 +145,12 @@
 		background-color: var(--eggsyellow);
 	}
 
-	&.ees-track-normal {
+	&.ees-track-large {
 		height: 100px;
+
+		.ees-track-details {
+			margin-bottom: 11px;
+		}
 
 		.ees-track-info {
 			gap: 3px;
@@ -185,6 +188,54 @@
 			&[open] {
 				summary {
 					height: 62px;
+				}
+			}
+		}
+	}
+
+	&.ees-track-medium {
+		height: 64px;
+
+		.ees-track-details {
+			margin-bottom: 6px;
+		}
+
+		.ees-track-info {
+			gap: 3px;
+
+			.ees-track-title {
+				font-size: 1.3rem;
+			}
+
+			.ees-artist-name {
+				font-size: 0.7rem;
+			}
+		}
+
+		.ees-track-thumb {
+			width: 64px;
+			height: 64px;
+			margin-right: 12px;
+		}
+
+		.ees-track-like svg {
+			width: 32px;
+			height: 32px;
+		}
+
+		.ees-track-right {
+			margin-right: 50px;
+		}
+
+		.ees-track-expandable {
+			summary {
+				height: 64px;
+				width: 50px;
+			}
+
+			&[open] {
+				summary {
+					height: 44px;
 				}
 			}
 		}

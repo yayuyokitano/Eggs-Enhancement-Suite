@@ -6,7 +6,7 @@ import Track, { SongDataWIndex } from "./track";
 import { songLikeInfo, likeSong } from "../../../util/wrapper/eggs/evaluation";
 import { PlaybackController } from "App/player/playback";
 
-export default function TrackContainer(props: {data:SongData[]|SongDataWIndex[]|undefined, t:TFunction, size:"small"|"normal", isQueue?:boolean, playbackController?:PlaybackController}) {
+export default function TrackContainer(props: {data:SongData[]|SongDataWIndex[]|undefined, t:TFunction, size:"small"|"medium"|"large", isQueue?:boolean, playbackController?:PlaybackController}) {
 	const {data, t, size, isQueue, playbackController} = props;
 	const [likedTracks, setLikedTracks] = useState<string[]>([]);
 	const [loggedIn, setLoggedIn] = useState(false);

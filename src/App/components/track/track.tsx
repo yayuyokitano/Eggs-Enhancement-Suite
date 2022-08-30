@@ -73,7 +73,7 @@ function skipTo(e:React.MouseEvent<HTMLLIElement, MouseEvent>, track:SongData|So
 
 export default function Track(props:{
   track:SongData|SongDataWIndex,
-  size:"small"|"normal",
+  size:"small"|"medium"|"large",
   z:number, t:TFunction,
   loggedIn:boolean,
   isLiked:boolean,
