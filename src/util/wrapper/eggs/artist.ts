@@ -1,6 +1,6 @@
 import Cacher from "./cacher";
 import { eggsRequest } from "./request";
-import { List } from "./util";
+import { createEggsWrappedGetter, fillEggsSearchParams, List } from "./util";
 
 export enum SourceType {
   Eggs = 1,
@@ -86,3 +86,16 @@ export async function artistTopTrack(artistID:string, cache?:Cacher) {
 	}
 	return [topTrack];
 }
+
+export async function newTracks(options:{
+	limit:number,
+	offset:number,
+}, cache?:Cacher) {
+	const url = fillEggsSearchParams("artists/new/musics", {
+		...options
+	});
+	return eggsRequest(url, {}, {cache}) as Promise<List<SongData>>;
+}
+
+export const eggsNewTracksWrapped = async(offset:string, limit:number) =>
+	await createEggsWrappedGetter(newTracks)(offset, limit);

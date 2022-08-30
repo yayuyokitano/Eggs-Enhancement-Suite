@@ -6,6 +6,9 @@ import { NewsList, PlaylistList, IntroducedArtistList } from "../components/caro
 
 import "./home.scss";
 import { eggsNewPlaylistsWrapped, eggsPopularPlaylistsWrapped } from "../../util/wrapper/eggs/playlists";
+import DynamicTrackContainer from "../components/track/dynamicTrackContainer";
+import { eggsNewTracksWrapped, SongData } from "../../util/wrapper/eggs/artist";
+import { List } from "../../util/wrapper/eggs/util";
 
 export interface News {
   title: string;
@@ -69,6 +72,12 @@ export default function Home(t:TFunction) {
 				incrementer={new Incrementer(eggsPopularPlaylistsWrapped, 30)}
 				uniquePropName="playlistId"
 			/>
+			<DynamicTrackContainer
+				size="medium"
+				title="heading.newTracks"
+				t={t}
+				incrementer={new Incrementer(eggsNewTracksWrapped, 30)}
+				convert={(e:List<SongData>) => e.data} />
 		</div>
 	);
 }
