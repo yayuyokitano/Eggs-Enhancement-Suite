@@ -26,7 +26,7 @@ export default function Profile(t:TFunction) {
 	if (!user) return <div>{t("general.error")}</div>;
 
 	return (
-		<div>
+		<div id="ees-profile">
 			<h1>{user.data.displayName}</h1>
 		</div>
 	);

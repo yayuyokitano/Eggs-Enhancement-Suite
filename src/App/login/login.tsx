@@ -24,7 +24,9 @@ async function mobileLogin() {
 
 export default function Login(t:TFunction) {
 	return (
-		<div className="form-control pt30p pb50p">
+		<div
+			id="ees-login-form"
+			className="form-control pt30p pb50p">
 			<button
 				type="button"
 				onClick={mobileLogin}

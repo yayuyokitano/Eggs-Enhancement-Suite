@@ -55,7 +55,7 @@ async function loadContent() {
 	// Create SPA if top level
 	if (window.frameElement === null || window.frameElement.classList.contains("aut-iframe")) {
 		createSpa();
-		deleteNewElements(document.body);
+		deleteNewElements(document.body, "#eggs-full-wrapper");
 		addLoadHandler();
 		await initializeThemes();
 		return;
@@ -64,16 +64,13 @@ async function loadContent() {
 	await initializeHeader();
 
 	const endpoint = endpoints[processedPathname()];
-	const rootSelector = endpoint?.rootSelector;
-	if (typeof rootSelector === "undefined") {
-		return;
-	}
+	if (!endpoint) return;
 
-	const rootElement = await queryAsync(rootSelector);
+	const rootElement = await queryAsync(endpoint.rootSelector);
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(<App endpoint={endpoint} />);
 	await initializeThemes();
-	deleteNewElements(rootElement);
+	deleteNewElements(rootElement, endpoint.appendSelector);
 }
 
 async function waitForLoad() {
@@ -82,11 +79,13 @@ async function waitForLoad() {
 }
 waitForLoad();
 
-function deleteNewElements(target:Element) {
+function deleteNewElements(target:Element, rootSelector:string) {
 	const deleter = new MutationObserver((mutations) => {
 		mutations.forEach((mutation) => {
-			mutation.addedNodes.forEach((node) => {
-				node.parentElement?.removeChild(node);
+			mutation.addedNodes.forEach((node:Node|HTMLElement) => {
+				if (!("matches" in node) || !node.matches(rootSelector)) {
+					node.parentElement?.removeChild(node);
+				}
 			});
 		});
 	});

@@ -20,48 +20,56 @@ export const endpoints:{[key:string]:{
   Element: (t:TFunction) => JSX.Element;
   translations:string[];
 	cacheFunc: (cache:Cacher) => Promise<void>;
+	appendSelector:string; // a selector unique to the extension, that tells the extension to not delete itself.
 }|undefined} = {
 	"/login": {
 		rootSelector: ".form-main>.form-control.pt30p.pb50p",
 		Element: Login,
 		translations: ["login"],
-		cacheFunc: fetchProfile
+		cacheFunc: fetchProfile,
+		appendSelector: "#ees-login-form"
 	},
 	"/": {
 		rootSelector: ".l-contents_wrapper>.inner",
 		Element: Home,
 		translations: ["home"],
-		cacheFunc: fetchHome
+		cacheFunc: fetchHome,
+		appendSelector: "#ees-home-wrapper"
 	},
 	"/artist": {
 		rootSelector: ".l-contents_wrapper",
 		Element: Artist,
 		translations: [],
-		cacheFunc: fetchArtist
+		cacheFunc: fetchArtist,
+		appendSelector: "#ees-artist"
 	},
 	"/search": {
 		rootSelector: ".l-contents_wrapper",
 		Element: Search,
 		translations: ["search"],
-		cacheFunc: fetchSearch
+		cacheFunc: fetchSearch,
+		appendSelector: ".ees-search-wrapper"
 	},
 	"/ranking": {
 		rootSelector: ".l-contents_wrapper",
 		Element: Ranking,
 		translations: [],
-		cacheFunc: fetchRanking
+		cacheFunc: fetchRanking,
+		appendSelector: ".ees-ranking-wrapper"
 	},
 	"/playlist": {
 		rootSelector: ".l-contents_wrapper",
 		Element: Playlist,
 		translations: [],
-		cacheFunc: fetchProfile
+		cacheFunc: fetchProfile,
+		appendSelector: "#ees-playlist"
 	},
 	"/user": {
 		rootSelector: ".l-contents_wrapper",
 		Element: Profile,
 		translations: [],
-		cacheFunc: fetchProfile
+		cacheFunc: fetchProfile,
+		appendSelector: "#ees-profile"
 	}
 };
 
