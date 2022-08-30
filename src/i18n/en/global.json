@@ -12,6 +12,8 @@
 		"album_other": "Albums",
 		"song_one": "Song",
 		"song_other": "Songs",
+		"playlist_one": "Playlist",
+		"playlist_other": "Playlists",
 		"timeSince": {
 			"yearWithCount_one": "{{count}} year ago",
 			"yearWithCount_other": "{{count}} years ago",

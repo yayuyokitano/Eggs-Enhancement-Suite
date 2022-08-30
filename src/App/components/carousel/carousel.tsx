@@ -18,6 +18,7 @@ interface CarouselSetParams<T> {
 interface CarouselIncrementer<T> extends CarouselSetParams<T> {
 	incrementer:Incrementer<T>,
 	uniquePropName:keyof T,
+	ignoreNoItemError?:boolean,
 }
 
 interface CarouselFullParams<T> extends CarouselIncrementer<T> {
@@ -30,6 +31,7 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 	const [scroll, setScroll] = useState(0);
 	const [children, setChildren] = useState<T[]>(init);
 	const [totalCount, setTotalCount] = useState(0);
+	const [update, setUpdate] = useState(false);
 	const carouselRef = useRef<HTMLUListElement>(null);
 
 	useEffect(() => {
@@ -46,21 +48,24 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 
 		// add dynamic elements
 		if ("incrementer" in props && props.incrementer.isAlive && !props.incrementer.fetching && carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000) {
-			props.incrementer.getPage(false).then(page => {
+			props.incrementer.getPage({
+				shouldCompare: false,
+				ignoreNoItemError: props?.ignoreNoItemError ?? false
+			}).then(page => {
 				setTotalCount(page.totalCount);
 				setChildren((children) => [
 					...children,
 					...page.data.filter(item => !children.some(child => child[props.uniquePropName] === item[props.uniquePropName]))
 				]);
 			}).catch(err => {
-				console.error(err);
 				if (err instanceof Error && err.message === IncrementerError.NoItemsError) {
 					props.incrementer?.kill();
 				}
+				setUpdate(!update);
 			});
 		}
 
-	} , [scroll]);
+	} , [scroll, update]);
 
 	return (
 		<div className="ees-carousel-outer">

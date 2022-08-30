@@ -1,5 +1,5 @@
 import { endpoints } from "../../../util/endpoints";
-import { getDeviceID, getToken, processedPathname } from "../../../util/util";
+import { getDeviceID, getEggshellverToken, getToken, processedPathname } from "../../../util/util";
 
 const eggsUserAgent = "flamingo/7.1.00 (Android; 11)";
 
@@ -10,10 +10,12 @@ export default class Cacher {
 	private deviceId: Promise<string>;
 	private token: Promise<string|undefined>;
 	private startTime = Date.now();
+	private eggshellverToken: Promise<string|undefined>;
 
 	public constructor() {
 		this.deviceId = Promise.resolve(getDeviceID());
 		this.token = Promise.resolve(getToken());
+		this.eggshellverToken = Promise.resolve(getEggshellverToken());
 
 		if (window.frameElement === null || window.frameElement.classList.contains("aut-iframe")) return;
 		
@@ -70,6 +72,10 @@ export default class Cacher {
 			deviceName: "SM-G977N"
 		};
 	}
+	
+	public getEggshellverHeaders = async() => ({
+		Authorization: "Bearer " + await this.eggshellverToken,
+	});
 
 	public reset() {
 		console.log(this.id, Date.now() - this.startTime, "cache: reset");

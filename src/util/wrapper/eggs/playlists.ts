@@ -1,29 +1,25 @@
+import { IncrementerError } from "../../../App/components/sync/itemFetcher";
+import { getEggshellverPlaylists } from "../eggshellver/playlist";
 import { SongData } from "./artist";
 import Cacher from "./cacher";
 import { eggsRequest } from "./request";
-import { createEggsWrappedGetter, createEggsWrappedGetterHash, fillEggsSearchParams, List, OffsetHashList, offsetListMap } from "./util";
-
-export interface Playlist {
-  createdAt: string,
-  displayUserName: string,
-  isPrivate: number,
-  musicData: SongData[],
-  playlistId: string,
-  playlistName: string,
-  updatedAt: string,
-  userId: number
-}
+import { createEggsWrappedGetter, createEggsWrappedGetterHash, fillEggsSearchParams, List, OffsetHashList, OffsetList, offsetListMap } from "./util";
 
 export interface PlaylistPartial {
-  arrayOfArtistId:string;
-  arrayOfImageDataPath:string;
-  arrayOfMusicId: string;
-  createdAt: string;
-  isPrivate: number;
-  playlistId: string;
-  playlistName: string;
-  updatedAt: string;
-  userId: number;
+	createdAt:string;
+	isPrivate:number;
+	arrayOfArtistId:string;
+	arrayOfMusicId:string;
+	arrayOfImageDataPath:string;
+	playlistId:string;
+	playlistName:string;
+	updatedAt:string;
+	userId:number;
+}
+
+export interface Playlist extends PlaylistPartial {
+  displayUserName:string;
+  musicData:SongData[];
 }
 
 export async function playlist(playlistID:string) {
@@ -31,7 +27,7 @@ export async function playlist(playlistID:string) {
 	if (playlist.totalCount) {
 		return playlist;
 	}
-	return eggsRequest(`playlists/playlists/${playlistID}`, {}, { isAuthorizedRequest: true }) as Promise<List<Playlist>>;
+	return eggsRequest(`playlists/playlists/${playlistID}`, {}, {}) as Promise<List<Playlist>>;
 }
 
 export async function getPlaylists(limit:number, options?: {
@@ -47,6 +43,9 @@ export async function getPlaylists(limit:number, options?: {
 
 	return eggsRequest(urlWHash, {}, { isAuthorizedRequest: true, cache: options?.cache }) as Promise<OffsetHashList<PlaylistPartial>>;
 }
+
+export const eggsPlaylistsWrapped2 = async(offset:string, limit:number) =>
+	await createEggsWrappedGetterHash(getPlaylists)(limit, {offsetHash:offset || undefined});
 
 export const eggsPlaylistsWrapped = async(offset:string, limit:number) => 
 	offsetListMap(await createEggsWrappedGetterHash(getPlaylists)(limit, {offsetHash:offset || undefined}), playlist => ({
@@ -86,4 +85,38 @@ export async function popularPlaylists(options?:{offset?:number, limit?:number},
 
 export const eggsPopularPlaylistsWrapped = async(offset:string, limit:number) =>
 	await createEggsWrappedGetter(popularPlaylists)(offset, limit);
+
+export async function publicPlaylists(playlistIDs:string[], limit:number, cache?:Cacher) {
+	const url = fillEggsSearchParams("search/search/playlists", {
+		playlistIds: playlistIDs,
+		limit,
+	});
+	return eggsRequest(url, {}, {cache}) as Promise<List<Playlist>>;
+}
+	
+export async function getPublicPlaylists(userIDs:string[], options:{offset:number, limit:number}, cache?:Cacher) {
+	const cachedPlaylists = await getEggshellverPlaylists({
+		offset: options.offset,
+		limit: options.limit,
+		eggsIDs: userIDs,
+	});
+	if (cachedPlaylists.playlists.length === 0) throw new Error(IncrementerError.NoItemsError);
+	const res = await publicPlaylists(cachedPlaylists.playlists.map(p => p.playlistID), options.limit, cache);
+	if (res.data.length === 0) throw new Error(IncrementerError.EmptyPage);
+
+	return res;
+}
+
+const curryPublicPlaylists = (userIDs:string[]) => async(options: {offset:number, limit:number}) => getPublicPlaylists(userIDs, options);
+
+export const publicPlaylistsWrapped = (userIDs:string[]) => async(offset:string, limit:number) =>
+	await createEggsWrappedGetter(curryPublicPlaylists(userIDs))(offset, limit);
+
+
+export function agnosticPlaylists(isSelf:boolean, userID:string) {
+	if (isSelf) {
+		return eggsPlaylistsWrapped2;
+	}
+	return publicPlaylistsWrapped([userID]) as (offset: string, limit: number) => Promise<OffsetList<PlaylistPartial>>;
+}
 

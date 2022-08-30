@@ -1,5 +1,6 @@
-import { getEggshellverToken } from "../../util";
-import { baseURL, fillEggshellverSearchParams, UserStub } from "./util";
+import Cacher from "../eggs/cacher";
+import { eggshellverRequest } from "./request";
+import { fillEggshellverSearchParams, UserStub } from "./util";
 
 interface rawPlaylists {
   playlists: {
@@ -18,16 +19,14 @@ interface Playlists {
   total: number;
 }
 
-export async function getPlaylists(options:{
+export async function getEggshellverPlaylists(options:{
   eggsIDs?: string[],
   playlistIDs?: string[],
   limit?: number,
   offset?: number,
-}):Promise<Playlists> {
+}, cache?:Cacher):Promise<Playlists> {
 	const url = fillEggshellverSearchParams("playlists", options);
-	const res = await fetch(url);
-	if (!res.ok) throw new Error(await res.text());
-	const playlists = (await (await fetch(url)).json()) as rawPlaylists;
+	const playlists = await eggshellverRequest(url, {}, {method: "GET", cache}) as rawPlaylists;
 	return {
 		playlists: playlists.playlists.map(playlist => ({
 			playlistID: playlist.playlistID,
@@ -39,7 +38,7 @@ export async function getPlaylists(options:{
 }
 
 export async function getEggshellverPlaylistsWrapped(eggsID:string) {
-	const playlists = await getPlaylists({
+	const playlists = await getEggshellverPlaylists({
 		eggsIDs: [eggsID],
 		limit: 1,
 	});
@@ -52,43 +51,17 @@ export async function getEggshellverPlaylistsWrapped(eggsID:string) {
 	};
 }
 
-export async function postPlaylists(playlists:PlaylistWrapper[]) {
-	const res = await fetch(`${baseURL}playlists`, {
-		method: "POST",
-		headers: {
-			Authorization: `Bearer ${await getEggshellverToken()}`,
-		},
-		body: JSON.stringify(playlists)
-	});
-	if (!res.ok) throw new Error(await res.text());
-	return res.text();
-}
+export const postPlaylists = async(playlists:PlaylistWrapper[]) =>
+	eggshellverRequest("playlists", playlists, {method: "POST"});
 
-export async function putPlaylists(playlists:PlaylistWrapper[]) {
-	const res = await fetch(`${baseURL}playlists`, {
-		method: "PUT",
-		headers: {
-			Authorization: `Bearer ${await getEggshellverToken()}`,
-		},
-		body: JSON.stringify(playlists)
-	});
-	if (!res.ok) throw new Error(await res.text());
-	return res.text();
-}
+export const putPlaylists = async(playlists:PlaylistWrapper[]) =>
+	eggshellverRequest("playlists", playlists, {method: "PUT"});
 
 export async function deletePlaylists(playlistIDs:string[]) {
 	const url = fillEggshellverSearchParams("playlists", {
 		target: playlistIDs
 	});
-	const res = await fetch(url, {
-		method: "DELETE",
-		headers: {
-			Authorization: `Bearer ${await getEggshellverToken()}`,
-		},
-		body: JSON.stringify(playlistIDs)
-	});
-	if (!res.ok) throw new Error(await res.text());
-	return res.text();
+	return eggshellverRequest(url, {}, {method: "DELETE"});
 }
 
 

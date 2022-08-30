@@ -15,6 +15,7 @@ interface SingleItem<T> {
 export enum IncrementerError {
   CountDecreaseError = "CountDecreaseError",
   NoItemsError = "NoItemsError",
+	EmptyPage = "EmptyPageError",
 }
 
 export class Incrementer<T> {
@@ -35,18 +36,34 @@ export class Incrementer<T> {
 		this.ready = Promise.resolve();
 	}
 
-	public async getPage(shouldCompare = true) {
+	public async getPage(options:{
+		shouldCompare:boolean,
+		ignoreNoItemError:boolean,
+	} = {
+		shouldCompare: true,
+		ignoreNoItemError: false,
+	}) {
 		this.fetching = true;
 		if (!this.alive) throw new Error(IncrementerError.NoItemsError);
 		await this.ready;
-		const items = await this.eggsGet(this.offset, this.limit);
+		let items:OffsetList<T>;
+		try {
+			items = await this.eggsGet(this.offset, this.limit);
+		} catch(err) {
+			if (err instanceof Error && err.message === IncrementerError.EmptyPage) {
+				this.fetching = false;
+				this.offset += this.limit;
+			}
+			throw err;
+		}
+		
 		this.offset = items.offset;
 		if (this.prevCount === -1) this.prevCount = items.totalCount;
-		if (items.totalCount === 0) throw new Error(IncrementerError.NoItemsError);
-		if (shouldCompare && items.totalCount < this.prevCount) throw new Error(IncrementerError.CountDecreaseError);
+		if (items.totalCount === 0 && options.ignoreNoItemError) throw new Error(IncrementerError.NoItemsError);
+		if (options.shouldCompare && items.totalCount < this.prevCount) throw new Error(IncrementerError.CountDecreaseError);
 		if (this.oneRequest) this.kill();
 
-		if (shouldCompare) {
+		if (options.shouldCompare) {
 			items.data = items.data.slice(items.totalCount - this.prevCount);
 		}
 		

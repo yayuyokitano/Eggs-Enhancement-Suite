@@ -1,11 +1,13 @@
-import { prefectures } from "../../util";
-import { baseURL, fillEggshellverSearchParams, UserStub } from "./util";
+import { prefectures, queryAsync } from "../../util";
+import Cacher from "../eggs/cacher";
+import { eggshellverRequest } from "./request";
+import { fillEggshellverSearchParams, UserStub } from "./util";
 
 export async function getUsers(options:{
   users: string[],
-}):Promise<UserStub[]> {
+}, cache?:Cacher):Promise<UserStub[]> {
 	const url = fillEggshellverSearchParams("users", options);
-	return (await fetch(url)).json();
+	return eggshellverRequest(url, {}, {method: "GET", cache}) as Promise<UserStub[]>;
 }
 
 export async function postAuthenticatedUser(auth:{
@@ -15,16 +17,11 @@ export async function postAuthenticatedUser(auth:{
   Apversion: string,
   Authorization: string,
 }) {
-	const res = await fetch(`${baseURL}users`, {
-		method: "POST",
-		body: JSON.stringify(auth)
-	});
-	if (!res.ok) throw new Error(await res.text());
-	return res.text();
+	return eggshellverRequest("users", auth, {method: "POST"});
 }
 
-export function crawlUser():UserStub {
-	const header = document.getElementsByClassName("header_inner")[0];
+export async function crawlUser():Promise<UserStub> {
+	const header = await queryAsync(".header_inner");
 	if (!header) throw new Error("cannot find header");
 	const userName = header.getElementsByClassName("eggsid")[0].textContent?.slice(7);
 	if (!userName) throw new Error("cannot find username");

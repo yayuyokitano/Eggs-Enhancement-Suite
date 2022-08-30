@@ -1,8 +1,4 @@
-import { baseURL, UserStub } from "./util";
+import { eggshellverRequest } from "./request";
+import { UserStub } from "./util";
 
-export async function postUserStubs(userStubs:UserStub[]) {
-	return fetch(`${baseURL}userstubs`, {
-		method: "POST",
-		body: JSON.stringify(userStubs)
-	});
-}
+export const postUserStubs = async(userStubs:UserStub[]) => eggshellverRequest("userstubs", userStubs, {method: "POST"});

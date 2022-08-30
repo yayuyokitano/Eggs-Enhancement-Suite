@@ -1,5 +1,6 @@
-import { getEggshellverToken } from "../../util";
-import { baseURL, fillEggshellverSearchParams, UserStub } from "./util";
+import Cacher from "../eggs/cacher";
+import { eggshellverRequest } from "./request";
+import { fillEggshellverSearchParams, UserStub } from "./util";
 
 interface rawLikes {
   likes: {
@@ -26,12 +27,10 @@ export async function getLikes(options:{
   targetType?: "track" | "playlist",
   limit?: number,
   offset?: number,
-}):Promise<Likes> {
+}, cache?:Cacher):Promise<Likes> {
 	const url = fillEggshellverSearchParams("likes", options);
-	const res = await fetch(url);
-	if (!res.ok) throw new Error(await res.text());
+	const likes = await eggshellverRequest(url, {}, {method: "GET", cache}) as rawLikes;
 
-	const likes = (await res.json()) as rawLikes;
 	return {
 		likes: likes.likes.map(like => ({
 			id: like.id,
@@ -67,48 +66,24 @@ export async function getEggshellverPlaylistLikesWrapped(eggsID:string) {
 	};
 }
 
-export async function postLikes(targetIDs:string[], type:"track"|"playlist") {
-	const res = await fetch(`${baseURL}likes`, {
-		method: "POST",
-		headers: {
-			Authorization: `Bearer ${await getEggshellverToken()}`,
-		},
-		body: JSON.stringify(targetIDs.map(e => ({
-			id: e,
-			type,
-		})))
-	});
-	return res.text();
-}
+export const postLikes = async(targetIDs:string[], type:"track"|"playlist") =>
+	eggshellverRequest("likes", targetIDs.map(id => ({
+		id,
+		type,
+	})), {method: "POST"});
 
-export async function putLikes(targetIDs:string[], type:"track"|"playlist") {
-	const res = await fetch(`${baseURL}likes`, {
-		method: "PUT",
-		headers: {
-			Authorization: `Bearer ${await getEggshellverToken()}`,
-		},
-		body: JSON.stringify({
-			targets: targetIDs.map(e => ({
-				id: e,
-				type,
-			})),
+export const putLikes = async(targetIDs:string[], type:"track"|"playlist") =>
+	eggshellverRequest("likes", {
+		targets: targetIDs.map(id => ({
+			id,
 			type,
-		}),
-	});
-	return res.text();
-}
+		})),
+		type
+	}, {method: "PUT"});
 
 export async function deleteLikes(trackIDs:string[]) {
 	const url = fillEggshellverSearchParams("likes", {
 		target: trackIDs
 	});
-	const res = await fetch(url, {
-		method: "DELETE",
-		headers: {
-			Authorization: `Bearer ${await getEggshellverToken()}`,
-		},
-		body: JSON.stringify(trackIDs)
-	});
-	if (!res.ok) throw new Error(await res.text());
-	return res.text();
+	return eggshellverRequest(url, {}, {method: "DELETE"});
 }

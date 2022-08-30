@@ -11,6 +11,8 @@ import { initializeHeader } from "./util/loginButtons";
 import "./theme/themes.scss";
 import { initializeThemes } from "./theme/themes";
 import { addLoadHandler, loadPageDetails } from "./util/loadHandler";
+import { crawlUser } from "./util/wrapper/eggshellver/user";
+import { postUserStubs } from "./util/wrapper/eggshellver/userstub";
 
 function App(props: {endpoint: {
   rootSelector: string;
@@ -67,6 +69,7 @@ async function loadContent() {
 	if (!endpoint) return;
 
 	const rootElement = await queryAsync(endpoint.rootSelector);
+	if (processedPathname() === "/profile") postUserStubs([await crawlUser()]);
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(<App endpoint={endpoint} />);
 	await initializeThemes();
@@ -83,7 +86,7 @@ function deleteNewElements(target:Element, rootSelector:string) {
 	const deleter = new MutationObserver((mutations) => {
 		mutations.forEach((mutation) => {
 			mutation.addedNodes.forEach((node:Node|HTMLElement) => {
-				if (!("matches" in node) || !node.matches(rootSelector)) {
+				if (!(node instanceof HTMLElement) || !node.matches(rootSelector)) {
 					node.parentElement?.removeChild(node);
 				}
 			});

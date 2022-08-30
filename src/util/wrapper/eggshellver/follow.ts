@@ -1,6 +1,7 @@
-import { getEggshellverToken } from "../../util";
+import Cacher from "../eggs/cacher";
+import { eggshellverRequest } from "./request";
 import { postUserStubs } from "./userstub";
-import { baseURL, fillEggshellverSearchParams, UserStub } from "./util";
+import { fillEggshellverSearchParams, UserStub } from "./util";
 
 interface rawFollows {
   follows: {
@@ -24,9 +25,9 @@ export async function getFollows(options:{
   followeeIDs?: string[],
   limit?: number,
   offset?: number,
-}):Promise<Follows> {
+}, cache?:Cacher):Promise<Follows> {
 	const url = fillEggshellverSearchParams("follows", options);
-	const res = (await (await fetch(url)).json()) as rawFollows;
+	const res = await eggshellverRequest(url, {}, {method: "GET", cache}) as rawFollows;
 	return {
 		follows: res.follows.map(follow => ({
 			follower: follow.follower,
@@ -49,47 +50,18 @@ export async function getEggshellverFollowsWrapped(eggsID:string) {
 }
 
 export async function postFollows(followees:UserStub[]) {
-	const userStubRes = await postUserStubs(followees);
-	if (!userStubRes.ok) {
-		throw new Error("userStubs:"+await userStubRes.text());
-	}
-	const res = await fetch(`${baseURL}follows`, {
-		method: "POST",
-		headers: {
-			Authorization: `Bearer ${await getEggshellverToken()}`,
-		},
-		body: JSON.stringify(followees.map((e) => e.userName))
-	});
-	if (!res.ok) throw new Error(await res.text());
-	return res.text();
+	await postUserStubs(followees);
+	return eggshellverRequest("follows", followees.map(user => user.userName), {method: "POST"});
 }
 
 export async function putFollows(followees:UserStub[]) {
-	const userStubRes = await postUserStubs(followees);
-	if (!userStubRes.ok) {
-		throw new Error("userStubs:"+await userStubRes.text());
-	}
-	const res = await fetch(`${baseURL}follows`, {
-		method: "PUT",
-		headers: {
-			Authorization: `Bearer ${await getEggshellverToken()}`,
-		},
-		body: JSON.stringify(followees.map((e) => e.userName))
-	});
-	if (!res.ok) throw new Error(await res.text());
-	return res.text();
+	await postUserStubs(followees);
+	return eggshellverRequest("follows", followees.map(user => user.userName), {method: "PUT"});
 }
 
 export async function deleteFollows(followeeIDs:string[]) {
 	const url = fillEggshellverSearchParams("follows", {
 		target: followeeIDs
 	});
-	const res = await fetch(url, {
-		method: "DELETE",
-		headers: {
-			Authorization: `Bearer ${await getEggshellverToken()}`,
-		}
-	});
-	if (!res.ok) throw new Error(await res.text());
-	return res.text();
+	return eggshellverRequest(url, {}, {method: "DELETE"});
 }
