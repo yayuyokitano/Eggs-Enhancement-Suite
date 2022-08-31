@@ -8,6 +8,7 @@ import { PlaylistList } from "../components/carousel/generators";
 import { Incrementer } from "../components/sync/itemFetcher";
 import { UserStub } from "../../util/wrapper/eggshellver/util";
 import "./profile.scss";
+import ProfileBanner from "../components/profileBanner";
 
 export default function Profile(t:TFunction) {
 	const [isLoading, setLoading] = useState(true);
@@ -36,7 +37,7 @@ export default function Profile(t:TFunction) {
 
 	return (
 		<div id="ees-profile">
-			<h1>{user.displayName}</h1>
+			<ProfileBanner user={user} />
 			<Carousel
 				width={204}
 				size="small"

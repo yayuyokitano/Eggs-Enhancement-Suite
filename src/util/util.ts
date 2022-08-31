@@ -30,6 +30,7 @@ export async function getEggshellverToken():Promise<string|undefined> {
 }
 
 export const defaultAvatar = "https://eggs.mu/wp-content/themes/eggs/assets/img/common/signin.png";
+export const defaultBanner = "https://resource.lap.recochoku.jp/e8/assets/v2/img/common/bg_main03.jpg";
 
 // returns shuffled array, avoids mutating the original array to allow unshuffling.
 export function shuffleArray<T>(array:T[]) {

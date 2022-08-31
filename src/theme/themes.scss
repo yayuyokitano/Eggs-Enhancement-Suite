@@ -29,6 +29,12 @@ $themes: (
 		silver-hover: #b0b0b0,
 		bronze: #cd7f32,
 		bronze-hover: #b86b2d,
+		banner-gradient:
+			linear-gradient(
+				to bottom left,
+				rgba(158, 158, 158, 0.7) 0%,
+				rgba(223, 223, 223, 0.9) 100%
+			),
 	),
 	dark: (
 		alwayslight: #fff,
@@ -60,6 +66,12 @@ $themes: (
 		silver-hover: #b0b0b0,
 		bronze: #cd7f32,
 		bronze-hover: #b86b2d,
+		banner-gradient:
+			linear-gradient(
+				to bottom left,
+				rgba(97, 97, 97, 0.6) 0%,
+				rgba(32, 33, 32, 0.8) 100%
+			),
 	),
 );
 
