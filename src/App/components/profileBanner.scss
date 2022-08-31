@@ -8,7 +8,6 @@
 	position: absolute;
 	z-index: 0;
 	padding: 50px 35px;
-	padding-right: 20%;
 	color: var(--profiletext);
 
 	&::before {
@@ -39,10 +38,30 @@
 		gap: 32px;
 
 		.ees-banner-content {
-			#ees-profile-picture {
+			.fancybox {
+				display: block;
+				width: 200px;
+				height: 200px;
 				border-radius: 50%;
-				object-fit: cover;
 				border: 2px solid var(--alwayslight2);
+				overflow: hidden;
+
+				#ees-profile-picture {
+					object-fit: cover;
+					transform-origin: bottom;
+					transition: transform 0.25s ease-in-out, filter 0.25s ease-in-out;
+				}
+
+				&:hover {
+					#ees-profile-picture {
+						transform: scale(1.15);
+						filter: blur(0.6px);
+						-ms-filter: blur(0.6px);
+						opacity: 1;
+						-webkit-opacity: 1;
+						-moz-opacity: 1;
+					}
+				}
 			}
 
 			h1 {
@@ -59,6 +78,34 @@
 			#ees-banner-profile {
 				margin-left: -1px;
 				margin-top: 0.6rem;
+			}
+
+			&.ees-banner-sns {
+				background-color: var(--bg);
+				border-radius: 10px;
+				margin-right: 20px;
+				width: 300px;
+				overflow: hidden;
+
+				.ees-sns-link {
+					padding: 10px 30px;
+					display: block;
+					text-align: center;
+
+					&:hover {
+						background-color: var(--eggsyellow);
+						color: var(--alwaysdark);
+					}
+				}
+
+				hr {
+					border: none;
+					border-bottom: 1px solid var(--text);
+				}
+
+				.ees-sns-wrapper:last-child hr {
+					display: none;
+				}
 			}
 		}
 	}

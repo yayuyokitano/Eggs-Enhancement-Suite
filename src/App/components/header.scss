@@ -63,6 +63,7 @@ $animationSpeed: 300ms;
 
 				&:hover {
 					background-color: var(--eggsyellow);
+					color: var(--alwaysdark2);
 				}
 			}
 		}
@@ -76,6 +77,7 @@ $animationSpeed: 300ms;
 			&:hover,
 			&[open]:focus-within {
 				background-color: var(--eggsyellow);
+				color: var(--alwaysdark2);
 			}
 
 			#ees-user {
@@ -104,6 +106,7 @@ $animationSpeed: 300ms;
 
 				&:hover {
 					background-color: var(--eggsyellow);
+					color: var(--alwaysdark2);
 				}
 			}
 		}

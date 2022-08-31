@@ -336,3 +336,8 @@ export function toOrdinal(n:number) {
 	}
 	return n.toString();
 }
+
+export interface SocialMedia {
+	href:string;
+	title:string;
+}
