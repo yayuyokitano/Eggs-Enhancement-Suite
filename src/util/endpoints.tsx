@@ -5,15 +5,16 @@ import Login from "../App/login/login";
 import Playlist from "../App/playlist/playlist";
 import Profile from "../App/profile/profile";
 import { profile } from "./wrapper/eggs/users";
-import { getPlaylists, newPlaylists, popularPlaylists } from "./wrapper/eggs/playlists";
+import { getPlaylists, newPlaylists, playlist, popularPlaylists, searchArtistPlaylists } from "./wrapper/eggs/playlists";
 import { artistTracks, newTracks } from "./wrapper/eggs/artist";
-import { songLikeInfo } from "./wrapper/eggs/evaluation";
+import { playlistLikeInfo, songLikeInfo } from "./wrapper/eggs/evaluation";
 import Cacher from "./wrapper/eggs/cacher";
 import { searchArtists, searchPlaylists, searchTracks } from "./wrapper/eggs/search";
 import Search from "../App/search/search";
 import Ranking from "../App/ranking/ranking";
 import { getRanking } from "./util";
 import { recommendedArtists } from "./wrapper/eggs/recommend";
+import { eggsRequest } from "./wrapper/eggs/request";
 
 export const endpoints:{[key:string]:{
   rootSelector: string;
@@ -61,7 +62,7 @@ export const endpoints:{[key:string]:{
 		rootSelector: ".l-contents_wrapper",
 		Element: Playlist,
 		translations: [],
-		cacheFunc: fetchProfile,
+		cacheFunc: fetchPlaylist,
 		appendSelector: "#ees-playlist"
 	},
 	"/user": {
@@ -79,8 +80,19 @@ async function fetchArtist(cache:Cacher) {
 
 	// for some reason this breaks in the dev environment sometimes, dont worry about it, it works in prod.
 	// even if it breaks it only slows down load by about 100ms its fine.
+	searchArtistPlaylists(artistID, 30, {cache});
 	const artistData = await artistTracks(artistID, cache);
 	songLikeInfo(artistData.data.map((song) => song.musicId), cache);
+}
+
+async function fetchPlaylist(cache:Cacher) {
+	fetchProfile(cache);
+	const playlistID = new URLSearchParams(window.location.search).get("playlist");
+	if (!playlistID) return;
+	playlist(playlistID, cache);
+	eggsRequest(`playlists/playlists/${playlistID}`, {}, {cache});
+	playlistLikeInfo([playlistID], cache);
+	console.log(playlistID);
 }
 
 async function fetchProfile(cache:Cacher) {

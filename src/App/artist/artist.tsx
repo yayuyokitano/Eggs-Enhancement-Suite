@@ -51,6 +51,17 @@ export default function Artist(t:TFunction) {
 				user={user}
 				socialMedia={socialMedia} />
 			<div className="ees-inner-div">
+				<Carousel
+					width={204}
+					size="small"
+					type="playlist"
+					t={t}
+					title="general.playlistsFeaturing"
+					init={[]}
+					ElementList={PlaylistList}
+					incrementer={new Incrementer(curryEggsSearchArtistPlaylistsWrapped(user.userName), 30)}
+					uniquePropName="playlistId"
+				/>
 				<h2>{t("general.song", {count: 0})}</h2>
 				{t("general.loading")}
 			</div>

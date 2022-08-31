@@ -22,12 +22,12 @@ export interface Playlist extends PlaylistPartial {
   musicData:SongData[];
 }
 
-export async function playlist(playlistID:string) {
-	const playlist = await eggsRequest(`search/search/playlists?playlistIds=${playlistID}&limit=1`, {}, {}) as List<Playlist>;
+export async function playlist(playlistID:string, cache?:Cacher) {
+	const playlist = await eggsRequest(`search/search/playlists?playlistIds=${playlistID}&limit=1`, {}, {cache}) as List<Playlist>;
 	if (playlist.totalCount) {
 		return playlist;
 	}
-	return eggsRequest(`playlists/playlists/${playlistID}`, {}, {}) as Promise<List<Playlist>>;
+	return eggsRequest(`playlists/playlists/${playlistID}`, {}, {cache}) as Promise<List<Playlist>>;
 }
 
 export async function getPlaylists(limit:number, options?: {
@@ -122,7 +122,8 @@ export function agnosticPlaylists(isSelf:boolean, userID:string) {
 
 export async function searchArtistPlaylists(artistName:string, limit:number, options?: {
 	offsetHash?:string,
-}, cache?:Cacher) {
+	cache?:Cacher,
+}) {
 	const url = fillEggsSearchParams("playlists/playlists/artists/search", {
 		limit,
 		artistName
@@ -131,7 +132,7 @@ export async function searchArtistPlaylists(artistName:string, limit:number, opt
 	// avoid urlencoding
 	const urlWHash = new URL(url.toString() + (options?.offsetHash ? `&offsetHash=${options.offsetHash}` : ""));
 
-	return eggsRequest(urlWHash, {}, {cache}) as Promise<OffsetHashList<PlaylistPartial>>;
+	return eggsRequest(urlWHash, {}, {cache: options?.cache}) as Promise<OffsetHashList<PlaylistPartial>>;
 }
 
 const currySearchArtistPlaylists = (artistName:string) => async(limit:number, options?:{offsetHash?:string}) => searchArtistPlaylists(artistName, limit, options);

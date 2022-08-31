@@ -26,13 +26,13 @@ export async function songLikeInfo(musicIds: (string|undefined)[], cache?:Cacher
 	return eggsRequest(`evaluation/evaluation/musics/like_info?musicIds=${musicIds.join(",")}`, {}, { isAuthorizedRequest: true, cache }) as Promise<List<MusicLike>>;
 }
 
-export async function playlistLikeInfo(playlistIds: (string|undefined)[]) {
+export async function playlistLikeInfo(playlistIds: (string|undefined)[], cache?:Cacher) {
 	playlistIds = playlistIds.filter((id) => id !== undefined);
 	if (playlistIds.length === 0) return {
 		totalCount: 0,
 		data: [],
 	};
-	return eggsRequest(`evaluation/evaluation/playlists/like_info?playlistIds=${playlistIds.join(",")}`, {}, { isAuthorizedRequest: true }) as Promise<List<PlaylistLike>>;
+	return eggsRequest(`evaluation/evaluation/playlists/like_info?playlistIds=${playlistIds.join(",")}`, {}, { isAuthorizedRequest: true, cache }) as Promise<List<PlaylistLike>>;
 }
 
 
