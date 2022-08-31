@@ -45,8 +45,10 @@ export default function Artist(t:TFunction) {
 			<ProfileBanner
 				user={user}
 				socialMedia={socialMedia} />
-			<h2>{t("general.song", {count: 0})}</h2>
-			{t("general.loading")}
+			<div className="ees-inner-div">
+				<h2>{t("general.song", {count: 0})}</h2>
+				{t("general.loading")}
+			</div>
 		</div>
 	);
 
@@ -55,11 +57,14 @@ export default function Artist(t:TFunction) {
 			<ProfileBanner
 				user={user}
 				socialMedia={socialMedia} />
-			<h2>{t("general.song", {count: data?.totalCount})}</h2>
-			<TrackContainer
-				data={data?.data}
-				t={t}
-				size="large" />
+			<div className="ees-inner-div">
+				<h2>{t("general.song", {count: data?.totalCount})}</h2>
+				<TrackContainer
+					data={data?.data}
+					t={t}
+					size="large" />
+			</div>
+			
 		</div>
 	);
 }
