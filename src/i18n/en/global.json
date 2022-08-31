@@ -14,6 +14,8 @@
 		"song_other": "Songs",
 		"playlist_one": "Playlist",
 		"playlist_other": "Playlists",
+		"playlistsFeaturing_one": "Playlist featuring this artist ({{count}})",
+		"playlistsFeaturing_other": "Playlists featuring this artist ({{count}})",
 		"timeSince": {
 			"yearWithCount_one": "{{count}} year ago",
 			"yearWithCount_other": "{{count}} years ago",

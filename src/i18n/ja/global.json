@@ -10,6 +10,7 @@
 		"album_other": "アルバム",
 		"song_other": "楽曲",
 		"playlist_other": "プレイリスト",
+		"playlistsFeaturing_other": "このアーティストが含まれるプレイリスト（{{count}}）",
 		"timeSince": {
 			"year_other": "年前",
 			"month_other": "ヶ月前",

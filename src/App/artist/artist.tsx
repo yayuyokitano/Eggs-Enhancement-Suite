@@ -8,6 +8,10 @@ import { crawlUser } from "../../util/wrapper/eggshellver/user";
 import { UserStub } from "../../util/wrapper/eggshellver/util";
 import ProfileBanner from "../components/profileBanner";
 import { SocialMedia } from "../../util/util";
+import Carousel from "../components/carousel/carousel";
+import { Incrementer } from "../components/sync/itemFetcher";
+import { curryEggsSearchArtistPlaylistsWrapped } from "../../util/wrapper/eggs/playlists";
+import { PlaylistList } from "../components/carousel/generators";
 
 function fetchSocialMedia(socialMedia?:HTMLDivElement) {
 	if (!socialMedia) return [];
@@ -60,13 +64,23 @@ export default function Artist(t:TFunction) {
 				t={t}
 				socialMedia={socialMedia} />
 			<div className="ees-inner-div">
+				<Carousel
+					width={204}
+					size="small"
+					type="playlist"
+					t={t}
+					title="general.playlistsFeaturing"
+					init={[]}
+					ElementList={PlaylistList}
+					incrementer={new Incrementer(curryEggsSearchArtistPlaylistsWrapped(user.userName), 30)}
+					uniquePropName="playlistId"
+				/>
 				<h2>{t("general.song", {count: data?.totalCount})}</h2>
 				<TrackContainer
 					data={data?.data}
 					t={t}
 					size="large" />
 			</div>
-			
 		</div>
 	);
 }

@@ -120,3 +120,21 @@ export function agnosticPlaylists(isSelf:boolean, userID:string) {
 	return publicPlaylistsWrapped([userID]) as (offset: string, limit: number) => Promise<OffsetList<PlaylistPartial>>;
 }
 
+export async function searchArtistPlaylists(artistName:string, limit:number, options?: {
+	offsetHash?:string,
+}, cache?:Cacher) {
+	const url = fillEggsSearchParams("playlists/playlists/artists/search", {
+		limit,
+		artistName
+	});
+
+	// avoid urlencoding
+	const urlWHash = new URL(url.toString() + (options?.offsetHash ? `&offsetHash=${options.offsetHash}` : ""));
+
+	return eggsRequest(urlWHash, {}, {cache}) as Promise<OffsetHashList<PlaylistPartial>>;
+}
+
+const currySearchArtistPlaylists = (artistName:string) => async(limit:number, options?:{offsetHash?:string}) => searchArtistPlaylists(artistName, limit, options);
+
+export const curryEggsSearchArtistPlaylistsWrapped = (artistName:string) => async(offset:string, limit:number) =>
+	await createEggsWrappedGetterHash(currySearchArtistPlaylists(artistName))(limit, {offsetHash:offset || undefined});
