@@ -1,4 +1,4 @@
-import { defaultAvatar, getToken, PopupMessage, prefectures } from "../../util/util";
+import { defaultAvatar, genreLink, getToken, PopupMessage, prefectureLink } from "../../util/util";
 import { profile } from "../../util/wrapper/eggs/users";
 import React, { useEffect, useState } from "react";
 import "../../i18n/config";
@@ -374,7 +374,7 @@ function GenreList(props: {t:TFunction, len:number}) {
 
 	const list = [];
 	for (let i = 1; i <= len; i++) {
-		list.push(<li key={i}><a href={`/search/genre/fg${i}`}>{t(`genre.${i}`)}</a></li>);
+		list.push(<li key={i}><a href={genreLink(i)}>{t(`genre.${i}`)}</a></li>);
 	}
 
 	return (
@@ -398,7 +398,7 @@ function PrefectureList(props: {t:TFunction}) {
 		for (;prefectureID <= cumCount; prefectureID++) {
 			prefectureElements.push(
 				<li key={prefectureID}>
-					<a href={`search/area/${prefectures[prefectureID-1]}`}>{t(`prefecture.${prefectureID}`)}</a>
+					<a href={prefectureLink(prefectureID)}>{t(`prefecture.${prefectureID}`)}</a>
 				</li>
 			);
 		}

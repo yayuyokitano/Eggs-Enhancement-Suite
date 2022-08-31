@@ -43,6 +43,7 @@ export default function Artist(t:TFunction) {
 	if (isLoading) return (
 		<div id="ees-artist">
 			<ProfileBanner
+				t={t}
 				user={user}
 				socialMedia={socialMedia} />
 			<div className="ees-inner-div">
@@ -56,6 +57,7 @@ export default function Artist(t:TFunction) {
 		<div id="ees-artist">
 			<ProfileBanner
 				user={user}
+				t={t}
 				socialMedia={socialMedia} />
 			<div className="ees-inner-div">
 				<h2>{t("general.song", {count: data?.totalCount})}</h2>

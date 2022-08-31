@@ -37,3 +37,5 @@ export const SyncRoundedIcon = (props:{className?:string}) => <SvgWrapper classN
 
 export const ExpandMoreRoundedIcon = (props:{className?:string}) => <SvgWrapper className={props.className}><path d="M15.88 9.29 12 13.17 8.12 9.29a.9959.9959 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l4.59 4.59c.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41-.39-.38-1.03-.39-1.42 0z"></path></SvgWrapper>;
 export const MoreHorizRoundedIcon = (props:{className?:string}) => <SvgWrapper className={props.className}><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></SvgWrapper>;
+
+export const LocationOnRoundedIcon = (props:{className?:string}) => <SvgWrapper className={props.className}><path d="M12 2c-4.2 0-8 3.22-8 8.2 0 3.18 2.45 6.92 7.34 11.23.38.33.95.33 1.33 0C17.55 17.12 20 13.38 20 10.2 20 5.22 16.2 2 12 2zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"></path></SvgWrapper>;

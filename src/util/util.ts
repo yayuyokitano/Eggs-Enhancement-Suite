@@ -341,3 +341,6 @@ export interface SocialMedia {
 	href:string;
 	title:string;
 }
+
+export const prefectureLink = (code:number) => `search/area/${prefectures[code-1]}`;
+export const genreLink = (code:number) => `/search/genre/fg${code}`;

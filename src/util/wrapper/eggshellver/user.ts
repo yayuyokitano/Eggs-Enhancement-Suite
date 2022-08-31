@@ -1,4 +1,4 @@
-import { prefectures, queryAsync } from "../../util";
+import { prefectures, queryAsync, SocialMedia } from "../../util";
 import Cacher from "../eggs/cacher";
 import { eggshellverRequest } from "./request";
 import { fillEggshellverSearchParams, UserStub } from "./util";
@@ -30,6 +30,13 @@ export async function crawlUser():Promise<UserStub> {
 	const imageDataPath = header.getElementsByTagName("img")[0]?.getAttribute("src") ?? "";
 	const prefectureCode = prefectures.indexOf(header.querySelector(".area a")?.textContent || "") + 1;
 	const profile = header.querySelector(".description .textOverFlow span")?.textContent || "";
+	const genres = [...header.querySelectorAll(".genre a")].map(a => a.hasAttribute("href") && ({
+		title: a.textContent,
+		href: a.getAttribute("href")
+	})).filter(a => a && a.title !== null && a.href !== null) as SocialMedia[];
+
+	
+
 
 	return {
 		userName,
@@ -38,5 +45,6 @@ export async function crawlUser():Promise<UserStub> {
 		imageDataPath,
 		prefectureCode,
 		profile,
+		genres,
 	};
 }

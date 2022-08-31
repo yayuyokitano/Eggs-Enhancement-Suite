@@ -69,7 +69,7 @@ async function loadContent() {
 	if (!endpoint) return;
 
 	const rootElement = await queryAsync(endpoint.rootSelector);
-	if (processedPathname() === "/profile") postUserStubs([await crawlUser()]);
+	if (processedPathname() === "/profile" || processedPathname() === "/artist") postUserStubs([await crawlUser()]);
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(<App endpoint={endpoint} />);
 	await initializeThemes();

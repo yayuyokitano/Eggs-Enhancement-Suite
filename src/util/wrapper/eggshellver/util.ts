@@ -1,14 +1,18 @@
-import { Param, stringifyParam } from "../../../util/util";
+import { Param, SocialMedia, stringifyParam } from "../../../util/util";
 
 export const baseURL = "http://localhost:10000/";
 
-export interface UserStub {
+export interface StrictUserStub {
   userName: string;
   displayName: string;
   isArtist: boolean;
   imageDataPath: string;
   prefectureCode: number;
   profile: string;
+}
+
+export interface UserStub extends StrictUserStub {
+	genres?: SocialMedia[];
 }
 
 export function fillEggshellverSearchParams(urlStr:string, params: { [key: string]: Param|undefined }): URL {

@@ -37,7 +37,9 @@ export default function Profile(t:TFunction) {
 
 	return (
 		<div id="ees-profile">
-			<ProfileBanner user={user} />
+			<ProfileBanner
+				user={user}
+				t={t} />
 			<Carousel
 				width={204}
 				size="small"
