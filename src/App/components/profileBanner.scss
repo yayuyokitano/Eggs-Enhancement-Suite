@@ -9,6 +9,7 @@
 	z-index: 0;
 	padding: 50px 35px;
 	padding-right: 20%;
+	color: var(--profiletext);
 
 	&::before {
 		background: inherit;
@@ -41,7 +42,7 @@
 			#ees-profile-picture {
 				border-radius: 50%;
 				object-fit: cover;
-				border: 2px solid var(--monoaccent2);
+				border: 2px solid var(--alwayslight2);
 			}
 
 			h1 {

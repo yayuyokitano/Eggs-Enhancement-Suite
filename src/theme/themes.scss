@@ -1,6 +1,7 @@
 $themes: (
 	light: (
 		alwayslight: #fff,
+		alwayslight2: #eaeaea,
 		alwaysdark: #000,
 		alwaysdark2: #333,
 		eggsyellow: #fdd001,
@@ -19,6 +20,7 @@ $themes: (
 		monoaccent3: #ccc,
 		monoaccentinv: #1e1e1e,
 		text: #000,
+		profiletext: #333,
 		textlight: #333,
 		textlighter: #666,
 		inverted: invert(0),
@@ -38,6 +40,7 @@ $themes: (
 	),
 	dark: (
 		alwayslight: #fff,
+		alwayslight2: #eaeaea,
 		alwaysdark: #000,
 		alwaysdark2: #333,
 		eggsyellow: #fdd001,
@@ -56,6 +59,7 @@ $themes: (
 		monoaccent3: #444,
 		monoaccentinv: #f2f2f2,
 		text: #fff,
+		profiletext: #fff,
 		textlight: #ccc,
 		textlighter: #999,
 		inverted: invert(1),
