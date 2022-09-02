@@ -1,5 +1,5 @@
 import { endpoints } from "../../../util/endpoints";
-import { getDeviceID, getEggshellverToken, getToken, processedPathname } from "../../../util/util";
+import { getDeviceID, getEggshellverToken, getEggsID, getToken, processedPathname } from "../../../util/util";
 
 const eggsUserAgent = "flamingo/7.1.00 (Android; 11)";
 
@@ -11,11 +11,13 @@ export default class Cacher {
 	private token: Promise<string|undefined>;
 	private startTime = Date.now();
 	private eggshellverToken: Promise<string|undefined>;
+	private eggsID:Promise<string|undefined>;
 
 	public constructor() {
 		this.deviceId = Promise.resolve(getDeviceID());
 		this.token = Promise.resolve(getToken());
 		this.eggshellverToken = Promise.resolve(getEggshellverToken());
+		this.eggsID = Promise.resolve(getEggsID());
 
 		if (window.frameElement === null || window.frameElement.classList.contains("aut-iframe")) return;
 		
@@ -77,9 +79,15 @@ export default class Cacher {
 		Authorization: "Bearer " + await this.eggshellverToken,
 	});
 
+	public getEggsID = async() => await this.eggsID;
+
 	public reset() {
 		console.log(this.id, Date.now() - this.startTime, "cache: reset");
 		this.cachedRequests = {};
+		this.deviceId = Promise.resolve(getDeviceID());
+		this.token = Promise.resolve(getToken());
+		this.eggshellverToken = Promise.resolve(getEggshellverToken());
+		this.eggsID = Promise.resolve(getEggsID());
 	}
 }
 

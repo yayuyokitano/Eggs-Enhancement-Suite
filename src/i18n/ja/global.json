@@ -1,6 +1,6 @@
 {
 	"general": {
-		"loading": "ロード中...",
+		"loading": "孵卵中...",
 		"error": "エラーが発生しました",
 		"login": "ログイン",
 		"register": "アカウント登録",
@@ -11,6 +11,8 @@
 		"song_other": "楽曲",
 		"playlist_other": "プレイリスト",
 		"playlistsFeaturing_other": "このアーティストが含まれるプレイリスト（{{count}}）",
+		"follow": "フォローする",
+		"following": "フォロー中",
 		"timeSince": {
 			"year_other": "年前",
 			"month_other": "ヶ月前",

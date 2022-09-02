@@ -69,7 +69,6 @@ export const createEggsWrappedGetterCached = <T extends objWithArtistName>(
 	fn:(options:{limit:number, offset:number}) => Promise<List<T>>,
 	trackFunc: (artistID:string, cache?:Cacher) => Promise<SongData[]>
 ) => async(offset:string) => {
-
 		// normalize inputs to make use of caching
 		const internalLimit = 50;
 		const adjOffset = offset || "0";
@@ -85,3 +84,7 @@ export const createEggsWrappedGetterCached = <T extends objWithArtistName>(
 			offset: (offsetNumber + 1).toString(),
 		};
 	};
+
+export interface Toggle {
+	data:boolean;
+}

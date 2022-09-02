@@ -1,13 +1,32 @@
 import { TFunction } from "react-i18next";
-import { LocationOnRoundedIcon } from "../../util/icons";
+import { follow } from "../../util/wrapper/eggs/users";
+import { AddCircleOutlineRoundedIcon, DoneRoundedIcon, LocationOnRoundedIcon } from "../../util/icons";
 import { defaultAvatar, defaultBanner, prefectureLink, SocialMedia } from "../../util/util";
 import { UserStub } from "../../util/wrapper/eggshellver/util";
 import "./profileBanner.scss";
+import { eggshellverFollow, getEggshellverFollows } from "../../util/wrapper/eggshellver/follow";
+import React, { useEffect, useState } from "react";
+import { cache } from "../../util/loadHandler";
 
-export default function ProfileBanner(props:{ t:TFunction, user:UserStub, socialMedia?:SocialMedia[] }) {
-	const { t, user, socialMedia } = props;
-	const bannerImage = user.imageDataPath || defaultBanner;
-	const avatar = user.imageDataPath || defaultAvatar;
+export default function ProfileBanner(props:{ t:TFunction, userStub:UserStub, socialMedia?:SocialMedia[] }) {
+	const { t, userStub, socialMedia } = props;
+	const bannerImage = userStub.imageDataPath || defaultBanner;
+	const avatar = userStub.imageDataPath || defaultAvatar;
+	const [isFollowing, setFollowing] = useState<boolean>();
+
+	useEffect(() => {
+		cache.getEggsID().then(id => {
+			if (id === undefined) return;
+			getEggshellverFollows({
+				followerIDs: [id],
+				followeeIDs: [userStub.userName],
+				limit: 1,
+			}).then(f => {
+				setFollowing(f.total > 0);
+			});
+		});
+	}, []);
+
 	return (
 		<div
 			id="ees-profile-banner"
@@ -24,15 +43,19 @@ export default function ProfileBanner(props:{ t:TFunction, user:UserStub, social
 							height={200}
 							width={200} />
 					</a>
-					
+					<FollowButton
+						userStub={userStub}
+						t={t}
+						isFollowing={isFollowing}
+						setFollowing={setFollowing} />
 				</div>
 				<div className="ees-banner-content ees-banner-user-details">
-					<h1>{user.displayName}</h1>
-					<span id="ees-eggs-id">EggsID：{user.userName}</span>
+					<h1>{userStub.displayName}</h1>
+					<span id="ees-eggs-id">EggsID：{userStub.userName}</span>
 					<PrefectureGenre
 						t={t}
-						user={user} />
-					<p id="ees-banner-profile">{user.profile}</p>
+						user={userStub} />
+					<p id="ees-banner-profile">{userStub.profile}</p>
 				</div>
 				<SocialMedia socialMedia={socialMedia} />
 			</div>
@@ -68,14 +91,14 @@ function PrefectureGenre(props:{ t:TFunction, user:UserStub }) {
 	const { t, user } = props;
 	return (
 		<div className="ees-banner-content ees-banner-prefecture-genre">
-			{user.prefectureCode && <a
+			{user.prefectureCode !== 0 ? <a
 				id="ees-banner-prefecture"
 				href={prefectureLink(user.prefectureCode)}>
 				<LocationOnRoundedIcon />
 				{t(`prefecture.${user.prefectureCode}`)}
-			</a>}
+			</a> : <></>}
 			{
-				user.genres?.length && (
+				user.genres?.length ? (
 					<div id="ees-banner-genres">
 						{
 							user.genres.map((genre, i) => (
@@ -88,8 +111,38 @@ function PrefectureGenre(props:{ t:TFunction, user:UserStub }) {
 							))
 						}
 					</div>
-				)}
+				) : <></>}
 		</div>
 	);
 }
 
+function FollowButton(props:{ isFollowing?:boolean, t:TFunction, userStub:UserStub, setFollowing:React.Dispatch<React.SetStateAction<boolean|undefined>> }) {
+	const { isFollowing, t, userStub, setFollowing } = props;
+	if (isFollowing === undefined) return <></>;
+	return (
+		<button
+			id="ees-follow-button"
+			className={isFollowing ? "ees-following" : ""}
+			onClick={() => toggleFollow(userStub, setFollowing)}>
+			{isFollowing ? (
+				<span>
+					<DoneRoundedIcon />
+					{t("general.following")}
+				</span>
+			) : (
+				<span>
+					<AddCircleOutlineRoundedIcon />
+					{t("general.follow")}
+				</span>
+			)}
+		</button>
+	);
+}
+
+function toggleFollow(userStub:UserStub, setFollowing:React.Dispatch<React.SetStateAction<boolean|undefined>>) {
+	if (userStub.isArtist) {
+		follow(userStub.userName);
+	}
+	eggshellverFollow(userStub);
+	setFollowing(f => !f);
+}

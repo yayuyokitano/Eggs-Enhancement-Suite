@@ -111,16 +111,16 @@ export default class ItemFetcher<T> extends (EventEmitter as new () => TypedEmit
 	private eggsID:string;
 	private limit = 100;
 	private count = 0;
-	private putFunction:(targets:T[]) => Promise<string>;
-	private postFunction:(targets:T[]) => Promise<string>;
+	private putFunction:(targets:T[]) => Promise<number>;
+	private postFunction:(targets:T[]) => Promise<number>;
 	private shouldFullScan:boolean;
 
 	constructor(
 		eggsID:string,
 		eggshellverGet:EggshellverGet<T>,
 		eggsGet:EggsGet<T>,
-		putFunction:(targetIDs:T[]) => Promise<string>,
-		postFunction:(targetIDs:T[]) => Promise<string>,
+		putFunction:(targetIDs:T[]) => Promise<number>,
+		postFunction:(targetIDs:T[]) => Promise<number>,
 		shouldFullScan:boolean,
 	) {
 		super();

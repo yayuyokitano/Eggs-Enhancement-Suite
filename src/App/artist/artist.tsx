@@ -27,7 +27,7 @@ export default function Artist(t:TFunction) {
 
 	const [data, setData] = useState<List<SongData>>();
 	const [isLoading, setLoading] = useState(false);
-	const [user, setUser] = useState<UserStub>();
+	const [userStub, setUserStub] = useState<UserStub>();
 	const [socialMedia, setSocialMedia] = useState<SocialMedia[]>([]);
 	const userPromise = Promise.resolve(crawlUser());
 
@@ -35,7 +35,7 @@ export default function Artist(t:TFunction) {
 		setSocialMedia(fetchSocialMedia(socialMediaDiv));
 		setLoading(true);
 		userPromise.then(u => {
-			setUser(u);
+			setUserStub(u);
 		});
 		artistTracks(artistID).then((artistData) => {
 			setData(artistData);
@@ -43,12 +43,12 @@ export default function Artist(t:TFunction) {
 		});
 	}, []);
   
-	if (!user) return <div id="ees-artist">{t("general.loading")}</div>;
+	if (!userStub) return <div id="ees-artist">{t("general.loading")}</div>;
 	if (isLoading) return (
 		<div id="ees-artist">
 			<ProfileBanner
 				t={t}
-				user={user}
+				userStub={userStub}
 				socialMedia={socialMedia} />
 			<div className="ees-inner-div">
 				<Carousel
@@ -59,7 +59,7 @@ export default function Artist(t:TFunction) {
 					title="general.playlistsFeaturing"
 					init={[]}
 					ElementList={PlaylistList}
-					incrementer={new Incrementer(curryEggsSearchArtistPlaylistsWrapped(user.userName), 30)}
+					incrementer={new Incrementer(curryEggsSearchArtistPlaylistsWrapped(userStub.userName), 30)}
 					uniquePropName="playlistId"
 				/>
 				<h2>{t("general.song", {count: 0})}</h2>
@@ -71,7 +71,7 @@ export default function Artist(t:TFunction) {
 	return (
 		<div id="ees-artist">
 			<ProfileBanner
-				user={user}
+				userStub={userStub}
 				t={t}
 				socialMedia={socialMedia} />
 			<div className="ees-inner-div">
@@ -83,7 +83,7 @@ export default function Artist(t:TFunction) {
 					title="general.playlistsFeaturing"
 					init={[]}
 					ElementList={PlaylistList}
-					incrementer={new Incrementer(curryEggsSearchArtistPlaylistsWrapped(user.userName), 30)}
+					incrementer={new Incrementer(curryEggsSearchArtistPlaylistsWrapped(userStub.userName), 30)}
 					uniquePropName="playlistId"
 				/>
 				<h2>{t("general.song", {count: data?.totalCount})}</h2>

@@ -1,6 +1,6 @@
 {
 	"general": {
-		"loading": "Loading...",
+		"loading": "Incubating...",
 		"error": "An error has occured",
 		"login": "Login",
 		"register": "Register",
@@ -16,6 +16,8 @@
 		"playlist_other": "Playlists",
 		"playlistsFeaturing_one": "Playlist featuring this artist ({{count}})",
 		"playlistsFeaturing_other": "Playlists featuring this artist ({{count}})",
+		"follow": "Follow",
+		"following": "Following",
 		"timeSince": {
 			"yearWithCount_one": "{{count}} year ago",
 			"yearWithCount_other": "{{count}} years ago",

@@ -20,7 +20,7 @@ interface Follows {
   total: number;
 }
 
-export async function getFollows(options:{
+export async function getEggshellverFollows(options:{
   followerIDs?: string[],
   followeeIDs?: string[],
   limit?: number,
@@ -39,7 +39,7 @@ export async function getFollows(options:{
 }
 
 export async function getEggshellverFollowsWrapped(eggsID:string) {
-	const follows = await getFollows({
+	const follows = await getEggshellverFollows({
 		followerIDs: [eggsID],
 		limit: 1,
 	});
@@ -51,12 +51,12 @@ export async function getEggshellverFollowsWrapped(eggsID:string) {
 
 export async function postFollows(followees:UserStub[]) {
 	await postUserStubs(followees);
-	return eggshellverRequest("follows", followees.map(user => user.userName), {method: "POST"});
+	return eggshellverRequest("follows", followees.map(user => user.userName), {method: "POST"}) as unknown as Promise<number>;
 }
 
 export async function putFollows(followees:UserStub[]) {
 	await postUserStubs(followees);
-	return eggshellverRequest("follows", followees.map(user => user.userName), {method: "PUT"});
+	return eggshellverRequest("follows", followees.map(user => user.userName), {method: "PUT"}) as unknown as Promise<number>;
 }
 
 export async function deleteFollows(followeeIDs:string[]) {
@@ -64,4 +64,9 @@ export async function deleteFollows(followeeIDs:string[]) {
 		target: followeeIDs
 	});
 	return eggshellverRequest(url, {}, {method: "DELETE"});
+}
+
+export async function eggshellverFollow(followee:UserStub) {
+	await postUserStubs([followee]);
+	return eggshellverRequest(`follow/${followee.userName}`, {}, {method: "POST"});
 }

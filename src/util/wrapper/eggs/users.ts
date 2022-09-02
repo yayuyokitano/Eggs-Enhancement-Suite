@@ -2,7 +2,7 @@ import { UserStub } from "../eggshellver/util";
 import { ArtistData } from "./artist";
 import Cacher from "./cacher";
 import { eggsRequest } from "./request";
-import { createEggsWrappedGetter, fillEggsSearchParams, List, offsetListMap } from "./util";
+import { createEggsWrappedGetter, fillEggsSearchParams, List, offsetListMap, Toggle } from "./util";
 
 export interface Profile {
   data: {
@@ -52,4 +52,11 @@ function artistToUserStub(artist:ArtistData):UserStub {
 		prefectureCode: artist.prefectureCode ?? 0,
 		profile: artist.profile ?? "",
 	};
+}
+
+export function follow(artistName:string) {
+	return eggsRequest("users/users/follow", {artistName}, {
+		isPostRequest: true,
+		isAuthorizedRequest: true,
+	}) as Promise<Toggle>;
 }

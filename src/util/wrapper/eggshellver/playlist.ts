@@ -52,10 +52,10 @@ export async function getEggshellverPlaylistsWrapped(eggsID:string) {
 }
 
 export const postPlaylists = async(playlists:PlaylistWrapper[]) =>
-	eggshellverRequest("playlists", playlists, {method: "POST"});
+	eggshellverRequest("playlists", playlists, {method: "POST"}) as unknown as Promise<number>;
 
 export const putPlaylists = async(playlists:PlaylistWrapper[]) =>
-	eggshellverRequest("playlists", playlists, {method: "PUT"});
+	eggshellverRequest("playlists", playlists, {method: "PUT"}) as unknown as Promise<number>;
 
 export async function deletePlaylists(playlistIDs:string[]) {
 	const url = fillEggshellverSearchParams("playlists", {

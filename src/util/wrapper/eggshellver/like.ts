@@ -70,7 +70,7 @@ export const postLikes = async(targetIDs:string[], type:"track"|"playlist") =>
 	eggshellverRequest("likes", targetIDs.map(id => ({
 		id,
 		type,
-	})), {method: "POST"});
+	})), {method: "POST"}) as unknown as Promise<number>;
 
 export const putLikes = async(targetIDs:string[], type:"track"|"playlist") =>
 	eggshellverRequest("likes", {
@@ -79,7 +79,7 @@ export const putLikes = async(targetIDs:string[], type:"track"|"playlist") =>
 			type,
 		})),
 		type
-	}, {method: "PUT"});
+	}, {method: "PUT"}) as unknown as Promise<number>;
 
 export async function deleteLikes(trackIDs:string[]) {
 	const url = fillEggshellverSearchParams("likes", {

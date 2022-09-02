@@ -3,6 +3,7 @@ import { cache } from "../../util/loadHandler";
 import { postAuthenticatedUser } from "../../util/wrapper/eggshellver/user";
 import browser from "webextension-polyfill";
 import { login } from "../../util/wrapper/eggs/auth";
+import { profile } from "../../util/wrapper/eggs/users";
 
 async function mobileLogin() {
 	const [userInput, passwordInput] = document.getElementsByClassName("w-variable") as HTMLCollectionOf<HTMLInputElement>;
@@ -15,6 +16,13 @@ async function mobileLogin() {
 		browser.storage.sync.set({
 			token: access_token,
 			eggshellvertoken: token,
+		});
+	}
+	cache.reset();
+	const user = await profile();
+	if (user) {
+		browser.storage.sync.set({
+			eggsid: user.data.userName,
 		});
 	}
 

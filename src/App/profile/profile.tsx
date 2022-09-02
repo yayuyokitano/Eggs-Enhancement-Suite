@@ -13,32 +13,32 @@ import ProfileBanner from "../components/profileBanner";
 export default function Profile(t:TFunction) {
 	const [isLoading, setLoading] = useState(true);
 	const [isSelf, setSelf] = useState(false);
-	const [user, setUser] = useState<UserStub>();
+	const [userStub, setUserStub] = useState<UserStub>();
 	const userPromise = Promise.resolve(crawlUser());
 
 	useEffect(() => {
 		profile().then((profile) => {
 			userPromise.then(u => {
 				setSelf(profile.data.userName === u.userName);
-				setUser(u);
+				setUserStub(u);
 				setLoading(false);
 			}).catch((err) => {console.error(err);});
 		}).catch(() => {
 			setSelf(false);
 			userPromise.then(u => {
-				setUser(u);
+				setUserStub(u);
 				setLoading(false);
 			}).catch((err) => {console.error(err);});
 		});
 	}, []);
 
 	if (isLoading) return <div id="ees-profile">{t("general.loading")}</div>;
-	if (!user) return <div id="ees-profile">{t("general.error")}</div>;
+	if (!userStub) return <div id="ees-profile">{t("general.error")}</div>;
 
 	return (
 		<div id="ees-profile">
 			<ProfileBanner
-				user={user}
+				userStub={userStub}
 				t={t} />
 			<Carousel
 				width={204}
@@ -48,7 +48,7 @@ export default function Profile(t:TFunction) {
 				title="general.playlist"
 				init={[]}
 				ElementList={PlaylistList}
-				incrementer={new Incrementer(agnosticPlaylists(isSelf, user.userName), 10)}
+				incrementer={new Incrementer(agnosticPlaylists(isSelf, userStub.userName), 10)}
 				uniquePropName="playlistId"
 			/>
 		</div>
