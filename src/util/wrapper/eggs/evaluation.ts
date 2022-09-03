@@ -1,3 +1,4 @@
+import { toggleLike } from "../eggshellver/like";
 import Cacher from "./cacher";
 import { eggsRequest } from "./request";
 import { createEggsWrappedGetter, fillEggsSearchParams, List, offsetListMap } from "./util";
@@ -38,10 +39,12 @@ export async function playlistLikeInfo(playlistIds: (string|undefined)[], cache?
 
 
 export async function likeSong(musicId: string) {
+	toggleLike(musicId, "track");
 	return eggsRequest(`evaluation/evaluation/musics/${musicId}/like`, {}, { isAuthorizedRequest: true, isPostRequest: true }) as Promise<{data:boolean}>;
 }
 
 export async function likePlaylist(playlistId: string) {
+	toggleLike(playlistId, "playlist");
 	return eggsRequest(`evaluation/evaluation/playlists/${playlistId}/like`, {}, { isAuthorizedRequest: true, isPostRequest: true }) as Promise<{data:boolean}>;
 }
 

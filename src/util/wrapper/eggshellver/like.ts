@@ -87,3 +87,7 @@ export async function deleteLikes(trackIDs:string[]) {
 	});
 	return eggshellverRequest(url, {}, {method: "DELETE"});
 }
+
+export const toggleLike = async(targetID:string, targetType:"track"|"playlist") => {
+	return eggshellverRequest(`like/${targetType}/${targetID}`, {}, {method: "POST"});
+};
