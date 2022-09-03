@@ -67,10 +67,13 @@ export async function getEggshellverPlaylistLikesWrapped(eggsID:string) {
 }
 
 export const postLikes = async(targetIDs:string[], type:"track"|"playlist") =>
-	eggshellverRequest("likes", targetIDs.map(id => ({
-		id,
-		type,
-	})), {method: "POST"}) as unknown as Promise<number>;
+	eggshellverRequest("likes", {
+		targets: targetIDs.map(id => ({
+			id,
+			type,
+		})),
+		type
+	}, {method: "POST"}) as unknown as Promise<number>;
 
 export const putLikes = async(targetIDs:string[], type:"track"|"playlist") =>
 	eggshellverRequest("likes", {
