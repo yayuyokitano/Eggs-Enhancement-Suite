@@ -1,6 +1,7 @@
 {
 	"general": {
 		"loading": "Incubating...",
+		"more": "View More",
 		"error": "An error has occured",
 		"login": "Login",
 		"register": "Register",

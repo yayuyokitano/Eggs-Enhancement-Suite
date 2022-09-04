@@ -9,6 +9,7 @@ import { Incrementer } from "../components/sync/itemFetcher";
 import { UserStub } from "../../util/wrapper/eggshellver/util";
 import "./profile.scss";
 import ProfileBanner from "../components/profileBanner";
+import { PlaylistModalList } from "../components/listModal/modalGenerators";
 
 export default function Profile(t:TFunction) {
 	const [isLoading, setLoading] = useState(true);
@@ -50,6 +51,7 @@ export default function Profile(t:TFunction) {
 				ElementList={PlaylistList}
 				incrementer={new Incrementer(agnosticPlaylists(isSelf, userStub.userName), 10)}
 				uniquePropName="playlistId"
+				ModalElementList={PlaylistModalList}
 			/>
 		</div>
 	);

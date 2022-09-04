@@ -12,6 +12,7 @@ import Carousel from "../components/carousel/carousel";
 import { Incrementer } from "../components/sync/itemFetcher";
 import { curryEggsSearchArtistPlaylistsWrapped } from "../../util/wrapper/eggs/playlists";
 import { PlaylistList } from "../components/carousel/generators";
+import { PlaylistModalList } from "../components/listModal/modalGenerators";
 
 function fetchSocialMedia(socialMedia?:HTMLDivElement) {
 	if (!socialMedia) return [];
@@ -61,6 +62,7 @@ export default function Artist(t:TFunction) {
 					ElementList={PlaylistList}
 					incrementer={new Incrementer(curryEggsSearchArtistPlaylistsWrapped(userStub.userName), 30)}
 					uniquePropName="playlistId"
+					ModalElementList={PlaylistModalList}
 				/>
 				<h2>{t("general.song", {count: 0})}</h2>
 				{t("general.loading")}
@@ -85,6 +87,7 @@ export default function Artist(t:TFunction) {
 					ElementList={PlaylistList}
 					incrementer={new Incrementer(curryEggsSearchArtistPlaylistsWrapped(userStub.userName), 30)}
 					uniquePropName="playlistId"
+					ModalElementList={PlaylistModalList}
 				/>
 				<h2>{t("general.song", {count: data?.totalCount})}</h2>
 				<TrackContainer

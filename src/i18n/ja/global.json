@@ -1,6 +1,7 @@
 {
 	"general": {
 		"loading": "孵卵中...",
+		"more": "もっとを見る",
 		"error": "エラーが発生しました",
 		"login": "ログイン",
 		"register": "アカウント登録",

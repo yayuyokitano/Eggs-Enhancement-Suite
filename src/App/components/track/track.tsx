@@ -90,6 +90,7 @@ export default function Track(props:{
 			className={`ees-track ees-track-${size}`}
 			data-track={JSON.stringify(track)}
 			onClick={(e) => {isInQueue ? skipTo(e, track, playbackController) : setPlayback(e, track);}}
+			tabIndex={0}
 		>
 			{label && <div className="ees-track-label">{label}</div>}
 			<img

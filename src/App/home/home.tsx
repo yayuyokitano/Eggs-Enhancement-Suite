@@ -9,6 +9,7 @@ import { eggsNewPlaylistsWrapped, eggsPopularPlaylistsWrapped } from "../../util
 import DynamicTrackContainer from "../components/track/dynamicTrackContainer";
 import { eggsNewTracksWrapped, SongData } from "../../util/wrapper/eggs/artist";
 import { List } from "../../util/wrapper/eggs/util";
+import { IntroducedArtistModalList, NewsModalList, PlaylistModalList } from "../components/listModal/modalGenerators";
 
 export interface News {
   title: string;
@@ -37,7 +38,8 @@ export default function Home(t:TFunction) {
 				t={t}
 				title="heading.news"
 				init={news}
-				ElementList={NewsList} />
+				ElementList={NewsList}
+				ModalElementList={NewsModalList} />
 			<Carousel
 				width={205}
 				size="large"
@@ -49,6 +51,7 @@ export default function Home(t:TFunction) {
 				incrementer={new Incrementer(eggsRecommendedArtistsWrapped, 10)}
 				uniquePropName="artistName"
 				eggsGetSongCurry="curryEggsRecommendedArtistsPlayback"
+				ModalElementList={IntroducedArtistModalList}
 			/>
 			<Carousel
 				width={204}
@@ -60,6 +63,7 @@ export default function Home(t:TFunction) {
 				ElementList={PlaylistList}
 				incrementer={new Incrementer(eggsNewPlaylistsWrapped, 30, true)}
 				uniquePropName="playlistId"
+				ModalElementList={PlaylistModalList}
 			/>
 			<Carousel
 				width={204}
@@ -71,6 +75,7 @@ export default function Home(t:TFunction) {
 				ElementList={PlaylistList}
 				incrementer={new Incrementer(eggsPopularPlaylistsWrapped, 30)}
 				uniquePropName="playlistId"
+				ModalElementList={PlaylistModalList}
 			/>
 			<DynamicTrackContainer
 				size="medium"

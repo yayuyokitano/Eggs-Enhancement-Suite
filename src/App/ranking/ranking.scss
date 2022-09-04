@@ -81,7 +81,9 @@
 		&:first-child {
 			background-color: var(--gold);
 
-			&:hover {
+			&:hover,
+			&:focus-visible {
+				outline: none;
 				background-color: var(--gold-hover);
 			}
 		}
@@ -89,7 +91,9 @@
 		&:nth-child(2) {
 			background-color: var(--silver);
 
-			&:hover {
+			&:hover,
+			&:focus-visible {
+				outline: none;
 				background-color: var(--silver-hover);
 			}
 		}
@@ -97,7 +101,9 @@
 		&:nth-child(3) {
 			background-color: var(--bronze);
 
-			&:hover {
+			&:hover,
+			&:focus-visible {
+				outline: none;
 				background-color: var(--bronze-hover);
 			}
 		}

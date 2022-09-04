@@ -21,7 +21,9 @@
 		}
 	}
 
-	&:hover {
+	&:hover,
+	&:focus-visible {
+		outline: none;
 		background-color: var(--eggsyellow);
 	}
 }

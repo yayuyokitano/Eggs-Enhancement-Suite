@@ -65,7 +65,10 @@ $player-height: 78px;
 			}
 		}
 
-		&:hover {
+		&:hover,
+		&:focus-visible {
+			outline: none;
+
 			img {
 				filter: blur(1px);
 			}
@@ -114,7 +117,9 @@ $player-height: 78px;
 					fill: var(--alwayslight);
 				}
 
-				&:hover {
+				&:hover,
+				&:focus-visible {
+					outline: none;
 					filter: drop-shadow(0 0 5px var(--shadow6));
 
 					svg {

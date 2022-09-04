@@ -26,7 +26,7 @@ export default function DynamicTrackContainer<T>(props:DynamicTrackContainerPara
 	const [loggedIn, setLoggedIn] = useState(false);
 
 	useEffect(() => {
-		incrementer.getPage(false).then(page => {
+		incrementer.getPage({shouldCompare: false, ignoreNoItemError: false}).then(page => {
 			setTotalCount(page.totalCount);
 			setChildren(convert(page));
 			setLoading(false);
@@ -109,7 +109,7 @@ function Container<T>(props: {
 
 function addTracks<T>(incrementer:Incrementer<T>, convert:(data:OffsetList<T>) => SongData[], setChildren:React.Dispatch<React.SetStateAction<SongData[]>>, setTotalCount:React.Dispatch<React.SetStateAction<number>>, setLikedTracks:React.Dispatch<React.SetStateAction<string[]>>, setLoading:React.Dispatch<React.SetStateAction<boolean>>) {
 	setLoading(true);
-	incrementer.getPage(false).then(page => {
+	incrementer.getPage({shouldCompare: false, ignoreNoItemError: false}).then(page => {
 		const songData = convert(page);
 		setTotalCount(page.totalCount);
 		setChildren((oldChildren) => [

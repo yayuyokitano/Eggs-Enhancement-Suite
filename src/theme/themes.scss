@@ -91,8 +91,11 @@ $themes: (
 body:not(table) {
 	background-color: var(--bg);
 	color: var(--textlight);
+
 	a,
-	a:hover {
+	a:hover,
+	a:focus-visible {
+		outline: none;
 		color: var(--text);
 	}
 }
@@ -191,7 +194,9 @@ header:not(table) {
 			background-color: var(--monoaccent);
 			border: 1px solid var(--monoaccent2);
 
-			&:hover {
+			&:hover,
+			&:focus-visible {
+				outline: none;
 				background-color: var(--eggsyellow);
 				color: var(--alwaysdark);
 			}
@@ -214,7 +219,9 @@ header:not(table) {
 				li {
 					border-bottom: 2px solid var(--monoaccent);
 
-					a:hover {
+					a:hover,
+					a:focus-visible {
+						outline: none;
 						background-color: var(--eggsyellow);
 						color: var(--alwaysdark);
 					}
@@ -263,7 +270,9 @@ header:not(table) {
 	color: var(--bg);
 	border: none;
 
-	&:hover {
+	&:hover,
+	&:focus-visible {
+		outline: none;
 		background: var(--eggsyellow);
 		color: var(--alwaysdark);
 	}
@@ -297,7 +306,9 @@ header:not(table) {
 	a {
 		background-color: var(--monoaccent);
 
-		&:hover {
+		&:hover,
+		&:focus-visible {
+			outline: none;
 			background-color: var(--eggsyellow);
 			color: var(--alwaysdark);
 		}
@@ -306,11 +317,13 @@ header:not(table) {
 	.pagination_arrow {
 		background-color: var(--monoaccent) !important;
 
-		&:not(:hover) img {
+		&:not(:hover):not(:focus-visible) img {
 			filter: var(--inverted);
 		}
 
-		&:hover {
+		&:hover,
+		&:focus-visible {
+			outline: none;
 			background-color: var(--eggsyellow) !important;
 			color: var(--alwaysdark) !important;
 		}
@@ -359,7 +372,9 @@ header
 			background-color: var(--monoaccent);
 			color: var(--textlight);
 
-			&:hover {
+			&:hover,
+			&:focus-visible {
+				outline: none;
 				background-color: var(--eggsyellow);
 				color: var(--alwaysdark);
 			}
@@ -377,7 +392,9 @@ header
 		color: var(--textlight);
 		border-bottom: none;
 
-		&:hover {
+		&:hover,
+		&:focus-visible {
+			outline: none;
 			color: var(--themedyellow);
 		}
 	}
@@ -387,7 +404,9 @@ header
 	border: 1px solid var(--textlight);
 	color: var(--textlight);
 
-	&:hover {
+	&:hover,
+	&:focus-visible {
+		outline: none;
 		background-color: var(--eggsyellow);
 		color: var(--alwaysdark);
 		border: 1px solid var(--eggsyellow);

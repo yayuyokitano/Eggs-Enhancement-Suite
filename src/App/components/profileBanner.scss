@@ -50,7 +50,10 @@
 					transition: transform 0.25s ease-in-out, filter 0.25s ease-in-out;
 				}
 
-				&:hover {
+				&:hover,
+				&:focus-visible {
+					outline: none;
+
 					#ees-profile-picture {
 						transform: scale(1.15);
 						filter: blur(0.6px);
@@ -84,7 +87,9 @@
 					justify-content: center;
 				}
 
-				&:hover {
+				&:hover,
+				&:focus-visible {
+					outline: none;
 					filter: brightness(1.1);
 				}
 
@@ -126,7 +131,9 @@
 					display: block;
 					text-align: center;
 
-					&:hover {
+					&:hover,
+					&:focus-visible {
+						outline: none;
 						background-color: var(--eggsyellow);
 						color: var(--alwaysdark);
 					}
@@ -163,7 +170,10 @@
 						fill: var(--profiletext);
 					}
 
-					&:hover {
+					&:hover,
+					&:focus-visible {
+						outline: none;
+
 						svg {
 							fill: var(--themedyellow);
 						}
@@ -173,7 +183,9 @@
 				a {
 					text-decoration: underline;
 
-					&:hover {
+					&:hover,
+					&:focus-visible {
+						outline: none;
 						color: var(--themedyellow);
 					}
 				}

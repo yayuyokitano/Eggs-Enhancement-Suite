@@ -7,6 +7,7 @@ import "./search.scss";
 import DynamicTrackContainer from "../../App/components/track/dynamicTrackContainer";
 import { List } from "../../util/wrapper/eggs/util";
 import { SongData } from "../../util/wrapper/eggs/artist";
+import { ArtistModalList, PlaylistModalList } from "../components/listModal/modalGenerators";
 
 export default function Search(t:TFunction) {
 	const searchKeyword = new URLSearchParams(window.location.search).get("searchKeyword");
@@ -27,6 +28,7 @@ export default function Search(t:TFunction) {
 				uniquePropName="artistName"
 				eggsGetSongCurry="curryEggsArtistSearchPlayback"
 				payload={searchKeyword}
+				ModalElementList={ArtistModalList}
 			/>
 			<Carousel
 				width={204}
@@ -38,6 +40,7 @@ export default function Search(t:TFunction) {
 				ElementList={PlaylistList}
 				incrementer={new Incrementer(currySearchPlaylistsWrapped(searchKeyword), 30)}
 				uniquePropName="playlistId"
+				ModalElementList={PlaylistModalList}
 			/>
 			<DynamicTrackContainer
 				size="medium"

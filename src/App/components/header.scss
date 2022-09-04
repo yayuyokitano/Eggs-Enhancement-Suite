@@ -61,7 +61,10 @@ $animationSpeed: 300ms;
 				height: $headerHeight;
 				padding: 0 12px;
 
-				&:hover {
+				&:hover,
+				&:focus-visible {
+					outline: none;
+
 					background-color: var(--eggsyellow);
 					color: var(--alwaysdark2);
 				}
@@ -75,7 +78,9 @@ $animationSpeed: 300ms;
 			min-width: 14rem;
 
 			&:hover,
-			&[open]:focus-within {
+			&:focus-visible {
+				outline: none;
+
 				background-color: var(--eggsyellow);
 				color: var(--alwaysdark2);
 			}
@@ -104,7 +109,10 @@ $animationSpeed: 300ms;
 				padding: 0.5rem 0.8rem;
 				background-color: var(--bg);
 
-				&:hover {
+				&:hover,
+				&:focus-visible {
+					outline: none;
+
 					background-color: var(--eggsyellow);
 					color: var(--alwaysdark2);
 				}

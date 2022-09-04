@@ -15,7 +15,9 @@
 			width: 100%;
 			height: 100%;
 
-			&:hover {
+			&:hover,
+			&:focus-visible {
+				outline: none;
 				background-color: var(--eggsyellow);
 				color: var(--alwaysdark2);
 			}
@@ -38,7 +40,9 @@
 		fill: var(--textlight);
 	}
 
-	&:hover {
+	&:hover,
+	&:focus-visible {
+		outline: none;
 		background-color: var(--eggsyellow);
 		color: var(--alwaysdark2);
 
@@ -48,6 +52,11 @@
 
 		svg {
 			fill: var(--alwaysdark2);
+		}
+
+		.ees-track-expandable summary {
+			outline: none;
+			background-color: var(--eggsyellow);
 		}
 	}
 
@@ -134,15 +143,13 @@
 			padding: 0.5rem 0.75rem;
 			color: var(--textlight);
 
-			&:hover {
+			&:hover,
+			&:focus-visible {
+				outline: none;
 				background-color: var(--highlight);
 				color: var(--alwayslight);
 			}
 		}
-	}
-
-	&:hover .ees-track-expandable summary {
-		background-color: var(--eggsyellow);
 	}
 
 	&.ees-track-large {

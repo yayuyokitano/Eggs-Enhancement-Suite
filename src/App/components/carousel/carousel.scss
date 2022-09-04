@@ -59,7 +59,9 @@
 				fill: var(--text);
 			}
 
-			&:hover {
+			&:hover,
+			&:focus-visible {
+				outline: none;
 				background-color: var(--eggsyellow);
 
 				svg {
@@ -93,10 +95,31 @@
 				padding: 0.4rem 0.8rem;
 				margin: 0.2rem;
 
-				&:hover {
+				&:hover,
+				&:focus-visible {
+					outline: none;
 					background-color: var(--eggsyellow);
 					color: var(--alwaysdark2);
 				}
+			}
+		}
+	}
+
+	.ees-carousel-footer {
+		width: 100%;
+		background-color: var(--monoaccent2);
+		overflow: hidden;
+
+		.ees-carousel-modal-btn {
+			width: 100%;
+			text-align: center;
+			padding: 0.7rem;
+
+			&:hover,
+			&:focus-visible {
+				outline: none;
+				background-color: var(--eggsyellow);
+				color: var(--alwaysdark2);
 			}
 		}
 	}
@@ -119,10 +142,14 @@
 	}
 
 	.ees-carousel-wrapper {
-		border-radius: 20px 0 20px 20px;
+		border-radius: 20px 0 0 0;
 
 		&:not(.ees-carousel-with-player) {
-			border-radius: 20px;
+			border-radius: 20px 20px 0 0;
 		}
+	}
+
+	.ees-carousel-footer {
+		border-radius: 0 0 20px 20px;
 	}
 }

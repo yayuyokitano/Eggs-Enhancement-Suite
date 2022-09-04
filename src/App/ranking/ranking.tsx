@@ -1,12 +1,13 @@
 import { TFunction } from "react-i18next";
 import { curryArtistRankingWrapped, musicRanking, RankingSong, RankingType, TimePeriod } from "../../util/wrapper/eggs/ranking";
 import "./ranking.scss";
-import Carousel from "../../App/components/carousel/carousel";
-import { RankingArtistList } from "../../App/components/carousel/generators";
-import { Incrementer } from "../../App/components/sync/itemFetcher";
+import Carousel from "../components/carousel/carousel";
+import { RankingArtistList } from "../components/carousel/generators";
+import { Incrementer } from "../components/sync/itemFetcher";
 import { useEffect, useState } from "react";
 import { List } from "../../util/wrapper/eggs/util";
-import RankTrackContainer from "../../App/components/track/rankTrackContainer";
+import RankTrackContainer from "../components/track/rankTrackContainer";
+import { RankingArtistModalList } from "../components/listModal/modalGenerators";
 
 export default function Ranking(t:TFunction) {const path = window.location.pathname.split("/").slice(2);
 	if (path.length !== 2) return <p>{t("general.error")}</p>;
@@ -61,6 +62,7 @@ function RankingContent(props: {timePeriod:TimePeriod, type:RankingType, t:TFunc
 			uniquePropName="artistId"
 			eggsGetSongCurry="curryEggsArtistRankingPlayback"
 			payload={timePeriod}
+			ModalElementList={RankingArtistModalList}
 		/>;
 	}
 	return <SongRanking

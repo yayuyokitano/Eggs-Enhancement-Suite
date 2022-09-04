@@ -162,7 +162,9 @@ $metadata-width-small: 5rem;
 						padding: 5px 0;
 						width: 100%;
 
-						&:hover {
+						&:hover,
+						&:focus-visible {
+							outline: none;
 							background-color: var(--eggsyellow);
 						}
 					}

@@ -4,6 +4,7 @@ import { ArtistFetcherString, SongCurry } from "../../../util/util";
 import { ArrowBackIosNewRoundedIcon, ArrowForwardIosRoundedIcon } from "../../../util/icons";
 import { Incrementer, IncrementerError } from "../sync/itemFetcher";
 import { TFunction } from "react-i18next";
+import Modal from "../listModal/listModal";
 
 interface CarouselSetParams<T> {
 	width:number,
@@ -13,6 +14,7 @@ interface CarouselSetParams<T> {
 	title:string,
 	init:T[],
 	ElementList:(props:{t:TFunction, items:T[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) => JSX.Element,
+	ModalElementList:(props:{t:TFunction, items:T[], refName:React.RefObject<HTMLUListElement>}) => JSX.Element,
 }
 
 interface CarouselIncrementer<T> extends CarouselSetParams<T> {
@@ -27,11 +29,13 @@ interface CarouselFullParams<T> extends CarouselIncrementer<T> {
 }
 
 export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrementer<T>|CarouselFullParams<T>) {
-	const { ElementList, init, width, size, t, title } = props;
+	const { ElementList, init, width, size, type, t, title, ModalElementList } = props;
 	const [scroll, setScroll] = useState(0);
+	const [remainingModalScroll, setRemainingModalScroll] = useState(0);
 	const [children, setChildren] = useState<T[]>(init);
 	const [totalCount, setTotalCount] = useState(0);
 	const [update, setUpdate] = useState(false);
+	const modalRef = useRef<HTMLDialogElement>(null);
 	const carouselRef = useRef<HTMLUListElement>(null);
 
 	useEffect(() => {
@@ -47,7 +51,7 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 		if (carouselRef.current === null) return;
 
 		// add dynamic elements
-		if ("incrementer" in props && props.incrementer.isAlive && !props.incrementer.fetching && carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000) {
+		if ("incrementer" in props && props.incrementer.isAlive && !props.incrementer.fetching && (carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000 || remainingModalScroll < 2000)) {
 			props.incrementer.getPage({
 				shouldCompare: false,
 				ignoreNoItemError: props?.ignoreNoItemError ?? false
@@ -65,7 +69,7 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 			});
 		}
 
-	} , [scroll, update]);
+	} , [scroll, remainingModalScroll, update]);
 
 	return (
 		<div className="ees-carousel-outer">
@@ -78,6 +82,7 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 			</div>
 			<div className={`ees-carousel-wrapper ees-carousel-wrapper-${size}${("eggsGetSongCurry" in props) ? " ees-carousel-with-player" : ""}`}>
 				<button
+					type="button"
 					className="ees-carousel-btn ees-carousel-prev"
 					onClick={() => carouselPrev(width, carouselRef)}><ArrowBackIosNewRoundedIcon /></button>
 				<div className="ees-carousel-inner">
@@ -88,9 +93,32 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 						setScroll={setScroll} />
 				</div>
 				<button
+					type="button"
 					className="ees-carousel-btn ees-carousel-next"
 					onClick={() => carouselNext(width, carouselRef)}><ArrowForwardIosRoundedIcon /></button>
 			</div>
+			<div className="ees-carousel-footer">
+				<button
+					type="button"
+					className="ees-carousel-modal-btn"
+					onClick={e => {
+						if (!modalRef.current) return;
+						e.stopPropagation();
+						modalRef.current.showModal();
+					}
+					}>
+					{t("global:general.more")}
+				</button>
+			</div>
+			<Modal
+				modalRef={modalRef}
+				title={title}
+				type={type}
+				t={t}
+				setRemainingModalScroll={setRemainingModalScroll}
+				totalCount={totalCount}
+				childArray={children}
+				ElementList={ModalElementList} />
 		</div>
 	);
 }
