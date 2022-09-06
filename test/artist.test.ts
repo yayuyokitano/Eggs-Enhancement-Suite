@@ -1,5 +1,5 @@
 import { ThenableWebDriver } from "selenium-webdriver";
-const { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver } = require("./selenium") as typeof import("./selenium");
+const { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver, navigate, refresh } = require("./selenium") as typeof import("./selenium");
 const { By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const { expect } = require("chai") as typeof import("chai");
 
@@ -26,40 +26,32 @@ describe("artist", function() {
 
 		it("should display artist info", async function() {
 			expect (await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await enterFrame(driver);
-				await driver.wait(until.elementLocated(By.className("artist_name")), 5000);
-				const artistName = await driver.findElement(By.className("artist_name")).getText();
+				await driver.wait(until.elementLocated(By.css(".ees-banner-user-details h1")), 5000);
+				const artistName = await driver.findElement(By.css(".ees-banner-user-details h1")).getText();
 				expect(artistName, browser).to.equal("Lily Sketch");
-				const eggsID = await driver.findElement(By.className("eggsid")).getText();
+				const eggsID = await driver.findElement(By.id("ees-eggs-id")).getText();
 				expect(eggsID, browser).to.equal("EggsID：IG_LiLySketch");
-				const area = await driver.findElement(By.className("area")).getText();
-				expect(area, browser).to.equal("CHIBA");
-				const genre = await driver.findElement(By.className("genre")).getText();
-				expect(genre, browser).to.equal("ロック");
-				if (await isMobileDriver(driver)) {
-					await driver.findElement(By.css(".btn_profile")).click();
-					await driver.wait(until.elementLocated(By.id("profile-box")), 1000);
-					expect(await driver.findElement(By.id("profile-box")).getText()).to.equal("スリーピースガールズバンド\nVo .&Ba.ゆい　Gt.なつみ　Dr.あや");
-					await driver.wait(until.elementLocated(By.className("fancybox-close")), 5000);
-					await driver.findElement(By.className("fancybox-close")).click();
-				} else {
-					const description = await driver.findElement(By.className("description")).getText();
-					//String may end with "more". We don't care, cut it off.
-					expect(description.slice(0,37), browser).to.equal("スリーピースガールズバンド\nVo .&Ba.ゆい　Gt.なつみ　Dr.あや");
-				}
-				const areahref = await driver.findElement(By.css(".area a")).getAttribute("href");
+				const area = await driver.findElement(By.id("ees-banner-prefecture")).getText();
+				expect(area, browser).to.equal("Chiba");
+				const genre = await driver.findElement(By.className("ees-genre-wrapper")).getText();
+				expect(genre, browser).to.equal("Rock");
+				const description = await driver.findElement(By.id("ees-banner-profile")).getText();
+				//browser inconsistencies
+				expect(["スリーピースガールズバンド Vo .&Ba.ゆい　Gt.なつみ　Dr.あや", "スリーピースガールズバンド\nVo .&Ba.ゆい　Gt.なつみ　Dr.あや"], browser).to.include(description);
+				const areahref = await driver.findElement(By.css("#ees-banner-prefecture")).getAttribute("href");
 				expect(areahref, browser).to.equal("https://eggs.mu/search/area/CHIBA");
-				const genrehref = await driver.findElement(By.css(".genre a")).getAttribute("href");
+				const genrehref = await driver.findElement(By.css(".ees-genre-wrapper a")).getAttribute("href");
 				expect(genrehref, browser).to.equal("https://eggs.mu/search/genre/fg3");
-				const img = await driver.findElement(By.css(".header_mypage_img img")).getAttribute("src");
+				const img = await driver.findElement(By.css("#ees-profile-picture")).getAttribute("src");
 				expect(img, browser).to.equal("https://recoeggs.hs.llnwd.net/flmg_img_p/profile/5637.jpeg?updated_at=2021-08-31T15%3A48%3A07%2B09%3A00");
 			})).to.not.throw;
 		});
 
 		it("should display the tracks while logged out", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.className("ees-track-title")), 5000);
 				const trackTitles = (await driver.findElements(By.className("ees-track-title"))).map(async (track) => await track.getText());
@@ -76,7 +68,7 @@ describe("artist", function() {
 
 		it("should display hearts, should not be interactable", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.className("ees-track-like")), 5000);
 				const like = await driver.findElement(By.className("ees-track-like"));
@@ -96,7 +88,7 @@ describe("artist", function() {
 
 		it("should display the tracks while logged in", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.className("ees-track-title")), 5000);
 				const trackTitles = (await driver.findElements(By.className("ees-track-title"))).map(async (track) => await track.getText());
@@ -112,7 +104,7 @@ describe("artist", function() {
 
 		it("should display hearts, should be interactable, should send request", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.className("ees-track-like")), 5000);
 				await driver.sleep(1000);
@@ -122,12 +114,13 @@ describe("artist", function() {
 					throw new Error("data-liked is not a boolean");
 				}
 				await like.click();
+				await driver.sleep(1000);
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.css(`.ees-track:first-child .ees-track-like[data-liked="${opposite[likeAttr]}"]`)), 5000);
 				const like2 = await driver.findElement(By.className("ees-track-like"));
 				expect(await like2.getAttribute("data-liked"), browser).to.equal(opposite[likeAttr]);
 
-				await driver.navigate().refresh();
+				await refresh(driver);
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.css(`.ees-track:first-child .ees-track-like[data-liked="${opposite[likeAttr]}"]`)), 5000);
 				await driver.sleep(1000);
@@ -135,12 +128,13 @@ describe("artist", function() {
 				expect(await like3.getAttribute("data-liked"), browser).to.equal(opposite[likeAttr]);
 
 				await like3.click();
+				await driver.sleep(1000);
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.css(`.ees-track:first-child .ees-track-like[data-liked="${likeAttr}"]`)), 5000);
-				const like4 = await driver.findElement(By.className("ees-track-like"));
+				const like4 = await driver.findElement(By.css(`.ees-track:first-child .ees-track-like[data-liked="${likeAttr}"]`));
 				expect(await like4.getAttribute("data-liked"), browser).to.equal(likeAttr);
 
-				await driver.navigate().refresh();
+				await refresh(driver);
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.css(`.ees-track:first-child .ees-track-like[data-liked="${likeAttr}"]`)), 5000);
 				await driver.sleep(1000);

@@ -1,6 +1,6 @@
 import { Param, SocialMedia, stringifyParam } from "../../../util/util";
 
-export const baseURL = "http://localhost:10000/";
+export const baseURL = "https://localhost:10000/";
 
 export interface StrictUserStub {
   userName: string;

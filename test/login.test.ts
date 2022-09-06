@@ -1,6 +1,6 @@
 import { ThenableWebDriver } from "selenium-webdriver";
 
-const { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver } = require("./selenium") as typeof import("./selenium");
+const { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver, navigate } = require("./selenium") as typeof import("./selenium");
 const { By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const { expect } = require("chai") as typeof import("chai");
 const config = require("../config.json") as typeof import("../config.json");
@@ -15,9 +15,16 @@ describe("login", function() {
 
 	do{
 
+		it("should log out", async function() {
+			expect(await runTest(this.drivers, async (driver, browser) => {
+				const loginButton = await attemptLogout(driver);
+				expect(loginButton.length, browser).to.equal(1);
+			})).to.not.throw;
+		});
+
 		it("should have login and register buttons that are visible", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/");
+				await navigate(driver, "https://eggs.mu/");
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.css("#ees-login :first-child")), 5000);
 				const loginButton = await driver.findElement(By.css("#ees-login :first-child"));
@@ -31,7 +38,7 @@ describe("login", function() {
 
 		it("should go to login screen when button clicked and have redirect url", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.css("#ees-login :first-child")), 5000);
 				const loginButton = await driver.findElement(By.css("#ees-login :first-child"));
@@ -43,7 +50,7 @@ describe("login", function() {
 
 		it("should have disclaimer", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/login?location=https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/login?location=https://eggs.mu/artist/IG_LiLySketch/");
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.css(".form-control.pt30p.pb50p p")), 5000);
 				const disclaimer = await driver.findElement(By.css(".form-control.pt30p.pb50p p"));
@@ -61,7 +68,7 @@ describe("login", function() {
 
 		it("should be logged in", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.className("ees-username")), 5000);
 				const username = await driver.findElement(By.className("ees-username"));

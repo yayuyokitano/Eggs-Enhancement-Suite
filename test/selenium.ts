@@ -39,7 +39,6 @@ export async function loadDrivers() {
 export async function enterFrame(driver:ThenableWebDriver) {
 	await driver.switchTo().defaultContent();
 	await driver.wait(until.elementLocated(By.id("ees-spa-iframe")), 30000);
-	await driver.sleep(300); //cursed but seems to be needed for reliability
 	await driver.switchTo().frame(await driver.findElement(By.id("ees-spa-iframe")));
 }
 
@@ -57,6 +56,7 @@ export async function runTest(drivers:ThenableWebDriver[], test:(driver:Thenable
 	for (const driver of drivers) {
 		let browser = `Errored in ${(await driver.getCapabilities()).getBrowserName() ?? "unknown"}`;
 		browser += await isMobileDriver(driver) ? "mobile" : "";
+		await driver.switchTo().defaultContent();
 		tests.push(test(driver, browser));
 	}
 	for (const test of (await Promise.all(tests))) {
@@ -68,7 +68,7 @@ export async function runTest(drivers:ThenableWebDriver[], test:(driver:Thenable
 }
 
 export async function attemptLogout(driver:ThenableWebDriver) {
-	await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+	await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 	await enterFrame(driver);
 	try {
 		const waitRace = [
@@ -91,7 +91,7 @@ export async function attemptLogout(driver:ThenableWebDriver) {
 }
 
 export async function login(driver:ThenableWebDriver, browser:string) {
-	await driver.get("https://eggs.mu/login?location=https://eggs.mu/artist/IG_LiLySketch/");
+	await navigate(driver, "https://eggs.mu/login?location=https://eggs.mu/artist/IG_LiLySketch/");
 	await enterFrame(driver);
 	await driver.wait(until.elementLocated(By.css(".input-wrapper [placeholder=\"IDまたはメールアドレス\"]")), 5000);
 	const username = await driver.findElement(By.css(".input-wrapper [placeholder=\"IDまたはメールアドレス\"]"));
@@ -101,4 +101,18 @@ export async function login(driver:ThenableWebDriver, browser:string) {
 	const loginButton = await driver.findElement(By.css(".form-control>.form-control>.button"));
 	await loginButton.click();
 	await driver.wait(until.urlIs("https://eggs.mu/artist/IG_LiLySketch/"), 10000);
+}
+
+export async function navigate(driver:ThenableWebDriver, url:string) {
+	await driver.switchTo().defaultContent();
+	await driver.get(url);
+	await driver.wait(until.elementLocated(By.id("ees-spa-iframe")), 30000);
+	await driver.sleep(3000);
+}
+
+export async function refresh(driver:ThenableWebDriver) {
+	await driver.switchTo().defaultContent();
+	await driver.navigate().refresh();
+	await driver.wait(until.elementLocated(By.id("ees-spa-iframe")), 30000);
+	await driver.sleep(3000);
 }

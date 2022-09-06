@@ -1,6 +1,6 @@
 import { ThenableWebDriver, until } from "selenium-webdriver";
 import { findTrackByDetails, findTrackByIndex, generateRepeatQueue, Player, Queue, Repeat } from "./player";
-const { loadDrivers, runTest, enterFrame, isMobileDriver } = require("./selenium") as typeof import("./selenium");
+const { loadDrivers, runTest, enterFrame, isMobileDriver, navigate } = require("./selenium") as typeof import("./selenium");
 const { By } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const { expect } = require("chai") as typeof import("chai");
 
@@ -15,7 +15,7 @@ describe("player", function() {
 
 		it("should play song, play/pause/next/prev should work", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await enterFrame(driver);
 				await driver.wait(until.elementLocated(By.className("ees-track")), 5000);
 				await (await findTrackByIndex(driver, 0)).play();
@@ -72,7 +72,7 @@ describe("player", function() {
 
 		it("should have queue that shows on click and hides on click", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				const width = (await driver.manage().window().getRect()).width;
 
 				await driver.wait(until.elementLocated(By.id("ees-player-queue-inner")), 5000);
@@ -92,7 +92,7 @@ describe("player", function() {
 
 		it("should behave properly with no shuffle and no repeat", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await (await findTrackByIndex(driver, 0)).play();
 				await driver.switchTo().defaultContent();
 				const queue = new Queue(driver);
@@ -152,7 +152,7 @@ describe("player", function() {
 		it("should behave properly with shuffle and no repeat", async function() {
 			this.retries(10); //additional retries to handle randomness.
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await (await findTrackByIndex(driver, 0)).play();
 				await driver.switchTo().defaultContent();
 				const queue = new Queue(driver);
@@ -219,7 +219,7 @@ describe("player", function() {
 
 		it("should behave properly with repeat and no shuffle", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await (await findTrackByIndex(driver, 0)).play();
 				await driver.switchTo().defaultContent();
 				const queue = new Queue(driver);
@@ -250,7 +250,7 @@ describe("player", function() {
 		it("should behave properly with repeat and shuffle", async function() {
 			this.retries(10);
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await (await findTrackByIndex(driver, 0)).play();
 				await driver.switchTo().defaultContent();
 				const queue = new Queue(driver);
@@ -271,7 +271,7 @@ describe("player", function() {
 
 		it("should behave properly with repeat one", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await (await findTrackByIndex(driver, 0)).play();
 				await driver.switchTo().defaultContent();
 				const queue = new Queue(driver);
@@ -291,7 +291,7 @@ describe("player", function() {
 
 		it("should have a toggleable track info page", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await (await findTrackByIndex(driver, 0)).play();
 				await driver.switchTo().defaultContent();
       
@@ -333,7 +333,7 @@ describe("player", function() {
 
 		it("details image should work properly", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
-				await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
 				await (await findTrackByIndex(driver, 0)).play();
 				await driver.switchTo().defaultContent();
       
@@ -371,7 +371,7 @@ describe("player", function() {
 
   it("should adjust volume of audio tracks", async function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
-      await driver.get("https://eggs.mu/artist/IG_LiLySketch/");
+      await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
       await (await findTrackByIndex(driver, 0)).play();
       await driver.switchTo().defaultContent();
       const player = new Player(driver);
@@ -401,7 +401,7 @@ describe("player", function() {
       await driver.sleep(50);
       expect(await driver.findElement(By.css("audio")).getAttribute("volume"), browser).to.equal("0.6");
 
-      await driver.navigate().refresh();
+      await refresh();
       await (await findTrackByIndex(driver, 0)).play();
       await driver.switchTo().defaultContent();
       await driver.findElement(By.id("ees-volume")).click();
@@ -424,7 +424,7 @@ describe("player", function() {
 
   it("should adjust volume of youtube tracks", async function() {
     expect(await runTest(this.drivers, async(driver, browser) => {
-      await driver.get("https://eggs.mu/artist/Osage_band/");
+      await navigate(driver, "https://eggs.mu/artist/Osage_band/");
       await (await findTrackByDetails(driver, {title: "エンドロール MV"})).play();
       await driver.switchTo().defaultContent();
       const player = new Player(driver);
@@ -457,7 +457,7 @@ describe("player", function() {
       }
       expect(await volume, browser).to.equal(60);
 
-      await driver.navigate().refresh();
+      await refresh();
       await (await findTrackByIndex(driver, 0)).play();
       await driver.switchTo().defaultContent();
       await driver.findElement(By.id("ees-volume")).click();

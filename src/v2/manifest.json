@@ -4,7 +4,8 @@
 	"version": "2.0.0",
 	"permissions": [
 		"storage",
-		"*://*.eggs.mu/*"
+		"*://*.eggs.mu/*",
+		"*://*.localhost/*"
 	],
 	"content_scripts": [{
 		"matches": ["*://eggs.mu/*"],

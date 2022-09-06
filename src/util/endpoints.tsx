@@ -92,7 +92,6 @@ async function fetchPlaylist(cache:Cacher) {
 	playlist(playlistID, cache);
 	eggsRequest(`playlists/playlists/${playlistID}`, {}, {cache});
 	playlistLikeInfo([playlistID], cache);
-	console.log(playlistID);
 }
 
 async function fetchProfile(cache:Cacher) {

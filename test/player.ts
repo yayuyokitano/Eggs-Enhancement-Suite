@@ -90,6 +90,7 @@ export class Queue {
 	}
 
 	private innerQueue = async() =>  this.driver.findElement(By.id("ees-player-queue-inner"));
+	private queueToggle = async() => this.driver.findElement(By.id("ees-player-queue-button"));
 
 	public async setShuffle(shuffle:boolean) {
 		const shuffleElement = await this.driver.findElement(By.id("ees-shuffle"));
@@ -126,7 +127,13 @@ export class Queue {
 		];
 	}
 
-	public playTrackByIndex = async(index:number) => (await (await this.innerQueue()).findElements(By.className("ees-track")))[index].click();
+	public async playTrackByIndex(index:number) {
+		await (await this.queueToggle()).click();
+		await this.driver.sleep(250);
+		(await (await this.innerQueue()).findElements(By.className("ees-track")))[index].click();
+		await (await this.queueToggle()).click();
+		await this.driver.sleep(250);
+	} 
 }
 
 export async function awaitYoutubeVolumeChange(driver:ThenableWebDriver, target:number):Promise<number> {

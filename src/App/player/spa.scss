@@ -16,7 +16,6 @@ $metadata-width-small: 5rem;
 	width: 100%;
 	height: calc(100vh - $player-height);
 	border: none;
-	overflow-y: scroll;
 }
 
 #ees-player {
@@ -267,10 +266,6 @@ $metadata-width-small: 5rem;
 
 body {
 	padding-top: 0 !important;
-}
-
-html {
-	overflow: hidden;
 }
 
 @keyframes scroll-text {
