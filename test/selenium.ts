@@ -1,4 +1,4 @@
-import { ThenableWebDriver } from "selenium-webdriver";
+import { ThenableWebDriver, WebElement } from "selenium-webdriver";
 const { Builder, By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome") as typeof import("selenium-webdriver/chrome");
 const firefox = require("selenium-webdriver/firefox") as typeof import("selenium-webdriver/firefox");
@@ -116,3 +116,27 @@ export async function refresh(driver:ThenableWebDriver) {
 	await driver.wait(until.elementLocated(By.id("ees-spa-iframe")), 30000);
 	await driver.sleep(3000);
 }
+
+
+export const getTrackInfo = async (e:WebElement) => ({
+	title: await e.findElement(By.className("ees-track-title")).getText(),
+	artist: await e.findElement(By.className("ees-artist-name")).getText(),
+	imageDataPath: await e.findElement(By.className("ees-track-thumb")).getAttribute("src"),
+});
+
+export const getCurrentTrack = async (driver:ThenableWebDriver) => ({
+	title: await driver.findElement(By.id("ees-player-title")).getText(),
+	artist: await driver.findElement(By.id("ees-player-artist")).getText(),
+	imageDataPath: await driver.findElement(By.id("ees-player-thumbnail")).getAttribute("src"),
+});
+
+export const getTopTrack = async (tracks:WebElement[]) => tracks.reduce(async (max, track) => {
+	const playcount = parseInt(await track.findElement(By.className("ees-track-playcount")).getText());
+	if (playcount > (await max).playcount) {
+		return {
+			track,
+			playcount
+		};
+	}
+	return max;
+}, Promise.resolve({ track: tracks[0], playcount: 0 }));

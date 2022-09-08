@@ -1,5 +1,6 @@
-import { ThenableWebDriver } from "selenium-webdriver";
-const { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver, navigate } = require("./selenium") as typeof import("./selenium");
+import { ThenableWebDriver, WebElement } from "selenium-webdriver";
+import { getTopTrack } from "./selenium";
+const { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver, navigate, getTrackInfo, getCurrentTrack } = require("./selenium") as typeof import("./selenium");
 const { By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 const { expect } = require("chai") as typeof import("chai");
 
@@ -12,6 +13,7 @@ const scrollScript = `
 		callback(e.scrollLeft);
 	});
 `;
+
 
 describe("login", function() {
 	before(async function() {
@@ -150,10 +152,125 @@ describe("login", function() {
 				expect((await getModalItems()).length, browser).to.be.greaterThan(30);
 				await driver.executeScript("arguments[0].scrollTo(0, 1000);", modalBody);
 				expect(await modalHeader.isDisplayed(), browser).to.be.true;
+
+				await carouselModal.findElement(By.className("ees-modal-close")).click();
+				await driver.wait(until.elementIsNotVisible(carouselModal), 5000);
+				expect(await carouselModal.getAttribute("open"), browser).to.be.null;
+				expect(await carouselModal.isDisplayed(), browser).to.be.false;
 			})).to.not.throw;
 		});
 
+		it("should play newest track of artists", async function() {
+			expect(await runTest(this.drivers, async(driver, browser) => {
+				await navigate(driver, "https://eggs.mu/");
+				await enterFrame(driver);
+				await driver.wait(until.elementLocated(By.css(".ees-carousel-outer:nth-child(2) .ees-carousel-play-new")), 5000);
+				await driver.findElement(By.css(".ees-carousel-outer:nth-child(2) .ees-carousel-play-new")).click();
 
+				driver.switchTo().defaultContent();
+				await driver.wait(until.elementLocated(By.id("ees-player-queue-button")), 5000);
+				await driver.findElement(By.id("ees-player-queue-button")).click();
+				
+				await driver.wait(until.elementLocated(By.css("#ees-player-queue-inner .ees-track:nth-child(2)")), 5000);
+				const queueItems = await driver.findElements(By.css("#ees-player-queue-inner .ees-track"));
+				expect(queueItems.length, browser).to.be.greaterThanOrEqual(2);
+
+				const tracks = await Promise.all([
+					getCurrentTrack(driver),
+					...(queueItems.slice(0,2).map(getTrackInfo))
+				]);
+
+				await enterFrame(driver);
+				const artists = await driver.findElements(By.css(".ees-carousel-outer:nth-child(2) .ees-carousel-item"));
+				const urls = await Promise.all(artists.slice(0,3).map(a => a.findElement(By.className("ees-carousel-artist-introduction")).getAttribute("href")));
+
+				for (let i = 0; i < 3; i++) {
+					await navigate(driver, urls[i]);
+					await enterFrame(driver);
+	
+					expect(await getTrackInfo(await driver.findElement(By.className("ees-track-large"))), browser).to.deep.equal(tracks[i]);
+				}
+			})).to.not.throw;
+		});
+
+		it("should play top track of artists", async function() {
+			expect(await runTest(this.drivers, async(driver, browser) => {
+				await navigate(driver, "https://eggs.mu/");
+				await enterFrame(driver);
+				await driver.wait(until.elementLocated(By.css(".ees-carousel-outer:nth-child(2) .ees-carousel-play-top")), 5000);
+				await driver.findElement(By.css(".ees-carousel-outer:nth-child(2) .ees-carousel-play-top")).click();
+
+				driver.switchTo().defaultContent();
+				await driver.wait(until.elementLocated(By.id("ees-player-queue-button")), 5000);
+				await driver.findElement(By.id("ees-player-queue-button")).click();
+
+				await driver.wait(until.elementLocated(By.css("#ees-player-queue-inner .ees-track:nth-child(2)")), 5000);
+				const queueItems = await driver.findElements(By.css("#ees-player-queue-inner .ees-track"));
+				expect(queueItems.length, browser).to.be.greaterThanOrEqual(2);
+
+				const tracks = await Promise.all([
+					getCurrentTrack(driver),
+					...(queueItems.slice(0,2).map(getTrackInfo))
+				]);
+				
+				await enterFrame(driver);
+				const artists = await driver.findElements(By.css(".ees-carousel-outer:nth-child(2) .ees-carousel-item"));
+				const urls = await Promise.all(artists.slice(0,3).map(a => a.findElement(By.className("ees-carousel-artist-introduction")).getAttribute("href")));
+
+				for (let i = 0; i < 3; i++) {
+					await navigate(driver, urls[i]);
+					await enterFrame(driver);
+
+					const artistTracks = await driver.findElements(By.className("ees-track-large"));
+	
+					expect(await getTrackInfo((await getTopTrack(artistTracks)).track), browser).to.deep.equal(tracks[i]);
+				}
+			})).to.not.throw;
+		});
+
+		it("should play all tracks of artists", async function() {
+			expect(await runTest(this.drivers, async(driver, browser) => {
+				await navigate(driver, "https://eggs.mu/");
+				await enterFrame(driver);
+				await driver.wait(until.elementLocated(By.css(".ees-carousel-outer:nth-child(2) .ees-carousel-play-all")), 5000);
+				await driver.findElement(By.css(".ees-carousel-outer:nth-child(2) .ees-carousel-play-all")).click();
+
+				const artists = await driver.findElements(By.css(".ees-carousel-outer:nth-child(2) .ees-carousel-item"));
+				const urls = await Promise.all(artists.slice(0,3).map(a => a.findElement(By.className("ees-carousel-artist-introduction")).getAttribute("href")));
+				const lastArtistName = await artists[2].findElement(By.className("ees-carousel-artist-name")).getText();
+
+				driver.switchTo().defaultContent();
+				await driver.sleep(500);
+				await driver.findElement(By.id("ees-player-queue-button")).click();
+
+				await Promise.resolve(new Promise(resolve => setInterval(async() => {
+					const curTrack = driver.findElement(By.css("#ees-player-queue-inner .ees-track:last-child"));
+					const artist = await curTrack.findElement(By.className("ees-artist-name")).getText();
+					if (artist === lastArtistName) {
+						resolve(artist);
+					}
+				}, 300)));
+
+				const queueItems = await driver.findElements(By.css("#ees-player-queue-inner .ees-track"));
+				expect(queueItems.length, browser).to.be.greaterThanOrEqual(2);
+
+				const tracks = await Promise.all([
+					getCurrentTrack(driver),
+					...(queueItems.map(getTrackInfo))
+				]);
+
+				let testedTracks = 0;
+				for (let i = 0; i < 3; i++) {
+					await navigate(driver, urls[i]);
+					await enterFrame(driver);
+
+					const artistTracks = await driver.findElements(By.className("ees-track-large"));
+					
+					expect(await Promise.all(artistTracks.map(getTrackInfo)), browser).to.deep.equal(tracks.slice(testedTracks, testedTracks + artistTracks.length));
+					testedTracks += artistTracks.length;
+				}
+			})).to.not.throw;
+		});
 
 		it("should set viewport size", async function() {
 			expect(await runTest(this.drivers, async (driver, browser) => {

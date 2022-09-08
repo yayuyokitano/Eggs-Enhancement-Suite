@@ -141,6 +141,7 @@ function CarouselPlayer(props: {t:TFunction, eggsGetSongCurry:ArtistFetcherStrin
 		<div className="ees-carousel-play-buttons">
 			<button
 				type="button"
+				className="ees-carousel-play-all"
 				onClick={async () => playDynamic({
 					artistFetcher: eggsGetSongCurry,
 					songFetcher: "artistAllTracks",
@@ -148,6 +149,7 @@ function CarouselPlayer(props: {t:TFunction, eggsGetSongCurry:ArtistFetcherStrin
 				})}>{t("global:carousel.playAllTracks")}</button>
 			<button
 				type="button"
+				className="ees-carousel-play-top"
 				onClick={async () => playDynamic({
 					artistFetcher: eggsGetSongCurry,
 					songFetcher: "artistTopTrack",
@@ -155,6 +157,7 @@ function CarouselPlayer(props: {t:TFunction, eggsGetSongCurry:ArtistFetcherStrin
 				})}>{t("global:carousel.playTopTrack")}</button>
 			<button
 				type="button"
+				className="ees-carousel-play-new"
 				onClick={async () => playDynamic({
 					artistFetcher: eggsGetSongCurry,
 					songFetcher: "artistNewTrack",

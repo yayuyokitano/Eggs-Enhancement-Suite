@@ -103,14 +103,14 @@ export default function Track(props:{
 				<div className="ees-track-details">
 					<div>
 						<PlayArrowRoundedIcon className="ees-data-icon" />
-						<span className="ees-data-count">{track.numberOfMusicPlays}</span>
+						<span className="ees-data-count ees-track-playcount">{track.numberOfMusicPlays}</span>
 					</div>
 					<div>
-						<FavoriteRoundedIcon className="ees-data-icon" />
+						<FavoriteRoundedIcon className="ees-data-icon ees-track-likecount" />
 						<span className="ees-data-count">{track.numberOfLikes}</span>
 					</div>
 					<div>
-						<ModeCommentRoundedIcon className="ees-data-icon" />
+						<ModeCommentRoundedIcon className="ees-data-icon ees-track-commentcount" />
 						<span className="ees-data-count">{track.numberOfComments}</span>
 					</div>
           
