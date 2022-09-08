@@ -51,7 +51,18 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 		if (carouselRef.current === null) return;
 
 		// add dynamic elements
-		if ("incrementer" in props && props.incrementer.isAlive && !props.incrementer.fetching && (carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000 || remainingModalScroll < 2000)) {
+		if (
+			"incrementer" in props
+			&& props.incrementer.isAlive
+			&& !props.incrementer.fetching
+			&& (
+				carouselRef.current.scrollWidth - carouselRef.current.clientWidth - scroll < 2000
+				|| (
+					modalRef?.current?.open
+					&& remainingModalScroll < 2000
+				)
+			)
+		) {
 			props.incrementer.getPage({
 				shouldCompare: false,
 				ignoreNoItemError: props?.ignoreNoItemError ?? false
