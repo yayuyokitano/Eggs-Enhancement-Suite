@@ -16,7 +16,7 @@ export default function ProfileBanner(props:{ t:TFunction, userStub:UserStub, so
 
 	useEffect(() => {
 		cache.getEggsID().then(id => {
-			if (id === undefined) return;
+			if (id === undefined || id === userStub.userName) return;
 			getEggshellverFollows({
 				followerIDs: [id],
 				followeeIDs: [userStub.userName],

@@ -1,8 +1,7 @@
-import { ThenableWebDriver, until } from "selenium-webdriver";
+import { ThenableWebDriver, until, By } from "selenium-webdriver";
 import { findTrackByDetails, findTrackByIndex, generateRepeatQueue, Player, Queue, Repeat } from "./player";
-const { loadDrivers, runTest, enterFrame, isMobileDriver, navigate } = require("./selenium") as typeof import("./selenium");
-const { By } = require("selenium-webdriver") as typeof import("selenium-webdriver");
-const { expect } = require("chai") as typeof import("chai");
+import { loadDrivers, runTest, enterFrame, isMobileDriver, navigate, attemptLogout } from "./selenium";
+import { expect } from "chai";
 
 describe("player", function() {
 	before(async function() {
@@ -12,6 +11,13 @@ describe("player", function() {
 	let i = 0;
 
 	do {
+
+		it("should log out", async function() {
+			expect(await runTest(this.drivers, async (driver, browser) => {
+				const loginButton = await attemptLogout(driver);
+				expect(loginButton.length, browser).to.equal(1);
+			})).to.not.throw;
+		});
 
 		it("should play song, play/pause/next/prev should work", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {

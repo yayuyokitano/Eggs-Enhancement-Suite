@@ -1,11 +1,11 @@
-import { ThenableWebDriver, WebElement } from "selenium-webdriver";
-const { Builder, By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
-const chrome = require("selenium-webdriver/chrome") as typeof import("selenium-webdriver/chrome");
-const firefox = require("selenium-webdriver/firefox") as typeof import("selenium-webdriver/firefox");
-const safari = require("selenium-webdriver/safari") as typeof import("selenium-webdriver/safari");
-const path = require("path") as typeof import("path");
+import { ThenableWebDriver, WebElement, Builder, By, until } from "selenium-webdriver";
+import * as chrome from "selenium-webdriver/chrome";
+import * as firefox from "selenium-webdriver/firefox";
+import * as safari from "selenium-webdriver/safari";
+import * as path from "path";
+import * as config from "../config.json";
+import { expect } from "chai";
 const getExtension = (browser:string) => path.resolve(__dirname, "..", "build", browser);
-const config = require("../config.json") as typeof import("../config.json");
 
 export async function loadDrivers() {
 
@@ -140,3 +140,15 @@ export const getTopTrack = async (tracks:WebElement[]) => tracks.reduce(async (m
 	}
 	return max;
 }, Promise.resolve({ track: tracks[0], playcount: 0 }));
+
+export async function toggleFollow(driver:ThenableWebDriver, browser:string) {
+	const following = (await driver.findElements(By.css("#ees-follow-button.ees-following"))).length === 1;
+	await driver.findElement(By.id("ees-follow-button")).click();
+	const newFollowing = (await driver.findElements(By.css("#ees-follow-button.ees-following"))).length === 1;
+	expect(newFollowing, browser).to.not.equal(following);
+	await refresh(driver);
+	await enterFrame(driver);
+	await driver.wait(until.elementLocated(By.id("ees-follow-button")));
+	const newFollowing2 = (await driver.findElements(By.css("#ees-follow-button.ees-following"))).length === 1;
+	expect(newFollowing2, browser).to.equal(newFollowing);
+}

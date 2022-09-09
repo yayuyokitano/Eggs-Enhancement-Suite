@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TFunction } from "react-i18next";
 import { FavoriteBorderRoundedIcon, FavoriteRoundedIcon } from "../../util/icons";
 import { likePlaylist, playlistLikeInfo } from "../../util/wrapper/eggs/evaluation";
@@ -6,6 +6,16 @@ import { Playlist, playlist } from "../../util/wrapper/eggs/playlists";
 import { PlaylistCover } from "../components/playlistcover";
 import TrackContainer from "../components/track/trackContainer";
 import "./playlist.scss";
+
+export function toggleLiked(e:React.MouseEvent<HTMLButtonElement, MouseEvent>, playlistID:string, loggedIn:boolean, setLiked:React.Dispatch<React.SetStateAction<boolean>>, setLikeCount:React.Dispatch<React.SetStateAction<number>>) {
+	e.stopPropagation();
+	if (!loggedIn) return;
+	setLiked((wasLiked) => {
+		setLikeCount((count) => wasLiked ? count - 1 : count + 1);
+		return !wasLiked;
+	});
+	likePlaylist(playlistID);
+}
 
 export default function Playlist(t:TFunction) {
 
@@ -21,15 +31,22 @@ export default function Playlist(t:TFunction) {
 	const [error, setError] = useState(false);
 	const [likeCount, setLikeCount] = useState(0);
 	const [isLiked, setLiked] = useState(false);
+	const [loggedIn, setLoggedIn] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
+		
 		playlist(playlistID).then((playlistData) => {
 			setData(playlistData.data[0]);
 			setLoading(false);
 			playlistLikeInfo([playlistID]).then((data) => {
 				setLikeCount(data.data[0].numberOfLikes);
 				setLiked(data.data[0].isLike);
+				setLoggedIn(true);
+			}).catch(() => {
+				setLikeCount(0);
+				setLiked(false);
+				setLoggedIn(false);
 			});
 		}).catch(() => {
 			setError(true);
@@ -69,10 +86,9 @@ export default function Playlist(t:TFunction) {
 						<button
 							type="button"
 							id="ees-playlist-like-button"
-							onClick={() => {
-								setLikeCount(likeCount + (isLiked ? -1 : 1));
-								setLiked(!isLiked);
-								likePlaylist(playlistID);
+							className={isLiked ? "ees-liked" : ""}
+							onClick={(e) => {
+								toggleLiked(e, playlistID, loggedIn, setLiked, setLikeCount);
 							}}>
 							{
 								isLiked ? <FavoriteRoundedIcon /> : <FavoriteBorderRoundedIcon />

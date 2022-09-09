@@ -1,7 +1,6 @@
-import { ThenableWebDriver } from "selenium-webdriver";
-const { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver, navigate, refresh } = require("./selenium") as typeof import("./selenium");
-const { By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
-const { expect } = require("chai") as typeof import("chai");
+import { ThenableWebDriver, By, until } from "selenium-webdriver";
+import { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver, navigate, refresh, toggleFollow } from "./selenium";
+import { expect } from "chai";
 
 const opposite = {
 	"true": "false",
@@ -46,6 +45,22 @@ describe("artist", function() {
 				expect(genrehref, browser).to.equal("https://eggs.mu/search/genre/fg3");
 				const img = await driver.findElement(By.css("#ees-profile-picture")).getAttribute("src");
 				expect(img, browser).to.equal("https://recoeggs.hs.llnwd.net/flmg_img_p/profile/5637.jpeg?updated_at=2021-08-31T15%3A48%3A07%2B09%3A00");
+				const socials = await driver.findElements(By.css(".ees-sns-link"));
+				expect(socials.length, browser).to.equal(1);
+				expect(await socials[0].getText(), browser).to.equal("Twitter");
+				expect(await socials[0].getAttribute("href"), browser).to.equal("https://twitter.com/IG_LiLySketch");
+			})).to.not.throw;
+		});
+
+		it("should display playlists featuring artist", async function() {
+			expect(await runTest(this.drivers, async (driver, browser) => {
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
+				await enterFrame(driver);
+				await driver.wait(until.elementLocated(By.className("ees-carousel-outer")), 5000);
+
+				const playlists = await driver.findElement(By.className("ees-carousel-outer"));
+				expect(await playlists.isDisplayed(), browser).to.be.true;
+				expect((await playlists.findElement(By.css("h2")).getText()).startsWith("Playlists featuring this artist ("), browser).to.be.true;
 			})).to.not.throw;
 		});
 
@@ -78,11 +93,33 @@ describe("artist", function() {
 			})).to.not.throw;
 		});
 
+		it("should not have a follow button while signed out", async function() {
+			expect(await runTest(this.drivers, async (driver, browser) => {
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
+				await enterFrame(driver);
+				await driver.wait(until.elementLocated(By.css("h1")), 30000);
+				expect((await driver.findElements(By.id("ees-follow-button"))).length, browser).to.equal(0);
+			})).to.not.throw;
+		});
+
 		it("should login", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
 				await enterFrame(driver);
 				await login(driver, browser);
 				expect(await driver.getCurrentUrl(), browser).to.equal("https://eggs.mu/artist/IG_LiLySketch/");
+			})).to.not.throw;
+		});
+
+		it("should be possible to follow and unfollow user", async function() {
+			expect(await runTest(this.drivers, async (driver, browser) => {
+
+				await navigate(driver, "https://eggs.mu/artist/IG_LiLySketch/");
+				await enterFrame(driver);
+				await driver.wait(until.elementLocated(By.id("ees-follow-button")), 30000);
+
+				await toggleFollow(driver, browser);
+				await toggleFollow(driver, browser);
+
 			})).to.not.throw;
 		});
 

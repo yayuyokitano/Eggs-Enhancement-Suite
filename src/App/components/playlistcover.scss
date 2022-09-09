@@ -1,5 +1,6 @@
 .ees-playlist-cover {
 	background-size: cover;
+	flex-shrink: 0;
 
 	.ees-playlist-cover-image {
 		object-fit: cover;

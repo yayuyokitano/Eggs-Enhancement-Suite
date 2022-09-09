@@ -1,9 +1,7 @@
-import { ThenableWebDriver } from "selenium-webdriver";
-
-const { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver, navigate } = require("./selenium") as typeof import("./selenium");
-const { By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
-const { expect } = require("chai") as typeof import("chai");
-const config = require("../config.json") as typeof import("../config.json");
+import { ThenableWebDriver, By, until } from "selenium-webdriver";
+import { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver, navigate } from "./selenium";
+import { expect } from "chai";
+import * as config from "../config.json";
  
 
 describe("login", function() {

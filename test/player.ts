@@ -1,8 +1,7 @@
 import { SongDataWIndex } from "App/components/track/track";
-import { ThenableWebDriver, until, WebElement } from "selenium-webdriver";
+import { ThenableWebDriver, until, WebElement, By } from "selenium-webdriver";
 import { SongData } from "util/wrapper/eggs/artist";
 import { enterFrame } from "./selenium";
-const { By } = require("selenium-webdriver") as typeof import("selenium-webdriver");
 
 export async function findTrackByIndex(driver:ThenableWebDriver, index:number):Promise<Song> {
 	await enterFrame(driver);

@@ -1,27 +1,41 @@
-import { ThenableWebDriver } from "selenium-webdriver";
-
-const { loadDrivers, runTest, enterFrame, navigate } = require("./selenium") as typeof import("./selenium");
-const { By } = require("selenium-webdriver") as typeof import("selenium-webdriver");
-const { expect } = require("chai") as typeof import("chai");
+import { ThenableWebDriver, By, until } from "selenium-webdriver";
+import { loadDrivers, runTest, isMobileDriver, navigate, enterFrame } from "./selenium";
+import { expect } from "chai";
  
 
-describe("test", function() {
+describe("login", function() {
 	before(async function() {
 		this.drivers = await loadDrivers();
-		return;
 	});
 
-	it("should display hello world on front page", async function() {
-		expect(await runTest(this.drivers, async(driver, browser) => {
-			await navigate(driver, "https://eggs.mu/");
-			await enterFrame(driver);
-			const element = driver.findElement(By.css(".ttl_side>p"));
-			expect(await element.getText(), browser).to.equal("hello world");
-		})).to.be.true;
-	});
+	let i = 0;
+
+	do{
+
+		it("should navigate", async function() {
+			expect(await runTest(this.drivers, async (driver, browser) => {
+
+				await navigate(driver, "https://eggs.mu/search?searchKeyword=%E9%82%A6");
+				await enterFrame(driver);
+				await driver.wait(until.elementLocated(By.css(".ees-carousel-outer:nth-child(4)")), 30000);
+				expect("a", browser).to.equal("a");
+				
+			})).to.not.throw;
+		});
+
+		it("should set viewport size", async function() {
+			expect(await runTest(this.drivers, async (driver, browser) => {
+				await driver.manage().window().setRect({ width: 390, height: 844 });
+				expect(await isMobileDriver(driver), browser).to.be.true;
+			})).to.not.throw;
+		});
+
+	} while (i++ < 1);
 
 	after(async function() {
-		this.drivers.forEach((driver:ThenableWebDriver) => driver.close());
+		const closeFuncs:Promise<void>[] = [];
+		this.drivers.forEach((driver:ThenableWebDriver) => closeFuncs.push(driver.close()));
+		await Promise.all(closeFuncs);
 	});
 });
 export {};

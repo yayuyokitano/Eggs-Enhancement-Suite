@@ -1,8 +1,6 @@
-import { ThenableWebDriver, WebElement } from "selenium-webdriver";
-import { getTopTrack } from "./selenium";
-const { loadDrivers, runTest, enterFrame, attemptLogout, login, isMobileDriver, navigate, getTrackInfo, getCurrentTrack } = require("./selenium") as typeof import("./selenium");
-const { By, until } = require("selenium-webdriver") as typeof import("selenium-webdriver");
-const { expect } = require("chai") as typeof import("chai");
+import { ThenableWebDriver, By, until } from "selenium-webdriver";
+import { getTopTrack, loadDrivers, runTest, enterFrame, isMobileDriver, navigate, getTrackInfo, getCurrentTrack, attemptLogout } from "./selenium";
+import { expect } from "chai";
 
 const scrollScript = `
 	const e = arguments[0];
@@ -15,7 +13,7 @@ const scrollScript = `
 `;
 
 
-describe("login", function() {
+describe("carousel", function() {
 	before(async function() {
 		this.drivers = await loadDrivers();
 	});
@@ -23,6 +21,14 @@ describe("login", function() {
 	let i = 0;
 
 	do{
+
+		it("should log out", async function() {
+			expect(await runTest(this.drivers, async (driver, browser) => {
+				const loginButton = await attemptLogout(driver);
+				expect(loginButton.length, browser).to.equal(1);
+			})).to.not.throw;
+		});
+
 		it("should have a top playlist carousel in homepage", async function() {
 			expect(await runTest(this.drivers, async(driver, browser) => {
 				await navigate(driver, "https://eggs.mu/");
