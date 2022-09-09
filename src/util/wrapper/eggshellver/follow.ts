@@ -1,3 +1,4 @@
+import { sleep } from "../../util";
 import Cacher from "../eggs/cacher";
 import { eggshellverRequest } from "./request";
 import { postUserStubs } from "./userstub";
@@ -51,11 +52,13 @@ export async function getEggshellverFollowsWrapped(eggsID:string) {
 
 export async function postFollows(followees:UserStub[]) {
 	await postUserStubs(followees);
+	await sleep(2000);
 	return eggshellverRequest("follows", followees.map(user => user.userName), {method: "POST"}) as unknown as Promise<number>;
 }
 
 export async function putFollows(followees:UserStub[]) {
 	await postUserStubs(followees);
+	await sleep(2000);
 	return eggshellverRequest("follows", followees.map(user => user.userName), {method: "PUT"}) as unknown as Promise<number>;
 }
 

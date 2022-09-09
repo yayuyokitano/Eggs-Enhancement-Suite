@@ -11,8 +11,6 @@ import { initializeHeader } from "./util/loginButtons";
 import "./theme/themes.scss";
 import { initializeThemes } from "./theme/themes";
 import { addLoadHandler, loadPageDetails } from "./util/loadHandler";
-import { crawlUser } from "./util/wrapper/eggshellver/user";
-import { postUserStubs } from "./util/wrapper/eggshellver/userstub";
 
 function App(props: {endpoint: {
   rootSelector: string;
@@ -69,7 +67,6 @@ async function loadContent() {
 	if (!endpoint) return;
 
 	const rootElement = await queryAsync(endpoint.rootSelector);
-	if (processedPathname() === "/profile" || processedPathname() === "/artist") postUserStubs([await crawlUser()]);
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(<App endpoint={endpoint} />);
 	await initializeThemes();

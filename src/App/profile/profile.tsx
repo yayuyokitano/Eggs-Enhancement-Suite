@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { TFunction } from "react-i18next";
-import { crawlUser } from "../../util/wrapper/eggshellver/user";
+import { crawlUser, resolveAwaitingUser } from "../../util/wrapper/eggshellver/user";
 import { agnosticPlaylists } from "../../util/wrapper/eggs/playlists";
 import { Profile, profile } from "../../util/wrapper/eggs/users";
 import Carousel from "../components/carousel/carousel";
@@ -10,6 +10,7 @@ import { UserStub } from "../../util/wrapper/eggshellver/util";
 import "./profile.scss";
 import ProfileBanner from "../components/profileBanner";
 import { PlaylistModalList } from "../components/listModal/modalGenerators";
+import { postUserStubs } from "../../util/wrapper/eggshellver/userstub";
 
 export default function Profile(t:TFunction) {
 	const [isLoading, setLoading] = useState(true);
@@ -21,13 +22,22 @@ export default function Profile(t:TFunction) {
 		profile().then((profile) => {
 			userPromise.then(u => {
 				setSelf(profile.data.userName === u.userName);
-				setUserStub(u);
+				setUserStub({
+					...u,
+					userId: 0,
+				});
+				resolveAwaitingUser(u).then((ru) => {
+					postUserStubs([ru]);
+				});
 				setLoading(false);
 			}).catch((err) => {console.error(err);});
 		}).catch(() => {
 			setSelf(false);
 			userPromise.then(u => {
-				setUserStub(u);
+				setUserStub({
+					...u,
+					userId: 0,
+				});
 				setLoading(false);
 			}).catch((err) => {console.error(err);});
 		});

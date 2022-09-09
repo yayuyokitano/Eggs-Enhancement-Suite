@@ -45,6 +45,7 @@ export const eggsFollowsWrapped = async(offset:string, limit:number) =>
 
 function artistToUserStub(artist:ArtistData):UserStub {
 	return {
+		userId: artist.artistId,
 		userName: artist.artistName,
 		displayName: artist.displayName,
 		isArtist: true,

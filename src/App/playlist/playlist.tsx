@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { TFunction } from "react-i18next";
+import { getUsers } from "../../util/wrapper/eggshellver/user";
 import { FavoriteBorderRoundedIcon, FavoriteRoundedIcon } from "../../util/icons";
 import { likePlaylist, playlistLikeInfo } from "../../util/wrapper/eggs/evaluation";
 import { Playlist, playlist } from "../../util/wrapper/eggs/playlists";
 import { PlaylistCover } from "../components/playlistcover";
 import TrackContainer from "../components/track/trackContainer";
 import "./playlist.scss";
+import { UserStub } from "../../util/wrapper/eggshellver/util";
+import { eggsUserLink } from "../../util/util";
 
 export function toggleLiked(e:React.MouseEvent<HTMLButtonElement, MouseEvent>, playlistID:string, loggedIn:boolean, setLiked:React.Dispatch<React.SetStateAction<boolean>>, setLikeCount:React.Dispatch<React.SetStateAction<number>>) {
 	e.stopPropagation();
@@ -32,6 +35,7 @@ export default function Playlist(t:TFunction) {
 	const [likeCount, setLikeCount] = useState(0);
 	const [isLiked, setLiked] = useState(false);
 	const [loggedIn, setLoggedIn] = useState(false);
+	const [creatorStub, setCreatorStub] = useState<UserStub>();
 
 	useEffect(() => {
 		setLoading(true);
@@ -48,6 +52,12 @@ export default function Playlist(t:TFunction) {
 				setLiked(false);
 				setLoggedIn(false);
 			});
+
+			getUsers({
+				userids: [playlistData.data[0].userId]
+			}).then((userData) => {
+				setCreatorStub(userData[0]);
+			}).catch(console.error);
 		}).catch(() => {
 			setError(true);
 			setLoading(false);
@@ -80,7 +90,14 @@ export default function Playlist(t:TFunction) {
 				/>
 				<div id="ees-playlist-metadata">
 					<h1 id="ees-playlist-name">{data?.playlistName}</h1>
-					<p id="ees-playlist-creator">{data?.displayUserName}</p>
+					{creatorStub ? (
+						<p id="ees-playlist-creator">
+							<a href={eggsUserLink(creatorStub.userName)}>{data?.displayUserName}</a>
+						</p>
+					) : (
+						<p id="ees-playlist-creator">{data?.displayUserName}</p>
+					)}
+					
 					<p id="ees-playlist-date">{data?.createdAt.split("T")[0].replace(/-/g, "/")}</p>
 					<div id="ees-playlist-like">
 						<button

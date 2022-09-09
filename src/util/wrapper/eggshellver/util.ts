@@ -2,13 +2,22 @@ import { Param, SocialMedia, stringifyParam } from "../../../util/util";
 
 export const baseURL = "https://localhost:10000/";
 
-export interface StrictUserStub {
+export interface BaseUserStub {
   userName: string;
   displayName: string;
   isArtist: boolean;
   imageDataPath: string;
   prefectureCode: number;
   profile: string;
+}
+
+export interface StrictUserStub extends BaseUserStub {
+	userId: number;
+}
+
+export interface AwaitingUserStub extends BaseUserStub {
+	userId: Promise<number>;
+	genres?: SocialMedia[];
 }
 
 export interface UserStub extends StrictUserStub {
@@ -30,12 +39,14 @@ export function createUserStub(user:{
   profile: string|null;
   prefectureCode: number|null;
   imageDataPath: string|null;
+	artistId: number;
 }|{
   userName: string;
   displayName: string;
   profile: string|null;
   prefectureCode: number|null;
   imageDataPath: string|null;
+	userId: number;
 }): UserStub {
 	if ("userName" in user) return {
 		userName: user.userName,
@@ -44,6 +55,7 @@ export function createUserStub(user:{
 		imageDataPath: user.imageDataPath ?? "",
 		prefectureCode: user.prefectureCode ?? 0,
 		profile: user.profile ?? "",
+		userId: user.userId,
 	};
 	return {
 		userName: user.artistName,
@@ -52,5 +64,6 @@ export function createUserStub(user:{
 		imageDataPath: user.imageDataPath ?? "",
 		prefectureCode: user.prefectureCode ?? 0,
 		profile: user.profile ?? "",
+		userId: user.artistId,
 	};
 }

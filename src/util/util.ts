@@ -295,7 +295,7 @@ function getSongFunction(name:SongFetcherString) {
 }
 //eggsGetSongCurry:(trackFunc: (artistID: string, cache?: Cacher) => Promise<SongData[]>) => EggsGet<SongData>
 
-export type Param = string|number|string[];
+export type Param = string|number|string[]|number[];
 
 export function stringifyParam(param:Param) {
 	if (Array.isArray(param)) {
@@ -348,3 +348,25 @@ export interface SocialMedia {
 
 export const prefectureLink = (code:number) => `/search/area/${prefectures[code-1]}`;
 export const genreLink = (code:number) => `/search/genre/fg${code}`;
+
+export const getStaticFileName = (path:string) => browser.runtime.getURL(`up_/static/${path}`);
+
+export async function getMemberId():Promise<number> {
+	return new Promise((resolve) => {
+		window.addEventListener("message", e => {
+			console.log(e);
+			if (e.data.type === "memberId") {
+				if (!e.data.data) {
+					resolve(0);
+				}
+				resolve(parseInt(e.data.data as string));
+			}
+		});
+		const s = document.createElement("script");
+		s.src = getStaticFileName("idFetcher.js");
+		(document.head || document.documentElement).appendChild(s);
+		sleep(5000).then(() => resolve(0));
+	});
+}
+
+export const eggsUserLink = (eggsid:string) => `https://eggs.mu/user/${eggsid}`;

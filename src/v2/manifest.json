@@ -35,7 +35,7 @@
 		"64": "../icons/icon64.png",
 		"128": "../icons/icon128.png"
 	},
-	"web_accessible_resources": ["../icons/icon128.png"],
+	"web_accessible_resources": ["../icons/icon128.png", "../static/idFetcher.ts"],
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "maxmulhallbiseth@gmail.com"

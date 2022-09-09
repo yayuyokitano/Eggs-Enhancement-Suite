@@ -4,7 +4,7 @@ import "./artist.scss";
 import { artistTracks, SongData } from "../../util/wrapper/eggs/artist";
 import TrackContainer from "../components/track/trackContainer";
 import { List } from "../../util/wrapper/eggs/util";
-import { crawlUser } from "../../util/wrapper/eggshellver/user";
+import { crawlUser, resolveAwaitingUser } from "../../util/wrapper/eggshellver/user";
 import { UserStub } from "../../util/wrapper/eggshellver/util";
 import ProfileBanner from "../components/profileBanner";
 import { SocialMedia } from "../../util/util";
@@ -13,6 +13,7 @@ import { Incrementer } from "../components/sync/itemFetcher";
 import { curryEggsSearchArtistPlaylistsWrapped } from "../../util/wrapper/eggs/playlists";
 import { PlaylistList } from "../components/carousel/generators";
 import { PlaylistModalList } from "../components/listModal/modalGenerators";
+import { postUserStubs } from "../../util/wrapper/eggshellver/userstub";
 
 function fetchSocialMedia(socialMedia?:HTMLDivElement) {
 	if (!socialMedia) return [];
@@ -36,8 +37,14 @@ export default function Artist(t:TFunction) {
 		setSocialMedia(fetchSocialMedia(socialMediaDiv));
 		setLoading(true);
 		userPromise.then(u => {
-			setUserStub(u);
-		});
+			setUserStub({
+				...u,
+				userId: 0,
+			});
+			resolveAwaitingUser(u).then((ru) => {
+				postUserStubs([ru]);
+			});
+		}).catch(console.error);
 		artistTracks(artistID).then((artistData) => {
 			setData(artistData);
 			setLoading(false);

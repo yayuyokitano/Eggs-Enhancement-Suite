@@ -1,10 +1,11 @@
-import { prefectures, queryAsync, SocialMedia } from "../../util";
+import { getMemberId, prefectures, queryAsync, SocialMedia } from "../../util";
 import Cacher from "../eggs/cacher";
 import { eggshellverRequest } from "./request";
-import { fillEggshellverSearchParams, UserStub } from "./util";
+import { AwaitingUserStub, fillEggshellverSearchParams, UserStub } from "./util";
 
 export async function getUsers(options:{
-  users: string[],
+	eggsids?: string[],
+  userids?: number[],
 }, cache?:Cacher):Promise<UserStub[]> {
 	const url = fillEggshellverSearchParams("users", options);
 	return eggshellverRequest(url, {}, {method: "GET", cache}) as Promise<UserStub[]>;
@@ -20,7 +21,7 @@ export async function postAuthenticatedUser(auth:{
 	return eggshellverRequest("users", auth, {method: "POST"});
 }
 
-export async function crawlUser():Promise<UserStub> {
+export async function crawlUser():Promise<AwaitingUserStub> {
 	const header = await queryAsync(".header_inner");
 	if (!header) throw new Error("cannot find header");
 	const userName = header.getElementsByClassName("eggsid")[0].textContent?.slice(7);
@@ -35,9 +36,6 @@ export async function crawlUser():Promise<UserStub> {
 		href: a.getAttribute("href")
 	})).filter(a => a && a.title !== null && a.href !== null) as SocialMedia[];
 
-	
-
-
 	return {
 		userName,
 		displayName,
@@ -46,5 +44,14 @@ export async function crawlUser():Promise<UserStub> {
 		prefectureCode,
 		profile,
 		genres,
+		userId: getMemberId(),
+	};
+}
+
+export async function resolveAwaitingUser(user:AwaitingUserStub):Promise<UserStub> {
+	const userId = await user.userId;
+	return {
+		...user,
+		userId,
 	};
 }

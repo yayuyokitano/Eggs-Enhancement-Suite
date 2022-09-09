@@ -27,7 +27,7 @@ export async function playlist(playlistID:string, cache?:Cacher) {
 	if (playlist.totalCount) {
 		return playlist;
 	}
-	return eggsRequest(`playlists/playlists/${playlistID}`, {}, {cache}) as Promise<List<Playlist>>;
+	return eggsRequest(`playlists/playlists/${playlistID}`, {}, {cache, isAuthorizedRequest: true}) as Promise<List<Playlist>>;
 }
 
 export async function getPlaylists(limit:number, options?: {

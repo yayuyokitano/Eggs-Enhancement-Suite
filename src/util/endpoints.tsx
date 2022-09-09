@@ -90,7 +90,7 @@ async function fetchPlaylist(cache:Cacher) {
 	const playlistID = new URLSearchParams(window.location.search).get("playlist");
 	if (!playlistID) return;
 	playlist(playlistID, cache);
-	eggsRequest(`playlists/playlists/${playlistID}`, {}, {cache});
+	eggsRequest(`playlists/playlists/${playlistID}`, {}, {cache, isAuthorizedRequest: true});
 	playlistLikeInfo([playlistID], cache);
 }
 
