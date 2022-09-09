@@ -39,6 +39,34 @@ export async function getEggshellverFollows(options:{
 	};
 }
 
+export const curryEggshellverFollowees = (eggsID:string) => async(offset:string, limit:number) => {
+	const offsetNum = offset === "" ? 0 : Number(offset);
+	const follows = await getEggshellverFollows({
+		followerIDs: [eggsID],
+		limit,
+		offset: offsetNum
+	});
+	return {
+		data: follows.follows.map(f => f.followee),
+		totalCount: follows.total,
+		offset: (offsetNum + limit).toString(),
+	};
+};
+
+export const curryEggshellverFollowers = (eggsID:string) => async(offset:string, limit:number) => {
+	const offsetNum = offset === "" ? 0 : Number(offset);
+	const follows = await getEggshellverFollows({
+		followeeIDs: [eggsID],
+		limit,
+		offset: offsetNum
+	});
+	return {
+		data: follows.follows.map(f => f.follower),
+		totalCount: follows.total,
+		offset: (offsetNum + limit).toString(),
+	};
+};
+
 export async function getEggshellverFollowsWrapped(eggsID:string) {
 	const follows = await getEggshellverFollows({
 		followerIDs: [eggsID],

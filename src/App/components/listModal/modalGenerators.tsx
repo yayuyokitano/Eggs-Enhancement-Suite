@@ -1,12 +1,14 @@
 import { News } from "../../home/home";
 import { TFunction } from "react-i18next";
-import { defaultAvatar, getArtistPage } from "../../../util/util";
+import { defaultAvatar, getArtistPage, getUserPage } from "../../../util/util";
 import { PlaylistPartial } from "../../../util/wrapper/eggs/playlists";
 import { RecommendedArtist } from "../../../util/wrapper/eggs/recommend";
 import { PlaylistCover } from "../playlistcover";
-import { ArtistData } from "../../../util/wrapper/eggs/artist";
+import { ArtistData, SongData } from "../../../util/wrapper/eggs/artist";
 import { RankingArtist } from "../../../util/wrapper/eggs/ranking";
 import "./modalItems.scss";
+import TrackContainer from "../track/trackContainer";
+import { UserStub } from "util/wrapper/eggshellver/util";
 
 export function NewsModalList(props: {t:TFunction, items:News[], refName:React.RefObject<HTMLUListElement>}) {
 	const {t, items, refName} = props;
@@ -147,6 +149,47 @@ export function IntroducedArtistModalList(props: {t:TFunction, items:Recommended
 				</ModalItem>
 			))}
 		</ul>
+	);
+}
+
+export function UserStubModalList(props: {t:TFunction, items:UserStub[], refName:React.RefObject<HTMLUListElement>}) {
+	const { items, refName } = props;
+	return (
+		<ul
+			className="ees-modal-list"
+			ref={refName}>
+			{items.map((user) => (
+				<ModalItem key={user.userId}>
+					<a
+						className="ees-modal-artist-introduction"
+						href={user.isArtist ? getArtistPage(user.userName) : getUserPage(user.userName)}>
+						<div className="ees-modal-artist-introduction-text">
+							<h3 className="ees-modal-artist-name">{user.displayName}</h3>
+							{user.profile && <span className="ees-modal-artist-introtext">{user.profile}</span>}
+						</div>
+						<div className="ees-modal-artist-image-wrapper">
+							<img
+								className="ees-modal-artist-image"
+								src={user.imageDataPath || defaultAvatar}
+								alt=""
+								width={64}
+								height={64} />
+						</div>
+					</a>
+				</ModalItem>
+			))}
+		</ul>
+	);
+}
+
+export function TrackModalList(props: {t:TFunction, items:SongData[], refName:React.RefObject<HTMLUListElement>}) {
+	const { t, items, refName } = props;
+	return (
+		<TrackContainer
+			data={items}
+			t={t}
+			size="medium"
+			refName={refName} />
 	);
 }
 

@@ -7,6 +7,7 @@ import "./profileBanner.scss";
 import { eggshellverFollow, getEggshellverFollows } from "../../util/wrapper/eggshellver/follow";
 import React, { useEffect, useState } from "react";
 import { cache } from "../../util/loadHandler";
+import UserStats from "./userStats/userStats";
 
 export default function ProfileBanner(props:{ t:TFunction, userStub:UserStub, socialMedia?:SocialMedia[] }) {
 	const { t, userStub, socialMedia } = props;
@@ -28,37 +29,42 @@ export default function ProfileBanner(props:{ t:TFunction, userStub:UserStub, so
 	}, []);
 
 	return (
-		<div
-			id="ees-profile-banner"
-			style={{backgroundImage: `url(${bannerImage}`}}>
-			<div id="ees-banner-inner">
-				<div className="ees-banner-content">
-					<a
-						href={avatar}
-						className="fancybox">
-						<img
-							id="ees-profile-picture"
-							src={avatar}
-							alt=""
-							height={200}
-							width={200} />
-					</a>
-					<FollowButton
-						userStub={userStub}
-						t={t}
-						isFollowing={isFollowing}
-						setFollowing={setFollowing} />
+		<div id="ees-profile-header">
+			<div
+				id="ees-profile-banner"
+				style={{backgroundImage: `url(${bannerImage}`}}>
+				<div id="ees-banner-inner">
+					<div className="ees-banner-content">
+						<a
+							href={avatar}
+							className="fancybox">
+							<img
+								id="ees-profile-picture"
+								src={avatar}
+								alt=""
+								height={200}
+								width={200} />
+						</a>
+						<FollowButton
+							userStub={userStub}
+							t={t}
+							isFollowing={isFollowing}
+							setFollowing={setFollowing} />
+					</div>
+					<div className="ees-banner-content ees-banner-user-details">
+						<h1>{userStub.displayName}</h1>
+						<span id="ees-eggs-id">EggsID：{userStub.userName}</span>
+						<PrefectureGenre
+							t={t}
+							user={userStub} />
+						<p id="ees-banner-profile">{userStub.profile}</p>
+					</div>
+					<SocialMedia socialMedia={socialMedia} />
 				</div>
-				<div className="ees-banner-content ees-banner-user-details">
-					<h1>{userStub.displayName}</h1>
-					<span id="ees-eggs-id">EggsID：{userStub.userName}</span>
-					<PrefectureGenre
-						t={t}
-						user={userStub} />
-					<p id="ees-banner-profile">{userStub.profile}</p>
-				</div>
-				<SocialMedia socialMedia={socialMedia} />
 			</div>
+			<UserStats
+				t={t}
+				eggsID={userStub.userName} />
 		</div>
 	);
 }

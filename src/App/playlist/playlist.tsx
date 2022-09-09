@@ -8,7 +8,7 @@ import { PlaylistCover } from "../components/playlistcover";
 import TrackContainer from "../components/track/trackContainer";
 import "./playlist.scss";
 import { UserStub } from "../../util/wrapper/eggshellver/util";
-import { eggsUserLink } from "../../util/util";
+import { getUserPage } from "../../util/util";
 
 export function toggleLiked(e:React.MouseEvent<HTMLButtonElement, MouseEvent>, playlistID:string, loggedIn:boolean, setLiked:React.Dispatch<React.SetStateAction<boolean>>, setLikeCount:React.Dispatch<React.SetStateAction<number>>) {
 	e.stopPropagation();
@@ -92,7 +92,7 @@ export default function Playlist(t:TFunction) {
 					<h1 id="ees-playlist-name">{data?.playlistName}</h1>
 					{creatorStub ? (
 						<p id="ees-playlist-creator">
-							<a href={eggsUserLink(creatorStub.userName)}>{data?.displayUserName}</a>
+							<a href={getUserPage(creatorStub.userName)}>{data?.displayUserName}</a>
 						</p>
 					) : (
 						<p id="ees-playlist-creator">{data?.displayUserName}</p>

@@ -254,6 +254,7 @@ function removeTrailingSlash(path: string) {
 export const sleep:(ms:number) => Promise<void> = (ms:number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const getArtistPage = (artistName:string) => `https://eggs.mu/artist/${artistName}`;
+export const getUserPage = (userName:string) => `https://eggs.mu/user/${userName}`;
 
 export type ArtistFetcherString = "curryEggsRecommendedArtistsPlayback"|"curryEggsArtistSearchPlayback"|"curryEggsArtistRankingPlayback";
 export type SongFetcherString = "artistAllTracks"|"artistTopTrack"|"artistNewTrack";
@@ -368,5 +369,3 @@ export async function getMemberId():Promise<number> {
 		sleep(5000).then(() => resolve(0));
 	});
 }
-
-export const eggsUserLink = (eggsid:string) => `https://eggs.mu/user/${eggsid}`;

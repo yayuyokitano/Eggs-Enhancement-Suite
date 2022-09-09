@@ -164,5 +164,9 @@
 		"daily": "デイリー",
 		"weekly": "ウィークリー",
 		"youtube": "YouTube"
+	},
+	"userstats": {
+		"following": "フォロー中（{{count}}）",
+		"followers": "フォロワー（{{count}}）"
 	}
 }

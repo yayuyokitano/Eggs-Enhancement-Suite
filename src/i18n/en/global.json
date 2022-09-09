@@ -176,5 +176,9 @@
 		"daily": "Daily",
 		"weekly": "Weekly",
 		"youtube": "YouTube"
+	},
+	"userstats": {
+		"following": "Following ({{count}})",
+		"followers": "Followers ({{count}})"
 	}
 }
