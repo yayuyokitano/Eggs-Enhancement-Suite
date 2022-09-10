@@ -1,4 +1,6 @@
 import Cacher from "../eggs/cacher";
+import { playlistDetails } from "../eggs/playlists";
+import { trackDetails } from "../eggs/search";
 import { eggshellverRequest } from "./request";
 import { fillEggshellverSearchParams, UserStub } from "./util";
 
@@ -22,7 +24,7 @@ interface Likes {
 }
 
 export async function getLikes(options:{
-  eggsIDs?: string,
+  eggsIDs?: string[],
   targetIDs?: string[],
   targetType?: "track" | "playlist",
   limit?: number,
@@ -42,9 +44,41 @@ export async function getLikes(options:{
 	};
 }
 
+export const curryEggshellverLikedTracks = (eggsID:string) => async(offset:string, limit:number) => {
+	const offsetNum = offset === "" ? 0 : Number(offset);
+	const likes = await getLikes({
+		eggsIDs: [eggsID],
+		targetType: "track",
+		limit,
+		offset: offsetNum
+	});
+	const tracks = await trackDetails(likes.likes.map(like => like.id));
+	return {
+		data: tracks.data,
+		totalCount: likes.total,
+		offset: (offsetNum + limit).toString(),
+	};
+};
+
+export const curryEggshellverLikedPlaylists = (eggsID:string) => async(offset:string, limit:number) => {
+	const offsetNum = offset === "" ? 0 : Number(offset);
+	const likes = await getLikes({
+		eggsIDs: [eggsID],
+		targetType: "playlist",
+		limit,
+		offset: offsetNum
+	});
+	const playlists = await playlistDetails(likes.likes.map(like => like.id));
+	return {
+		data: playlists.data,
+		totalCount: likes.total,
+		offset: (offsetNum + limit).toString(),
+	};
+};
+
 export async function getEggshellverTrackLikesWrapped(eggsID:string) {
 	const likes = await getLikes({
-		eggsIDs: eggsID,
+		eggsIDs: [eggsID],
 		limit: 1,
 		targetType: "track"
 	});
@@ -56,7 +90,7 @@ export async function getEggshellverTrackLikesWrapped(eggsID:string) {
 
 export async function getEggshellverPlaylistLikesWrapped(eggsID:string) {
 	const likes = await getLikes({
-		eggsIDs: eggsID,
+		eggsIDs: [eggsID],
 		limit: 1,
 		targetType: "playlist"
 	});

@@ -167,6 +167,8 @@
 	},
 	"userstats": {
 		"following": "フォロー中（{{count}}）",
-		"followers": "フォロワー（{{count}}）"
+		"followers": "フォロワー（{{count}}）",
+		"likedtracks": "いいねした楽曲（{{count}}）",
+		"likedplaylists": "いいねしたプレイリスト（{{count}}）"
 	}
 }

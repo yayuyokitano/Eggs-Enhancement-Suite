@@ -3,6 +3,8 @@
 		text-align: center;
 	}
 
-	max-width: 1240px;
-	margin: 0 auto;
+	& > :not(#ees-profile-header) {
+		max-width: 1240px;
+		margin: 0 auto;
+	}
 }

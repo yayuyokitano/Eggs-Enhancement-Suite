@@ -113,6 +113,7 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 					type="button"
 					className="ees-carousel-modal-btn"
 					onClick={e => {
+						e.currentTarget.blur();
 						if (!modalRef.current) return;
 						e.stopPropagation();
 						modalRef.current.showModal();

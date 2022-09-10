@@ -93,6 +93,8 @@ export async function publicPlaylists(playlistIDs:string[], limit:number, cache?
 	});
 	return eggsRequest(url, {}, {cache}) as Promise<List<Playlist>>;
 }
+
+export const playlistDetails = async(playlistIDs:string[]) => publicPlaylists(playlistIDs, playlistIDs.length);
 	
 export async function getPublicPlaylists(userIDs:string[], options:{offset:number, limit:number}, cache?:Cacher) {
 	const cachedPlaylists = await getEggshellverPlaylists({

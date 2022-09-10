@@ -55,3 +55,11 @@ const currySearchTracks = (searchWord:string) => async(options: {offset:number, 
 
 export const currySearchTracksWrapped = (searchWord:string) => async(offset:string, limit:number) => 
 	await createEggsWrappedGetter(currySearchTracks(searchWord))(offset, limit);
+
+export async function trackDetails(trackIDs:string[]) {
+	const url = fillEggsSearchParams("search/search/musics", {
+		musicIds: trackIDs,
+		limit: trackIDs.length,
+	});
+	return eggsRequest(url, {}, {}) as Promise<List<SongData>>;
+}

@@ -1,15 +1,36 @@
 import { useEffect, useRef, useState } from "react";
 import { TFunction } from "react-i18next";
 import { curryEggshellverFollowees, curryEggshellverFollowers } from "../../../util/wrapper/eggshellver/follow";
-import { Icon, PeopleOutlineRoundedIcon, PeopleRoundedIcon } from "../../../util/icons";
+import { FavoriteBorderRoundedIcon, FavoriteRoundedIcon, Icon, PeopleOutlineRoundedIcon, PeopleRoundedIcon } from "../../../util/icons";
 import Modal from "../listModal/listModal";
-import { UserStubModalList } from "../listModal/modalGenerators";
+import { PlaylistModalList, TrackModalList, UserStubModalList } from "../listModal/modalGenerators";
 import { Incrementer, IncrementerError } from "../sync/itemFetcher";
+import { curryEggshellverLikedPlaylists, curryEggshellverLikedTracks } from "../../../util/wrapper/eggshellver/like";
+import "./userStats.scss";
 
 export default function UserStats(props: {t:TFunction, eggsID:string}) {
 	const { t, eggsID } = props;
 	return (
 		<div id="ees-user-stats">
+			<EggshellverModalButton
+				t={t}
+				id="ees-user-stats-liked-tracks"
+				title="userstats.likedtracks"
+				type="liked-tracks"
+				incrementer={new Incrementer(curryEggshellverLikedTracks(eggsID), 30)}
+				ModalElementList={TrackModalList}
+				uniquePropName="musicId"
+				Icon={FavoriteRoundedIcon} />
+			<EggshellverModalButton
+				t={t}
+				id="ees-user-stats-liked-playlists"
+				title="userstats.likedplaylists"
+				type="liked-playlists"
+				incrementer={new Incrementer(curryEggshellverLikedPlaylists(eggsID), 30)}
+				ModalElementList={PlaylistModalList}
+				uniquePropName="playlistId"
+				Icon={FavoriteBorderRoundedIcon} />
+
 			<EggshellverModalButton
 				t={t}
 				id="ees-user-stats-followees"
@@ -30,15 +51,6 @@ export default function UserStats(props: {t:TFunction, eggsID:string}) {
 				uniquePropName="userName"
 				Icon={PeopleOutlineRoundedIcon}
 			/>
-
-			{/*<EggshellverModalButton
-				t={t}
-				id="ees-user-stats-liked-tracks"
-				title="userstats.likedtracks"
-				type="liked-tracks"
-				Icon={FavoriteRoundedIcon}
-				ModalElementList={TrackModalList}
-	uniquePropName="musicId" />*/}
 		</div>
 	);
 }
@@ -103,6 +115,7 @@ function EggshellverModalButton<T>(props:EggshellverModalArgs<T>) {
 				type="button"
 				className="ees-user-stats-button"
 				onClick={e => {
+					e.currentTarget.blur();
 					if (!modalRef.current) return;
 					e.stopPropagation();
 					modalRef.current.showModal();

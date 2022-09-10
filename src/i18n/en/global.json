@@ -179,6 +179,8 @@
 	},
 	"userstats": {
 		"following": "Following ({{count}})",
-		"followers": "Followers ({{count}})"
+		"followers": "Followers ({{count}})",
+		"likedtracks": "Liked Tracks ({{count}})",
+		"likedplaylists": "Liked Playlists ({{count}})"
 	}
 }

@@ -1,0 +1,26 @@
+#ees-user-stats {
+	max-width: 1240px;
+	margin: 0 auto;
+
+	display: flex;
+
+	.ees-user-stats-item {
+		flex: 1;
+
+		.ees-user-stats-button {
+			width: 100%;
+			height: 100%;
+			padding: 1rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			&:hover,
+			&:focus-visible {
+				outline: none;
+				background-color: var(--eggsyellow);
+				color: var(--alwaysdark2);
+			}
+		}
+	}
+}
