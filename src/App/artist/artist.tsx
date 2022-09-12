@@ -42,6 +42,7 @@ export default function Artist(t:TFunction) {
 				userId: 0,
 			});
 			resolveAwaitingUser(u).then((ru) => {
+				setUserStub(ru);
 				postUserStubs([ru]);
 			});
 		}).catch(console.error);

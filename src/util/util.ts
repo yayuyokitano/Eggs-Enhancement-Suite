@@ -355,7 +355,6 @@ export const getStaticFileName = (path:string) => browser.runtime.getURL(`up_/st
 export async function getMemberId():Promise<number> {
 	return new Promise((resolve) => {
 		window.addEventListener("message", e => {
-			console.log(e);
 			if (e.data.type === "memberId") {
 				if (!e.data.data) {
 					resolve(0);

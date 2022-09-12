@@ -27,6 +27,7 @@ export default function Profile(t:TFunction) {
 					userId: 0,
 				});
 				resolveAwaitingUser(u).then((ru) => {
+					setUserStub(ru);
 					postUserStubs([ru]);
 				});
 				setLoading(false);
@@ -37,6 +38,10 @@ export default function Profile(t:TFunction) {
 				setUserStub({
 					...u,
 					userId: 0,
+				});
+				resolveAwaitingUser(u).then((ru) => {
+					setUserStub(ru);
+					postUserStubs([ru]);
 				});
 				setLoading(false);
 			}).catch((err) => {console.error(err);});
