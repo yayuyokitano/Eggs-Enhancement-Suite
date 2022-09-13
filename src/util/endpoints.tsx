@@ -15,6 +15,7 @@ import Ranking from "../App/ranking/ranking";
 import { getRanking } from "./util";
 import { recommendedArtists } from "./wrapper/eggs/recommend";
 import { eggsRequest } from "./wrapper/eggs/request";
+import Timeline from "../App/timeline/timeline";
 
 export const endpoints:{[key:string]:{
   rootSelector: string;
@@ -64,6 +65,13 @@ export const endpoints:{[key:string]:{
 		translations: [],
 		cacheFunc: fetchPlaylist,
 		appendSelector: "#ees-playlist"
+	},
+	"/timeline": {
+		rootSelector: ".l-contents_wrapper",
+		Element: Timeline,
+		translations: [],
+		cacheFunc: fetchProfile,
+		appendSelector: "#ees-timeline"
 	},
 	"/user": {
 		rootSelector: ".l-contents_wrapper",

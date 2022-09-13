@@ -170,5 +170,15 @@
 		"followers": "フォロワー（{{count}}）",
 		"likedtracks": "いいねした楽曲（{{count}}）",
 		"likedplaylists": "いいねしたプレイリスト（{{count}}）"
+	},
+	"timeline": {
+		"title": "タイムライン",
+		"sub": {
+			"music": "{{user}}さんが楽曲をアップロードしました",
+			"playlist": "{{user}}さんがプレイリストを更新しました",
+			"follow": "{{user}}さんがユーザーをフォローしました",
+			"musiclike": "{{user}}さんが楽曲をいいねしました",
+			"playlistlike": "{{user}}さんがプレイリストをいいねしました"
+		}
 	}
 }

@@ -63,6 +63,7 @@ async function loadContent() {
 
 	await initializeHeader();
 
+	console.log(processedPathname());
 	const endpoint = endpoints[processedPathname()];
 	if (!endpoint) return;
 

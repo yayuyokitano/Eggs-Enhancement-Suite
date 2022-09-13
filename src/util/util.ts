@@ -236,12 +236,16 @@ export type PopupMessage = {
 }
 
 export function processedPathname() {
-	const playlistConcat = new URLSearchParams(window.location.search).has("playlist") ? "playlist" : "";
+	const concat = [
+		new URLSearchParams(window.location.search).has("playlist") ? "playlist" : "",
+		new URLSearchParams(window.location.search).has("timeline") ? "timeline" : ""
+	];
+
 	const processedPath = "/" + window.location.pathname.split("/").filter((e,i)=>i%2 && e !== "daily" && e !== "weekly").join("/");
 	if (processedPath !== "/") {
 		return removeTrailingSlash(processedPath);
 	}
-	return processedPath + removeTrailingSlash(playlistConcat);
+	return processedPath + removeTrailingSlash(concat.join(""));
 }
 
 function removeTrailingSlash(path: string) {

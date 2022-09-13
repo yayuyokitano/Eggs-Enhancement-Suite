@@ -182,5 +182,15 @@
 		"followers": "Followers ({{count}})",
 		"likedtracks": "Liked Tracks ({{count}})",
 		"likedplaylists": "Liked Playlists ({{count}})"
+	},
+	"timeline": {
+		"title": "Timeline",
+		"sub": {
+			"music": "{{user}} uploaded a song:",
+			"playlist": "{{user}} updated a playlist:",
+			"follow": "{{user}} started following:",
+			"musiclike": "{{user}} liked a song:",
+			"playlistlike": "{{user}} liked a playlist:"
+		}
 	}
 }
