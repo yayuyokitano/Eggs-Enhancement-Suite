@@ -97,6 +97,7 @@ export class PlaybackController extends (EventEmitter as new () => TypedEmitter<
 		this.play();
 		this.emit("update");
 		this.queue.on("update", () => { this.emit("update"); });
+		this.queue.on("next", () => { this.next(); });
 	}
 
 	public async setPlaybackDynamic(initialQueue:SongData[], incrementer:Incrementer<SongData>) {
@@ -105,6 +106,7 @@ export class PlaybackController extends (EventEmitter as new () => TypedEmitter<
 		this.play();
 		this.emit("update");
 		this.queue.on("update", () => { this.emit("update"); });
+		this.queue.on("next", () => { this.next(); });
 	}
 
 	public play() {

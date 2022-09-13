@@ -228,6 +228,7 @@ class SongElement {
 
 type QueueEmitters = {
   update: () => void;
+	next: () => void;
 }
 
 export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters>) {
@@ -481,7 +482,7 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 		this._current = track;
 		this.setCurrent(track);
 		this.currentElement = new SongElement(this.current, this.youtube, this.setTimeData);
-		this.currentElement.audioEmitter.on("ended", () => { this.next(); this.emit("update"); });
+		this.currentElement.audioEmitter.on("ended", () => { this.emit("next"); this.emit("update"); });
 	}
 
 	get isPlaying() {
