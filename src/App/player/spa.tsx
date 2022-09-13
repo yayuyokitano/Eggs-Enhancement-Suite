@@ -390,7 +390,7 @@ function togglePopup(e:React.MouseEvent<HTMLButtonElement, MouseEvent>, id:strin
 
 window.addEventListener("click", (e) => {
 	document.querySelectorAll("dialog").forEach((dialog) => {
-		if ((e.target as HTMLElement).closest(`#${dialog.id}`)) return;
+		if (e.target as HTMLElement !== dialog) return;
 		dialog.close();
 	});
 });
