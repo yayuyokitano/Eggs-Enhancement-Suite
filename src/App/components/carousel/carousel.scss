@@ -11,6 +11,10 @@
 		background-color: var(--monoaccent);
 		overflow: hidden;
 
+		&.ees-carousel-wrapper-extralarge {
+			height: 382px;
+		}
+
 		&.ees-carousel-wrapper-large {
 			height: 342px;
 		}

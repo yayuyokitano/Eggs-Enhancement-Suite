@@ -8,7 +8,7 @@ import Modal from "../listModal/listModal";
 
 interface CarouselSetParams<T> {
 	width:number,
-	size:string,
+	size:"small"|"medium"|"large"|"extralarge",
 	type:string,
 	t:TFunction,
 	title:string,

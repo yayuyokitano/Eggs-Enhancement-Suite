@@ -33,7 +33,7 @@ export default function Home(t:TFunction) {
 		<div id="ees-home-wrapper">
 			<Carousel
 				width={260}
-				size="large"
+				size="extralarge"
 				type="basic"
 				t={t}
 				title="heading.news"
