@@ -5,6 +5,20 @@ import { TFunction } from "react-i18next";
 import { PlaybackController } from "App/player/playback";
 import { FavoriteBorderRoundedIcon, FavoriteRoundedIcon, ModeCommentRoundedIcon, MoreVertRoundedIcon, PlayArrowRoundedIcon } from "../../../util/icons";
 
+function elementContainsSelection(e:HTMLElement|null) {
+	if (!e) return false;
+	const sel = window.getSelection();
+	if (!sel) return false;
+	if (sel.rangeCount <= 0) return false;
+	for (let i = 0; i < sel.rangeCount; i++) {
+		if (sel.getRangeAt(i).startContainer === sel.getRangeAt(i).endContainer && sel.getRangeAt(i).startOffset === sel.getRangeAt(i).endOffset) return false;
+		if (!e.contains(sel.getRangeAt(i).commonAncestorContainer)) {
+			return false;
+		}
+	}
+	return true;
+}
+
 export interface SongDataWIndex extends SongData {
   eesIndex:number;
 }
@@ -89,7 +103,7 @@ export default function Track(props:{
 			key={track.musicId}
 			className={`ees-track ees-track-${size}`}
 			data-track={JSON.stringify(track)}
-			onClick={(e) => {isInQueue ? skipTo(e, track, playbackController) : setPlayback(e, track);}}
+			onClick={(e) => {console.log(e.currentTarget.closest(".ees-track")); !elementContainsSelection(e.currentTarget.closest(".ees-track")) && (isInQueue ? skipTo(e, track, playbackController) : setPlayback(e, track));}}
 			tabIndex={0}
 		>
 			{label && <div className="ees-track-label">{label}</div>}
