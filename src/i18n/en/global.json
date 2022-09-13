@@ -143,7 +143,9 @@
 		"lyrics": "Lyrics",
 		"lyricsNotFound": "No lyrics found",
 		"composer": "Composer: ",
-		"lyricist": "Lyricist: "
+		"lyricist": "Lyricist: ",
+		"goToArtistPage": "Go to artist page",
+		"goToTrackPage": "Go to track page"
 	},
 	"queue": {
 		"manuallyAdded": "Manually Added",

@@ -259,6 +259,7 @@ export const sleep:(ms:number) => Promise<void> = (ms:number) => new Promise((re
 
 export const getArtistPage = (artistName:string) => `https://eggs.mu/artist/${artistName}`;
 export const getUserPage = (userName:string) => `https://eggs.mu/user/${userName}`;
+export const getTrackPage = (artistName:string, musicId:string) => `https://eggs.mu/artist/${artistName}/song/${musicId}`;
 
 export type ArtistFetcherString = "curryEggsRecommendedArtistsPlayback"|"curryEggsArtistSearchPlayback"|"curryEggsArtistRankingPlayback";
 export type SongFetcherString = "artistAllTracks"|"artistTopTrack"|"artistNewTrack";

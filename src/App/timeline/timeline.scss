@@ -9,19 +9,6 @@
 		font-size: 2.5rem;
 	}
 
-	a:not(table):hover {
-		.ees-timeline-user-image-wrapper {
-			img {
-				filter: blur(0.6px);
-				-ms-filter: blur(0.6px);
-				opacity: 1;
-				-webkit-opacity: 1;
-				-moz-opacity: 1;
-				transform: scale(1.15);
-			}
-		}
-	}
-
 	.timeline-event {
 		background-color: var(--monoaccent);
 		padding: 1rem;
@@ -32,58 +19,6 @@
 		.ees-track-container {
 			margin-bottom: 0;
 			background-color: var(--bg);
-		}
-
-		.ees-timeline-user-introduction {
-			position: relative;
-			background-size: cover;
-			z-index: 0;
-			background-position: 50% 35%;
-			overflow: hidden;
-			display: block;
-			border-radius: 75px;
-
-			&::before {
-				content: "";
-				filter: blur(5px);
-				z-index: -2;
-				position: absolute;
-				background: inherit;
-				inset: 5px;
-			}
-
-			&::after {
-				background-image: var(--banner-gradient);
-				content: "";
-				z-index: -1;
-				position: absolute;
-				inset: 0;
-			}
-
-			.ees-timeline-user-inner {
-				display: flex;
-				gap: 1.5rem;
-
-				.ees-timeline-user-image-wrapper {
-					border-radius: 50%;
-					overflow: hidden;
-					width: 150px;
-					height: 150px;
-					flex-shrink: 0;
-
-					img {
-						transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
-						object-fit: cover;
-					}
-				}
-
-				.ees-timeline-user-introduction-text {
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					gap: 0.3rem;
-				}
-			}
 		}
 
 		.ees-timeline-playlist {

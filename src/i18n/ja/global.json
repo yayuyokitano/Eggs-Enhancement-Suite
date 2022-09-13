@@ -131,7 +131,9 @@
 		"lyrics": "歌詞",
 		"lyricsNotFound": "歌詞が見つかりません",
 		"composer": "作曲：",
-		"lyricist": "作詞："
+		"lyricist": "作詞：",
+		"goToArtistPage": "アーティストページへ",
+		"goToTrackPage": "楽曲ページへ"
 	},
 	"queue": {
 		"manuallyAdded": "手動で追加",

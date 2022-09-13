@@ -6,9 +6,8 @@ import { cache } from "../../util/loadHandler";
 import { getTimeline, TimelineEvent } from "../../util/wrapper/eggshellver/timeline";
 import "./timeline.scss";
 import { SongData } from "../../util/wrapper/eggs/artist";
-import { UserStub } from "../../util/wrapper/eggshellver/util";
 import TrackContainer from "../components/track/trackContainer";
-import { defaultAvatar, getArtistPage, getUserPage } from "../../util/util";
+import UserCapsule from "../components/userCapsule";
 
 function timelineEffect(
 	setError:React.Dispatch<React.SetStateAction<boolean>>,
@@ -120,31 +119,6 @@ function TimelineMusic(props:{t:TFunction, song:SongData}) {
 	);
 }
 
-function TimelineFollow(props:{t:TFunction, user:UserStub}) {
-	const { user } = props;
-	return (
-		<a
-			className="ees-timeline-user-introduction"
-			href={user.isArtist ? getArtistPage(user.userName) : getUserPage(user.userName)}
-			style={{backgroundImage: `url(${user.imageDataPath})`}}>
-			<div className="ees-timeline-user-inner">
-				<div className="ees-timeline-user-image-wrapper">
-					<img
-						className="ees-timeline-user-image"
-						src={user.imageDataPath ?? defaultAvatar}
-						alt=""
-						width={150}
-						height={150} />
-				</div>
-				<div className="ees-timeline-user-introduction-text">
-					<h3 className="ees-carousel-artist-name">{user.displayName}</h3>
-					<span className="ees-carousel-artist-introtext">{user.profile}</span>
-				</div>
-			</div>
-		</a>
-	);
-}
-
 function TimelineItem(props:{t:TFunction, event:TimelineEvent}) {
 	const { t, event } = props;
 	switch(event.type) {
@@ -159,7 +133,7 @@ function TimelineItem(props:{t:TFunction, event:TimelineEvent}) {
 			t={t}
 			song={event.target} />;
 	case "follow":
-		return <TimelineFollow
+		return <UserCapsule
 			t={t}
 			user={event.target} />;
 	}

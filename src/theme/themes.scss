@@ -134,6 +134,10 @@ footer:not(table) {
 	}
 }
 
+.l-contents_wrapper:not(table) {
+	overflow: visible;
+}
+
 .m-mainvisual .slider-pro:not(table) {
 	background-color: var(--bg);
 }

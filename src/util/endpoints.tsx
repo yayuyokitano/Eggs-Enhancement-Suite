@@ -9,13 +9,14 @@ import { getPlaylists, newPlaylists, playlist, popularPlaylists, searchArtistPla
 import { artistTracks, newTracks } from "./wrapper/eggs/artist";
 import { playlistLikeInfo, songLikeInfo } from "./wrapper/eggs/evaluation";
 import Cacher from "./wrapper/eggs/cacher";
-import { searchArtists, searchPlaylists, searchTracks } from "./wrapper/eggs/search";
+import { searchArtists, searchPlaylists, searchTracks, trackDetails } from "./wrapper/eggs/search";
 import Search from "../App/search/search";
 import Ranking from "../App/ranking/ranking";
 import { getRanking } from "./util";
 import { recommendedArtists } from "./wrapper/eggs/recommend";
 import { eggsRequest } from "./wrapper/eggs/request";
 import Timeline from "../App/timeline/timeline";
+import Song from "../App/song/song";
 
 export const endpoints:{[key:string]:{
   rootSelector: string;
@@ -44,6 +45,13 @@ export const endpoints:{[key:string]:{
 		translations: [],
 		cacheFunc: fetchArtist,
 		appendSelector: "#ees-artist"
+	},
+	"/artist/song": {
+		rootSelector: ".l-contents_wrapper",
+		Element: Song,
+		translations: [],
+		cacheFunc: fetchSong,
+		appendSelector: "#ees-song"
 	},
 	"/search": {
 		rootSelector: ".l-contents_wrapper",
@@ -91,6 +99,13 @@ async function fetchArtist(cache:Cacher) {
 	searchArtistPlaylists(artistID, 30, {cache});
 	const artistData = await artistTracks(artistID, cache);
 	songLikeInfo(artistData.data.map((song) => song.musicId), cache);
+}
+
+async function fetchSong(cache:Cacher) {
+	fetchProfile(cache);
+	const songID = window.location.pathname.split("/").pop();
+	if (!songID) return;
+	trackDetails([songID]);
 }
 
 async function fetchPlaylist(cache:Cacher) {

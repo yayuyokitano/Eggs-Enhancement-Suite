@@ -1,4 +1,4 @@
-import { defaultAvatar } from "../../../util/util";
+import { defaultAvatar, getArtistPage, getTrackPage } from "../../../util/util";
 import { SongData } from "../../../util/wrapper/eggs/artist";
 import "./track.scss";
 import { TFunction } from "react-i18next";
@@ -155,8 +155,8 @@ export default function Track(props:{
 					{loggedIn && <li
 						className="ees-playlist-modal-creator"
 						onClick={(e) => { addToPlaylist(track); e.stopPropagation(); }}>{t("global:track.addToPlaylist")}</li>}
-					<li>hello</li>
-					<li>hallo</li>
+					<li onClick={() => {window.location.assign(getArtistPage(track.artistData.artistName));}}>{t("track.goToArtistPage")}</li>
+					<li onClick={() => {window.location.assign(getTrackPage(track.artistData.artistName, track.musicId));}} >{t("track.goToTrackPage")}</li>
 					<li>hallo</li>
 				</ul>
 			</details>
