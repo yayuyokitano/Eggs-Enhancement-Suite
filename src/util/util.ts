@@ -1,4 +1,4 @@
-import { PlaybackController } from "App/player/playback";
+import PlaybackController from "../App/player/playbackController";
 import i18next from "i18next";
 import { TFunction } from "react-i18next";
 import browser from "webextension-polyfill";

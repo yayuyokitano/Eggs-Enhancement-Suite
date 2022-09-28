@@ -1,6 +1,6 @@
 import { Param, SocialMedia, stringifyParam } from "../../../util/util";
 
-export const baseURL = "https://localhost:10000/";
+export const baseURL = "://localhost:10000/";
 
 export interface BaseUserStub {
   userName: string;
@@ -25,7 +25,7 @@ export interface UserStub extends StrictUserStub {
 }
 
 export function fillEggshellverSearchParams(urlStr:string, params: { [key: string]: Param|undefined }): URL {
-	const url = new URL(`${baseURL}${urlStr}`);
+	const url = new URL(`https${baseURL}${urlStr}`);
 	for (const [key, value] of Object.entries(params)) {
 		if (value === undefined) continue;
 		url.searchParams.set(key, stringifyParam(value));

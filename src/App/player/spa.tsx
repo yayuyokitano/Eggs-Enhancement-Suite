@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { convertTime, defaultAvatar, getVolume, lastfmAuthLink, PopupMessage, processAlbumName, processArtistName, processTrackName, updateVolume } from "../../util/util";
 import { SongData } from "../../util/wrapper/eggs/artist";
-import { initializePlayback, PlaybackController } from "./playback";
+import { initializePlayback, setPlaybackDynamicLocal, setPlaybackLocal } from "./playback";
 import "./spa.scss";
 import { Repeat } from "../../util/queue";
 import { DetailsRoundedIcon, LastFMIcon, PauseRoundedIcon, PlayArrowRoundedIcon, RepeatOneRoundedIcon, RepeatRoundedIcon, ShuffleRoundedIcon, SkipNextRoundedIcon, SkipPreviousRoundedIcon, VolumeUpRoundedIcon } from "../../util/icons";
@@ -17,6 +17,8 @@ import Details from "./details";
 import Queue from "./queue";
 import Sync from "../components/sync/sync";
 import { updateTheme } from "../../theme/themes";
+import PlaybackController from "./playbackController";
+import { initializeSocketPlayback } from "./socketPlayback";
 let root:ReactDOM.Root;
 
 export function createSpa() {
@@ -101,6 +103,7 @@ function Player(props:{ t:TFunction, playbackController?:PlaybackController, set
 	const [shuffle, setShuffle] = useState(true);
 	const [repeat, setRepeat] = useState(Repeat.All);
 	const [volume, setVolume] = useState(1);
+	const [controllerType, setControllerType] = useState<"local" | "socket">("local");
 	const youtubeRef = useRef<HTMLIFrameElement>(null);
 
 	useEffect(() => {
@@ -110,7 +113,47 @@ function Player(props:{ t:TFunction, playbackController?:PlaybackController, set
 		root = ReactDOM.createRoot(audioContainer);
 		getVolume().then(v => {
 			setVolume(v ?? 1);
+			playbackController?.closeConnection();
 			setPlaybackController(initializePlayback(root, setCurrent, youtubeRef, setTimeData, setShuffle, setRepeat, volume));
+		});
+
+		window.addEventListener("message", async(event) => {
+			if (event.origin !== window.location.origin) {
+				return;
+			}
+			if (event.data.type !== "trackUpdate") {
+				return;
+			}
+			console.log(event.data.data);
+			switch(event.data.data.type) {
+			case "setPlayback":
+			case "setPlaybackDynamic":
+			{
+				if (controllerType !== "local") {
+					setControllerType("local");
+					playbackController?.closeConnection();
+					setPlaybackController(initializePlayback(root, setCurrent, youtubeRef, setTimeData, setShuffle, setRepeat, volume));
+					if (event.data.type === "setPlaybackDynamic" && playbackController) {
+						setPlaybackDynamicLocal(event.data.data, playbackController);
+					} else if (playbackController) {
+						setPlaybackLocal(event.data.data, playbackController);
+					}
+				}
+				break;
+			}
+			case "setPlaybackSocket":
+			{
+				console.log("a");
+				setControllerType("socket");
+				playbackController?.closeConnection();
+				setPlaybackController(() => {
+					const controller = initializeSocketPlayback(root, setCurrent, youtubeRef, setTimeData, setShuffle, setRepeat, volume);
+					controller.initSocket(event.data.data.targetID);
+					return controller;
+				});
+				break;
+			}
+			}
 		});
 	}, []);
 

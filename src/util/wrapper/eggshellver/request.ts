@@ -15,7 +15,7 @@ export async function eggshellverRequest<Req extends object, Res extends object>
 		method: "GET",
 	};
 
-	const urlStr = typeof url === "string" ? baseURL + url : url.toString();
+	const urlStr = typeof url === "string" ? "https" + baseURL + url : url.toString();
   
 	// use a cache that allows loading immediately, as sometimes eggs websites loads slow and we can reduce the overhead of the extension
 	return preferredCacher.fetch(urlStr, requestOptions);

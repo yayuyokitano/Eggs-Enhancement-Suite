@@ -1,7 +1,7 @@
 import { QueueMusicRoundedIcon } from "../../util/icons";
 import TrackContainer from "../components/track/trackContainer";
 import { TFunction } from "react-i18next";
-import { PlaybackController } from "./playback";
+import PlaybackController from "./playbackController";
 import "./queue.scss";
 import { useState } from "react";
 

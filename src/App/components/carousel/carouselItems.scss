@@ -100,7 +100,8 @@
 
 .ees-carousel-artist,
 .ees-carousel-artist-rank,
-.ees-carousel-artist-introduction {
+.ees-carousel-artist-introduction,
+.ees-carousel-listening-party {
 	.ees-carousel-artist-image-wrapper {
 		width: 175px;
 		height: 175px;
@@ -132,7 +133,8 @@
 .ees-carousel-playlist,
 .ees-carousel-artist,
 .ees-carousel-artist-rank,
-.ees-carousel-artist-introduction {
+.ees-carousel-artist-introduction,
+.ees-carousel-listening-party {
 	display: flex;
 	align-items: center;
 	padding: 0 15px;
@@ -147,7 +149,8 @@
 	justify-content: flex-end;
 }
 
-.ees-carousel-artist-introduction {
+.ees-carousel-artist-introduction,
+.ees-carousel-listening-party {
 	height: 342px;
 	padding-bottom: 20px;
 	flex-direction: column;

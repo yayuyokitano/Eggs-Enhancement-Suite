@@ -4,7 +4,7 @@ import { SongData } from "../../../util/wrapper/eggs/artist";
 import "./track.scss";
 import Track, { SongDataWIndex } from "./track";
 import { songLikeInfo, likeSong } from "../../../util/wrapper/eggs/evaluation";
-import { PlaybackController } from "App/player/playback";
+import PlaybackController from "../../player/playbackController";
 
 export default function TrackContainer(props: {data:SongData[]|SongDataWIndex[]|undefined, t:TFunction, size:"small"|"medium"|"large", isQueue?:boolean, playbackController?:PlaybackController, refName?:React.RefObject<HTMLUListElement>}) {
 	const {data, t, size, isQueue, playbackController} = props;

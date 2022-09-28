@@ -6,6 +6,7 @@ import { News } from "../../home/home";
 import { PlaylistCover } from "../playlistcover";
 import { ComparedRank, RankingArtist } from "../../../util/wrapper/eggs/ranking";
 import { RecommendedArtist } from "../../../util/wrapper/eggs/recommend";
+import { ListeningParty } from "../../../util/wrapper/eggshellver/ws";
 
 export function NewsList(props: {t:TFunction, items:News[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) {
 	const {t, items, refName, setScroll} = props;
@@ -160,6 +161,44 @@ export function PlaylistList(props: {t:TFunction, items:PlaylistPartial[], refNa
 								height={174} />
 						</div>
 					</a>
+				</CarouselItem>
+			))}
+		</ul>
+	);
+}
+
+export function ListeningPartyList(props: {t:TFunction, items:ListeningParty[], refName:React.RefObject<HTMLUListElement>, setScroll:React.Dispatch<React.SetStateAction<number>>}) {
+	const { items, refName, setScroll } = props;
+	return (
+		<ul
+			className="ees-carousel"
+			ref={refName}
+			onScroll={e => setScroll(e.currentTarget.scrollLeft)}>
+			{items.map((party) => (
+				<CarouselItem key={party.owner}>
+					<button
+						className="ees-carousel-listening-party"
+						onClick={() => {
+							window.parent.postMessage({
+								type: "trackUpdate",
+								data: {
+									type: "setPlaybackSocket",
+									targetID: party.owner,
+								}
+							}, "*");
+						}}>
+						<div className="ees-carousel-artist-image-wrapper">
+							<img
+								className="ees-carousel-artist-image"
+								src={party.song.musicImageDataPath ?? party.song.artistImageDataPath ?? defaultAvatar}
+								alt=""
+								width={175}
+								height={175} />
+						</div>
+						<h3 className="ees-listening-party-name">{party.title}</h3>
+						<span className="ees-listening-party-owner">{party.owner}</span>
+						<p>{party.listeners} listeners</p>
+					</button>
 				</CarouselItem>
 			))}
 		</ul>

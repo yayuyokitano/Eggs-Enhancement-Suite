@@ -2,14 +2,15 @@ import { Incrementer } from "../../App/components/sync/itemFetcher";
 import { TFunction } from "react-i18next";
 import { eggsRecommendedArtistsWrapped } from "../../util/wrapper/eggs/recommend";
 import Carousel from "../components/carousel/carousel";
-import { NewsList, PlaylistList, IntroducedArtistList } from "../components/carousel/generators";
+import { NewsList, PlaylistList, IntroducedArtistList, ListeningPartyList } from "../components/carousel/generators";
 
 import "./home.scss";
 import { eggsNewPlaylistsWrapped, eggsPopularPlaylistsWrapped } from "../../util/wrapper/eggs/playlists";
 import DynamicTrackContainer from "../components/track/dynamicTrackContainer";
 import { eggsNewTracksWrapped, SongData } from "../../util/wrapper/eggs/artist";
 import { List } from "../../util/wrapper/eggs/util";
-import { IntroducedArtistModalList, NewsModalList, PlaylistModalList } from "../components/listModal/modalGenerators";
+import { IntroducedArtistModalList, ListeningPartyModalList, NewsModalList, PlaylistModalList } from "../components/listModal/modalGenerators";
+import { getEggshellverHubsWrapped } from "../../util/wrapper/eggshellver/ws";
 
 export interface News {
   title: string;
@@ -40,6 +41,17 @@ export default function Home(t:TFunction) {
 				init={news}
 				ElementList={NewsList}
 				ModalElementList={NewsModalList} />
+			<Carousel
+				width={205}
+				size="large"
+				type="listening-party"
+				t={t}
+				title="heading.listeningParties"
+				init={[]}
+				ElementList={ListeningPartyList}
+				incrementer={new Incrementer(getEggshellverHubsWrapped, 1000)}
+				uniquePropName="owner"
+				ModalElementList={ListeningPartyModalList} />
 			<Carousel
 				width={205}
 				size="large"

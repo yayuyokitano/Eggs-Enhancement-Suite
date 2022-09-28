@@ -341,6 +341,15 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 		this.currentElement?.setCurrentTime(newTime);
 	}
 
+	public peekHistory() {
+		return this.historyStack.peek();
+	}
+
+	public peek() {
+		if (this.innerOverrideQueue.length > 0) return this.innerOverrideQueue.peek();
+		return this.innerQueue.peek();
+	}
+
 	public pop() {
 		let newTrack:SongData|undefined;
 		if (this.innerOverrideQueue.length > 0) {
@@ -493,6 +502,10 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 		return Number(document.getElementById("ees-player-controls-time")?.dataset.duration ?? 0);
 	}
 
+	get currentTime() {
+		return Number(document.getElementById("ees-player-controls-time")?.dataset.current ?? 0);
+	}
+
 	get scrobbleInfo() {
 		return this._scrobbleInfo;
 	}
@@ -545,6 +558,8 @@ class InnerQueue {
 	public empty = () => { this.queue = []; };
 
 	public add = (...songs:SongData[]) => this.queue.push(...songs);
+	
+	public peek = () => this.queue[0];
 
 	public pop = () => this.queue.shift();
 
@@ -578,6 +593,8 @@ class HistoryStack {
 			this.stack.shift();
 		}
 	}
+
+	public peek = () => this.stack[this.length - 1];
 
 	public pop = () => this.stack.pop();
 

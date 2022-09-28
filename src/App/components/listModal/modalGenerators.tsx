@@ -9,6 +9,7 @@ import { RankingArtist } from "../../../util/wrapper/eggs/ranking";
 import "./modalItems.scss";
 import TrackContainer from "../track/trackContainer";
 import { UserStub } from "util/wrapper/eggshellver/util";
+import { ListeningParty } from "util/wrapper/eggshellver/ws";
 
 export function NewsModalList(props: {t:TFunction, items:News[], refName:React.RefObject<HTMLUListElement>}) {
 	const {t, items, refName} = props;
@@ -190,6 +191,44 @@ export function TrackModalList(props: {t:TFunction, items:SongData[], refName:Re
 			t={t}
 			size="medium"
 			refName={refName} />
+	);
+}
+
+export function ListeningPartyModalList(props: {t:TFunction, items:ListeningParty[], refName:React.RefObject<HTMLUListElement>}) {
+	const { items, refName } = props;
+	return (
+		<ul
+			className="ees-modal-list"
+			ref={refName}>
+			{items.map((party) => (
+				<ModalItem key={party.owner}>
+					<button
+						className="ees-modal-listening-party"
+						onClick={() => {
+							window.parent.postMessage({
+								type: "trackUpdate",
+								data: {
+									type: "setPlaybackSocket",
+									targetID: party.owner,
+								}
+							}, "*");
+						}}>
+						<div className="ees-modal-listening-party-text">
+							<h3 className="ees-modal-listening-party-name">{party.title}</h3>
+							<span className="ees-modal-listening-party-owner">{party.owner}</span>
+						</div>
+						<div className="ees-modal-artist-image-wrapper">
+							<img
+								className="ees-modal-artist-image"
+								src={party.song.musicImageDataPath ?? party.song.artistImageDataPath ?? defaultAvatar}
+								alt=""
+								width={64}
+								height={64} />
+						</div>
+					</button>
+				</ModalItem>
+			))}
+		</ul>
 	);
 }
 
