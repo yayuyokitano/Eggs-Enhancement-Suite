@@ -1,4 +1,5 @@
 import EventEmitter from "events";
+import { t } from "i18next";
 import TypedEmitter from "typed-emitter";
 import { getEggshellverToken } from "./util";
 import { SongData } from "./wrapper/eggs/artist";
@@ -84,22 +85,23 @@ interface RawSocketMessage extends MessageMetadata {
 
 type SocketEmitters = {
 	message: (message: SocketMessage) => void;
+	update: () => void;
 }
 
 export default class SocketConnection extends (EventEmitter as new () => TypedEmitter<SocketEmitters>) {
 	private socket:null|WebSocket;
 
-	constructor(target:string, isNew:boolean) {
+	constructor(target:string, isNew:boolean, title?:string) {
 		super();
 		this.socket = null;
-		this.init(target, isNew);
+		this.init(target, isNew, title);
 	}
 
 	public closeConnection() {
 		this.socket?.close();
 	}
 
-	private async init(target:string, isNew:boolean) {
+	private async init(target:string, isNew:boolean, title?:string) {
 		const url = `wss${baseURL}ws/${isNew ? "create" : "join"}/${target}/${await getEggshellverToken()}`;
 		this.socket = new WebSocket(url);
 
@@ -108,35 +110,18 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 				type: "info",
 				message: "join",
 			});
-		});
-		
-		this.socket.addEventListener("message", (message) => {
-
-			console.log("receiving: ", message.data);
-			
-			const rawMessage = JSON.parse(message.data) as RawSocketMessage;
-			
-			const middleMessage:MiddleSocketMessage = {
-				...rawMessage,
-				message: JSON.parse(rawMessage.message)
-			};
-			
-			if (typeof middleMessage.message.message !== "string") {
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore-next-line - typescript does not narrow the type correctly. It is verified that the message is not a string and so does not need parsing.
-				this.emit("message", middleMessage);
-				return;
+			if (isNew && title) {
+				this.send({
+					type: "setTitle",
+					message: title,
+				});
 			}
+		});
 
-			const processedMessage:SocketMessage = {
-				...middleMessage,
-				message: {
-					...middleMessage.message,
-					message: JSON.parse(middleMessage.message.message)
-				}
-			};
-
-			this.emit("message", processedMessage);
+		this.socket.addEventListener("message", (message) => {
+			for (const obj of message.data.slice(1, -1).split("}\n{")) {
+				this.processMessage(`{${obj}}`);
+			}
 		});
 	}
 
@@ -148,4 +133,34 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 		console.log("sending: ", JSON.stringify(rawMessage));
 		this.socket?.send(JSON.stringify(rawMessage));
 	}
+
+	private processMessage(data:any) {
+		console.log("receiving: ", data);
+				
+		const rawMessage = JSON.parse(data) as RawSocketMessage;
+				
+		const middleMessage:MiddleSocketMessage = {
+			...rawMessage,
+			message: JSON.parse(rawMessage.message)
+		};
+				
+		if (typeof middleMessage.message.message !== "string") {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore-next-line - typescript does not narrow the type correctly. It is verified that the message is not a string and so does not need parsing.
+			this.emit("message", middleMessage);
+			return;
+		}
+	
+		const processedMessage:SocketMessage = {
+			...middleMessage,
+			message: {
+				...middleMessage.message,
+				message: JSON.parse(middleMessage.message.message)
+			}
+		};
+	
+		this.emit("message", processedMessage);
+	}
+	
 }
+

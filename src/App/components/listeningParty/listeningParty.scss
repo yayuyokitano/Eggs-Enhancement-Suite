@@ -1,0 +1,41 @@
+@use "../popouts.scss";
+
+#ees-listening-party {
+	bottom: 78px;
+}
+
+#ees-listening-party-creator {
+	text-align: center;
+
+	h3 {
+		font-size: 1.25rem;
+		margin-bottom: 0.5rem;
+	}
+	label {
+		color: var(--text);
+		font-size: 1.25rem;
+		margin-bottom: 0.5rem;
+	}
+	input {
+		color: var(--text);
+		font-size: 1.25rem;
+		background-color: var(--monoaccent3);
+		text-align: center;
+		margin-bottom: 1rem;
+	}
+	button {
+		color: var(--alwaysdark2);
+		background-color: var(--eggsyellow);
+		padding: 0.5rem 1rem;
+		font-size: 1.2rem;
+		border-radius: 1rem;
+		font-weight: bold;
+
+		&:hover,
+		&:focus-visible {
+			outline: none;
+			background-color: var(--activeelement);
+			color: var(--monoaccent2);
+		}
+	}
+}

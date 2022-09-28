@@ -194,5 +194,12 @@
 			"musiclike": "{{user}} liked a song:",
 			"playlistlike": "{{user}} liked a playlist:"
 		}
+	},
+	"listeningParty": {
+		"create": "Create Listening Party",
+		"name": "Name",
+		"namePlaceholder": "Enter name",
+		"defaultName": "{{user}}'s Room",
+		"start": "Let's Party!🥳"
 	}
 }

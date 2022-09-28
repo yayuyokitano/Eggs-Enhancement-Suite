@@ -34,7 +34,6 @@ function QueueContent(props: { playbackController?:PlaybackController, t:TFuncti
 	const { playbackController, t } = props;
 
 	const [update, SetUpdate] = useState(true);
-	playbackController?.removeAllListeners();
 	playbackController?.on("update", () => {
 		SetUpdate(!update);
 	});

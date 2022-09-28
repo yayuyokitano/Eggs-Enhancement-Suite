@@ -91,6 +91,7 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 	private setRepeat:React.Dispatch<React.SetStateAction<Repeat>>;
 	private _volume:number;
 	private socket: SocketConnection|null = null;
+	private _title = "";
 
 	constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>, volume:number) {
 		super();
@@ -104,23 +105,17 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 		this.setRepeat = setRepeat;
 		this._volume = volume;
 		this.volume = volume;
-
-		this.publicize();
 	}
 
-	public publicize() {
-		this.initSocket();
-	}
-
-	public setTitle(title:string) {
-		this.socket?.send({
-			type: "setTitle",
-			message: title
-		});
+	public publicize(title:string) {
+		this._title = title;
+		this.initSocket(title);
+		this.emit("update");
 	}
 
 	public closeConnection() {
 		this.socket?.closeConnection();
+		this.emit("update");
 	}
 
 	public suggest(song:SongData) {
@@ -128,10 +123,15 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 			type: "suggest",
 			message: song
 		});
+		this.emit("update");
 	}
 
-	private async initSocket() {
-		this.socket = new SocketConnection(await getEggsID() ?? "", true);
+	private async initSocket(title:string) {
+		const eggsID = await getEggsID();
+		if (eggsID === undefined) {
+			return;
+		}
+		this.socket = new SocketConnection(eggsID, true, title);
 
 		this.socket.on("message", (message) => {
 			console.log(message);
@@ -155,6 +155,7 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 			}
 			}
 		});
+		this.emit("update");
 	}
 
 	public setPlayback(initialQueue:SongData[], initialElement:SongData) {
@@ -288,6 +289,19 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 	set scrobbleInfo(scrobble:{artist:string, track:string, album:string}) {
 		if (!this.queue) return;
 		this.queue.scrobbleInfo = scrobble;
+	}
+
+	set title(title:string) {
+		this.socket?.send({
+			type: "setTitle",
+			message: title
+		});
+		this._title = title;
+		this.emit("update");
+	}
+
+	get title() {
+		return this._title;
 	}
 
 	get isPublic() {

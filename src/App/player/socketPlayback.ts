@@ -47,6 +47,7 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 	private setRepeat:React.Dispatch<React.SetStateAction<Repeat>>;
 	private _volume:number;
 	private socket:null|SocketConnection = null;
+	private _title = "";
 
 	constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>, volume:number) {
 		super();
@@ -64,6 +65,7 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 
 	public closeConnection() {
 		this.socket?.closeConnection();
+		this.emit("update");
 	}
 
 	public suggest(song:SongData) {
@@ -71,6 +73,7 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 			type: "suggest",
 			message: song
 		});
+		this.emit("update");
 	}
 
 	public async initSocket(eggsID:string) {
@@ -111,18 +114,21 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 			}
 			}
 		});
+		this.emit("update");
 	}
 
 	public setPlayback(initialQueue:SongData[], initialElement:SongData) {
 		this.queue?.destroy();
 		this.queue = new Queue(initialQueue, initialElement, this.root, false, Repeat.None, this.setCurrent, this.youtube, this.setTimeData, this._volume);
 		this.play();
+		this.emit("update");
 	}
 
 	public async setPlaybackDynamic(initialQueue:SongData[], incrementer:Incrementer<SongData>) {
 		this.queue?.destroy();
 		this.queue = new Queue(initialQueue, initialQueue[0], this.root, false, Repeat.None, this.setCurrent, this.youtube, this.setTimeData, this._volume, incrementer);
 		this.play();
+		this.emit("update");
 	}
 
 	public play() {
@@ -178,6 +184,15 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 	set scrobbleInfo(scrobble:{artist:string, track:string, album:string}) {
 		if (!this.queue) return;
 		this.queue.scrobbleInfo = scrobble;
+	}
+
+	set title(title:string) {
+		this._title = title;
+		this.emit("update");
+	}
+
+	get title() {
+		return this._title;
 	}
 
 	get isPublic() {

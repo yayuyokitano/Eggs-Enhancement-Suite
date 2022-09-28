@@ -59,6 +59,68 @@
 	}
 }
 
+.ees-bottom-popup-wrapper {
+	position: fixed;
+	bottom: 0;
+	transform: translateY(100%);
+	background-color: var(--menubg);
+	transition: transform 0.2s ease-in-out;
+
+	width: 300px;
+	max-width: 80vw;
+	height: 500px;
+	max-height: calc(100vh - 272px);
+	border-radius: 0 5px 0 0;
+
+	.ees-popout-button {
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 2px 13px;
+		background-color: var(--playerbg);
+		transform: translateY(-100%);
+		border-radius: 0 5px 0 0;
+
+		box-shadow: 0 -5px 5px var(--shadow5);
+
+		svg {
+			width: 32px;
+			height: 32px;
+			fill: var(--textlight);
+		}
+
+		&:hover,
+		&:focus-visible {
+			outline: none;
+			background-color: var(--activeelement);
+
+			svg {
+				fill: var(--monoaccent2);
+			}
+		}
+	}
+
+	.ees-popout-inner {
+		height: 100%;
+		overflow-y: auto;
+		animation: 0s ease-in-out 0.2s forwards hide;
+	}
+
+	h3 {
+		padding-top: 2px;
+		padding-left: 4px;
+	}
+
+	&.active {
+		transform: translateY(0);
+		box-shadow: 0 -5px 5px var(--shadow5);
+
+		.ees-popout-inner {
+			animation: 0.2s ease-in-out 0s forwards show;
+		}
+	}
+}
+
 @keyframes show {
 	0% {
 		visibility: hidden;

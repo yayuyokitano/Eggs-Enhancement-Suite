@@ -19,6 +19,7 @@ import Sync from "../components/sync/sync";
 import { updateTheme } from "../../theme/themes";
 import PlaybackController from "./playbackController";
 import { initializeSocketPlayback } from "./socketPlayback";
+import ListeningParty from "../components/listeningParty/listeningParty";
 let root:ReactDOM.Root;
 
 export function createSpa() {
@@ -88,6 +89,9 @@ function SPA() {
 				playbackController={playbackController}
 				t={t} />
 			<Sync t={t} />
+			<ListeningParty
+				t={t}
+				playbackController={playbackController} />
 		</div>
 	);
 }
