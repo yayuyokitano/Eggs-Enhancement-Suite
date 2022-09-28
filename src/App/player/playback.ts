@@ -290,6 +290,10 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 		this.queue.scrobbleInfo = scrobble;
 	}
 
+	get isPublic() {
+		return this.socket !== null;
+	}
+
 	get current() {
 		return this.queue?.current;
 	}

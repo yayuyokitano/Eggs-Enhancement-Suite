@@ -180,6 +180,10 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 		this.queue.scrobbleInfo = scrobble;
 	}
 
+	get isPublic() {
+		return true;
+	}
+
 	get current() {
 		return this.queue?.current;
 	}

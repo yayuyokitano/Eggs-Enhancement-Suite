@@ -45,6 +45,8 @@ export default abstract class PlaybackController extends (EventEmitter as new ()
 
 	abstract set scrobbleInfo(scrobble:{artist:string, track:string, album:string});
 
+	abstract get isPublic(): boolean;
+
 	abstract get current(): SongData | undefined;
 
 	abstract get currentTime(): number | undefined;
