@@ -5,6 +5,7 @@ import { SendRoundedIcon } from "../../../util/icons";
 import { ChatMessage } from "../../../util/socketConnection";
 import { defaultAvatar, getUserPage } from "../../../util/util";
 import { navigateSafely } from "../../../util/loadHandler";
+import "./chat.scss";
 
 export default function Chat(props: { t: TFunction, playbackController?: PlaybackController }) {
 	const { t, playbackController } = props;

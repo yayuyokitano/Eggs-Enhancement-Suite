@@ -1,0 +1,124 @@
+#ees-listening-party-chat {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	height: 100%;
+
+	#ees-listening-party-chat-log {
+		overflow-y: auto;
+		margin: 0 0.5rem;
+	}
+
+	#ees-listening-party-chat-input {
+		display: flex;
+		align-items: center;
+		margin: 0.5rem;
+		gap: 0.5rem;
+
+		#ees-listening-party-chat-input-field {
+			font-size: 1rem;
+			padding: 0 0.5rem;
+			height: 2.5rem;
+			border-radius: 2.5rem;
+			background-color: var(--monoaccent2);
+			flex: 1;
+		}
+		#ees-listening-party-chat-input-send {
+			width: 2.5rem;
+			height: 2.5rem;
+			background-color: var(--eggsyellow);
+			border-radius: 50%;
+			margin-bottom: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			svg {
+				width: 1.5rem;
+				height: 1.5rem;
+				margin-left: 4px;
+			}
+
+			&:hover,
+			&:focus-visible {
+				background-color: var(--activeelement);
+
+				svg {
+					fill: var(--alwayslight2);
+				}
+			}
+		}
+	}
+}
+
+.ees-listening-party-chat-message {
+	display: flex;
+	flex-direction: row;
+	gap: 0.5rem;
+	margin: 0.5rem 0;
+
+	&.ees-listening-party-chat-self {
+		flex-direction: row-reverse;
+		text-align: end;
+
+		.ees-listening-party-chat-message-content {
+			align-items: flex-end;
+		}
+	}
+
+	.ees-listening-party-chat-image-container {
+		width: 42px;
+		height: 42px;
+		border-radius: 50%;
+		overflow: hidden;
+
+		.ees-listening-party-chat-image {
+			width: 42px;
+			height: 42px;
+			opacity: 1;
+			transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
+			transform-origin: bottom;
+		}
+
+		&:hover,
+		&:focus-visible {
+			outline: none;
+
+			.ees-listening-party-chat-image {
+				transform: scale(1.15);
+				filter: blur(0.6px);
+				-ms-filter: blur(0.6px);
+				opacity: 1;
+				-webkit-opacity: 1;
+				-moz-opacity: 1;
+			}
+		}
+	}
+
+	.ees-listening-party-chat-message-content {
+		display: flex;
+		flex-direction: column;
+
+		.ees-listening-party-chat-message-author {
+			display: flex;
+			align-items: center;
+			font-size: 0.8rem;
+			font-weight: bold;
+
+			.ees-listening-party-chat-owner {
+				background-color: var(--eggsyellow);
+				color: var(--alwaysdark2);
+				font-weight: bolder;
+				font-size: 0.9em;
+				padding: 0.05em 0.15em;
+				border-radius: 0.15em;
+				margin-left: 0.15em;
+			}
+		}
+
+		.ees-listening-party-chat-message-timestamp {
+			font-size: 0.7rem;
+			color: var(--textlight);
+		}
+	}
+}
