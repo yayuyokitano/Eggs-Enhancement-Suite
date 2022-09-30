@@ -57,20 +57,23 @@ function PartyCreator(props: { t: TFunction, playbackController?: PlaybackContro
 	const { t, playbackController } = props;
 	return (
 		<div id="ees-listening-party-creator">
-			<h3>{props.t("listeningParty.create")}</h3>
-			<label htmlFor="ees-listening-party-name">{props.t("listeningParty.name")}</label><br />
-			<input
-				type="text"
-				id="ees-listening-party-name"
-				placeholder={props.t("listeningParty.namePlaceholder")} /><br />
-			<button
-				type="button"
-				id="ees-listening-party-create-button"
-				onClick={async() => {
+			<form
+				onSubmit={async() => {
 					if (playbackController instanceof LocalPlaybackController) {
 						playbackController.publicize((document.getElementById("ees-listening-party-name") as HTMLInputElement)?.value ?? t("listeningParty.defaultName", { name: await getEggsID() }));
 					}
-				}}>{t("listeningParty.start")}</button>
+				}}>
+				<h3>{props.t("listeningParty.create")}</h3>
+				<label htmlFor="ees-listening-party-name">{props.t("listeningParty.name")}</label><br />
+				<input
+					type="text"
+					id="ees-listening-party-name"
+					placeholder={props.t("listeningParty.namePlaceholder")} /><br />
+				<button
+					type="submit"
+					id="ees-listening-party-create-button"
+				>{t("listeningParty.start")}</button>
+			</form>
 		</div>
 	);
 }
