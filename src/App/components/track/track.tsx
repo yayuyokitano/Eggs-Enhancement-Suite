@@ -103,7 +103,7 @@ export default function Track(props:{
 			key={track.musicId}
 			className={`ees-track ees-track-${size}`}
 			data-track={JSON.stringify(track)}
-			onClick={(e) => {console.log(e.currentTarget.closest(".ees-track")); !elementContainsSelection(e.currentTarget.closest(".ees-track")) && (isInQueue ? skipTo(e, track, playbackController) : setPlayback(e, track));}}
+			onClick={(e) => {!elementContainsSelection(e.currentTarget.closest(".ees-track")) && (isInQueue ? skipTo(e, track, playbackController) : setPlayback(e, track));}}
 			tabIndex={0}
 		>
 			{label && <div className="ees-track-label">{label}</div>}

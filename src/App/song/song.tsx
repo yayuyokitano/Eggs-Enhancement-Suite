@@ -81,7 +81,6 @@ export default function Song(t:TFunction) {
 	const [song, setSong] = useState<SongData>();
 
 	const songStub = crawlSong();
-	console.log(songStub);
 
 	useEffect(() => {
 		const songID = window.location.pathname.split("/").pop();

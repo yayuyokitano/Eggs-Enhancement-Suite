@@ -128,7 +128,6 @@ function Player(props:{ t:TFunction, playbackController?:PlaybackController, set
 			if (event.data.type !== "trackUpdate") {
 				return;
 			}
-			console.log(event.data.data);
 			switch(event.data.data.type) {
 			case "setPlayback":
 			case "setPlaybackDynamic":
@@ -147,7 +146,6 @@ function Player(props:{ t:TFunction, playbackController?:PlaybackController, set
 			}
 			case "setPlaybackSocket":
 			{
-				console.log("a");
 				setControllerType("socket");
 				playbackController?.closeConnection();
 				setPlaybackController(() => {

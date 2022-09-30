@@ -20,7 +20,7 @@ export default function Chat(props: { t: TFunction, playbackController?: Playbac
 		if (chatRef.current === null) {
 			return;
 		}
-		console.log(scroll, height, chatRef.current.scrollTop, chatRef.current.scrollHeight, chatRef.current.clientHeight);
+		
 		if (scroll < height - 10) {
 			setScroll(chatRef.current.scrollTop + chatRef.current.clientHeight);
 			setHeight(chatRef.current.scrollHeight);
