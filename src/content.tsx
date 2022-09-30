@@ -10,7 +10,7 @@ import { initializeHeader } from "./util/loginButtons";
 
 import "./theme/themes.scss";
 import { initializeThemes } from "./theme/themes";
-import { addLoadHandler, loadPageDetails } from "./util/loadHandler";
+import { addIframeURLLoader, addLoadHandler, loadPageDetails } from "./util/loadHandler";
 
 function App(props: {endpoint: {
   rootSelector: string;
@@ -62,6 +62,7 @@ async function loadContent() {
 	}
 
 	await initializeHeader();
+	addIframeURLLoader();
 
 	const endpoint = endpoints[processedPathname()];
 	if (!endpoint) return;

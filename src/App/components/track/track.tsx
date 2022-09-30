@@ -4,6 +4,7 @@ import "./track.scss";
 import { TFunction } from "react-i18next";
 import PlaybackController from "../../player/playbackController";
 import { FavoriteBorderRoundedIcon, FavoriteRoundedIcon, ModeCommentRoundedIcon, MoreVertRoundedIcon, PlayArrowRoundedIcon } from "../../../util/icons";
+import { navigateSafely } from "../../../util/loadHandler";
 
 function elementContainsSelection(e:HTMLElement|null) {
 	if (!e) return false;
@@ -155,8 +156,8 @@ export default function Track(props:{
 					{loggedIn && <li
 						className="ees-playlist-modal-creator"
 						onClick={(e) => { addToPlaylist(track); e.stopPropagation(); }}>{t("global:track.addToPlaylist")}</li>}
-					<li onClick={() => {window.location.assign(getArtistPage(track.artistData.artistName));}}>{t("global:track.goToArtistPage")}</li>
-					<li onClick={() => {window.location.assign(getTrackPage(track.artistData.artistName, track.musicId));}} >{t("global:track.goToTrackPage")}</li>
+					<li onClick={() => {navigateSafely(getArtistPage(track.artistData.artistName));}}>{t("global:track.goToArtistPage")}</li>
+					<li onClick={() => {navigateSafely(getTrackPage(track.artistData.artistName, track.musicId));}} >{t("global:track.goToTrackPage")}</li>
 					<li>hallo</li>
 				</ul>
 			</details>

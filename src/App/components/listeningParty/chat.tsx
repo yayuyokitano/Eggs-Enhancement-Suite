@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { SendRoundedIcon } from "../../../util/icons";
 import { ChatMessage } from "../../../util/socketConnection";
 import { defaultAvatar, getUserPage } from "../../../util/util";
+import { navigateSafely } from "../../../util/loadHandler";
 
 export default function Chat(props: { t: TFunction, playbackController?: PlaybackController }) {
 	const { t, playbackController } = props;
@@ -78,7 +79,7 @@ function ChatMessage(props: { t: TFunction, message: ChatMessage }) {
 	return (
 		<div className={`ees-listening-party-chat-message${message.self ? " ees-listening-party-chat-self" : ""}`}>
 			<a
-				href={getUserPage(message.sender.userName)}
+				onClick={() => {navigateSafely(getUserPage(message.sender.userName));}}
 				className="ees-listening-party-chat-image-container">
 				<img
 					className="ees-listening-party-chat-image"
@@ -88,7 +89,8 @@ function ChatMessage(props: { t: TFunction, message: ChatMessage }) {
 			<div className="ees-listening-party-chat-message-content">
 				<a
 					className="ees-listening-party-chat-message-author"
-					href={getUserPage(message.sender.userName)}>
+					onClick={() => {navigateSafely(getUserPage(message.sender.userName));}}
+				>
 					{message.sender.displayName}
 					{message.owner && !message.self ? <span className="ees-listening-party-chat-owner">{t("listeningParty.host")}</span> : ""}
 				</a>
