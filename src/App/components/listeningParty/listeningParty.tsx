@@ -1,6 +1,6 @@
 import { LocalPlaybackController } from "../../player/playback";
 import PlaybackController from "../../player/playbackController";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { TFunction } from "react-i18next";
 import { getEggsID } from "../../../util/util";
 import { ChatBubbleRoundedIcon, GroupsRoundedIcon, MusicNoteIcon, SettingsRoundedIcon } from "../../../util/icons";
@@ -35,11 +35,6 @@ function PartyContent(props: { t:TFunction, playbackController?:PlaybackControll
 	playbackController?.on("update", () => {
 		setUpdate(!update);
 	});
-
-	useEffect(() => {
-		console.log("updated");
-		console.log(playbackController?.title);
-	}, [update]);
 
 	return (
 		<div

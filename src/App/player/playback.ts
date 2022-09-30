@@ -147,6 +147,7 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 							song: this.current,
 							time: this.currentTime ?? 0,
 							target: message.sender.userName,
+							title: this.title,
 						}
 					});
 				}

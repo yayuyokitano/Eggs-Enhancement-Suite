@@ -102,7 +102,12 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 			}
 			case "join": {
 				getEggsID().then((eggsID) => {
-					if (message.message.type !== "join" || !message.message.message.song || message.message.message.target !== eggsID) {
+					if (message.message.type !== "join" || message.message.message.target !== eggsID) {
+						return;
+					}
+					this.title = message.message.message.title;
+
+					if (!message.message.message.song) {
 						return;
 					}
 					this.setPlayback([message.message.message.song], message.message.message.song);
@@ -113,6 +118,10 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 			case "chat":
 			case "suggest": {
 				console.log(message);
+				break;
+			}
+			case "setTitle": {
+				this.title = message.message.message;
 				break;
 			}
 			}

@@ -43,6 +43,7 @@ type MessageContent = {
 		song?: SongData;
 		time: number;
 		target: string;
+		title: string;
 	}
 } | {
 	type: "setTitle";
