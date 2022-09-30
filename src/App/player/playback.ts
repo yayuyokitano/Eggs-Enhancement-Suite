@@ -77,6 +77,7 @@ export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch
 
 type PlaybackEmitters = {
   update: () => void;
+	updateChat: () => void;
 }
 
 export class LocalPlaybackController extends (EventEmitter as new () => TypedEmitter<PlaybackEmitters>) implements PlaybackController {
@@ -133,6 +134,8 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 		}
 		this.socket = new SocketConnection(eggsID, true, title);
 
+		this.socket.on("updateChat", () => { this.emit("updateChat"); });
+
 		this.socket.on("message", (message) => {
 			console.log(message);
 			switch (message.message.type) {
@@ -156,6 +159,13 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 			}
 		});
 		this.emit("update");
+	}
+
+	public sendChatMessage(message: string): void {
+		this.socket?.send({
+			type: "chat",
+			message: message
+		});
 	}
 
 	public setPlayback(initialQueue:SongData[], initialElement:SongData) {
@@ -334,5 +344,9 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 
 	get all() {
 		return this.queue?.all;
+	}
+	
+	get chatMessages() {
+		return this.socket?.chatMessages;
 	}
 }

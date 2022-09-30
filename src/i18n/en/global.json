@@ -200,6 +200,8 @@
 		"name": "Name",
 		"namePlaceholder": "Enter name",
 		"defaultName": "{{user}}'s Room",
-		"start": "Let's Party!🥳"
+		"start": "Let's Party!🥳",
+		"chatPlaceholder": "Enter Message",
+		"host": "HOST"
 	}
 }

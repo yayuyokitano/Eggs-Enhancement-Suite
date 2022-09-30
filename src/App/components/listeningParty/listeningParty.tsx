@@ -1,10 +1,11 @@
 import { LocalPlaybackController } from "../../player/playback";
 import PlaybackController from "../../player/playbackController";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TFunction } from "react-i18next";
 import { getEggsID } from "../../../util/util";
-import { GroupsRoundedIcon } from "../../../util/icons";
+import { ChatBubbleRoundedIcon, GroupsRoundedIcon, MusicNoteIcon, SettingsRoundedIcon } from "../../../util/icons";
 import "./listeningParty.scss";
+import Chat from "./chat";
 
 export default function ListeningParty(props: { t: TFunction, playbackController?: PlaybackController }) {
 	const { t, playbackController } = props;
@@ -30,9 +31,9 @@ export default function ListeningParty(props: { t: TFunction, playbackController
 function PartyContent(props: { t:TFunction, playbackController?:PlaybackController }) {
 	const { t, playbackController } = props;
 
-	const [update, SetUpdate] = useState(true);
+	const [update, setUpdate] = useState(true);
 	playbackController?.on("update", () => {
-		SetUpdate(!update);
+		setUpdate(!update);
 	});
 
 	useEffect(() => {
@@ -81,11 +82,68 @@ function PartyCreator(props: { t: TFunction, playbackController?: PlaybackContro
 
 function ExistingParty(props: { t: TFunction, playbackController?: PlaybackController }) {
 	const { t, playbackController } = props;
+
+	const [tab, setTab] = useState<"chat"|"suggestions"|"settings">("chat");
+
 	return (
-		<div>
+		<div id="ees-existing-listening-party">
 			<h3>{playbackController?.title}</h3>
+			<div id="ees-listening-party-tabs">
+				<button
+					type="button"
+					id="ees-listening-party-tab-chat"
+					className="ees-listening-party-tab-btn active"
+					onClick={() => {setPartyTab("chat", setTab);}}>
+					<ChatBubbleRoundedIcon />
+				</button>
+				<button
+					type="button"
+					id="ees-listening-party-tab-suggestions"
+					className="ees-listening-party-tab-btn"
+					onClick={() => {setPartyTab("suggestions", setTab);}}>
+					<MusicNoteIcon />
+				</button>
+				<button
+					type="button"
+					id="ees-listening-party-tab-settings"
+					className="ees-listening-party-tab-btn"
+					onClick={() => {setPartyTab("settings", setTab);}}>
+					<SettingsRoundedIcon />
+				</button>
+			</div>
+			<div id="ees-listening-party-tab-content">
+				<TabContent
+					t={t}
+					tab={tab}
+					playbackController={playbackController} />
+			</div>
 		</div>
 	);
+}
+
+function TabContent(props: { t: TFunction, playbackController?: PlaybackController, tab: "chat"|"suggestions"|"settings" }) {
+	const { t, playbackController, tab } = props;
+	switch(tab) {
+	case "chat": {
+		return <Chat
+			t={t}
+			playbackController={playbackController} />;
+	}
+	case "suggestions": {
+		return <></>;
+	}
+	case "settings": {
+		return <></>;
+	}
+	}
+}
+
+function setPartyTab(tab:"chat"|"suggestions"|"settings", setTab:React.Dispatch<React.SetStateAction<"chat"|"suggestions"|"settings">>) {
+	for (const tabBtn of document.getElementsByClassName("ees-listening-party-tab-btn") as HTMLCollectionOf<HTMLButtonElement>) {
+		tabBtn.classList.remove("active");
+	}
+	(document.getElementById(`ees-listening-party-tab-${tab}`) as HTMLButtonElement).classList.add("active");
+	setTab(tab);
 }
 
 function togglePartyActive() {

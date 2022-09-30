@@ -1,13 +1,23 @@
 import EventEmitter from "events";
 import { t } from "i18next";
 import TypedEmitter from "typed-emitter";
-import { getEggshellverToken } from "./util";
+import { getEggshellverToken, getEggsID } from "./util";
 import { SongData } from "./wrapper/eggs/artist";
 import { baseURL, UserStub } from "./wrapper/eggshellver/util";
 
 type PlaybackEvent = "play"|"pause";
 
 type InfoEvent = "join";
+
+interface RawChatMessage {
+	privileged: boolean;
+	blocked: boolean;
+	sender: UserStub;
+	message: {
+		type: "chat";
+		message: string;
+	}
+}
 
 type MessageContent = {
 	type: "chat";
@@ -86,10 +96,21 @@ interface RawSocketMessage extends MessageMetadata {
 type SocketEmitters = {
 	message: (message: SocketMessage) => void;
 	update: () => void;
+	updateChat: () => void;
+}
+
+export interface ChatMessage {
+	message: string;
+	timestamp: Date;
+	sender: UserStub;
+	self: boolean;
+	owner: boolean;
 }
 
 export default class SocketConnection extends (EventEmitter as new () => TypedEmitter<SocketEmitters>) {
 	private socket:null|WebSocket;
+	private chat:ChatMessage[] = [];
+	private blockedUsers:string[] = [];
 
 	constructor(target:string, isNew:boolean, title?:string) {
 		super();
@@ -158,8 +179,38 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 				message: JSON.parse(middleMessage.message.message)
 			}
 		};
+
+		if (processedMessage.message.type === "chat") {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore-next-line - typescript does not narrow the type correctly. It is verified that the message is of type chat and so fits the addChatMessage method.
+			this.addChatMessage(processedMessage);
+			return;
+		}
 	
 		this.emit("message", processedMessage);
+	}
+
+	private async addChatMessage(message:RawChatMessage) {
+		if (message.blocked || this.blockedUsers.includes(message.sender.userName)) {
+			return;
+		}
+		this.chat.push({
+			message: message.message.message,
+			timestamp: new Date(),
+			sender: message.sender,
+			self: message.sender.userName === await getEggsID(),
+			owner: message.privileged,
+		});
+		this.emit("updateChat");
+	}
+
+	private blockUser(eggsID:string) {
+		this.blockedUsers.push(eggsID);
+		this.chat = this.chat.filter((message) => message.sender.userName !== eggsID);
+	}
+
+	public get chatMessages() {
+		return this.chat;
 	}
 	
 }

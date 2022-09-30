@@ -188,6 +188,8 @@
 		"name": "リスニングパーティー名",
 		"namePlaceholder": "名を入力",
 		"defaultName": "{{user}}さんのルーム",
-		"start": "パーティーを始めよう！🥳"
+		"start": "パーティーを始めよう！🥳",
+		"chatPlaceholder": "メッセージを入力",
+		"host": "ホスト"
 	}
 }

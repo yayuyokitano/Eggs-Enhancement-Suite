@@ -4,9 +4,11 @@ import TypedEmitter from "typed-emitter";
 
 import { SongData } from "../../util/wrapper/eggs/artist";
 import { SongDataWIndex } from "../components/track/track";
+import { ChatMessage } from "util/socketConnection";
 
 type PlaybackEmitters = {
   update: () => void;
+	updateChat: () => void;
 }
 
 export default abstract class PlaybackController extends (EventEmitter as new () => TypedEmitter<PlaybackEmitters>) {
@@ -41,6 +43,8 @@ export default abstract class PlaybackController extends (EventEmitter as new ()
 
 	abstract closeConnection(): void;
 
+	abstract sendChatMessage(message:string): void;
+
 	abstract set volume(volume:number);
 
 	abstract set scrobbleInfo(scrobble:{artist:string, track:string, album:string});
@@ -64,4 +68,6 @@ export default abstract class PlaybackController extends (EventEmitter as new ()
 	abstract get mainQueue(): SongDataWIndex[] | undefined;
 
 	abstract get all(): SongDataWIndex[] | undefined;
+
+	abstract get chatMessages(): ChatMessage[] | undefined;
 }
