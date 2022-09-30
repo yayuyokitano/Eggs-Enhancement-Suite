@@ -1,6 +1,6 @@
 import Cacher from "../eggs/cacher";
 import { eggshellverRequest } from "./request";
-import { fillEggshellverSearchParams } from "./util";
+import { fillEggshellverSearchParams, UserStub } from "./util";
 
 interface SongStub {
 	title: string;
@@ -10,7 +10,7 @@ interface SongStub {
 }
 
 export interface ListeningParty {
-	owner: string;
+	owner: UserStub;
 	title: string;
 	song: SongStub;
 	listeners: number;

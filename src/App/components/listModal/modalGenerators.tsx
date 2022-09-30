@@ -201,7 +201,7 @@ export function ListeningPartyModalList(props: {t:TFunction, items:ListeningPart
 			className="ees-modal-list"
 			ref={refName}>
 			{items.map((party) => (
-				<ModalItem key={party.owner}>
+				<ModalItem key={party.owner.userName}>
 					<button
 						className="ees-modal-listening-party"
 						onClick={() => {
@@ -209,13 +209,13 @@ export function ListeningPartyModalList(props: {t:TFunction, items:ListeningPart
 								type: "trackUpdate",
 								data: {
 									type: "setPlaybackSocket",
-									targetID: party.owner,
+									targetID: party.owner.userName,
 								}
 							}, "*");
 						}}>
 						<div className="ees-modal-listening-party-text">
 							<h3 className="ees-modal-listening-party-name">{party.title}</h3>
-							<span className="ees-modal-listening-party-owner">{party.owner}</span>
+							<span className="ees-modal-listening-party-owner">{party.owner.userName}</span>
 						</div>
 						<div className="ees-modal-artist-image-wrapper">
 							<img

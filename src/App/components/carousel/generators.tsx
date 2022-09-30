@@ -175,7 +175,7 @@ export function ListeningPartyList(props: {t:TFunction, items:ListeningParty[], 
 			ref={refName}
 			onScroll={e => setScroll(e.currentTarget.scrollLeft)}>
 			{items.map((party) => (
-				<CarouselItem key={party.owner}>
+				<CarouselItem key={party.owner.userName}>
 					<button
 						className="ees-carousel-listening-party"
 						onClick={() => {
@@ -183,20 +183,20 @@ export function ListeningPartyList(props: {t:TFunction, items:ListeningParty[], 
 								type: "trackUpdate",
 								data: {
 									type: "setPlaybackSocket",
-									targetID: party.owner,
+									targetID: party.owner.userName,
 								}
 							}, "*");
 						}}>
 						<div className="ees-carousel-artist-image-wrapper">
 							<img
 								className="ees-carousel-artist-image"
-								src={party.song.musicImageDataPath ?? party.song.artistImageDataPath ?? defaultAvatar}
+								src={party.song.musicImageDataPath || party.song.artistImageDataPath || party.owner.imageDataPath || defaultAvatar}
 								alt=""
 								width={175}
 								height={175} />
 						</div>
 						<h3 className="ees-listening-party-name">{party.title}</h3>
-						<span className="ees-listening-party-owner">{party.owner}</span>
+						<span className="ees-listening-party-owner">{party.owner.userName}</span>
 						<p>{party.listeners} listeners</p>
 					</button>
 				</CarouselItem>
