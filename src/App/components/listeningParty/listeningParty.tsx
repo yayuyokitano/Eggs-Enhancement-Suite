@@ -7,6 +7,7 @@ import { ChatBubbleRoundedIcon, GroupsRoundedIcon, MusicNoteIcon, SettingsRounde
 import "./listeningParty.scss";
 import Chat from "./chat";
 import Suggestions from "./suggestions";
+import Settings from "./settings";
 
 export default function ListeningParty(props: { t: TFunction, playbackController?: PlaybackController }) {
 	const { t, playbackController } = props;
@@ -137,7 +138,9 @@ function TabContent(props: { t: TFunction, playbackController?: PlaybackControll
 			playbackController={playbackController} />;
 	}
 	case "settings": {
-		return <></>;
+		return <Settings
+			t={t}
+			playbackController={playbackController} />;
 	}
 	}
 }

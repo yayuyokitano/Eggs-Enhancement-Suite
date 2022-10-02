@@ -1,0 +1,37 @@
+#ees-listening-party-settings {
+	#ees-listening-party-title-change-form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		label {
+			color: var(--text);
+			font-size: 0.9rem;
+		}
+		input {
+			color: var(--text);
+			font-size: 1rem;
+			background-color: var(--monoaccent2);
+			text-align: center;
+			margin-bottom: 0.6rem;
+			margin-top: 0.25rem;
+			padding: 0.4rem;
+			border-radius: 0.4rem;
+		}
+		button {
+			color: var(--alwaysdark2);
+			background-color: var(--eggsyellow);
+			padding: 0.35rem 0.8rem;
+			font-size: 0.9rem;
+			border-radius: 0.75rem;
+			font-weight: bold;
+
+			&:hover,
+			&:focus-visible {
+				outline: none;
+				background-color: var(--activeelement);
+				color: var(--monoaccent2);
+			}
+		}
+	}
+}

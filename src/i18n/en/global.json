@@ -200,11 +200,13 @@
 		"create": "Create Listening Party",
 		"name": "Name",
 		"namePlaceholder": "Enter name",
+		"changeName": "Change name",
 		"defaultName": "{{user}}'s Room",
 		"start": "Let's Party!🥳",
 		"chatPlaceholder": "Enter Message",
 		"host": "HOST",
 		"suggestions": "Suggestions",
-		"viewProfile": "View Profile"
+		"viewProfile": "View Profile",
+		"settings": "Settings"
 	}
 }

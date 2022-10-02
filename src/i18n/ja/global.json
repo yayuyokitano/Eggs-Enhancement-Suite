@@ -188,11 +188,13 @@
 		"create": "リスニングパーティーを作成",
 		"name": "リスニングパーティー名",
 		"namePlaceholder": "名を入力",
+		"changeName": "名前を変更",
 		"defaultName": "{{user}}さんのルーム",
 		"start": "パーティーを始めよう！🥳",
 		"chatPlaceholder": "メッセージを入力",
 		"host": "ホスト",
 		"suggestions": "おすすめ",
-		"viewProfile": "プロフィールを見る"
+		"viewProfile": "プロフィールを見る",
+		"settings": "設定"
 	}
 }
