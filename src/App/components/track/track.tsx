@@ -56,6 +56,16 @@ function playNext(track:SongData) {
 	}, "*");
 }
 
+function suggest(track:SongData) {
+	window.parent.postMessage({
+		type: "trackUpdate",
+		data: {
+			type: "suggest",
+			track
+		}
+	}, "*");
+}
+
 function addToQueue(track:SongData) {
 	window.parent.postMessage({
 		type: "trackUpdate",
@@ -128,8 +138,6 @@ export default function Track(props:{
 						<ModeCommentRoundedIcon className="ees-data-icon ees-track-commentcount" />
 						<span className="ees-data-count">{track.numberOfComments}</span>
 					</div>
-          
-
 				</div>
 			</div>
 			<div className="ees-track-right">
@@ -158,7 +166,7 @@ export default function Track(props:{
 						onClick={(e) => { addToPlaylist(track); e.stopPropagation(); }}>{t("global:track.addToPlaylist")}</li>}
 					<li onClick={() => {navigateSafely(getArtistPage(track.artistData.artistName));}}>{t("global:track.goToArtistPage")}</li>
 					<li onClick={() => {navigateSafely(getTrackPage(track.artistData.artistName, track.musicId));}} >{t("global:track.goToTrackPage")}</li>
-					<li>hallo</li>
+					<li onClick={() => { suggest(track); }}>{t("global:track.suggest")}</li>
 				</ul>
 			</details>
 		</li>

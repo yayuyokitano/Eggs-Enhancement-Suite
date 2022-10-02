@@ -432,3 +432,23 @@ header
 	margin: 0 auto;
 	width: 95%;
 }
+
+.m-commnsnsAra:not(table):not(table):not(table) {
+	left: 68px;
+	bottom: -5px;
+	top: auto;
+	right: auto;
+
+	.clearfix {
+		display: flex;
+		flex-direction: row;
+		gap: 5px;
+
+		* {
+			margin-bottom: 0;
+		}
+	}
+	.pc {
+		display: none;
+	}
+}

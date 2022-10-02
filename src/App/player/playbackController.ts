@@ -4,16 +4,22 @@ import TypedEmitter from "typed-emitter";
 
 import { SongData } from "../../util/wrapper/eggs/artist";
 import { SongDataWIndex } from "../components/track/track";
-import { ChatMessage } from "util/socketConnection";
+import { ChatMessage } from "../../util/socketConnection";
+import { UserStub } from "../../util/wrapper/eggshellver/util";
 
 type PlaybackEmitters = {
   update: () => void;
 	updateChat: () => void;
+	updateSuggestions: () => void;
+}
+
+export interface Suggestion {
+	song: SongData|null;
+	user: UserStub;
+	updated: Date;
 }
 
 export default abstract class PlaybackController extends (EventEmitter as new () => TypedEmitter<PlaybackEmitters>) {
-
-	abstract suggest(song:SongData): void;
 
 	abstract setPlayback(initialQueue:SongData[], initialElement:SongData): void;
 
@@ -50,6 +56,10 @@ export default abstract class PlaybackController extends (EventEmitter as new ()
 	abstract set scrobbleInfo(scrobble:{artist:string, track:string, album:string});
 
 	abstract set title(title:string);
+
+	abstract set suggestion(suggestion:SongData|null);
+
+	abstract get suggestions(): Suggestion[] | undefined;
 
 	abstract get title(): string;
 

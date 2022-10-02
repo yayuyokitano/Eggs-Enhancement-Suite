@@ -1,5 +1,5 @@
+import { Suggestion } from "../App/player/playbackController";
 import EventEmitter from "events";
-import { t } from "i18next";
 import TypedEmitter from "typed-emitter";
 import { getEggshellverToken, getEggsID } from "./util";
 import { SongData } from "./wrapper/eggs/artist";
@@ -24,7 +24,7 @@ type MessageContent = {
 	message: string;
 } | {
 	type: "suggest";
-	message: SongData;
+	message: SongData|null;
 } | {
 	type: "playback";
 	message: PlaybackEvent
@@ -98,6 +98,7 @@ type SocketEmitters = {
 	message: (message: SocketMessage) => void;
 	update: () => void;
 	updateChat: () => void;
+	updateSuggestions: () => void;
 }
 
 export interface ChatMessage {
@@ -112,11 +113,24 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 	private socket:null|WebSocket;
 	private chat:ChatMessage[] = [];
 	private blockedUsers:string[] = [];
+	private _suggestion:SongData|null = null;
+	private _suggestions:{[name:string]: Suggestion} = {};
 
 	constructor(target:string, isNew:boolean, title?:string) {
 		super();
 		this.socket = null;
 		this.init(target, isNew, title);
+
+		setInterval(() => {
+			this.send({
+				type: "suggest",
+				message: this._suggestion
+			});
+
+			const cur = Number(new Date());
+			this._suggestions = Object.fromEntries(Object.entries(this._suggestions).filter(suggestion => cur - Number(suggestion[1].updated) < 30_000));
+			this.emit("updateSuggestions");
+		}, 10_000);
 	}
 
 	public closeConnection() {
@@ -132,12 +146,17 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 				type: "info",
 				message: "join",
 			});
+			this.send({
+				type: "suggest",
+				message: null
+			});
 			if (isNew && title) {
 				this.send({
 					type: "setTitle",
 					message: title,
 				});
 			}
+			this.emit("update");
 		});
 
 		this.socket.addEventListener("message", (message) => {
@@ -181,11 +200,32 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 			}
 		};
 
-		if (processedMessage.message.type === "chat") {
+		switch (processedMessage.message.type) {
+		case "chat": {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore-next-line - typescript does not narrow the type correctly. It is verified that the message is of type chat and so fits the addChatMessage method.
 			this.addChatMessage(processedMessage);
 			return;
+		}
+		case "suggest": {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore-next-line - typescript does not narrow the type correctly. It is verified that the message is of type suggest.
+			this._suggestions[processedMessage.sender.userName] = {
+				song: processedMessage.message.message,
+				user: processedMessage.sender,
+				updated: new Date(),
+			};
+			this.emit("updateSuggestions");
+			console.log(this._suggestions);
+			return;
+		}
+		case "join": {
+			this.send({
+				type: "suggest",
+				message: this._suggestion
+			});
+			break;
+		}
 		}
 	
 		this.emit("message", processedMessage);
@@ -212,6 +252,18 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 
 	public get chatMessages() {
 		return this.chat;
+	}
+
+	public get suggestions() {
+		return Object.values(this._suggestions);
+	}
+
+	public set suggestion(suggestion:SongData|null) {
+		this._suggestion = suggestion;
+		this.send({
+			type: "suggest",
+			message: suggestion
+		});
 	}
 	
 }

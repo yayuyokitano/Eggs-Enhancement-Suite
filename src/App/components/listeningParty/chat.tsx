@@ -43,7 +43,7 @@ export default function Chat(props: { t: TFunction, playbackController?: Playbac
 				}}
 			>
 				{playbackController?.chatMessages?.map((message) => <ChatMessage
-					key={message.timestamp.getMilliseconds().toString() + message.message}
+					key={Number(message.timestamp).toString() + message.message}
 					t={t}
 					message={message} />)}
 			</div>

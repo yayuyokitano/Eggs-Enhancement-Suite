@@ -1,0 +1,128 @@
+.ees-suggestion,
+.ees-suggestion-user-only {
+	width: 100%;
+
+	.ees-suggestion-user-image-container {
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		overflow: hidden;
+
+		.ees-suggestion-user-image {
+			width: 24px;
+			height: 24px;
+			opacity: 1;
+			transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
+			transform-origin: bottom;
+		}
+	}
+
+	&:hover,
+	&:focus-visible {
+		outline: none;
+
+		.ees-suggestion-user-image {
+			transform: scale(1.15);
+			filter: blur(0.6px);
+			-ms-filter: blur(0.6px);
+			opacity: 1;
+			-webkit-opacity: 1;
+			-moz-opacity: 1;
+		}
+	}
+}
+
+.ees-suggestion-user {
+	width: 100%;
+	display: flex;
+	gap: 0.3rem;
+}
+
+#ees-suggestions-fixed-checker {
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+.ees-suggestion-context-menu {
+	display: none;
+	position: fixed;
+	transform: translateY(-100%);
+
+	&.ees-suggestion-context-menu-visible {
+		display: block;
+	}
+
+	li {
+		background-color: var(--menubg);
+		padding: 0.5rem 0.75rem;
+		color: var(--textlight);
+
+		&:hover,
+		&:focus-visible {
+			outline: none;
+			background-color: var(--highlight);
+			color: var(--alwayslight);
+
+			a {
+				color: var(--alwayslight);
+			}
+		}
+	}
+}
+
+.ees-suggestion-song {
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+	padding: 4px;
+
+	.ees-suggestion-song-image {
+		width: 48px;
+		height: 48px;
+		object-fit: cover;
+	}
+
+	.ees-suggestion-song-info {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		flex: 1 0 0;
+		gap: -0.5em;
+		overflow: hidden;
+
+		.ees-scroll-container {
+			overflow: hidden;
+			text-align: left;
+			width: 100%;
+
+			span {
+				display: inline-block;
+				white-space: nowrap;
+				overflow: hidden;
+
+				&.ees-scroll-animated {
+					animation: scroll-text 15s ease-in-out infinite;
+				}
+			}
+		}
+	}
+
+	.ees-suggestion-song-stats {
+		padding: 0 0.5rem;
+
+		.ees-suggestion-stat {
+			display: flex;
+			gap: 0.2rem;
+			align-items: center;
+			color: var(--textlight);
+
+			svg {
+				width: 16px;
+				height: 16px;
+				fill: var(--textlight);
+			}
+		}
+	}
+}

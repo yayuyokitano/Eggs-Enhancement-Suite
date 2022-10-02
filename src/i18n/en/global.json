@@ -145,7 +145,8 @@
 		"composer": "Composer: ",
 		"lyricist": "Lyricist: ",
 		"goToArtistPage": "Go to artist page",
-		"goToTrackPage": "Go to track page"
+		"goToTrackPage": "Go to track page",
+		"suggest": "Suggest"
 	},
 	"queue": {
 		"manuallyAdded": "Manually Added",
@@ -202,6 +203,8 @@
 		"defaultName": "{{user}}'s Room",
 		"start": "Let's Party!🥳",
 		"chatPlaceholder": "Enter Message",
-		"host": "HOST"
+		"host": "HOST",
+		"suggestions": "Suggestions",
+		"viewProfile": "View Profile"
 	}
 }

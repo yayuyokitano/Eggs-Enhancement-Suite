@@ -10,6 +10,10 @@ export default function TrackContainer(props: {data:SongData[]|SongDataWIndex[]|
 	const {data, t, size, isQueue, playbackController} = props;
 	const [likedTracks, setLikedTracks] = useState<string[]>([]);
 	const [loggedIn, setLoggedIn] = useState(false);
+	const [, setUpdate] = useState(false);
+	playbackController?.on("update", () => {
+		setUpdate((u) => !u);
+	});
 
 	useEffect(() => {
 		if (!data) return;

@@ -6,6 +6,7 @@ import { getEggsID } from "../../../util/util";
 import { ChatBubbleRoundedIcon, GroupsRoundedIcon, MusicNoteIcon, SettingsRoundedIcon } from "../../../util/icons";
 import "./listeningParty.scss";
 import Chat from "./chat";
+import Suggestions from "./suggestions";
 
 export default function ListeningParty(props: { t: TFunction, playbackController?: PlaybackController }) {
 	const { t, playbackController } = props;
@@ -131,7 +132,9 @@ function TabContent(props: { t: TFunction, playbackController?: PlaybackControll
 			playbackController={playbackController} />;
 	}
 	case "suggestions": {
-		return <></>;
+		return <Suggestions
+			t={t}
+			playbackController={playbackController} />;
 	}
 	case "settings": {
 		return <></>;

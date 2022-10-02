@@ -52,7 +52,7 @@ export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch
 		}
 		case "suggest": {
 			const track = event.data.data.track as SongData;
-			playbackController.suggest(track);
+			playbackController.suggestion = track;
 			break;
 		}
 		case "setPlaybackDynamic": {
@@ -78,6 +78,7 @@ export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch
 type PlaybackEmitters = {
   update: () => void;
 	updateChat: () => void;
+	updateSuggestions: () => void;
 }
 
 export class LocalPlaybackController extends (EventEmitter as new () => TypedEmitter<PlaybackEmitters>) implements PlaybackController {
@@ -119,14 +120,6 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 		this.emit("update");
 	}
 
-	public suggest(song:SongData) {
-		this.socket?.send({
-			type: "suggest",
-			message: song
-		});
-		this.emit("update");
-	}
-
 	private async initSocket(title:string) {
 		const eggsID = await getEggsID();
 		if (eggsID === undefined) {
@@ -135,6 +128,8 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 		this.socket = new SocketConnection(eggsID, true, title);
 
 		this.socket.on("updateChat", () => { this.emit("updateChat"); });
+		this.socket.on("updateSuggestions", () => { this.emit("updateSuggestions"); });
+		this.socket.on("update", () => { this.emit("update"); });
 
 		this.socket.on("message", (message) => {
 			console.log(message);
@@ -313,6 +308,18 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 
 	get title() {
 		return this._title;
+	}
+
+	set suggestion(suggestion:SongData|null) {
+		if (!this.socket) {
+			return;
+		}
+
+		this.socket.suggestion = suggestion;
+	}
+
+	get suggestions() {
+		return this.socket?.suggestions;
 	}
 
 	get isPublic() {

@@ -1,4 +1,12 @@
+.l-contents_wrapper:not(table),
+.l-contents_wrapper:not(table) .inner,
+#ees-home-wrapper {
+	overflow: visible;
+}
+
 .ees-track-container {
+	overflow: visible;
+
 	.ees-track-container-expand {
 		width: 100%;
 		height: 4rem;
@@ -33,6 +41,7 @@
 	padding: 4px;
 	box-sizing: content-box;
 	position: relative;
+	overflow: visible;
 
 	svg {
 		fill: var(--textlight);
