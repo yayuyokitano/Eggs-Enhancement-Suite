@@ -1,6 +1,7 @@
 .ees-suggestion,
 .ees-suggestion-user-only {
 	width: 100%;
+	padding: 4px;
 
 	.ees-suggestion-user-image-container {
 		width: 24px;
@@ -20,6 +21,7 @@
 	&:hover,
 	&:focus-visible {
 		outline: none;
+		background-color: var(--eggsyellow);
 
 		.ees-suggestion-user-image {
 			transform: scale(1.15);
@@ -48,6 +50,10 @@
 	display: none;
 	position: fixed;
 	transform: translateY(-100%);
+	width: max-content;
+	border-radius: 5px 5px 5px 0;
+	overflow: hidden;
+	box-shadow: 2px -2px 5px var(--shadow3);
 
 	&.ees-suggestion-context-menu-visible {
 		display: block;
@@ -57,6 +63,7 @@
 		background-color: var(--menubg);
 		padding: 0.5rem 0.75rem;
 		color: var(--textlight);
+		cursor: pointer;
 
 		&:hover,
 		&:focus-visible {
@@ -75,7 +82,7 @@
 	display: flex;
 	align-items: center;
 	gap: 0.3rem;
-	padding: 4px;
+	padding-top: 4px;
 
 	.ees-suggestion-song-image {
 		width: 48px;

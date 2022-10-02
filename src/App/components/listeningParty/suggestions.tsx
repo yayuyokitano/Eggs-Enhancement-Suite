@@ -3,10 +3,11 @@ import { TFunction } from "react-i18next";
 import { useEffect, useState } from "react";
 import { defaultAvatar, getArtistPage, getTrackPage, getUserPage } from "../../../util/util";
 import "./suggestions.scss";
-import { FavoriteRoundedIcon, ModeCommentRoundedIcon, PlayArrowRoundedIcon } from "../../../util/icons";
+import { FavoriteRoundedIcon, PlayArrowRoundedIcon } from "../../../util/icons";
 import { UserStub } from "../../../util/wrapper/eggshellver/util";
 import { SongData } from "../../../util/wrapper/eggs/artist";
 import { navigateSafely } from "../../../util/loadHandler";
+import { LocalPlaybackController } from "../../player/playback";
 
 export default function Suggestions(props:{t:TFunction, playbackController?:PlaybackController}) {
 	const { t, playbackController } = props;
@@ -54,7 +55,8 @@ export default function Suggestions(props:{t:TFunction, playbackController?:Play
 				t={t}
 				user={selectedSuggestion?.user}
 				song={selectedSuggestion?.song}
-				isVisible={menuVisible} />
+				isVisible={menuVisible}
+				playbackController={playbackController} />
 			<div id="ees-suggestions-fixed-checker"></div>
 		</div>
 	);
@@ -133,8 +135,8 @@ function SuggestionUser(props:{suggestion: Suggestion, setSuggestion:React.Dispa
 	);
 }
 
-function ContextMenu(props: { t: TFunction, user?: UserStub, song?: SongData|null, isVisible: boolean }) {
-	const { t, user, song, isVisible } = props;
+function ContextMenu(props: { t: TFunction, user?: UserStub, song?: SongData|null, isVisible: boolean, playbackController?: PlaybackController }) {
+	const { t, user, song, isVisible, playbackController } = props;
 	const [left, setLeft] = useState(0);
 	const [top, setTop] = useState(0);
 
@@ -155,9 +157,11 @@ function ContextMenu(props: { t: TFunction, user?: UserStub, song?: SongData|nul
 		<ul
 			className={`ees-suggestion-context-menu${isVisible ? " ees-suggestion-context-menu-visible" : ""}`}
 			style={{left: left, top: top}}>
-			<li><a href={getUserPage(user.userName)}>{t("listeningParty.viewProfile")}</a></li>
+			{playbackController instanceof LocalPlaybackController && song && <li onClick={() => { playbackController.playNext(song); }}>{t("global:track.playNext")}</li>}
+			{playbackController instanceof LocalPlaybackController && song && <li onClick={() => { playbackController.addToQueue(song); }}>{t("global:track.addToQueue")}</li>}
 			{song && <li onClick={() => {navigateSafely(getArtistPage(song.artistData.artistName));}}>{t("global:track.goToArtistPage")}</li>}
 			{song && <li onClick={() => {navigateSafely(getTrackPage(song.artistData.artistName, song.musicId));}} >{t("global:track.goToTrackPage")}</li>}
+			<li><a href={getUserPage(user.userName)}>{t("listeningParty.viewProfile")}</a></li>
 		</ul>
 	);
 }
