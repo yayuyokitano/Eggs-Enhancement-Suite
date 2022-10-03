@@ -26,18 +26,20 @@ export default function Suggestions(props:{t:TFunction, playbackController?:Play
 			setMenuVisible(false);
 		}, {signal: controller.signal});
 
+		const listener = () => {
+			setUpdate((u) => !u);
+			setTimeout(() => {
+				updateScrollables();
+			});
+		};
+		playbackController?.on("updateSuggestions", listener);
+
 		return () => {
 			controller.abort();
+			playbackController?.off("updateSuggestions", listener);
 		};
 	}, []);
 	
-
-	playbackController?.on("updateSuggestions", () => {
-		setUpdate((u) => !u);
-		setTimeout(() => {
-			updateScrollables();
-		});
-	});
 	return (
 		<div>
 			<h4>{t("listeningParty.suggestions")}</h4>

@@ -11,12 +11,15 @@ export default function TrackContainer(props: {data:SongData[]|SongDataWIndex[]|
 	const [likedTracks, setLikedTracks] = useState<string[]>([]);
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [, setUpdate] = useState(false);
-	playbackController?.on("update", () => {
-		setUpdate((u) => !u);
-	});
 
 	useEffect(() => {
-		if (!data) return;
+		const listener = () => {
+			setUpdate((u) => !u);
+		};
+		playbackController?.on("update", listener);
+		if (!data) return () => {
+			playbackController?.off("update", listener);
+		};
     
 		songLikeInfo(data.map((track) => track.musicId)).then((likedTracks) => {
 			const likedTrackList = likedTracks.data
@@ -28,6 +31,9 @@ export default function TrackContainer(props: {data:SongData[]|SongDataWIndex[]|
 			setLikedTracks([]);
 			setLoggedIn(false);
 		});
+		return () => {
+			playbackController?.off("update", listener);
+		};
 	}, []);
 
 	return (

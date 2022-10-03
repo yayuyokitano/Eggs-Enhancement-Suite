@@ -195,6 +195,7 @@
 		"host": "ホスト",
 		"suggestions": "おすすめ",
 		"viewProfile": "プロフィールを見る",
-		"settings": "設定"
+		"settings": "設定",
+		"playSuggestions": " リスナーからのおすすめをランダムに再生"
 	}
 }

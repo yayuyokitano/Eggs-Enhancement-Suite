@@ -79,6 +79,7 @@ type PlaybackEmitters = {
   update: () => void;
 	updateChat: () => void;
 	updateSuggestions: () => void;
+	updateSettings: () => void;
 }
 
 export class LocalPlaybackController extends (EventEmitter as new () => TypedEmitter<PlaybackEmitters>) implements PlaybackController {
@@ -94,6 +95,7 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 	private _volume:number;
 	private socket: SocketConnection|null = null;
 	private _title = "";
+	private _playSuggestions = false;
 
 	constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>, volume:number) {
 		super();
@@ -143,9 +145,15 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 							time: this.currentTime ?? 0,
 							target: message.sender.userName,
 							title: this.title,
+							isPlaying: this.isPlaying ?? false,
 						}
 					});
 				}
+				break;
+			}
+			case "playSuggestions": {
+				this._playSuggestions = message.message.message;
+				this.emit("updateSettings");
 				break;
 			}
 			case "chat":
@@ -207,8 +215,12 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 	}
 
 	public next(destination = true) {
+		if (!destination) {
+			this.queue?.next;
+		}
+		this.preparePlaySuggestion();
 		const song = this.queue?.peek();
-		if (song && destination) {
+		if (song) {
 			this.socket?.send({
 				type: "start",
 				message: song,
@@ -216,6 +228,16 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 		}
 		this.queue?.next();
 		this.emit("update");
+	}
+
+	private preparePlaySuggestion() {
+		if (this.playSuggestions) {
+			const filtered = this.suggestions?.filter(s => s.song !== null);
+			if (filtered && filtered.length > 0) {
+				const song = filtered[Math.floor(Math.random() * filtered.length)].song as SongData;
+				this.playNext(song);
+			}
+		}
 	}
 
 	public previous() {
@@ -320,6 +342,22 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 
 	get suggestions() {
 		return this.socket?.suggestions;
+	}
+
+	set playSuggestions(playSuggestions:boolean) {
+		this._playSuggestions = playSuggestions;
+		if (!this.socket) {
+			return;
+		}
+		this.socket.send({
+			type: "playSuggestions",
+			message: playSuggestions
+		});
+		this.emit("updateSettings");
+	}
+
+	get playSuggestions() {
+		return this._playSuggestions;
 	}
 
 	get isPublic() {

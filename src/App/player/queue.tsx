@@ -3,7 +3,7 @@ import TrackContainer from "../components/track/trackContainer";
 import { TFunction } from "react-i18next";
 import PlaybackController from "./playbackController";
 import "./queue.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function toggleQueueActive() {
 	const queue = document.getElementById("ees-player-queue") as HTMLDivElement;
@@ -33,9 +33,16 @@ export default function Queue(props: { playbackController?:PlaybackController, t
 function QueueContent(props: { playbackController?:PlaybackController, t:TFunction }) {
 	const { playbackController, t } = props;
 
-	const [update, SetUpdate] = useState(true);
-	playbackController?.on("update", () => {
-		SetUpdate(!update);
+	const [, setUpdate] = useState(true);
+	useEffect(() => {
+		const listener = () => {
+			setUpdate(u => !u);
+		};
+
+		playbackController?.on("update", listener);
+		return () => {
+			playbackController?.off("update", listener);
+		};
 	});
 
 	return (

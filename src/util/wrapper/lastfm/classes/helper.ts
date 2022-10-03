@@ -10,7 +10,7 @@ import {EventEmitter} from "events";
 import TypedEmitter from "typed-emitter";
 import { convertString, toInt } from "../caster";
 
-interface ScrobbleEmitter {
+type ScrobbleEmitter = {
 	start: (meta:{totalPages:number, count:number}) => void;
 	data: (data:{data:UserInterface.getRecentTracks, completedPages:number, totalPages:number, progress:number}) => void;
 	close: () => void;

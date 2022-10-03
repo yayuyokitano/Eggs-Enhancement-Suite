@@ -207,6 +207,7 @@
 		"host": "HOST",
 		"suggestions": "Suggestions",
 		"viewProfile": "View Profile",
-		"settings": "Settings"
+		"settings": "Settings",
+		"playSuggestions": " Randomly play suggestions from listeners"
 	}
 }

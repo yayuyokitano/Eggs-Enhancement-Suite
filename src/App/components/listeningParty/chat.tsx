@@ -14,8 +14,16 @@ export default function Chat(props: { t: TFunction, playbackController?: Playbac
 	const [scroll, setScroll] = useState(0);
 	const [height, setHeight] = useState(0);
 	const chatRef = useRef<HTMLDivElement>(null);
-	playbackController?.on("updateChat", () => {
-		setUpdate(!update);
+
+	useEffect(() => {
+		const listener = () => {
+			setUpdate(!update);
+		};
+
+		playbackController?.on("updateChat", listener);
+		return () => {
+			playbackController?.off("updateChat", listener);
+		};
 	});
 
 	useEffect(() => {

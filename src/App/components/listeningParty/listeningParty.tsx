@@ -1,6 +1,6 @@
 import { LocalPlaybackController } from "../../player/playback";
 import PlaybackController from "../../player/playbackController";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TFunction } from "react-i18next";
 import { getEggsID } from "../../../util/util";
 import { ChatBubbleRoundedIcon, GroupsRoundedIcon, MusicNoteIcon, SettingsRoundedIcon } from "../../../util/icons";
@@ -33,9 +33,16 @@ export default function ListeningParty(props: { t: TFunction, playbackController
 function PartyContent(props: { t:TFunction, playbackController?:PlaybackController }) {
 	const { t, playbackController } = props;
 
-	const [update, setUpdate] = useState(true);
-	playbackController?.on("update", () => {
-		setUpdate(!update);
+	const [, setUpdate] = useState(true);
+	useEffect(() => {
+		const listener = () => {
+			setUpdate(u => !u);
+		};
+
+		playbackController?.on("update", listener);
+		return () => {
+			playbackController?.off("update", listener);
+		};
 	});
 
 	return (

@@ -44,10 +44,14 @@ type MessageContent = {
 		time: number;
 		target: string;
 		title: string;
+		isPlaying: boolean;
 	}
 } | {
 	type: "setTitle";
 	message: string;
+} | {
+	type: "playSuggestions";
+	message: boolean;
 }
 
 type RawMessageContent = {

@@ -35,6 +35,7 @@ type PlaybackEmitters = {
   update: () => void;
 	updateChat: () => void;
 	updateSuggestions: () => void;
+	updateSettings: () => void;
 }
 
 export class SocketPlaybackController extends (EventEmitter as new () => TypedEmitter<PlaybackEmitters>) implements PlaybackController {
@@ -50,6 +51,7 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 	private _volume:number;
 	private socket:null|SocketConnection = null;
 	private _title = "";
+	private _playSuggestions = false;
 
 	constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>, volume:number) {
 		super();
@@ -77,6 +79,10 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 		this.socket.on("updateSuggestions", () => { this.emit("updateSuggestions"); });
 
 		this.socket.on("message", (message) => {
+			if (!message.privileged) {
+				return;
+			}
+
 			switch (message.message.type) {
 			case "playback": {
 				if (message.message.message === "play") {
@@ -94,6 +100,10 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 				this.setCurrentTime(message.message.message);
 				break;
 			}
+			case "playSuggestions": {
+				this.playSuggestions = message.message.message;
+				break;
+			}
 			case "join": {
 				getEggsID().then((eggsID) => {
 					if (message.message.type !== "join" || message.message.message.target !== eggsID) {
@@ -106,12 +116,10 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 					}
 					this.setPlayback([message.message.message.song], message.message.message.song);
 					this.setCurrentTime(message.message.message.time);
+					if (!message.message.message.isPlaying) {
+						this.pause();
+					}
 				});
-				break;
-			}
-			case "chat":
-			case "suggest": {
-				console.log(message);
 				break;
 			}
 			case "setTitle": {
@@ -206,6 +214,15 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 
 	get title() {
 		return this._title;
+	}
+
+	set playSuggestions(playSuggestions:boolean) {
+		this._playSuggestions = playSuggestions;
+		this.emit("updateSettings");
+	}
+
+	get playSuggestions() {
+		return this._playSuggestions;
 	}
 
 	set suggestion(suggestion:SongData|null) {

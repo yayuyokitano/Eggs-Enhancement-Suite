@@ -11,6 +11,7 @@ type PlaybackEmitters = {
   update: () => void;
 	updateChat: () => void;
 	updateSuggestions: () => void;
+	updateSettings: () => void;
 }
 
 export interface Suggestion {
@@ -58,6 +59,10 @@ export default abstract class PlaybackController extends (EventEmitter as new ()
 	abstract set title(title:string);
 
 	abstract set suggestion(suggestion:SongData|null);
+
+	abstract set playSuggestions(playSuggestions:boolean);
+
+	abstract get playSuggestions(): boolean;
 
 	abstract get suggestions(): Suggestion[] | undefined;
 
