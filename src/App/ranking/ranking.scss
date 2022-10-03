@@ -13,16 +13,42 @@
 
 .ranking_category {
 	margin-bottom: 2rem;
+	padding-top: 20px;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+
+	li {
+		border-left: 1px solid #ccc;
+		padding: 0px 10px;
+
+		&:first-child {
+			border-left: none;
+		}
+
+		& > * {
+			font-weight: bold;
+		}
+	}
 }
 
 .dayweekNav {
 	max-width: 1000px;
 	margin: 0 auto;
 	margin-bottom: 4rem;
+	font-weight: 500;
+	display: flex;
+	width: 100%;
+
 	li {
+		flex-grow: 1;
+
 		a,
 		span {
 			padding: 0.25rem 0;
+			display: block;
+			text-align: center;
+			line-height: 3em;
 		}
 	}
 }
@@ -107,5 +133,11 @@
 				background-color: var(--bronze-hover);
 			}
 		}
+	}
+}
+
+@media screen and (max-width: 860px) {
+	.ranking_category li {
+		font-size: 14px;
 	}
 }

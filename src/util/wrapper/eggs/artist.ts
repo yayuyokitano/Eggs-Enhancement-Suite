@@ -78,6 +78,9 @@ export async function artistNewTrack(artistID:string, cache?:Cacher) {
 
 export async function artistTopTrack(artistID:string, cache?:Cacher) {
 	const allTracks = await artistAllTracks(artistID, cache);
+	if (allTracks.length === 0) {
+		return [];
+	}
 	let topTrack = allTracks[0];
 	for (const track of allTracks) {
 		if (track.numberOfMusicPlays > topTrack.numberOfMusicPlays) {

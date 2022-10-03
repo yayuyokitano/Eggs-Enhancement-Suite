@@ -164,6 +164,7 @@
 	},
 	"ranking": {
 		"ranking": "ランキング",
+		"genreRanking": "{{genre}} ランキング",
 		"daily": "デイリー",
 		"weekly": "ウィークリー",
 		"youtube": "YouTube"

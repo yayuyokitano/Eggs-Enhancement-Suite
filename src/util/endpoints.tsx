@@ -17,6 +17,8 @@ import { recommendedArtists } from "./wrapper/eggs/recommend";
 import { eggsRequest } from "./wrapper/eggs/request";
 import Timeline from "../App/timeline/timeline";
 import Song from "../App/song/song";
+import SearchGenre from "../App/search/searchGenre";
+import SearchArea from "../App/search/searchArea";
 
 export const endpoints:{[key:string]:{
   rootSelector: string;
@@ -58,6 +60,20 @@ export const endpoints:{[key:string]:{
 		Element: Search,
 		translations: ["search"],
 		cacheFunc: fetchSearch,
+		appendSelector: ".ees-search-wrapper"
+	},
+	"/search/genre": {
+		rootSelector: ".l-contents_wrapper",
+		Element: SearchGenre,
+		translations: [],
+		cacheFunc: fetchProfile,
+		appendSelector: ".ees-ranking-wrapper"
+	},
+	"/search/area": {
+		rootSelector: ".l-contents_wrapper",
+		Element: SearchArea,
+		translations: ["search"],
+		cacheFunc: fetchProfile,
 		appendSelector: ".ees-search-wrapper"
 	},
 	"/ranking": {

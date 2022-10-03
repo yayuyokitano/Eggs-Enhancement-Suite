@@ -5,9 +5,9 @@ import browser from "webextension-polyfill";
 import { apiKey } from "./scrobbler";
 import { artistAllTracks, artistNewTrack, artistTopTrack, SourceType } from "./wrapper/eggs/artist";
 import Cacher from "./wrapper/eggs/cacher";
-import { artistRanking, curryEggsArtistRankingPlayback, musicRanking } from "./wrapper/eggs/ranking";
+import { artistRanking, curryEggsArtistRankingPlayback, curryEggsGenreArtistRankingPlayback, musicRanking } from "./wrapper/eggs/ranking";
 import { curryEggsRecommendedArtistsPlayback } from "./wrapper/eggs/recommend";
-import { curryEggsArtistSearchPlayback } from "./wrapper/eggs/search";
+import { curryEggsArtistSearchPlayback, curryEggsArtistSearchPrefecturePlayback } from "./wrapper/eggs/search";
 
 const generateRandomHex = (size:number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join("");
 
@@ -241,7 +241,17 @@ export function processedPathname() {
 		new URLSearchParams(window.location.search).has("timeline") ? "timeline" : ""
 	];
 
-	const processedPath = "/" + window.location.pathname.split("/").filter((e,i)=>i%2 && e !== "daily" && e !== "weekly").join("/");
+	const rawSplit = window.location.pathname.split("/");
+	const splitPath = rawSplit.filter((e,i)=>i%2 && e !== "daily" && e !== "weekly");
+	
+	if (splitPath[0] === "search" && rawSplit[2] === "genre") {
+		return "/search/genre";
+	}
+	if (splitPath[0] === "search" && rawSplit[2] === "area") {
+		return "/search/area";
+	}
+
+	const processedPath = "/" + splitPath.join("/");
 	if (processedPath !== "/") {
 		return removeTrailingSlash(processedPath);
 	}
@@ -261,10 +271,10 @@ export const getArtistPage = (artistName:string) => `https://eggs.mu/artist/${ar
 export const getUserPage = (userName:string) => `https://eggs.mu/user/${userName}`;
 export const getTrackPage = (artistName:string, musicId:string) => `https://eggs.mu/artist/${artistName}/song/${musicId}`;
 
-export type ArtistFetcherString = "curryEggsRecommendedArtistsPlayback"|"curryEggsArtistSearchPlayback"|"curryEggsArtistRankingPlayback";
+export type ArtistFetcherString = "curryEggsRecommendedArtistsPlayback"|"curryEggsArtistSearchPlayback"|"curryEggsArtistRankingPlayback"|"curryEggsGenreArtistRankingPlayback"|"curryEggsArtistSearchPrefecturePlayback";
 export type SongFetcherString = "artistAllTracks"|"artistTopTrack"|"artistNewTrack";
 
-export interface SongCurry {
+export type SongCurry = {
 	artistFetcher:ArtistFetcherString;
 	songFetcher:SongFetcherString;
 	payload?:string;
@@ -283,6 +293,14 @@ export function currySongFunction(songCurry:SongCurry) {
 		if (!songCurry.payload) throw new Error("payload is required for curryEggsArtistRankingPlayback");
 		if (songCurry.payload !== "daily" && songCurry.payload !== "weekly") throw new Error("payload must be either daily or weekly");
 		return curryEggsArtistRankingPlayback(songCurry.payload, songFunction);
+	case "curryEggsGenreArtistRankingPlayback":
+		if (!songCurry.payload) throw new Error("payload is required for curryEggsGenreArtistRankingPlayback");
+		if (!songCurry.payload.startsWith("daily//") && !songCurry.payload.startsWith("weekly//")) throw new Error("payload must start with either daily// or weekly//");
+		return curryEggsGenreArtistRankingPlayback(songCurry.payload, songFunction);
+	case "curryEggsArtistSearchPrefecturePlayback":
+		if (!songCurry.payload) throw new Error("payload is required for curryEggsArtistSearchPrefecturePlayback");
+		if (!prefectures.includes(songCurry.payload)) throw new Error("payload must be a valid prefecture");
+		return curryEggsArtistSearchPrefecturePlayback(songCurry.payload, songFunction);
 	}
 }
 
@@ -325,11 +343,11 @@ export async function getRanking(cache?:Cacher) {
 	// even if it breaks it only slows down load by about 100ms its fine.
 	switch(path[0]) {
 	case "artist":
-		return artistRanking(timePeriod, {limit: 30, offset: 0}, cache);
+		return artistRanking(timePeriod, {limit: 30, offset: 0, cache});
 	case "song":
-		return musicRanking(SourceType.Eggs, timePeriod, cache);
+		return musicRanking(SourceType.Eggs, timePeriod, {cache});
 	case "youtube":
-		return musicRanking(SourceType.YouTube, timePeriod, cache);
+		return musicRanking(SourceType.YouTube, timePeriod, {cache});
 	}
 	throw new Error("Invalid path");
 }

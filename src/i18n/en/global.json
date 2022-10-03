@@ -176,6 +176,7 @@
 	},
 	"ranking": {
 		"ranking": "Ranking",
+		"genreRanking": "{{genre}} Ranking",
 		"daily": "Daily",
 		"weekly": "Weekly",
 		"youtube": "YouTube"

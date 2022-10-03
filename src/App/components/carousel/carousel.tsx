@@ -5,6 +5,7 @@ import { ArrowBackIosNewRoundedIcon, ArrowForwardIosRoundedIcon } from "../../..
 import { Incrementer, IncrementerError } from "../sync/itemFetcher";
 import { TFunction } from "react-i18next";
 import Modal from "../listModal/listModal";
+import { Path } from "../../search/searchGenre";
 
 interface CarouselSetParams<T> {
 	width:number,
@@ -28,7 +29,11 @@ interface CarouselFullParams<T> extends CarouselIncrementer<T> {
 	payload?:string,
 }
 
-export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrementer<T>|CarouselFullParams<T>) {
+interface CarouselDynamicParams<T> extends CarouselFullParams<T> {
+	path: Path
+}
+
+export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrementer<T>|CarouselFullParams<T>|CarouselDynamicParams<T>) {
 	const { ElementList, init, width, size, type, t, title, ModalElementList } = props;
 	const [scroll, setScroll] = useState(0);
 	const [remainingModalScroll, setRemainingModalScroll] = useState(0);
@@ -38,6 +43,15 @@ export default function Carousel<T>(props:CarouselSetParams<T>|CarouselIncrement
 	const modalRef = useRef<HTMLDialogElement>(null);
 	const carouselRef = useRef<HTMLUListElement>(null);
 
+	if ("path" in props) {
+		useEffect(() => {
+			setChildren(props.init);
+			setTotalCount(0);
+			setScroll(0);
+			setRemainingModalScroll(0);
+			setUpdate(u => !u);
+		}, [props.path]);
+	}
 	useEffect(() => {
 		if (carouselRef.current === null) return;
 		carouselRef.current.classList.remove("ees-smooth-scroll");

@@ -1,3 +1,4 @@
+import { prefectures } from "../../util";
 import { ArtistData, SongData } from "./artist";
 import Cacher from "./cacher";
 import { PlaylistPartial } from "./playlists";
@@ -21,24 +22,44 @@ const currySearchPlaylists = (searchWord:string) =>
 export const currySearchPlaylistsWrapped = (searchWord:string) => async(offset:string, limit:number) => 
 	await createEggsWrappedGetter(currySearchPlaylists(searchWord))(offset, limit);
 
-export async function searchArtists(searchWord:string, options: {
+export async function searchPrefectureArtists(prefecture:string, options: {
   limit:number,
   offset:number,
 }, cache?:Cacher) {
+	const url = fillEggsSearchParams("search/search/artists", {
+		...options,
+		prefectureCode: prefectures.indexOf(prefecture) + 1,
+	});
+	return eggsRequest(url, {}, {cache}) as Promise<List<ArtistData>>;
+}
+
+const currySearchPrefectureArtists = (prefecture:string) => async(options: {offset:number, limit:number}) => searchPrefectureArtists(prefecture, options);
+
+export const currySearchPrefectureArtistsWrapped = (prefecture:string) => async(offset:string, limit:number) => 
+	await createEggsWrappedGetter(currySearchPrefectureArtists(prefecture))(offset, limit);
+
+export const curryEggsArtistSearchPrefecturePlayback = (prefecture:string, trackFunc: (artistID:string, cache?:Cacher) => Promise<SongData[]>) =>
+	createEggsWrappedGetterCached(currySearchPrefectureArtists(prefecture), trackFunc);
+
+export async function searchArtists(searchWord:string, options: {
+		limit:number,
+		offset:number,
+	}, cache?:Cacher) {
 	const url = fillEggsSearchParams("search/search/artists", {
 		...options,
 		searchWord
 	});
 	return eggsRequest(url, {}, {cache}) as Promise<List<ArtistData>>;
 }
-
+	
 const currySearchArtists = (searchWord:string) => async(options: {offset:number, limit:number}) => searchArtists(searchWord, options);
-
+	
 export const currySearchArtistsWrapped = (searchWord:string) => async(offset:string, limit:number) => 
 	await createEggsWrappedGetter(currySearchArtists(searchWord))(offset, limit);
-
+	
 export const curryEggsArtistSearchPlayback = (query:string, trackFunc: (artistID:string, cache?:Cacher) => Promise<SongData[]>) =>
 	createEggsWrappedGetterCached(currySearchArtists(query), trackFunc);
+
 
 export async function searchTracks(searchWord:string, options: {
 	limit:number,
