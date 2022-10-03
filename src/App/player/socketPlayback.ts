@@ -137,6 +137,14 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 			message: message
 		});
 	}
+	
+	public blockUser(eggsID: string): void {
+		this.socket?.addBlockedUserLocal(eggsID);
+	}
+
+	public unblockUser(eggsID: string): void {
+		this.socket?.removeBlockedUserLocal(eggsID);
+	}
 
 	public setPlayback(initialQueue:SongData[], initialElement:SongData) {
 		this.queue?.destroy();

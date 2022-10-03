@@ -163,7 +163,7 @@ function ContextMenu(props: { t: TFunction, user?: UserStub, song?: SongData|nul
 			{playbackController instanceof LocalPlaybackController && song && <li onClick={() => { playbackController.addToQueue(song); }}>{t("global:track.addToQueue")}</li>}
 			{song && <li onClick={() => {navigateSafely(getArtistPage(song.artistData.artistName));}}>{t("global:track.goToArtistPage")}</li>}
 			{song && <li onClick={() => {navigateSafely(getTrackPage(song.artistData.artistName, song.musicId));}} >{t("global:track.goToTrackPage")}</li>}
-			<li><a href={getUserPage(user.userName)}>{t("listeningParty.viewProfile")}</a></li>
+			<li onClick={() => { navigateSafely(getUserPage(user.userName)); }}>{t("listeningParty.viewProfile")}</li>
 		</ul>
 	);
 }

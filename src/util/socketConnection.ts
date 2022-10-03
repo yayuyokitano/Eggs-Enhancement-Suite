@@ -4,6 +4,7 @@ import TypedEmitter from "typed-emitter";
 import { getEggshellverToken, getEggsID } from "./util";
 import { SongData } from "./wrapper/eggs/artist";
 import { baseURL, UserStub } from "./wrapper/eggshellver/util";
+import browser from "webextension-polyfill";
 
 type PlaybackEvent = "play"|"pause";
 
@@ -52,6 +53,12 @@ type MessageContent = {
 } | {
 	type: "playSuggestions";
 	message: boolean;
+} | {
+	type: "blockedUsers";
+	message: string[];
+} | {
+	type: "unblockedUsers";
+	message: string[];
 }
 
 type RawMessageContent = {
@@ -77,6 +84,15 @@ type RawMessageContent = {
 	message: string
 } | {
 	type: "setTitle";
+	message: string;
+} | {
+	type: "playSuggestions";
+	message: string;
+} | {
+	type: "blockedUsers";
+	message: string;
+} | {
+	type: "unblockedUsers";
 	message: string;
 }
 
@@ -116,7 +132,14 @@ export interface ChatMessage {
 export default class SocketConnection extends (EventEmitter as new () => TypedEmitter<SocketEmitters>) {
 	private socket:null|WebSocket;
 	private chat:ChatMessage[] = [];
-	private blockedUsers:string[] = [];
+	private blockedUsers:Promise<string[]> = browser.storage.sync.get("blockedUsers").then((data) => {
+		const blockedUsers = data.blockedUsers || [];
+		this.send({
+			type: "blockedUsers",
+			message: blockedUsers
+		});
+		return blockedUsers;
+	});
 	private _suggestion:SongData|null = null;
 	private _suggestions:{[name:string]: Suggestion} = {};
 
@@ -230,13 +253,18 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 			});
 			break;
 		}
+		case "blockedUsers": {
+			for (const user of processedMessage.message.message) {
+				this.pruneMessages(user);
+			}
+		}
 		}
 	
 		this.emit("message", processedMessage);
 	}
 
 	private async addChatMessage(message:RawChatMessage) {
-		if (message.blocked || this.blockedUsers.includes(message.sender.userName)) {
+		if (message.blocked || (await this.blockedUsers).includes(message.sender.userName)) {
 			return;
 		}
 		this.chat.push({
@@ -249,9 +277,39 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 		this.emit("updateChat");
 	}
 
-	private blockUser(eggsID:string) {
-		this.blockedUsers.push(eggsID);
+	public async addBlockedUser(eggsID:string) {
+		this.addBlockedUserLocal(eggsID);
+		this.send({
+			type: "blockedUsers",
+			message: [eggsID],
+		});
+	}
+
+	public async addBlockedUserLocal(eggsID:string) {
+		(await this.blockedUsers).push(eggsID);
+		browser.storage.sync.set({
+			blockedUsers: await this.blockedUsers
+		});
+		this.pruneMessages(eggsID);
+	}
+
+	public async pruneMessages(eggsID:string) {
 		this.chat = this.chat.filter((message) => message.sender.userName !== eggsID);
+	}
+
+	public async removeBlockedUser(eggsID:string) {
+		this.removeBlockedUserLocal(eggsID);
+		this.send({
+			type: "unblockedUsers",
+			message: [eggsID],
+		});
+	}
+
+	public async removeBlockedUserLocal(eggsID:string) {
+		this.blockedUsers = this.blockedUsers.then(bu => bu.filter(u => u !== eggsID));
+		browser.storage.sync.set({
+			blockedUsers: await this.blockedUsers
+		});
 	}
 
 	public get chatMessages() {

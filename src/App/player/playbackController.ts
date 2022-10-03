@@ -28,6 +28,10 @@ export default abstract class PlaybackController extends (EventEmitter as new ()
 
 	abstract play(): void;
 
+	abstract blockUser(eggsID:string): void;
+
+	abstract unblockUser(eggsID:string): void;
+
 	abstract pause(): void;
 
 	abstract next(destination?: boolean): void;

@@ -172,6 +172,14 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 		});
 	}
 
+	public blockUser(eggsID: string): void {
+		this.socket?.addBlockedUser(eggsID);
+	}
+
+	public unblockUser(eggsID: string): void {
+		this.socket?.removeBlockedUser(eggsID);
+	}
+
 	public setPlayback(initialQueue:SongData[], initialElement:SongData) {
 		this.queue?.destroy();
 		this.queue = new Queue(initialQueue, initialElement, this.root, this.shuffle, this.repeat, this.setCurrent, this.youtube, this.setTimeData, this._volume);
