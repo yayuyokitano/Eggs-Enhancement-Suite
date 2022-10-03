@@ -4,7 +4,7 @@ import { TFunction, useTranslation } from "react-i18next";
 import "./rules/useragent.json";
 import { runScripts } from "./util/scripts";
 import { createSpa } from "./App/player/spa";
-import { processedPathname, queryAsync } from "./util/util";
+import { processedPathname, queryAsync, vanillaLogin } from "./util/util";
 import { endpoints } from "./util/endpoints";
 import { initializeHeader } from "./util/loginButtons";
 
@@ -64,6 +64,8 @@ async function loadContent() {
 	await initializeHeader();
 	addIframeURLLoader();
 
+	vanillaLogin();
+	console.log(processedPathname());
 	const endpoint = endpoints[processedPathname()];
 	if (!endpoint) return;
 

@@ -58,7 +58,8 @@ export default function Artist(t:TFunction) {
 			<ProfileBanner
 				t={t}
 				userStub={userStub}
-				socialMedia={socialMedia} />
+				socialMedia={socialMedia}
+				isSelf={false} />
 			<div className="ees-inner-div">
 				<Carousel
 					width={204}
@@ -83,7 +84,8 @@ export default function Artist(t:TFunction) {
 			<ProfileBanner
 				userStub={userStub}
 				t={t}
-				socialMedia={socialMedia} />
+				socialMedia={socialMedia}
+				isSelf={false} />
 			<div className="ees-inner-div">
 				<Carousel
 					width={204}

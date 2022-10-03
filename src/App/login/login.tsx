@@ -4,6 +4,7 @@ import { postAuthenticatedUser } from "../../util/wrapper/eggshellver/user";
 import browser from "webextension-polyfill";
 import { login } from "../../util/wrapper/eggs/auth";
 import { profile } from "../../util/wrapper/eggs/users";
+import { vanillaLogin } from "../../util/util";
 
 async function mobileLogin() {
 	const [userInput, passwordInput] = document.getElementsByClassName("w-variable") as HTMLCollectionOf<HTMLInputElement>;
@@ -21,9 +22,11 @@ async function mobileLogin() {
 	cache.reset();
 	const user = await profile();
 	if (user) {
-		browser.storage.sync.set({
+		await browser.storage.sync.set({
 			eggsid: user.data.userName,
+			password: passwordInput.value,
 		});
+		vanillaLogin();
 	}
 
 	window.location.href = new URLSearchParams(window.location.search).get("location") ?? "https://eggs.mu/";

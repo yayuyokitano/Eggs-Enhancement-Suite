@@ -9,8 +9,8 @@ import React, { useEffect, useState } from "react";
 import { cache } from "../../util/loadHandler";
 import UserStats from "./userStats/userStats";
 
-export default function ProfileBanner(props:{ t:TFunction, userStub:UserStub, socialMedia?:SocialMedia[] }) {
-	const { t, userStub, socialMedia } = props;
+export default function ProfileBanner(props:{ t:TFunction, userStub:UserStub, socialMedia?:SocialMedia[], isSelf:boolean }) {
+	const { t, userStub, socialMedia, isSelf } = props;
 	const bannerImage = userStub.imageDataPath || defaultBanner;
 	const avatar = userStub.imageDataPath || defaultAvatar;
 	const [isFollowing, setFollowing] = useState<boolean>();
@@ -50,6 +50,9 @@ export default function ProfileBanner(props:{ t:TFunction, userStub:UserStub, so
 							t={t}
 							isFollowing={isFollowing}
 							setFollowing={setFollowing} />
+						<ProfileSettings
+							t={t}
+							isSelf={isSelf} />
 					</div>
 					<div className="ees-banner-content ees-banner-user-details">
 						<h1>{userStub.displayName}</h1>
@@ -67,6 +70,67 @@ export default function ProfileBanner(props:{ t:TFunction, userStub:UserStub, so
 				eggsID={userStub.userName} />
 		</div>
 	);
+}
+
+function ProfileSettings(props:{ t:TFunction, isSelf:boolean }) {
+	const { t, isSelf } = props;
+	useEffect(() => {
+		const controller = new AbortController();
+		window.addEventListener("click", forceCloseSettingsClick, {signal: controller.signal});
+		window.addEventListener("blur", forceCloseSettingsBlur, {signal: controller.signal});
+		return () => {
+			controller.abort();
+		};
+	});
+
+	if (!isSelf) return <></>;
+	return (
+		<div id="ees-profile-settings">
+			<button
+				id="ees-profile-settings-button"
+				type="button"
+				onClick={() => {toggleSettings();}}>{t("settings.settings")}</button>
+			<dialog id="ees-profile-settings-menu">
+				<ul id="ees-profile-settings-list">
+					<li><a href="https://eggs.mu/home/edit_hybrid">{t("settings.profile")}</a></li>
+					<li><a href="/home/mail_edit">{t("settings.email")}</a></li>
+					<li><a href="/home/change_password">{t("settings.password")}</a></li>
+					<li><a href="/home/sns_connect">{t("settings.accountlink")}</a></li>
+					<li><a href="/home/withdrawal">{t("settings.withdraw")}</a></li>
+				</ul>
+			</dialog>
+		</div>
+	);
+}
+
+function forceCloseSettingsClick(e:MouseEvent) {
+	const dialog = document.getElementById("ees-profile-settings-menu") as HTMLDialogElement;
+	const btn = document.getElementById("ees-profile-settings-button") as HTMLButtonElement;
+	if (!dialog || !btn) return;
+	if ((e.target as HTMLElement)?.closest("#ees-profile-settings")) return;
+	dialog.close();
+	btn.classList.remove("ees-profile-settings-button-open");
+}
+
+function forceCloseSettingsBlur() {
+	const dialog = document.getElementById("ees-profile-settings-menu") as HTMLDialogElement;
+	const btn = document.getElementById("ees-profile-settings-button") as HTMLButtonElement;
+	if (!dialog || !btn) return;
+	dialog.close();
+	btn.classList.remove("ees-profile-settings-button-open");
+}
+
+function toggleSettings() {
+	const dialog = document.getElementById("ees-profile-settings-menu") as HTMLDialogElement;
+	const btn = document.getElementById("ees-profile-settings-button") as HTMLButtonElement;
+	if (!dialog || !btn) return;
+	if (dialog.open) {
+		dialog.close();
+		btn.classList.remove("ees-profile-settings-button-open");
+	} else {
+		dialog.show();
+		btn.classList.add("ees-profile-settings-button-open");
+	}
 }
 
 function SocialMedia(props:{ socialMedia?:SocialMedia[] }) {

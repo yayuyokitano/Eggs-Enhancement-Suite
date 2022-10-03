@@ -33,6 +33,10 @@ export async function getEggsID():Promise<string|undefined> {
 	return (await browser.storage.sync.get("eggsid")).eggsid;
 }
 
+export async function getPassword():Promise<string|undefined> {
+	return (await browser.storage.sync.get("password")).password;
+}
+
 export const defaultAvatar = "https://eggs.mu/wp-content/themes/eggs/assets/img/common/signin.png";
 export const defaultBanner = "https://resource.lap.recochoku.jp/e8/assets/v2/img/common/bg_main03.jpg";
 
@@ -390,4 +394,34 @@ export async function getMemberId():Promise<number> {
 		(document.head || document.documentElement).appendChild(s);
 		sleep(5000).then(() => resolve(0));
 	});
+}
+
+async function getLoginStatus() {
+	const res = await fetch("https://eggs.mu/api/loginstatus");
+	if (!res.ok) return false;
+	const data = await res.json();
+	return Boolean(data.name);
+}
+
+export async function vanillaLogin() {
+	const loginStatus = await getLoginStatus();
+	if (loginStatus) return;
+
+	const user = await getEggsID();
+	const password = await getPassword();
+	if (!user || !password) return;
+	const res = await fetch("https://eggs.mu/api/login", {
+		headers: {
+			"content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+		},
+		method: "POST",
+		body: new URLSearchParams({
+			id_or_mail: user,
+			password,
+		}).toString(),
+	});
+	const data = await res.json();
+	if (data.status !== 200) {
+		console.error(data.message);
+	}
 }

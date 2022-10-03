@@ -12,13 +12,14 @@ import Cacher from "./wrapper/eggs/cacher";
 import { searchArtists, searchPlaylists, searchTracks, trackDetails } from "./wrapper/eggs/search";
 import Search from "../App/search/search";
 import Ranking from "../App/ranking/ranking";
-import { getRanking } from "./util";
+import { getEggsID, getRanking } from "./util";
 import { recommendedArtists } from "./wrapper/eggs/recommend";
 import { eggsRequest } from "./wrapper/eggs/request";
 import Timeline from "../App/timeline/timeline";
 import Song from "../App/song/song";
 import SearchGenre from "../App/search/searchGenre";
 import SearchArea from "../App/search/searchArea";
+import { useEffect } from "react";
 
 export const endpoints:{[key:string]:{
   rootSelector: string;
@@ -103,8 +104,31 @@ export const endpoints:{[key:string]:{
 		translations: [],
 		cacheFunc: fetchProfile,
 		appendSelector: "#ees-profile"
+	},
+	"/home": {
+		rootSelector: ".m-btn_pagetop",
+		Element: redirectProfile,
+		translations: [],
+		cacheFunc: fetchProfile,
+		appendSelector: "#thiselementdoesnotexist"
 	}
 };
+
+export function redirectProfile() {
+	useEffect(() => {
+		getEggsID().then((id) => {
+			if (window.location.pathname === "/home") {
+				if (id) {
+					window.location.assign(`https://eggs.mu/user/${id}`);
+					return;
+				}
+				window.location.assign("https://eggs.mu/");
+			}
+		});
+	}, []);
+	
+	return <></>;
+}
 
 async function fetchArtist(cache:Cacher) {
 	fetchProfile(cache);

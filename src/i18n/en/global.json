@@ -210,5 +210,13 @@
 		"viewProfile": "View Profile",
 		"settings": "Settings",
 		"playSuggestions": " Randomly play suggestions from listeners"
+	},
+	"settings": {
+		"settings": "Settings",
+		"profile": "Profile Settings",
+		"email": "Change Email",
+		"password": "Change Password",
+		"accountlink": "Link Accounts",
+		"withdraw": "Delete Account"
 	}
 }

@@ -216,3 +216,47 @@
 		}
 	}
 }
+
+#ees-profile-settings {
+	text-align: center;
+	margin-top: 10px;
+	position: relative;
+
+	#ees-profile-settings-button {
+		width: 100%;
+		display: block;
+		padding: 0.5rem 0;
+		border-radius: 1.3rem;
+		background-color: var(--eggsyellow);
+		color: var(--alwaysdark2);
+		font-size: 1.1rem;
+
+		&.ees-profile-settings-button-open {
+			border-radius: 1.3rem 1.3rem 0 0;
+		}
+	}
+
+	#ees-profile-settings-menu {
+		font-size: 1rem;
+		border: none;
+		background-color: var(--eggsyellow);
+		color: var(--alwaysdark2);
+		width: 100%;
+		border-radius: 0 0 1.3rem 1.3rem;
+		overflow: hidden;
+
+		li {
+			a {
+				display: block;
+				padding: 0.5rem 0;
+
+				&:hover,
+				&:focus-visible {
+					outline: none;
+					background-color: var(--activeelement);
+					color: var(--alwayslight2);
+				}
+			}
+		}
+	}
+}
