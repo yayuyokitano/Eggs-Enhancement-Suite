@@ -26,10 +26,23 @@ export function navigateSafely(target:string) {
 	}, "*");
 }
 
+export function hardReloadParent() {
+	window.parent.postMessage({
+		type: "hardReload"
+	}, "*");
+}
+
 export function addLoadHandler() {
 	window.addEventListener("message", async(event) => {
-		if (event.origin !== window.location.origin || event.data.type !== "navigate") return;
-		updateSpa(event.data.url);
+		if (event.origin !== window.location.origin) return;
+		switch (event.data.type) {
+		case "navigate":
+			updateSpa(event.data.url);
+			break;
+		case "hardReload":
+			window.location.reload();
+			break;
+		}
 	});
 }
 

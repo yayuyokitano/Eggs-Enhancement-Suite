@@ -4,7 +4,7 @@ import { TFunction, useTranslation } from "react-i18next";
 import "./rules/useragent.json";
 import { runScripts } from "./util/scripts";
 import { createSpa } from "./App/player/spa";
-import { processedPathname, queryAsync, vanillaLogin } from "./util/util";
+import { ensureLogin, processedPathname, queryAsync } from "./util/util";
 import { endpoints } from "./util/endpoints";
 import { initializeHeader } from "./util/loginButtons";
 
@@ -52,8 +52,10 @@ async function loadContent() {
 	} catch {
 		console.error("Failed to authenticate, invalid key");
 	}
-	// Create SPA if top level
-	if (window.frameElement === null || window.frameElement.classList.contains("aut-iframe")) {
+
+	// Create SPA if top level and not signup (third party auth doesn't like iframes and we do nothing with that page anyway)
+	if (window.frameElement === null && processedPathname() !== "/signup") {
+		ensureLogin();
 		createSpa();
 		deleteNewElements(document.body, "#eggs-full-wrapper");
 		addLoadHandler();
@@ -63,9 +65,7 @@ async function loadContent() {
 
 	await initializeHeader();
 	addIframeURLLoader();
-
-	vanillaLogin();
-	console.log(processedPathname());
+	
 	const endpoint = endpoints[processedPathname()];
 	if (!endpoint) return;
 

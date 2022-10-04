@@ -24,6 +24,7 @@ async function mobileLogin() {
 	if (user) {
 		await browser.storage.sync.set({
 			eggsid: user.data.userName,
+			loginType: "eggs",
 			password: passwordInput.value,
 		});
 		vanillaLogin();

@@ -20,6 +20,7 @@ import Song from "../App/song/song";
 import SearchGenre from "../App/search/searchGenre";
 import SearchArea from "../App/search/searchArea";
 import { useEffect } from "react";
+import { hardReloadParent } from "./loadHandler";
 
 export const endpoints:{[key:string]:{
   rootSelector: string;
@@ -111,10 +112,28 @@ export const endpoints:{[key:string]:{
 		translations: [],
 		cacheFunc: fetchProfile,
 		appendSelector: "#thiselementdoesnotexist"
+	},
+	"/signup": {
+		rootSelector: ".m-btn_pagetop",
+		Element: killIframe,
+		translations: [],
+		cacheFunc: fetchProfile,
+		appendSelector: "#thiselementdoesnotexist"
 	}
 };
 
-export function redirectProfile() {
+function killIframe() {
+	hardReloadParent();
+	return <></>;
+}
+
+function redirectProfile() {
+	const btns = document.querySelectorAll(".button-signup.mid");
+	for (const btn of btns) {
+		btn.setAttribute("target", "_blank");
+		btn.setAttribute("rel", "noopener noreferrer");
+	}
+
 	useEffect(() => {
 		getEggsID().then((id) => {
 			if (window.location.pathname === "/home") {

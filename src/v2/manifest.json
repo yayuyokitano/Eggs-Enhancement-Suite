@@ -3,6 +3,7 @@
 	"name": "Eggs Enhancement Suite",
 	"version": "2.0.0",
 	"permissions": [
+		"webRequest",
 		"storage",
 		"*://*.eggs.mu/*",
 		"*://*.localhost/*"
@@ -35,6 +36,10 @@
 		"64": "../icons/icon64.png",
 		"128": "../icons/icon128.png"
 	},
+	"background": {
+    "scripts": ["../util/browser-polyfill.js", "../background.ts"],
+    "persistent": false
+  },
 	"web_accessible_resources": ["../icons/icon128.png", "../static/idFetcher.ts"],
 	"browser_specific_settings": {
 		"gecko": {

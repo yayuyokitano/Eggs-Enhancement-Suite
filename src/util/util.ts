@@ -403,6 +403,44 @@ async function getLoginStatus() {
 	return Boolean(data.name);
 }
 
+async function runtimeMessageListener(message: any) {
+	if (message.type === "twitterlogin") {
+		window.location.assign("https://eggs.mu/twitter_login/");
+	}
+}
+
+export async function ensureLogin() {
+	if (window.frameElement !== null) return;
+	const loginType = (await browser.storage.sync.get("loginType")).loginType as string|undefined;
+
+	browser.runtime.onMessage.removeListener(runtimeMessageListener);
+	browser.runtime.onMessage.addListener(runtimeMessageListener);
+	
+	if (!loginType) return;
+	switch (loginType) {
+	case "eggs":
+		vanillaLogin();
+		break;
+	case "twitter":
+		twitterLogin();
+		break;
+	case "twitterFailed":
+		redoTwitterLogin();
+		break;
+	}
+}
+
+async function twitterLogin() {
+	const loginStatus = await getLoginStatus();
+	if (loginStatus) return;
+
+	window.location.assign("https://eggs.mu/twitter_login/");
+}
+
+async function redoTwitterLogin() {
+	window.location.assign("https://eggs.mu/twitter_login/");
+}
+
 export async function vanillaLogin() {
 	const loginStatus = await getLoginStatus();
 	if (loginStatus) return;

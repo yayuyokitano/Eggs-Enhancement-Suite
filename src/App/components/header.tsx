@@ -62,7 +62,7 @@ function toggleActiveRegion(e: React.MouseEvent<HTMLElement, MouseEvent>) {
 }
 
 function mobileLogout() {
-	browser.storage.sync.remove(["token", "eggshellvertoken", "eggsid"]);
+	browser.storage.sync.remove(["token", "eggshellvertoken", "eggsid", "loginType", "password"]);
 	window.location.reload();
 }
 
