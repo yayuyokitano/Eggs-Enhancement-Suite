@@ -86,7 +86,21 @@ export async function getTimeline(options:{
 		}
 	}
 
-	return rawTimeline.map(event => {
+	return rawTimeline.filter(event => {
+		if (!userMap.get(event.id)) {
+			return false;
+		}
+		switch (event.type) {
+		case "music":
+		case "musiclike":
+			return Boolean(trackMap.get(event.target));
+		case "playlist":
+		case "playlistlike":
+			return Boolean(playlistMap.get(event.target));
+		case "follow":
+			return Boolean(userMap.get(event.target));
+		}
+	}).map(event => {
 		const user = userMap.get(event.id);
 		if (!user) {
 			throw new Error("User not found");
