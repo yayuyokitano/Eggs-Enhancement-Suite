@@ -14,6 +14,7 @@
 		"playlistsFeaturing_other": "このアーティストが含まれるプレイリスト（{{count}}）",
 		"follow": "フォローする",
 		"following": "フォロー中",
+		"twitterlogin": "Twitterでログイン",
 		"timeSince": {
 			"year_other": "年前",
 			"month_other": "ヶ月前",

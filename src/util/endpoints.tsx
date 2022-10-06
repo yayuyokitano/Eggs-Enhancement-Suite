@@ -138,7 +138,7 @@ function redirectProfile() {
 		getEggsID().then((id) => {
 			if (window.location.pathname === "/home") {
 				if (id) {
-					window.location.assign(`https://eggs.mu/user/${id}`);
+					setTimeout(() => {window.location.assign(`https://eggs.mu/user/${id}`); }, 100); //ensure chrome doesnt crash
 					return;
 				}
 				window.location.assign("https://eggs.mu/");

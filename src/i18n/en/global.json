@@ -19,6 +19,7 @@
 		"playlistsFeaturing_other": "Playlists featuring this artist ({{count}})",
 		"follow": "Follow",
 		"following": "Following",
+		"twitterlogin": "Login with Twitter",
 		"timeSince": {
 			"yearWithCount_one": "{{count}} year ago",
 			"yearWithCount_other": "{{count}} years ago",

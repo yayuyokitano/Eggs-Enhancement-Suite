@@ -46,6 +46,25 @@ export function addLoadHandler() {
 	});
 }
 
+export function forceNavigate(url:string) {
+	const iframe = document.getElementById("ees-spa-iframe") as HTMLIFrameElement;
+	if (!iframe) {
+		window.parent.postMessage({
+			type: "navigateForce",
+			url: url
+		}, "*");
+		return;
+	}
+	window.location.assign(url);
+}
+
+export function addForceNavigator() {
+	window.addEventListener("message", async(event) => {
+		if (event.origin !== window.location.origin || event.data.type !== "navigateForce") return;
+		window.location.href = event.data.url;
+	});
+}
+
 export function addIframeURLLoader() {
 	window.addEventListener("message", async(event) => {
 		if (event.origin !== window.location.origin || event.data.type !== "navigateIframe") return;

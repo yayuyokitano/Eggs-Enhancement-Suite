@@ -452,3 +452,7 @@ header
 		display: none;
 	}
 }
+
+.btn-apple:not(table) {
+	display: none;
+}

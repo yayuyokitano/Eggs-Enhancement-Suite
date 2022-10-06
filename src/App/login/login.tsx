@@ -1,10 +1,13 @@
 import { TFunction } from "react-i18next";
-import { cache } from "../../util/loadHandler";
+import { cache, forceNavigate } from "../../util/loadHandler";
 import { postAuthenticatedUser } from "../../util/wrapper/eggshellver/user";
 import browser from "webextension-polyfill";
 import { login } from "../../util/wrapper/eggs/auth";
 import { profile } from "../../util/wrapper/eggs/users";
 import { vanillaLogin } from "../../util/util";
+import { useEffect } from "react";
+import ReactDOM from "react-dom/client";
+import "./login.scss";
 
 async function mobileLogin() {
 	const [userInput, passwordInput] = document.getElementsByClassName("w-variable") as HTMLCollectionOf<HTMLInputElement>;
@@ -34,7 +37,38 @@ async function mobileLogin() {
 	return;
 }
 
+function TwitterLogin(props: { t: TFunction }) {
+	const { t } = props;
+	return (
+		<div id="ees-twitter-login-wrapper">
+			<a
+				id="ees-twitter-login"
+				onClick={() => {
+					forceNavigate(`https://eggs.mu/twitter_login?location=${window.location.href}`);
+				}}>{t("global:general.twitterlogin")}</a>
+			<p>{t("disclaimer")}</p>
+		</div>
+	);
+}
+
 export default function Login(t:TFunction) {
+
+	useEffect(() => {
+		const formWrapper = document.getElementById("form-register") as HTMLElement;
+		if (!formWrapper) return;
+		const rootElement = document.createElement("div");
+		rootElement.id = "ees-twitter-login";
+		formWrapper.insertBefore(rootElement, formWrapper.firstChild);
+		
+		const root = ReactDOM.createRoot(rootElement);
+		root.render(<TwitterLogin t={t} />);
+		
+		return () => {
+			root.unmount();
+			formWrapper.removeChild(rootElement);
+		};
+	}, [t]);
+
 	return (
 		<div
 			id="ees-login-form"

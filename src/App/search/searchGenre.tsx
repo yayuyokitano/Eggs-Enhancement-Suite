@@ -139,6 +139,5 @@ function ConditionalLink(props:{t:TFunction, destination:Path, children:string, 
 
 	if (destination[0] === path[0] && destination[1] == path[1]) return <span>{children}</span>;
 	return <a
-		href="javascript:void 0"
 		onClick={() => {setPath(destination);}}>{children}</a>;
 }

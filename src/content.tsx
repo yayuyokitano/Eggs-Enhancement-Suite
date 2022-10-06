@@ -10,7 +10,7 @@ import { initializeHeader } from "./util/loginButtons";
 
 import "./theme/themes.scss";
 import { initializeThemes } from "./theme/themes";
-import { addIframeURLLoader, addLoadHandler, loadPageDetails } from "./util/loadHandler";
+import { addForceNavigator, addIframeURLLoader, addLoadHandler, loadPageDetails } from "./util/loadHandler";
 
 function App(props: {endpoint: {
   rootSelector: string;
@@ -55,11 +55,12 @@ async function loadContent() {
 
 	// Create SPA if top level and not signup (third party auth doesn't like iframes and we do nothing with that page anyway)
 	if (window.frameElement === null && processedPathname() !== "/signup") {
-		ensureLogin();
+		addForceNavigator();
 		createSpa();
 		deleteNewElements(document.body, "#eggs-full-wrapper");
 		addLoadHandler();
 		await initializeThemes();
+		setTimeout(ensureLogin, 100); // ensure chrome doesnt crash
 		return;
 	}
 
