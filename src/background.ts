@@ -67,6 +67,9 @@ async function handleToken(res:string, tabId:number) {
 				token: accessToken,
 				eggshellvertoken: token,
 			});
+			window.parent.postMessage({
+				type: "login"
+			}, "*");
 		}
 		browser.tabs.sendMessage(tabId, {
 			type: "twitterlogin",

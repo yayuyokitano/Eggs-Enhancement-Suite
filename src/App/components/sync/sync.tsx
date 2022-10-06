@@ -1,8 +1,9 @@
 import { TFunction } from "react-i18next";
 import "./sync.scss";
 import Syncer, { StateAction, StatusMessage, SyncStateReducerType } from "./syncer";
-import React from "react";
+import React, { useEffect } from "react";
 import { SyncRoundedIcon } from "../../../util/icons";
+import { getEggsID } from "../../../util/util";
 
 function toggleSyncActive() {
 	const queue = document.getElementById("ees-sync") as HTMLDivElement;
@@ -86,18 +87,38 @@ export default function Sync(props: { t:TFunction }) {
 
 function SyncContent(props: { t:TFunction, syncState:SyncState, dispatch:React.Dispatch<StateAction> }) {
 	const { t, syncState, dispatch } = props;
+
+	useEffect(() => {
+		getEggsID().then(u => {
+			if (u) {
+				startCaching(syncState, dispatch, false);
+			}
+		});
+		window.addEventListener("message", (event) => {
+			if (event.data.type === "login") {
+				startCaching(syncState, dispatch, false);
+			}
+		});
+	}, []);
+
 	return (
 		<div
 			id="ees-sync-inner"
 			className="ees-popout-inner">
-			<button
-				type="button"
-				id="ees-sync-test-button"
-				onClick={() => startCaching(syncState, dispatch, false)}>Test</button>
-			<button
-				type="button"
-				id="ees-sync-start-button"
-				onClick={() => startCaching(syncState, dispatch, true)}>FullTest</button>
+			<details className="ees-sync-button-wrapper">
+				<summary>{t("sync.update")}</summary>
+				<p>{t("sync.updateExplain")}</p>
+				<button
+					type="button"
+					onClick={() => startCaching(syncState, dispatch, false)}>{t("sync.update")}</button>
+			</details>
+			<details className="ees-sync-button-wrapper">
+				<summary>{t("sync.fullUpdate")}</summary>
+				<p>{t("sync.fullUpdateExplain")}</p>
+				<button
+					type="button"
+					onClick={() => startCaching(syncState, dispatch, true)}>{t("sync.fullUpdate")}</button>
+			</details>
 			<p id="ees-sync-status">{statusHandler(t, syncState.status)}</p>
 			<div id="ees-sync-progress">
 				<progress

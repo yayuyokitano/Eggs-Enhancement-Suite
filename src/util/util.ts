@@ -415,7 +415,7 @@ export async function ensureLogin() {
 
 	browser.runtime.onMessage.removeListener(runtimeMessageListener);
 	browser.runtime.onMessage.addListener(runtimeMessageListener);
-	
+
 	if (!loginType) return;
 	switch (loginType) {
 	case "eggs":
@@ -438,6 +438,14 @@ async function twitterLogin() {
 }
 
 async function redoTwitterLogin() {
+	const eggsID = await getEggsID();
+	if (eggsID) {
+		browser.storage.sync.set({
+			loginType: "twitter"
+		});
+		return;
+	}
+
 	window.location.assign("https://eggs.mu/twitter_login/");
 }
 

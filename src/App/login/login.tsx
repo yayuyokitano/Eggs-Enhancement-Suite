@@ -30,6 +30,9 @@ async function mobileLogin() {
 			loginType: "eggs",
 			password: passwordInput.value,
 		});
+		window.parent.postMessage({
+			type: "login"
+		}, "*");
 		vanillaLogin();
 	}
 

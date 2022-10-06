@@ -33,6 +33,51 @@
 	}
 }
 
+.ees-sync-button-wrapper {
+	margin-bottom: 1rem;
+
+	summary {
+		cursor: pointer;
+	}
+
+	p {
+		word-break: break-word;
+	}
+
+	button {
+		padding: 0.5rem 1rem;
+		font-size: 1rem;
+		background-color: var(--eggsyellow);
+		color: var(--alwaysdark2);
+
+		&:hover,
+		&:focus-visible {
+			outline: none;
+			background-color: var(--highlight);
+			color: var(--alwayslight2);
+		}
+	}
+}
+
+progress {
+	width: 100%;
+	height: 0.5rem;
+	background-color: var(--monoaccent2);
+	border-radius: 0.5rem;
+
+	&::-webkit-progress-bar {
+		background-color: var(--monoaccent2);
+	}
+
+	&::-webkit-progress-value {
+		background-color: var(--eggsyellow);
+	}
+
+	&::-moz-progress-bar {
+		background-color: var(--eggsyellow);
+	}
+}
+
 @keyframes sync-animation {
 	0% {
 		background-position: 0% 50%;

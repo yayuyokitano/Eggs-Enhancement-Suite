@@ -146,6 +146,10 @@
 		"select": "プレイリストを選択"
 	},
 	"sync": {
+		"updateExplain": "eggs enhancement suiteのキャッシュを更新します。あなたのeggsアカウントに影響を与えることはありません。",
+		"update": "更新",
+		"fullUpdateExplain": "eggs enhancement suiteのキャッシュを削除し、すべてのデータを再度ダウンロードします。時間がかかる場合があります。エラーを修正するために必要です。通常、曲の「いいね」を外したり、ユーザーのフォローを外したりするとエラーが発生します。あなたのeggsアカウントに影響を与えることはありません。",
+		"fullUpdate": "完全更新",
 		"name": {
 			"tracklikes": "いいねした楽曲",
 			"playlistlikes": "いいねしたプレイリスト",

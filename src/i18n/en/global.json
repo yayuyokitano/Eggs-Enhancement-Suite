@@ -158,6 +158,10 @@
 		"select": "Select a playlist"
 	},
 	"sync": {
+		"updateExplain": "This will update eggs enhancement suite cache with your latest information. This will not affect your eggs account in any way.",
+		"update": "Update",
+		"fullUpdateExplain": "This will delete your existing cache and download all of your data from eggs again. This could take a long time. It is only needed to correct errors, usually caused by unliking songs or unfollowing users. This will not affect your eggs account in any way.",
+		"fullUpdate": "Full Update",
 		"name": {
 			"tracklikes": "track likes",
 			"playlistlikes": "playlist likes",
