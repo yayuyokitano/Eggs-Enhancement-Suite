@@ -1,13 +1,16 @@
 import { TFunction } from "react-i18next";
 import { follow } from "../../util/wrapper/eggs/users";
-import { AddCircleOutlineRoundedIcon, DoneRoundedIcon, LocationOnRoundedIcon } from "../../util/icons";
-import { defaultAvatar, defaultBanner, prefectureLink, SocialMedia } from "../../util/util";
+import { AddCircleOutlineRoundedIcon, CloseRoundedIcon, DoneRoundedIcon, LocationOnRoundedIcon } from "../../util/icons";
+import { defaultAvatar, defaultBanner, getUserPage, prefectureLink, SocialMedia } from "../../util/util";
 import { UserStub } from "../../util/wrapper/eggshellver/util";
 import "./profileBanner.scss";
+import "./listModal/modal.scss";
 import { eggshellverFollow, getEggshellverFollows } from "../../util/wrapper/eggshellver/follow";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { cache } from "../../util/loadHandler";
 import UserStats from "./userStats/userStats";
+import browser from "webextension-polyfill";
+import { getUsers } from "../../util/wrapper/eggshellver/user";
 
 export default function ProfileBanner(props:{ t:TFunction, userStub:UserStub, socialMedia?:SocialMedia[], isSelf:boolean }) {
 	const { t, userStub, socialMedia, isSelf } = props;
@@ -86,6 +89,11 @@ function ProfileSettings(props:{ t:TFunction, isSelf:boolean }) {
 	if (!isSelf) return <></>;
 	return (
 		<div id="ees-profile-settings">
+			<dialog
+				id="ees-blocked-users-modal"
+				className="ees-modal">
+				<BlockedUsers t={t} />
+			</dialog>
 			<button
 				id="ees-profile-settings-button"
 				type="button"
@@ -97,10 +105,90 @@ function ProfileSettings(props:{ t:TFunction, isSelf:boolean }) {
 					<li><a href="/home/change_password">{t("settings.password")}</a></li>
 					<li><a href="/home/sns_connect">{t("settings.accountlink")}</a></li>
 					<li><a href="/home/withdrawal">{t("settings.withdraw")}</a></li>
+					<li><button onClick={() => {showBlockedUsers();}}>{t("settings.blocked")}</button></li>
 				</ul>
 			</dialog>
 		</div>
 	);
+}
+
+function showBlockedUsers() {
+	const blockedUsersModal = document.getElementById("ees-blocked-users-modal") as HTMLDialogElement;
+	blockedUsersModal?.showModal();
+}
+
+function BlockedUsers(props: {t:TFunction}) {
+	const { t } = props;
+	const [blockedUsers, setBlockedUsers] = useState<UserStub[]>([]);
+	useEffect(() => {
+		browser.storage.sync.get("blockedUsers").then(data => {
+			const blockedUsers = data.blockedUsers as string[];
+			if (blockedUsers === undefined || blockedUsers.length === 0) return;
+			getUsers({ eggsids: blockedUsers }).then(users => {
+				setBlockedUsers(users);
+			});
+		});
+	});
+	return (
+		<div className="ees-modal-content">
+			<div className="ees-modal-header">
+				<h2>{t("settings.blocked")}</h2>
+				<button
+					className="ees-modal-close"
+					onClick={() => {closeModal();}}>
+					<CloseRoundedIcon />
+				</button>
+			</div>
+			<div className="ees-modal-body">
+				<ul id="ees-blocked-users">
+					{blockedUsers.map(user => <BlockedUser
+						key={user.userName}
+						t={t}
+						user={user}
+						setBlockedUsers={setBlockedUsers} />)}
+				</ul>
+			</div>
+		</div>
+	);
+}
+
+function closeModal() {
+	const modal = document.getElementById("ees-blocked-users-modal") as HTMLDialogElement;
+	modal?.close();
+}
+
+function BlockedUser(props: {t:TFunction, user:UserStub, setBlockedUsers:React.Dispatch<React.SetStateAction<UserStub[]>>}) {
+	const { t, user, setBlockedUsers } = props;
+	return <li className="ees-blocked-user">
+		<a
+			className="ees-blocked-user-inner"
+			href={getUserPage(user.userName)}>
+			<div className="ees-blocked-user-image-wrapper">
+				<img
+					className="ees-blocked-user-image"
+					src={user.imageDataPath || defaultAvatar}
+					width={64}
+					height={64} />
+			</div>
+			<div className="ees-blocked-user-details">
+				<span className="ees-blocked-user-username">{user.displayName}</span>
+				<span className="ees-blocked-user-eggsid">EggsID：{user.userName}</span>
+			</div>
+			<button
+				className="ees-blocked-user-unblock"
+				onClick={(e) => {unblockUser(e, user.userName, setBlockedUsers);}}>{t("settings.unblock")}</button>
+		</a>
+		
+	</li>;
+}
+
+async function unblockUser(e:React.MouseEvent<HTMLButtonElement, MouseEvent>, userName:string, setBlockedUsers:React.Dispatch<React.SetStateAction<UserStub[]>>) {
+	e.preventDefault();
+	setBlockedUsers(blockedUsers => {
+		const newBlockedUsers = blockedUsers.filter(u => u.userName !== userName);
+		browser.storage.sync.set({ blockedUsers: newBlockedUsers });
+		return newBlockedUsers;
+	});
 }
 
 function forceCloseSettingsClick(e:MouseEvent) {

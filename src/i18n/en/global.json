@@ -210,7 +210,8 @@
 		"suggestions": "Suggestions",
 		"viewProfile": "View Profile",
 		"settings": "Settings",
-		"playSuggestions": " Randomly play suggestions from listeners"
+		"playSuggestions": " Randomly play suggestions from listeners",
+		"blockUser": "Block"
 	},
 	"settings": {
 		"settings": "Settings",
@@ -218,6 +219,8 @@
 		"email": "Change Email",
 		"password": "Change Password",
 		"accountlink": "Link Accounts",
-		"withdraw": "Delete Account"
+		"withdraw": "Delete Account",
+		"blocked": "Blocked Users",
+		"unblock": "Unblock"
 	}
 }

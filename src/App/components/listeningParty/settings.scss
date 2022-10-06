@@ -29,8 +29,8 @@
 			&:hover,
 			&:focus-visible {
 				outline: none;
-				background-color: var(--activeelement);
-				color: var(--monoaccent2);
+				background-color: var(--highlight);
+				color: var(--alwayslight2);
 			}
 		}
 	}

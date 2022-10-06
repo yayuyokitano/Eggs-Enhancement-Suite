@@ -198,7 +198,8 @@
 		"suggestions": "おすすめ",
 		"viewProfile": "プロフィールを見る",
 		"settings": "設定",
-		"playSuggestions": " リスナーからのおすすめをランダムに再生"
+		"playSuggestions": " リスナーからのおすすめをランダムに再生",
+		"blockUser": "ブロック"
 	},
 	"settings": {
 		"settings": "設定",
@@ -206,6 +207,8 @@
 		"email": "メールアドレス",
 		"password": "パスワード",
 		"accountlink": "アカウント連携",
-		"withdraw": "退会"
+		"withdraw": "退会",
+		"blocked": "ブロックしたユーザー",
+		"unblock": "ブロックを解除"
 	}
 }

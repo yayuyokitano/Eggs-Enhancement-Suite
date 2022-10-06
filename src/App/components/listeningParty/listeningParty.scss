@@ -36,7 +36,7 @@
 		&:hover,
 		&:focus-visible {
 			outline: none;
-			background-color: var(--activeelement);
+			background-color: var(--highlight);
 			color: var(--monoaccent2);
 		}
 	}

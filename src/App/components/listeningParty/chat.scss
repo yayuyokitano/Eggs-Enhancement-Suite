@@ -40,7 +40,7 @@
 
 			&:hover,
 			&:focus-visible {
-				background-color: var(--activeelement);
+				background-color: var(--highlight);
 
 				svg {
 					fill: var(--alwayslight2);
@@ -100,6 +100,7 @@
 	.ees-listening-party-chat-message-content {
 		display: flex;
 		flex-direction: column;
+		align-items: flex-start;
 
 		.ees-listening-party-chat-message-author {
 			display: flex;
