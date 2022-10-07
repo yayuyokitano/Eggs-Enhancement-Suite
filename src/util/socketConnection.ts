@@ -133,11 +133,8 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 	private socket:null|WebSocket;
 	private chat:ChatMessage[] = [];
 	private blockedUsers:Promise<string[]> = browser.storage.sync.get("blockedUsers").then((data) => {
-		const blockedUsers = data.blockedUsers || [];
-		this.send({
-			type: "blockedUsers",
-			message: blockedUsers
-		});
+		const blockedUsers = (data.blockedUsers || []) as string[];
+		if (!blockedUsers) return [];
 		return blockedUsers;
 	});
 	private _suggestion:SongData|null = null;
@@ -166,9 +163,11 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 
 	private async init(target:string, isNew:boolean, title?:string) {
 		const url = `wss${baseURL}ws/${isNew ? "create" : "join"}/${target}/${await getEggshellverToken()}`;
+		console.log(url);
 		this.socket = new WebSocket(url);
 
-		this.socket.addEventListener("open", () => {
+		this.socket.addEventListener("open", async() => {
+			
 			this.send({
 				type: "info",
 				message: "join",
@@ -184,6 +183,10 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 				});
 			}
 			this.emit("update");
+			this.send({
+				type: "blockedUsers",
+				message: await this.blockedUsers
+			});
 		});
 
 		this.socket.addEventListener("message", (message) => {
@@ -232,6 +235,7 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore-next-line - typescript does not narrow the type correctly. It is verified that the message is of type chat and so fits the addChatMessage method.
 			this.addChatMessage(processedMessage);
+			console.log("hiii");
 			return;
 		}
 		case "suggest": {

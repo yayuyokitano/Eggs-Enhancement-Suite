@@ -16,6 +16,7 @@
 		font-size: 1.25rem;
 	}
 	input {
+		width: 220px;
 		color: var(--text);
 		font-size: 1.25rem;
 		background-color: var(--monoaccent2);
@@ -87,6 +88,6 @@
 
 	#ees-listening-party-tab-content {
 		flex: 1;
-		overflow-y: hidden;
+		overflow-y: auto;
 	}
 }
