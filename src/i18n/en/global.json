@@ -7,6 +7,7 @@
 		"register": "Register",
 		"logoAlt": "Eggs | Japanese Indie Band Music Distribution Site",
 		"confirm": "Confirm",
+		"cancel": "Cancel",
 		"artist_one": "Artist",
 		"artist_other": "Artists",
 		"album_one": "Album",
@@ -224,6 +225,8 @@
 		"password": "Change Password",
 		"accountlink": "Link Accounts",
 		"withdraw": "Delete Account",
+		"withdrawees": "Delete EES Data",
+		"withdraweesExplain": "This will delete your eggs enhancement suite data from our servers. This will not affect your eggs account in any way. You will permanently lose data about your followed non-artist users, and if you are a non-artist user you will permanently lose all followers.",
 		"blocked": "Blocked Users",
 		"unblock": "Unblock"
 	}

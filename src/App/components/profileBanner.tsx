@@ -10,7 +10,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { cache } from "../../util/loadHandler";
 import UserStats from "./userStats/userStats";
 import browser from "webextension-polyfill";
-import { getUsers } from "../../util/wrapper/eggshellver/user";
+import { deleteUser, getUsers } from "../../util/wrapper/eggshellver/user";
 
 export default function ProfileBanner(props:{ t:TFunction, userStub:UserStub, socialMedia?:SocialMedia[], isSelf:boolean }) {
 	const { t, userStub, socialMedia, isSelf } = props;
@@ -94,6 +94,11 @@ function ProfileSettings(props:{ t:TFunction, isSelf:boolean }) {
 				className="ees-modal">
 				<BlockedUsers t={t} />
 			</dialog>
+			<dialog
+				id="ees-withdraw-modal"
+				className="ees-modal">
+				<Withdraw t={t} />
+			</dialog>
 			<button
 				id="ees-profile-settings-button"
 				type="button"
@@ -105,6 +110,7 @@ function ProfileSettings(props:{ t:TFunction, isSelf:boolean }) {
 					<li><a href="/home/change_password">{t("settings.password")}</a></li>
 					<li><a href="/home/sns_connect">{t("settings.accountlink")}</a></li>
 					<li><a href="/home/withdrawal">{t("settings.withdraw")}</a></li>
+					<li><button onClick={() => {showWithdrawPopup();}}>{t("settings.withdrawees")}</button></li>
 					<li><button onClick={() => {showBlockedUsers();}}>{t("settings.blocked")}</button></li>
 				</ul>
 			</dialog>
@@ -115,6 +121,54 @@ function ProfileSettings(props:{ t:TFunction, isSelf:boolean }) {
 function showBlockedUsers() {
 	const blockedUsersModal = document.getElementById("ees-blocked-users-modal") as HTMLDialogElement;
 	blockedUsersModal?.showModal();
+}
+
+function closeWithdrawModal() {
+	const modal = document.getElementById("ees-withdraw-modal") as HTMLDialogElement;
+	modal?.close();
+}
+
+function showWithdrawPopup() {
+	const withdrawModal = document.getElementById("ees-withdraw-modal") as HTMLDialogElement;
+	withdrawModal?.showModal();
+}
+
+function Withdraw(props: {t: TFunction}) {
+	const { t } = props;
+
+	return (
+		<div className="ees-modal-content">
+			<div className="ees-modal-header">
+				<h2>{t("settings.withdrawees")}</h2>
+				<button
+					className="ees-modal-close"
+					onClick={() => {closeWithdrawModal();}}>
+					<CloseRoundedIcon />
+				</button>
+			</div>
+			<div className="ees-modal-body">
+				<p>{t("settings.withdraweesExplain")}</p>
+				<div className="ees-modal-buttons">
+					<button
+						className="ees-modal-button"
+						id="ees-withdraw-button"
+						type="button"
+						onClick={() => {executeDeletion();}}>{t("settings.withdrawees")}</button>
+					<button
+						className="ees-modal-button"
+						id="ees-cancel-withdraw-button"
+						type="button"
+						onClick={() => {closeWithdrawModal();}}>{t("general.cancel")}</button>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+async function executeDeletion() {
+	await deleteUser();
+	browser.storage.sync.remove(["token", "eggshellvertoken", "eggsid", "loginType", "password"]);
+	window.location.reload();
 }
 
 function BlockedUsers(props: {t:TFunction}) {

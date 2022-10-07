@@ -332,3 +332,49 @@
 		}
 	}
 }
+
+#ees-withdraw-modal {
+	background-color: var(--menubg);
+
+	.ees-modal-body > * {
+		max-width: 600px;
+		margin: 1rem auto;
+	}
+
+	.ees-modal-body > p {
+		word-break: break-word;
+	}
+
+	.ees-modal-buttons {
+		display: flex;
+		justify-content: space-around;
+
+		.ees-modal-button {
+			padding: 1rem 1.5rem;
+			border-radius: 0.2rem;
+		}
+
+		#ees-withdraw-button {
+			background-color: var(--highlight);
+			color: var(--alwayslight);
+
+			&:hover,
+			&:focus-visible {
+				outline: none;
+				filter: brightness(1.2);
+			}
+		}
+
+		#ees-cancel-withdraw-button {
+			background-color: var(--monoaccent2);
+			color: var(--text);
+
+			&:hover,
+			&:focus-visible {
+				outline: none;
+				background-color: var(--eggsyellow);
+				color: var(--alwaysdark);
+			}
+		}
+	}
+}

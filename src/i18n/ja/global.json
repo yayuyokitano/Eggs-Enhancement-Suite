@@ -7,6 +7,7 @@
 		"register": "アカウント登録",
 		"logoAlt": "Eggs｜インディーズバンド音楽配信サイト",
 		"confirm": "確認",
+		"cancel": "キャンセル",
 		"artist_other": "アーティスト",
 		"album_other": "アルバム",
 		"song_other": "楽曲",
@@ -212,6 +213,8 @@
 		"password": "パスワード",
 		"accountlink": "アカウント連携",
 		"withdraw": "退会",
+		"withdrawees": "eesからデータを退会",
+		"withdraweesExplain": "eesからデータを削除します。あなたのeggsアカウントに影響を与えることはありません。アーティストでないユーザーをフォローしている場合、フォローのデータは永久に失われます。あなたのアカウントはアーティストでないユーザーの場合、フォロワーのデータは永久に失われます。",
 		"blocked": "ブロックしたユーザー",
 		"unblock": "ブロックを解除"
 	}

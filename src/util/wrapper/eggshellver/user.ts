@@ -1,4 +1,4 @@
-import { getMemberId, prefectures, queryAsync, SocialMedia } from "../../util";
+import { getEggshellverToken, getEggsID, getMemberId, prefectures, queryAsync, SocialMedia } from "../../util";
 import Cacher from "../eggs/cacher";
 import { eggshellverRequest } from "./request";
 import { AwaitingUserStub, fillEggshellverSearchParams, UserStub } from "./util";
@@ -19,6 +19,14 @@ export async function postAuthenticatedUser(auth:{
   Authorization: string,
 }) {
 	return eggshellverRequest("users", auth, {method: "POST"});
+}
+
+export async function deleteUser() {
+	const eggsID = await getEggsID();
+	if (!eggsID) {
+		throw new Error("Not logged in");
+	}
+	return eggshellverRequest(`users?eggsid=${eggsID}`, {}, {method: "DELETE"});
 }
 
 export async function crawlUser():Promise<AwaitingUserStub> {
