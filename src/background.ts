@@ -49,7 +49,7 @@ async function handleToken(res:string, tabId:number) {
 			Authorization: `Bearer ${accessToken}`,
 		};
 		
-		const userRes = await fetch("https://localhost:10000/users", {
+		const userRes = await fetch("https://eggshellver.com/api/users", {
 			method: "POST",
 			body: JSON.stringify(authedHeaders),
 		});
@@ -109,7 +109,7 @@ async function twitterEggsLogin(oauth_token:string, oauth_token_secret:string, h
 }
 
 async function twitterLogin(oauth_token:string, oauth_verifier:string) {
-	return fetch("https://localhost:10000/twitterauth", {
+	return fetch("https://eggshellver.com/api/twitterauth", {
 		method: "POST",
 		body: JSON.stringify({
 			oauth_token,

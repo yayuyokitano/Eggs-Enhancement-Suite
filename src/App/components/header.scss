@@ -140,8 +140,8 @@ $animationSpeed: 300ms;
 		display: none;
 	}
 
-	.artistSearch_areaName + ul {
-		display: none;
+	.artistSearch_areaName:not(.active) + ul {
+		display: none !important;
 		animation: slide-out $animationSpeed cubic-bezier(0, 1, 0, 1);
 	}
 

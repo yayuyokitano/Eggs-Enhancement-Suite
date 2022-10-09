@@ -1,6 +1,6 @@
 import { Param, SocialMedia, stringifyParam } from "../../../util/util";
 
-export const baseURL = "://localhost:10000/";
+export const baseURL = "://eggshellver.com/api/";
 
 export interface BaseUserStub {
   userName: string;

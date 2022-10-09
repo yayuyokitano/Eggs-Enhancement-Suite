@@ -50,6 +50,16 @@ export default function Artist(t:TFunction) {
 			setData(artistData);
 			setLoading(false);
 		});
+
+		const searchInput = document.querySelector("#freewordSearch .js-artistSearch") as HTMLInputElement|undefined;
+		const form = document.querySelector("#freewordSearch") as HTMLFormElement|undefined;
+		if (searchInput && form) {
+			searchInput.addEventListener("keydown", (e) => {
+				if (e.key === "Enter") {
+					form.submit();
+				}
+			});
+		}
 	}, []);
   
 	if (!userStub) return <div id="ees-artist">{t("general.loading")}</div>;

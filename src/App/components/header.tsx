@@ -58,7 +58,10 @@ function selectSearchType(e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
 }
 
 function toggleActiveRegion(e: React.MouseEvent<HTMLElement, MouseEvent>) {
-	e.currentTarget.classList.toggle("active");
+	if (e.currentTarget.classList.contains("eesactive")) {
+		e.currentTarget.classList.remove("active");
+	}
+	e.currentTarget.classList.toggle("eesactive");
 }
 
 function mobileLogout() {
@@ -275,6 +278,7 @@ export function HeaderSubmenu() {
 			</div>
 			<Logo />
 			<ul className="globalnav hidden">
+				<li id="ees-gn_timeline"><a href="/?timeline"><span>{t("timeline.title")}</span></a></li>
 				<li id="gn_about"><a href="/about"><span>{t("nav.about")}</span></a></li>
 				<li id="gn_project"><a href="/music/projects"><span>{t("nav.projects")}</span></a></li>
 				<li
