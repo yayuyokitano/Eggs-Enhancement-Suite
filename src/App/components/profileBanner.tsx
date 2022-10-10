@@ -6,7 +6,7 @@ import { UserStub } from "../../util/wrapper/eggshellver/util";
 import "./profileBanner.scss";
 import "./listModal/modal.scss";
 import { eggshellverFollow, getEggshellverFollows } from "../../util/wrapper/eggshellver/follow";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cache } from "../../util/loadHandler";
 import UserStats from "./userStats/userStats";
 import browser from "webextension-polyfill";

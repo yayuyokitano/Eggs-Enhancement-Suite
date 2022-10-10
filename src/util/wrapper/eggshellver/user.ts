@@ -1,4 +1,4 @@
-import { getEggshellverToken, getEggsID, getMemberId, prefectures, queryAsync, SocialMedia } from "../../util";
+import { getEggsID, getMemberId, prefectures, queryAsync, SocialMedia } from "../../util";
 import Cacher from "../eggs/cacher";
 import { eggshellverRequest } from "./request";
 import { AwaitingUserStub, fillEggshellverSearchParams, UserStub } from "./util";

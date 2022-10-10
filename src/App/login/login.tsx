@@ -49,7 +49,7 @@ function TwitterLogin(props: { t: TFunction }) {
 				onClick={() => {
 					forceNavigate(`https://eggs.mu/twitter_login?location=${window.location.href}`);
 				}}>{t("global:general.twitterlogin")}</a>
-			<p>{t("disclaimer")}</p>
+			<p><Disclaimer raw={t("disclaimer")} /></p>
 		</div>
 	);
 }
@@ -80,7 +80,24 @@ export default function Login(t:TFunction) {
 				type="button"
 				onClick={mobileLogin}
 				className="button w100">{t("global:general.login")}</button>
-			<p>{t("disclaimer")}</p>
+			<p><Disclaimer raw={t("disclaimer")} /></p>
 		</div>
+	);
+}
+
+function Disclaimer(props: {raw:string}) {
+	const { raw } = props;
+	const groups = raw.match(/(.*)\|(.*)\|(.*)/);
+	if (!groups) return <span>{raw}</span>;
+	return (
+		<span className="ees-disclaimer-text">
+			{groups[1]}
+			<a
+				className="ees-disclaimer-link"
+				href="https://eggshellver.com/privacy.html"
+				target="_blank"
+				rel="noreferrer noopener">{groups[2]}</a>
+			{groups[3]}
+		</span>
 	);
 }
