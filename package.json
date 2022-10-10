@@ -43,7 +43,7 @@
 		"webextension-polyfill": "^0.9.0"
 	},
 	"name": "eggs-enhancement-suite",
-	"version": "2.0.0",
+	"version": "1.0.0",
 	"private": true,
 	"description": "Enhances eggs.mu website",
 	"repository": "https://github.com/yayuyokitano/Eggs-Enhancement-Suite.git",

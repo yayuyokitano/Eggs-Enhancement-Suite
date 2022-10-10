@@ -1,7 +1,8 @@
 {
 	"manifest_version": 2,
 	"name": "Eggs Enhancement Suite",
-	"version": "2.0.0",
+	"description": "Improves indie music website eggs.mu.",
+	"version": "1.0.0",
 	"permissions": [
 		"webRequest",
 		"storage",
@@ -38,12 +39,7 @@
 	},
 	"background": {
     "scripts": ["../util/browser-polyfill.js", "../background.ts"],
-    "persistent": false
+    "persistent": true
   },
 	"web_accessible_resources": ["../icons/icon128.png", "../static/idFetcher.ts"],
-	"browser_specific_settings": {
-		"gecko": {
-			"id": "maxmulhallbiseth@gmail.com"
-		}
-	}
 }

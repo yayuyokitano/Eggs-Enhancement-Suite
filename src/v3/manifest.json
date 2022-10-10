@@ -1,7 +1,8 @@
 {
 	"manifest_version": 3,
 	"name": "Eggs Enhancement Suite",
-	"version": "2.0.0",
+	"description": "Improves indie music website eggs.mu.",
+	"version": "1.0.0",
 	"permissions": [
 		"declarativeNetRequest",
 		"storage",
