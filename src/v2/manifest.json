@@ -41,5 +41,5 @@
     "scripts": ["../util/browser-polyfill.js", "../background.ts"],
     "persistent": true
   },
-	"web_accessible_resources": ["../icons/icon128.png", "../static/idFetcher.ts"],
+	"web_accessible_resources": ["../icons/icon128.png", "../static/idFetcher.ts"]
 }
