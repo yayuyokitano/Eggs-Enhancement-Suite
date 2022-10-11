@@ -55,6 +55,8 @@ export default abstract class PlaybackController extends (EventEmitter as new ()
 	abstract closeConnection(): void;
 
 	abstract sendChatMessage(message:string): void;
+	
+	abstract setBool(name:string, value:boolean): void;
 
 	abstract set volume(volume:number);
 

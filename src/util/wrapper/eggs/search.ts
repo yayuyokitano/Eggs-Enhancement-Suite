@@ -3,7 +3,7 @@ import { ArtistData, SongData } from "./artist";
 import Cacher from "./cacher";
 import { PlaylistPartial } from "./playlists";
 import { eggsRequest } from "./request";
-import { createEggsWrappedGetter, createEggsWrappedGetterCached, fillEggsSearchParams, List } from "./util";
+import { createEggsWrappedGetter, createEggsWrappedGetterCached, fillEggsSearchParams, List, TrackFuncWrapped } from "./util";
 
 export async function searchPlaylists(playlistName:string, options: {
   limit: number,
@@ -38,7 +38,7 @@ const currySearchPrefectureArtists = (prefecture:string) => async(options: {offs
 export const currySearchPrefectureArtistsWrapped = (prefecture:string) => async(offset:string, limit:number) => 
 	await createEggsWrappedGetter(currySearchPrefectureArtists(prefecture))(offset, limit);
 
-export const curryEggsArtistSearchPrefecturePlayback = (prefecture:string, trackFunc: (artistID:string, cache?:Cacher) => Promise<SongData[]>) =>
+export const curryEggsArtistSearchPrefecturePlayback = (prefecture:string, trackFunc:TrackFuncWrapped) =>
 	createEggsWrappedGetterCached(currySearchPrefectureArtists(prefecture), trackFunc);
 
 export async function searchArtists(searchWord:string, options: {
@@ -57,7 +57,7 @@ const currySearchArtists = (searchWord:string) => async(options: {offset:number,
 export const currySearchArtistsWrapped = (searchWord:string) => async(offset:string, limit:number) => 
 	await createEggsWrappedGetter(currySearchArtists(searchWord))(offset, limit);
 	
-export const curryEggsArtistSearchPlayback = (query:string, trackFunc: (artistID:string, cache?:Cacher) => Promise<SongData[]>) =>
+export const curryEggsArtistSearchPlayback = (query:string, trackFunc:TrackFuncWrapped) =>
 	createEggsWrappedGetterCached(currySearchArtists(query), trackFunc);
 
 

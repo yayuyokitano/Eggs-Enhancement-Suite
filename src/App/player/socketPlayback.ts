@@ -146,6 +146,10 @@ export class SocketPlaybackController extends (EventEmitter as new () => TypedEm
 		this.socket?.removeBlockedUserLocal(eggsID);
 	}
 
+	public setBool() {
+		// Do nothing
+	}
+
 	public setPlayback(initialQueue:SongData[], initialElement:SongData) {
 		this.queue?.destroy();
 		this.queue = new Queue(initialQueue, initialElement, this.root, false, Repeat.None, this.setCurrent, this.youtube, this.setTimeData, this._volume);

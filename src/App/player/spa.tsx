@@ -51,6 +51,13 @@ export function updateSpa(url?:string) {
 	}
 }
 
+async function changeBool(name:string, value:boolean, playbackController?:PlaybackController) {
+	playbackController?.setBool(name, value);
+	await browser.storage.sync.set({
+		[name]: value
+	});
+}
+
 function SPA() {
 
 	const {t, i18n} = useTranslation(["global"]);
@@ -67,6 +74,10 @@ function SPA() {
 			case "changeTheme":
 				console.log("change theme to " + message.theme);
 				updateTheme(message.theme);
+				break;
+			case "changeBool":
+				console.log("change " + message.name + " to " + message.value);
+				changeBool(message.name, message.value, playbackController);
 				break;
 			}
 		}

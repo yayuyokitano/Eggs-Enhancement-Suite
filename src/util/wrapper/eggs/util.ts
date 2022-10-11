@@ -35,6 +35,19 @@ export type ListUnion<T> = List<T> | OffsetHashList<T> | OffsetList<T>;
 
 export const eggsRoot = "https://api-flmg.eggs.mu/v1/";
 
+export type TrackFunc = (artistID:string, options?:{
+	canPlaySong?:(track:SongData) => Promise<boolean>,
+	cache?:Cacher
+}) => Promise<SongData[]>
+
+export type TrackFuncWrapped = (artistID: string) => Promise<SongData[]>
+
+export const curryTrackFunc = (trackFunc:TrackFunc, options?:{
+	canPlaySong?:(track:SongData) => Promise<boolean>,
+	cache?:Cacher
+}) =>
+	async(artistID:string) => await trackFunc(artistID, options);
+
 export const createEggsWrappedGetter = <T>(fn:(options:{offset:number, limit:number}) => Promise<ListUnion<T>>) => 
 	async(offset:string, limit:number) => {
 		const offsetNum = offset === "" ? 0 : Number(offset);
@@ -67,7 +80,7 @@ interface objWithArtistName {
 
 export const createEggsWrappedGetterCached = <T extends objWithArtistName>(
 	fn:(options:{limit:number, offset:number}) => Promise<List<T>>,
-	trackFunc: (artistID:string, cache?:Cacher) => Promise<SongData[]>
+	trackFunc: TrackFuncWrapped
 ) => async(offset:string) => {
 		// normalize inputs to make use of caching
 		const internalLimit = 50;

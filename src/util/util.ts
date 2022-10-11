@@ -237,6 +237,10 @@ export type PopupMessage = {
 }|{
 	type: "changeTheme";
 	theme: string;
+}|{
+	type: "changeBool";
+	name: string;
+	value: boolean;
 }
 
 export function processedPathname() {

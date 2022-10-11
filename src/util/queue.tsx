@@ -406,6 +406,8 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 			return;
 		}
 
+		if (this.initialQueue.length === 0) return;
+
 		// if no shuffle make sure to add from the selected starting song, if shuffled dont add initial song to queue
 		if (this.innerQueue.length === 0 && this._repeat === Repeat.All || this._repeat === Repeat.None && !this.innerQueue.length) {
 			const curIndex = this.initialQueue.findIndex(track => track.musicDataPath === this.current.musicDataPath);

@@ -2,13 +2,14 @@ import { Incrementer } from "../../App/components/sync/itemFetcher";
 import ReactDOM from "react-dom/client";
 
 import { Queue, Repeat } from "../../util/queue";
-import { SongData } from "../../util/wrapper/eggs/artist";
+import { SongData, SourceType } from "../../util/wrapper/eggs/artist";
 import { TimeData } from "./types";
 import { currySongFunction, getEggsID, SongCurry } from "../../util/util";
 import SocketConnection from "../../util/socketConnection";
 import PlaybackController from "./playbackController";
 import TypedEmitter from "typed-emitter";
 import EventEmitter from "events";
+import browser from "webextension-polyfill";
 
 export function setPlaybackLocal(data: any, playbackController: PlaybackController) {
 	const track = data.track as SongData;
@@ -96,6 +97,8 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 	private socket: SocketConnection|null = null;
 	private _title = "";
 	private _playSuggestions = false;
+	private dontPlayYoutube = browser.storage.sync.get("dontPlayYoutube").then((data) => data.dontPlayYoutube === true);
+	private dontPlayFollowerOnly = browser.storage.sync.get("dontPlayFollowerOnly").then((data) => data.dontPlayFollowerOnly === true);
 
 	constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>, volume:number) {
 		super();
@@ -180,9 +183,32 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 		this.socket?.removeBlockedUser(eggsID);
 	}
 
-	public setPlayback(initialQueue:SongData[], initialElement:SongData) {
+	public setBool(name:string, value:boolean) {
+		switch(name) {
+		case "dontPlayYoutube":
+			console.log(value);
+			this.dontPlayYoutube = Promise.resolve(value);
+			break;
+		case "dontPlayFollowerOnly":
+			this.dontPlayFollowerOnly = Promise.resolve(value);
+			break;
+		}
+	}
+
+	private async filterTracks(queue:SongData[]) {
+		if (await this.dontPlayYoutube) {
+			queue = queue.filter((track) => track.sourceType !== SourceType.YouTube);
+		}
+		if (await this.dontPlayFollowerOnly) {
+			queue = queue.filter((track) => !track.isFollowerOnly);
+		}
+		return queue;
+	}
+
+	public async setPlayback(initialQueue:SongData[], initialElement:SongData) {
 		this.queue?.destroy();
-		this.queue = new Queue(initialQueue, initialElement, this.root, this.shuffle, this.repeat, this.setCurrent, this.youtube, this.setTimeData, this._volume);
+		const newQueue = await this.filterTracks(initialQueue);
+		this.queue = new Queue(newQueue, initialElement, this.root, this.shuffle, this.repeat, this.setCurrent, this.youtube, this.setTimeData, this._volume);
 		this.play();
 		this.emit("update");
 		this.queue.on("update", () => { this.emit("update"); });

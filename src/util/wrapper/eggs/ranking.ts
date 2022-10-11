@@ -1,7 +1,7 @@
 import { ArtistData, SongData, SourceType } from "./artist";
 import Cacher from "./cacher";
 import { eggsRequest } from "./request";
-import { createEggsWrappedGetter, createEggsWrappedGetterCached, fillEggsSearchParams, List } from "./util";
+import { createEggsWrappedGetter, createEggsWrappedGetterCached, fillEggsSearchParams, List, TrackFuncWrapped } from "./util";
 
 export type TimePeriod = "daily"|"weekly";
 export type RankingType = "artist"|"song"|"youtube";
@@ -78,13 +78,13 @@ const curryGenreArtistRankingMapped = (period:TimePeriod, genreId:number) => asy
 export const curryArtistRankingWrapped = (period:TimePeriod) => async(offset:string, limit:number) => 
 	await createEggsWrappedGetter(curryArtistRanking(period))(offset, limit);
 
-export const curryEggsArtistRankingPlayback = (period:TimePeriod, trackFunc: (artistID:string, cache?:Cacher) => Promise<SongData[]>) =>
+export const curryEggsArtistRankingPlayback = (period:TimePeriod, trackFunc:TrackFuncWrapped) =>
 	createEggsWrappedGetterCached(curryArtistRankingMapped(period), trackFunc);
 
 export const curryGenreArtistRankingWrapped = (period:TimePeriod, genreId:number) => async(offset:string, limit:number) =>
 	await createEggsWrappedGetter(curryGenreArtistRanking(period, genreId))(offset, limit);
 
-export const curryEggsGenreArtistRankingPlayback = (payload:string, trackFunc: (artistID:string, cache?:Cacher) => Promise<SongData[]>) => {
+export const curryEggsGenreArtistRankingPlayback = (payload:string, trackFunc:TrackFuncWrapped) => {
 	const payloadSplit = payload.split("//");
 	const period = payloadSplit[0] as TimePeriod;
 	const genreId = parseInt(payloadSplit[1]);

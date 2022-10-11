@@ -51,6 +51,23 @@ function SettingRadioList(props: {t:TFunction, type: string, names:string[], cur
 	);
 }
 
+function SettingCheckbox(props: {t:TFunction, type: string, name:string, cur:boolean, onChange:(name:string, value:boolean) => void, setter:React.Dispatch<React.SetStateAction<boolean>>}) {
+	const {t, type, name, cur, onChange, setter} = props;
+
+	return (
+		<div className={`${type}-checkbox`}>
+			<label htmlFor={`${type}-${name}`}>
+				<input
+					type="checkbox"
+					id={`${type}-${name}`}
+					checked={cur}
+					onChange={() => setter(cur => { onChange(name, !cur); return !cur; } )} />
+				{t(`options.${type}.${name}`)}
+			</label>
+		</div>
+	);
+}
+
 function SettingRadio(props: {t:TFunction, type: string, name:string, cur:string, onChange:(name:string) => void}) {
 
 	const {t, type, name, cur, onChange} = props;
@@ -72,6 +89,8 @@ function App() {
 
 	const { t, i18n } = useTranslation(["popup"]);
 	const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "system");
+	const [dontPlayYoutube, setDontPlayYoutube] = useState(localStorage.getItem("dontPlayYoutube") === "true");
+	const [dontPlayFollowerOnly, setDontPlayFollowerOnly] = useState(localStorage.getItem("dontPlayFollowerOnly") === "true");
 
 	useEffect(() => {
 		changeTheme(theme);
@@ -95,9 +114,32 @@ function App() {
 				names={themeList}
 				cur={theme}
 				onChange={setTheme} />
-			<h2>{t("popup.helloWorld")}</h2>
+			<SettingCheckbox
+				t={t}
+				type="playback"
+				name="dontPlayYoutube"
+				cur={dontPlayYoutube}
+				onChange={checkboxSwitcher}
+				setter={setDontPlayYoutube} />
+			<SettingCheckbox
+				t={t}
+				type="playback"
+				name="dontPlayFollowerOnly"
+				cur={dontPlayFollowerOnly}
+				onChange={checkboxSwitcher}
+				setter={setDontPlayFollowerOnly} />
 		</div>
 	);
+}
+
+async function checkboxSwitcher(name:string, value:boolean) {
+	localStorage.setItem(name, value.toString());
+	const tabs = await browser.tabs.query({active: true, currentWindow: true});
+	if (tabs && tabs.length > 0) {
+		if (tabs[0].id) {
+			browser.tabs.sendMessage(tabs[0].id, {type: "changeBool", name, value});
+		}
+	}
 }
 
 const rootElement = document.getElementById("root");

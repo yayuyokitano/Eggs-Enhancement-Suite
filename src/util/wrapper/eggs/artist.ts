@@ -68,16 +68,32 @@ export async function artistTracks(artistID:string, cache?:Cacher) {
 }
 
 
-export async function artistAllTracks(artistID:string, cache?:Cacher) {
-	return (await artistTracks(artistID, cache)).data;
+export async function artistAllTracks(artistID:string, options?:{
+	canPlaySong?:(track:SongData) => Promise<boolean>,
+	cache?:Cacher
+}) {
+	return (await artistTracks(artistID, options?.cache)).data.filter(async(song) => {
+		try {
+			const shouldFilter = await options?.canPlaySong?.(song);
+			return shouldFilter ?? true;
+		} catch (e) {
+			return true;
+		}
+	});
 }
 
-export async function artistNewTrack(artistID:string, cache?:Cacher) {
-	return (await eggsRequest(`artists/artists/${artistID}/musics?limit=1`, {}, {cache}) as List<SongData>).data;
+export async function artistNewTrack(artistID:string, options?:{
+	canPlaySong?:(track:SongData) => Promise<boolean>,
+	cache?:Cacher
+}) {
+	return [(await artistAllTracks(artistID, options))[0]];
 }
 
-export async function artistTopTrack(artistID:string, cache?:Cacher) {
-	const allTracks = await artistAllTracks(artistID, cache);
+export async function artistTopTrack(artistID:string, options?:{
+	canPlaySong?:(track:SongData) => Promise<boolean>,
+	cache?:Cacher
+}) {
+	const allTracks = await artistAllTracks(artistID, options);
 	if (allTracks.length === 0) {
 		return [];
 	}

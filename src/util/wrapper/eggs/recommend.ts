@@ -1,7 +1,7 @@
-import { ArtistData, SongData } from "./artist";
+import { ArtistData } from "./artist";
 import Cacher from "./cacher";
 import { eggsRequest } from "./request";
-import { createEggsWrappedGetter, createEggsWrappedGetterCached, fillEggsSearchParams, List } from "./util";
+import { createEggsWrappedGetter, createEggsWrappedGetterCached, fillEggsSearchParams, List, TrackFuncWrapped } from "./util";
 
 export interface RecommendedArtist extends ArtistData {
 	introduction:string;
@@ -22,5 +22,5 @@ export async function recommendedArtists(options?:{
 export const eggsRecommendedArtistsWrapped = async(offset:string, limit:number) =>
 	await createEggsWrappedGetter(recommendedArtists)(offset, limit);
 
-export const curryEggsRecommendedArtistsPlayback = (trackFunc: (artistID:string, cache?:Cacher) => Promise<SongData[]>) =>
+export const curryEggsRecommendedArtistsPlayback = (trackFunc:TrackFuncWrapped) =>
 	createEggsWrappedGetterCached(recommendedArtists, trackFunc);
