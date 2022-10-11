@@ -1,5 +1,5 @@
 import { defaultAvatar, getArtistPage, getTrackPage } from "../../../util/util";
-import { SongData } from "../../../util/wrapper/eggs/artist";
+import { SongData, SourceType } from "../../../util/wrapper/eggs/artist";
 import "./track.scss";
 import { TFunction } from "react-i18next";
 import PlaybackController from "../../player/playbackController";
@@ -117,6 +117,7 @@ export default function Track(props:{
 			onClick={(e) => {!elementContainsSelection(e.currentTarget.closest(".ees-track")) && (isInQueue ? skipTo(e, track, playbackController) : setPlayback(e, track));}}
 			tabIndex={0}
 		>
+			<div className={`ees-track-special ${songClasses(track)}`}></div>
 			{label && <div className="ees-track-label">{label}</div>}
 			<img
 				className="ees-track-thumb"
@@ -171,6 +172,13 @@ export default function Track(props:{
 			</details>
 		</li>
 	);
+}
+
+function songClasses(track:SongData|SongDataWIndex) {
+	const classes:string[] = [];
+	if (track.sourceType === SourceType.YouTube) classes.push("ees-track-youtube");
+	if (track.isFollowerOnly) classes.push("ees-track-follower-only");
+	return classes.join(" ");
 }
 
 document.addEventListener("click", (e) => {

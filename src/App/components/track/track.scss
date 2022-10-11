@@ -43,6 +43,38 @@
 	position: relative;
 	overflow: visible;
 
+	.ees-track-special {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+
+		&.ees-track-youtube::before {
+			content: "YouTube";
+			position: absolute;
+			text-align: center;
+			top: 9px;
+			left: -24px;
+			padding: 0.2rem 1.5rem;
+			background-color: #f00;
+			color: #fff;
+			font-size: 0.5rem;
+			transform: rotate(-45deg);
+		}
+
+		&.ees-track-follower-only::after {
+			content: "Follower Only";
+			position: absolute;
+			text-align: center;
+			top: 24px;
+			left: -39px;
+			padding: 0.2rem 2.5rem;
+			background-color: var(--eggsyellow);
+			color: var(--alwaysdark2);
+			font-size: 0.5rem;
+			transform: rotate(-45deg);
+		}
+	}
+
 	svg {
 		fill: var(--textlight);
 	}
@@ -75,6 +107,8 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		overflow: hidden;
+		flex-shrink: 1;
 
 		.ees-track-title {
 			white-space: nowrap;
@@ -97,6 +131,7 @@
 			.ees-data-count {
 				font-size: 12px;
 				margin-left: 3px;
+				white-space: nowrap;
 			}
 
 			& > div {
@@ -210,6 +245,30 @@
 	&.ees-track-medium {
 		height: 64px;
 
+		.ees-track-special.ees-track-youtube::before {
+			content: "YouTube";
+			top: 10px;
+			left: -22px;
+			padding: 0.1rem 1.3rem;
+			background-color: #f00;
+			color: #fff;
+			font-size: 0.4rem;
+			transform: rotate(-45deg);
+		}
+
+		.ees-track-special.ees-track-follower-only::after {
+			content: "Follower Only";
+			position: absolute;
+			text-align: center;
+			top: 19px;
+			left: -31px;
+			padding: 0.1rem 1.8rem;
+			background-color: var(--eggsyellow);
+			color: var(--alwaysdark2);
+			font-size: 0.4rem;
+			transform: rotate(-45deg);
+		}
+
 		.ees-track-details {
 			margin-bottom: 6px;
 		}
@@ -257,6 +316,30 @@
 
 	&.ees-track-small {
 		height: 40px;
+
+		.ees-track-special.ees-track-youtube::before {
+			content: "YT";
+			top: 2px;
+			left: -17px;
+			padding: 0.1rem 1.3rem;
+			background-color: #f00;
+			color: #fff;
+			font-size: 0.4rem;
+			transform: rotate(-45deg);
+		}
+
+		.ees-track-special.ees-track-follower-only::after {
+			content: "FOnly";
+			position: absolute;
+			text-align: center;
+			top: 12px;
+			left: -22px;
+			padding: 0.1rem 1.8rem;
+			background-color: var(--eggsyellow);
+			color: var(--alwaysdark2);
+			font-size: 0.4rem;
+			transform: rotate(-45deg);
+		}
 
 		.ees-track-thumb {
 			width: 40px;
@@ -308,6 +391,30 @@
 @media only screen and (max-width: 600px) {
 	.ees-track.ees-track-large {
 		height: 64px;
+
+		.ees-track-special.ees-track-youtube::before {
+			content: "YT";
+			top: 2px;
+			left: -17px;
+			padding: 0.1rem 1.3rem;
+			background-color: #f00;
+			color: #fff;
+			font-size: 0.4rem;
+			transform: rotate(-45deg);
+		}
+
+		.ees-track-special.ees-track-follower-only::after {
+			content: "FOnly";
+			position: absolute;
+			text-align: center;
+			top: 12px;
+			left: -22px;
+			padding: 0.1rem 1.8rem;
+			background-color: var(--eggsyellow);
+			color: var(--alwaysdark2);
+			font-size: 0.4rem;
+			transform: rotate(-45deg);
+		}
 
 		.ees-track-details {
 			margin-bottom: 6px;
