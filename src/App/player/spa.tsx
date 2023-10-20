@@ -45,7 +45,6 @@ function updateScrollables() {
 window.addEventListener("resize", updateScrollables);
 
 export function updateSpa(url?:string) {
-	console.log(url);
 	if (typeof url !== "undefined") {
 		history.replaceState(null, "", url);
 	}

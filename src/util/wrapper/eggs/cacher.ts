@@ -79,7 +79,7 @@ export default class Cacher {
 		Authorization: "Bearer " + await this.eggshellverToken,
 	});
 
-	public getEggsID = async() => {console.log(await this.eggsID); return this.eggsID;};
+	public getEggsID = async() => this.eggsID;
 
 	public reset() {
 		console.log(this.id, Date.now() - this.startTime, "cache: reset");

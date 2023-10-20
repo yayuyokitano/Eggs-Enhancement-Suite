@@ -139,7 +139,6 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 		this.socket.on("update", () => { this.emit("update"); });
 
 		this.socket.on("message", (message) => {
-			console.log(message);
 			switch (message.message.type) {
 			case "info": {
 				if (message.message.message === "join") {
@@ -163,7 +162,7 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 			}
 			case "chat":
 			case "suggest": {
-				console.log(message);
+				//console.log(message);
 			}
 			}
 		});

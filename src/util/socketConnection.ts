@@ -163,7 +163,6 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 
 	private async init(target:string, isNew:boolean, title?:string) {
 		const url = `wss${baseURL}ws/${isNew ? "create" : "join"}/${target}/${await getEggshellverToken()}`;
-		console.log(url);
 		this.socket = new WebSocket(url);
 
 		this.socket.addEventListener("open", async() => {
@@ -207,7 +206,7 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 
 	private processMessage(data:any) {
 		console.log("receiving: ", data);
-				
+
 		const rawMessage = JSON.parse(data) as RawSocketMessage;
 				
 		const middleMessage:MiddleSocketMessage = {
@@ -235,7 +234,6 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore-next-line - typescript does not narrow the type correctly. It is verified that the message is of type chat and so fits the addChatMessage method.
 			this.addChatMessage(processedMessage);
-			console.log("hiii");
 			return;
 		}
 		case "suggest": {
@@ -247,7 +245,6 @@ export default class SocketConnection extends (EventEmitter as new () => TypedEm
 				updated: new Date(),
 			};
 			this.emit("updateSuggestions");
-			console.log(this._suggestions);
 			return;
 		}
 		case "join": {
