@@ -4,7 +4,7 @@
 	"action": {
 		"type": "modifyHeaders",
 		"requestHeaders": [
-			{ "header": "User-Agent", "operation": "set", "value": "flamingo/7.1.00 (Android; 11)" }
+			{ "header": "User-Agent", "operation": "set", "value": "flamingo/7.3.01 (Android; 12)" }
 		]
 	},
 	"condition": { "urlFilter": "api-flmg.eggs.mu/v1/" }

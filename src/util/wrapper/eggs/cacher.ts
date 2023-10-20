@@ -1,7 +1,7 @@
 import { endpoints } from "../../../util/endpoints";
 import { getDeviceID, getEggshellverToken, getEggsID, getToken, processedPathname } from "../../../util/util";
 
-const eggsUserAgent = "flamingo/7.1.00 (Android; 11)";
+const eggsUserAgent = "flamingo/7.3.01 (Android; 12)";
 
 export default class Cacher {
 
@@ -59,19 +59,19 @@ export default class Cacher {
 			}
 			return {
 				"User-Agent": eggsUserAgent,
-				Apversion: "7.1.00",
+				Apversion: "7.3.01",
 				"Content-Type": "application/json; charset=utf-8",
 				deviceId: await this.deviceId,
-				deviceName: "SM-G977N",
+				deviceName: "SM-S908E",
 				authorization: "Bearer " + token,
 			};
 		}
 		return {
 			"User-Agent": eggsUserAgent,
-			Apversion: "7.1.00",
+			Apversion: "7.3.01",
 			"Content-Type": "application/json; charset=utf-8",
 			deviceId: await this.deviceId,
-			deviceName: "SM-G977N"
+			deviceName: "SM-S908E"
 		};
 	}
 	

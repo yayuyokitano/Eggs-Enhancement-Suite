@@ -35,11 +35,11 @@ async function handleToken(res:string, tabId:number) {
 	}
 	try {
 		const headers = {
-			"User-Agent": "flamingo/7.1.00 (Android; 11)",
-			Apversion: "7.1.00",
+			"User-Agent": "flamingo/7.3.01 (Android; 12)",
+			Apversion: "7.3.01",
 			"Content-Type": "application/json; charset=utf-8",
 			deviceId: await getDeviceID(),
-			deviceName: "SM-G977N",
+			deviceName: "SM-S908E",
 		};
 		const eggsRes = await twitterEggsLogin(oauth_token, oauth_token_secret, headers);
 		const accessToken = (await eggsRes.json()).access_token;
