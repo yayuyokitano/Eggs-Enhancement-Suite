@@ -130,7 +130,7 @@ function Player(props:{ t:TFunction, playbackController?:PlaybackController, set
 		getVolume().then(v => {
 			setVolume(v ?? 1);
 			playbackController?.closeConnection();
-			setPlaybackController(initializePlayback(root, setCurrent, youtubeRef, setTimeData, setShuffle, setRepeat, volume));
+			setPlaybackController(initializePlayback(root, setCurrent, youtubeRef, setTimeData, setShuffle, setRepeat, setVolume, volume));
 		});
 
 		window.addEventListener("message", async(event) => {
@@ -147,7 +147,7 @@ function Player(props:{ t:TFunction, playbackController?:PlaybackController, set
 				if (controllerType !== "local") {
 					setControllerType("local");
 					playbackController?.closeConnection();
-					setPlaybackController(initializePlayback(root, setCurrent, youtubeRef, setTimeData, setShuffle, setRepeat, volume));
+					setPlaybackController(initializePlayback(root, setCurrent, youtubeRef, setTimeData, setShuffle, setRepeat, setVolume, volume));
 					if (event.data.type === "setPlaybackDynamic" && playbackController) {
 						setPlaybackDynamicLocal(event.data.data, playbackController);
 					} else if (playbackController) {
@@ -161,7 +161,7 @@ function Player(props:{ t:TFunction, playbackController?:PlaybackController, set
 				setControllerType("socket");
 				playbackController?.closeConnection();
 				setPlaybackController(() => {
-					const controller = initializeSocketPlayback(root, setCurrent, youtubeRef, setTimeData, setShuffle, setRepeat, volume);
+					const controller = initializeSocketPlayback(root, setCurrent, youtubeRef, setTimeData, setShuffle, setRepeat, setVolume, volume);
 					controller.initSocket(event.data.data.targetID);
 					return controller;
 				});

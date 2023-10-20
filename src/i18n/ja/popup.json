@@ -14,6 +14,10 @@
 			"system": "システム",
 			"light": "ライト",
 			"dark": "ダーク"
+		},
+		"playback": {
+			"dontPlayYoutube": "YouTubeでの楽曲を再生しません",
+			"dontPlayFollowerOnly": "「フォロワーのみ」の楽曲を再生しません"
 		}
 	}
 }

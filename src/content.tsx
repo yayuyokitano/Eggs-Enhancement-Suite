@@ -27,10 +27,6 @@ function App(props: {endpoint: {
 	const { t } = useTranslation([...translations, "global"]);
 
 	return Element(t);
-
-	/*return (
-		<h1 id="eggs-es-test">{t("popup:helloWorld")}</h1>
-	)*/
 }
 
 async function bodyExists() {

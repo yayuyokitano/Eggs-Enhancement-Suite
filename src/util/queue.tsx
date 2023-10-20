@@ -54,6 +54,8 @@ type YoutubeMessage = {
 	info?: {
 		duration?: number;
 		currentTime?: number;
+		muted?: boolean;
+		volume?: number;
 	}
 }
 
@@ -62,12 +64,14 @@ class YoutubePlayer implements EventListenerObject {
 	private ready:Promise<boolean>;
 	private audioEmitter:TypedEmitter<AudioEmitter>;
 	private setTimeData:React.Dispatch<React.SetStateAction<TimeData>>;
+	private setVolume:React.Dispatch<React.SetStateAction<number>>;
 
-	constructor(youtube:HTMLIFrameElement, track:SongData, audioEmitter:TypedEmitter<AudioEmitter>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>) {
+	constructor(youtube:HTMLIFrameElement, track:SongData, audioEmitter:TypedEmitter<AudioEmitter>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setVolume:React.Dispatch<React.SetStateAction<number>>) {
 		this.youtube = youtube;
 		this.youtube.src = `https://www.youtube.com/embed/${track.youtubeVideoId}?enablejsapi=1&widgetid=1`;
 		this.audioEmitter = audioEmitter;
 		this.setTimeData = setTimeData;
+		this.setVolume = setVolume;
 		this.ready = new Promise((resolve) => {
 			this.youtube.addEventListener("load", async () => {
 				resolve(true);
@@ -82,6 +86,7 @@ class YoutubePlayer implements EventListenerObject {
 	public handleEvent(event:MessageEvent<string>) {
 		if (event.origin !== "https://www.youtube.com") return;
 		const data:YoutubeMessage = JSON.parse(event.data);
+
 		switch (data.event) {
 		case "onStateChange":
 			if (data.info === 0) {
@@ -89,14 +94,16 @@ class YoutubePlayer implements EventListenerObject {
 			}
 			break;
 		case "infoDelivery": {
-			const timeElement = document.getElementById("ees-player-controls-time");
-			const curTimeData = {
-				current: Number(timeElement?.dataset.current),
-				duration: Number(timeElement?.dataset.duration)
-			};
-			this.setTimeData({
-				current: data.info?.currentTime ?? curTimeData.current,
-				duration: data.info?.duration ?? curTimeData.duration,
+			this.setTimeData((prev) => ({
+				current: data.info?.currentTime ?? prev.current,
+				duration: data.info?.duration ?? prev.duration,
+			}));
+			this.setVolume((prev) => {
+				let infoVolume = data.info?.volume;
+				if (infoVolume) {
+					infoVolume /= 100;
+				}
+				return data.info?.muted ? 0 : infoVolume ?? prev;
 			});
 			break;
 		}
@@ -169,7 +176,7 @@ class SongElement {
 	public audioEmitter = new EventEmitter() as TypedEmitter<AudioEmitter>;
 	private setTimeData:React.Dispatch<React.SetStateAction<TimeData>>;
 
-	constructor(track:SongData, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>) {
+	constructor(track:SongData, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setVolume:React.Dispatch<React.SetStateAction<number>>) {
 		this.sourceType = track.sourceType;
 		this.setTimeData = setTimeData;
 		switch (this.sourceType) {
@@ -185,7 +192,7 @@ class SongElement {
 			break;
 		case SourceType.YouTube:
 			if (!youtube.current) return;
-			this.element = new YoutubePlayer(youtube.current, track, this.audioEmitter, this.setTimeData);
+			this.element = new YoutubePlayer(youtube.current, track, this.audioEmitter, this.setTimeData, setVolume);
 			break;
 		}
 	}
@@ -242,6 +249,7 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 	private currentElement?:SongElement;
 	private historyStack:HistoryStack;
 	private setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>;
+	private setVolume:React.Dispatch<React.SetStateAction<number>>;
 	private youtube:React.RefObject<HTMLIFrameElement>;
 	private setTimeData:React.Dispatch<React.SetStateAction<TimeData>>;
 	private _isPlaying = false;
@@ -268,6 +276,7 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 		shuffle:boolean,
 		repeat:Repeat,
 		setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>,
+		setVolume:React.Dispatch<React.SetStateAction<number>>,
 		youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>,
 		volume:number,
 		incrementer?:Incrementer<SongData>
@@ -282,8 +291,9 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 		this.historyStack = new HistoryStack();
 		this.setCurrent = setCurrent;
 		this.setTimeData = setTimeData;
+		this.setVolume = setVolume;
 		this.youtube = youtube;
-		this.currentElement = new SongElement(this.current, this.youtube, this.setTimeData);
+		this.currentElement = new SongElement(this.current, this.youtube, this.setTimeData, this.setVolume);
 		this.currentElement.destroy();
 		this._volume = volume;
 		this.volume = volume;
@@ -492,7 +502,7 @@ export class Queue extends (EventEmitter as new () => TypedEmitter<QueueEmitters
 		this.currentElement?.destroy();
 		this._current = track;
 		this.setCurrent(track);
-		this.currentElement = new SongElement(this.current, this.youtube, this.setTimeData);
+		this.currentElement = new SongElement(this.current, this.youtube, this.setTimeData, this.setVolume);
 		this.currentElement.audioEmitter.on("ended", () => { this.emit("next"); this.emit("update"); });
 	}
 

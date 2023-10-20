@@ -14,6 +14,10 @@
 			"system": "System",
 			"light": "Light",
 			"dark": "Dark"
+		},
+		"playback": {
+			"dontPlayYoutube": "Don't play tracks from YouTube",
+			"dontPlayFollowerOnly": "Don't play \"follower only\" tracks"
 		}
 	}
 }

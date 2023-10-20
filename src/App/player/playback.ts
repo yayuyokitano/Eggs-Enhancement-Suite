@@ -36,8 +36,8 @@ export async function setPlaybackDynamicLocal(data: any, playbackController: Pla
 	}
 }
 
-export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>, volume:number) {
-	const playbackController = new LocalPlaybackController(root, true, Repeat.All, setCurrent, youtube, setTimeData, setShuffle, setRepeat, volume);
+export function initializePlayback(root:ReactDOM.Root, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>, setVolume:React.Dispatch<React.SetStateAction<number>>, volume:number) {
+	const playbackController = new LocalPlaybackController(root, true, Repeat.All, setCurrent, youtube, setTimeData, setShuffle, setRepeat, setVolume, volume);
 	window.addEventListener("message", async(event) => {
 		if (event.origin !== window.location.origin) {
 			return;
@@ -93,6 +93,7 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 	private setTimeData:React.Dispatch<React.SetStateAction<TimeData>>;
 	private setShuffle:React.Dispatch<React.SetStateAction<boolean>>;
 	private setRepeat:React.Dispatch<React.SetStateAction<Repeat>>;
+	private setVolume:React.Dispatch<React.SetStateAction<number>>;
 	private _volume:number;
 	private socket: SocketConnection|null = null;
 	private _title = "";
@@ -100,7 +101,7 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 	private dontPlayYoutube = browser.storage.sync.get("dontPlayYoutube").then((data) => data.dontPlayYoutube === true);
 	private dontPlayFollowerOnly = browser.storage.sync.get("dontPlayFollowerOnly").then((data) => data.dontPlayFollowerOnly === true);
 
-	constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>, volume:number) {
+	constructor(root:ReactDOM.Root, shuffle:boolean, repeat:Repeat, setCurrent:React.Dispatch<React.SetStateAction<SongData | undefined>>, youtube:React.RefObject<HTMLIFrameElement>, setTimeData:React.Dispatch<React.SetStateAction<TimeData>>, setShuffle:React.Dispatch<React.SetStateAction<boolean>>, setRepeat:React.Dispatch<React.SetStateAction<Repeat>>, setVolume:React.Dispatch<React.SetStateAction<number>>, volume:number) {
 		super();
 		this.shuffle = shuffle;
 		this.repeat = repeat;
@@ -110,6 +111,7 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 		this.setTimeData = setTimeData;
 		this.setShuffle = setShuffle;
 		this.setRepeat = setRepeat;
+		this.setVolume = setVolume;
 		this._volume = volume;
 		this.volume = volume;
 	}
@@ -186,7 +188,6 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 	public setBool(name:string, value:boolean) {
 		switch(name) {
 		case "dontPlayYoutube":
-			console.log(value);
 			this.dontPlayYoutube = Promise.resolve(value);
 			break;
 		case "dontPlayFollowerOnly":
@@ -208,7 +209,7 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 	public async setPlayback(initialQueue:SongData[], initialElement:SongData) {
 		this.queue?.destroy();
 		const newQueue = await this.filterTracks(initialQueue);
-		this.queue = new Queue(newQueue, initialElement, this.root, this.shuffle, this.repeat, this.setCurrent, this.youtube, this.setTimeData, this._volume);
+		this.queue = new Queue(newQueue, initialElement, this.root, this.shuffle, this.repeat, this.setCurrent, this.setVolume, this.youtube, this.setTimeData, this._volume);
 		this.play();
 		this.emit("update");
 		this.queue.on("update", () => { this.emit("update"); });
@@ -221,7 +222,7 @@ export class LocalPlaybackController extends (EventEmitter as new () => TypedEmi
 
 	public async setPlaybackDynamic(initialQueue:SongData[], incrementer:Incrementer<SongData>) {
 		this.queue?.destroy();
-		this.queue = new Queue(initialQueue, initialQueue[0], this.root, this.shuffle, this.repeat, this.setCurrent, this.youtube, this.setTimeData, this._volume, incrementer);
+		this.queue = new Queue(initialQueue, initialQueue[0], this.root, this.shuffle, this.repeat, this.setCurrent, this.setVolume, this.youtube, this.setTimeData, this._volume, incrementer);
 		this.play();
 		this.emit("update");
 		this.queue.on("update", () => { this.emit("update"); });
